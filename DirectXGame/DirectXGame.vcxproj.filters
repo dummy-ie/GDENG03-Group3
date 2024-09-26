@@ -25,6 +25,18 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{f10ea6d0-35c0-4d3a-93ef-2a7a4618a5c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Vertex Shader">
+      <UniqueIdentifier>{3b2b0a36-e2b1-4b7a-a25a-ad20bd72ef18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Pixel Shader">
+      <UniqueIdentifier>{236cad7d-b0fd-4f83-84f9-8884c0ee8ce4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix">
+      <UniqueIdentifier>{9b9e82d6-16ea-4ed3-a422-8351248e980b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Constant Buffer">
+      <UniqueIdentifier>{908bb82f-1989-4907-a2ad-d6ae42750f99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,6 +60,18 @@
     <ClCompile Include="SwapChain.cpp">
       <Filter>GameEngine\GraphicsEngine\Swap Chain</Filter>
     </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>GameEngine\Vertex Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>GameEngine\Pixel Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4.cpp">
+      <Filter>Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>GameEngine\Constant Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -68,9 +92,27 @@
     <ClInclude Include="SwapChain.h">
       <Filter>GameEngine\GraphicsEngine\Swap Chain</Filter>
     </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>GameEngine\Vertex Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>GameEngine\Pixel Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>GameEngine\Constant Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

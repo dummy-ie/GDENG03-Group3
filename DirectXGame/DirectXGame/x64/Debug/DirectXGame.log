@@ -1,8 +1,4 @@
 ﻿  AppWindow.cpp
-  DeviceContext.cpp
-  GraphicsEngine.cpp
-  SwapChain.cpp
-  VertexBuffer.cpp
-  main.cpp
-  Generating Code...
-  DirectXGame.vcxproj -> E:\GDENG03\DirectXGame\x64\Debug\DirectXGame.exe
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(142,33): warning C4244: '=': conversion from 'ULONGLONG' to 'unsigned long', possible loss of data
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(144,31): warning C4244: '=': conversion from 'ULONGLONG' to 'unsigned long', possible loss of data
+  DirectXGame.vcxproj -> E:\GDENG03\PersonalGDENG03\DirectXGame\x64\Debug\DirectXGame.exe

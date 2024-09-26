@@ -15,7 +15,6 @@ public:
 	//Release the swap chain
 	bool release();
 	~SwapChain();
-
 private:
 	IDXGISwapChain* m_swap_chain;
 	ID3D11RenderTargetView* m_rtv;
