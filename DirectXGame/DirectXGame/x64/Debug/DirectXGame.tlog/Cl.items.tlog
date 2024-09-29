@@ -6,6 +6,8 @@ E:\GDENG03\PersonalGDENG03\DirectXGame\main.cpp;E:\GDENG03\PersonalGDENG03\Direc
 E:\GDENG03\PersonalGDENG03\DirectXGame\Matrix4x4.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Matrix4x4.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\PixelShader.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\PixelShader.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\SwapChain.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\SwapChain.obj
+E:\GDENG03\PersonalGDENG03\DirectXGame\Texture.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Texture.obj
+E:\GDENG03\PersonalGDENG03\DirectXGame\TextureLoader.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\TextureLoader.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\VertexBuffer.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\VertexBuffer.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\VertexShader.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\VertexShader.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\Window.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Window.obj

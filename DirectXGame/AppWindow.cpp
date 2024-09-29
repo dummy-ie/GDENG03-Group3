@@ -37,6 +37,14 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->init();
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
 
+	//Texture Loading
+
+	this->m_texture = new Texture();
+	if (!TextureLoader::loadTexture(GraphicsEngine::get()->getD3DDevice(), L"Textures\myTexture.raw", *m_texture))
+	{
+		// Handle texture loading error
+	}
+
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
@@ -137,6 +145,7 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 	
+
 	unsigned long new_time = 0;
 	if (m_old_time)
 		new_time = ::GetTickCount64() - m_old_time;
@@ -158,6 +167,8 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 
+	// Bind the texture to slot 0
+	m_texture->bind(GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 
 	/*
 	// DRAW SECOND SHAPE (Triangle)

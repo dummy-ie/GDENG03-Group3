@@ -32,6 +32,7 @@ public:
 
 public:
 	static GraphicsEngine* get();
+	ID3D11Device* getD3DDevice();
 
 private:
 	DeviceContext* m_imm_device_context;

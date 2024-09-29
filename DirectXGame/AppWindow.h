@@ -7,6 +7,7 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "TextureLoader.h"
 
 class AppWindow : public Window
 {
@@ -20,6 +21,7 @@ public:
 	virtual void onDestroy() override;
 private:
 	SwapChain* m_swap_chain;
+	Texture* m_texture;
 
 	VertexBuffer* m_vb;
 	VertexBuffer* m_vb2;

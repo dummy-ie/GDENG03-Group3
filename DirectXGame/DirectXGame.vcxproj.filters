@@ -37,6 +37,9 @@
     <Filter Include="GameEngine\Constant Buffer">
       <UniqueIdentifier>{908bb82f-1989-4907-a2ad-d6ae42750f99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Texture Loader">
+      <UniqueIdentifier>{6b0b2654-44ff-40d3-a23b-6634b7fc9e14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +75,12 @@
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>GameEngine\Constant Buffer</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>GameEngine\GraphicsEngine\Texture Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>GameEngine\GraphicsEngine\Texture Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -103,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>GameEngine\Constant Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>GameEngine\GraphicsEngine\Texture Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>GameEngine\GraphicsEngine\Texture Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

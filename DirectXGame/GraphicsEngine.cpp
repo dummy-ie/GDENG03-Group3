@@ -165,3 +165,8 @@ GraphicsEngine* GraphicsEngine::get()
 	static GraphicsEngine engine;
 	return &engine;
 }
+
+ID3D11Device* GraphicsEngine::getD3DDevice()
+{
+	return this->m_d3d_device;
+}
