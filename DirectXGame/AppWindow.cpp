@@ -1,26 +1,12 @@
 #include "AppWindow.h"
 #include <Windows.h>
 
-struct vec3
+AppWindow* AppWindow::sharedInstance = nullptr;
+
+AppWindow* AppWindow::getInstance()
 {
-	float x, y, z;
-};
-
-struct vertex
-{
-	vec3 position;
-	vec3 position1;
-	vec3 color;
-	vec3 color1;
-};
-
-
-__declspec(align(16))
-struct constant
-{
-	float m_angle;
-};
-
+	return sharedInstance;
+}
 
 AppWindow::AppWindow()
 {
@@ -31,194 +17,93 @@ AppWindow::~AppWindow()
 {
 }
 
+void AppWindow::initialize() {
+	sharedInstance = new AppWindow();
+	sharedInstance->onCreate();
+
+}
+
+void AppWindow::destroy() {
+	if (sharedInstance != NULL) {
+		sharedInstance->onDestroy();
+		delete sharedInstance;
+	}
+}
+
 void AppWindow::onCreate()
 {
-	Window::onCreate();
-	GraphicsEngine::get()->init();
-	m_swap_chain = GraphicsEngine::get()->createSwapChain();
-
-	//Texture Loading
-
-	this->m_texture = new Texture();
-	if (!TextureLoader::loadTexture(GraphicsEngine::get()->getD3DDevice(), L"Textures\myTexture.raw", *m_texture))
-	{
-		// Handle texture loading error
-	}
-
-	RECT rc = this->getClientWindowRect();
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
-
-	vertex list[] =
-	{
-		//X - Y - Z
-		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
-		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
-		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS3
-		{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
-	};
-
-	vertex list2[] =
-	{
-		// X - Y - Z (Upright Triangle with No Overlap and Proper Dimensions)
-		{ 0.3f,  0.0f, 0.0f,   1, 0, 0}, // Bottom-left (Red)
-		{ 0.3f,  0.5f, 0.0f,   0, 1, 0}, // Top-left (Green)
-		{ 0.8f,  0.5f, 0.0f,   0, 0, 1}  // Top-right (Blue)
-	};
-
-
-	vertex list3[] =
-	{
-		{ -0.25f, 0.35f, 0.0f,   0, 1, 0}, // POS1 (Bottom-left)
-		{-0.25f,  0.75f, 0.0f,   0, 1, 0}, // POS2 (Top-left)
-		{ 0.25f,  0.35f, 0.0f,   0, 1, 0}, // POS3 (Bottom-right)
-		{ 0.25f,  0.75f, 0.0f,   0, 1, 0}  // POS4 (Top-right)
-	};
-
-
-	m_vb = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(list);
-
-	m_vb2 = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list2 = ARRAYSIZE(list2);
-
-	m_vb3 = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list3 = ARRAYSIZE(list3);
-
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	void* shader_byte_code2 = nullptr;
-	size_t size_shader2 = 0;
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code2, &size_shader2);
-
-	m_vs2 = GraphicsEngine::get()->createVertexShader(shader_byte_code2, size_shader2);
-	m_vb2->load(list2, sizeof(vertex), size_list2, shader_byte_code2, size_shader2);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-
-	void* shader_byte_code3 = nullptr;
-	size_t size_shader3 = 0;
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code3, &size_shader3);
-
-	m_vs3 = GraphicsEngine::get()->createVertexShader(shader_byte_code3, size_shader3);
-	m_vb3->load(list3, sizeof(vertex), size_list3, shader_byte_code3, size_shader3);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-
-
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	constant cc;
-	cc.m_angle = 0;
-
-	m_cb = GraphicsEngine::get()->createConstantBuffer();
-	m_cb->load(&cc, sizeof(constant));
-
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code2, &size_shader2);
-	m_ps2 = GraphicsEngine::get()->createPixelShader(shader_byte_code2, size_shader2);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code3, &size_shader3);
-	m_ps3 = GraphicsEngine::get()->createPixelShader(shader_byte_code3, size_shader3);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-
-
+	bRunning = true;
+	Window::init();
 
 }
 
 
-void AppWindow::onUpdate()
-{
-	Window::onUpdate();
-	//CLEAR THE RENDER TARGET 
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		0, 0.3f, 0.4f, 1);
-	//SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
+
+void AppWindow::initializeEngine() {
+	GraphicsEngine::initialize();
+	GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
 	RECT rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+	this->swapChain = GraphicsEngine::getInstance()->getSwapChain();
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+
+	this->swapChain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 	
 
-	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount64() - m_old_time;
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount64();
+	// Initialize three distinct quads with different colors
+	m_quad = new Quad(-0.35f, -0.55f, 0.0f); 
+	std::wstring textureFilePath = L"Textures\\texRustedMetal_1.png";
+	m_quad->init(GraphicsEngine::getInstance()->getD3DDevice(), textureFilePath);
 
-	m_angle += 1.57f * m_delta_time;
-	constant cc;
-	cc.m_angle = m_angle;
+	m_quad2 = new Quad(0.35f, 0.45f, 0.0f);
+	textureFilePath = L"Textures\\texCleanMetal_2.png";
+	m_quad2->init(GraphicsEngine::getInstance()->getD3DDevice(),textureFilePath);
 
-	//SETUP FOR ANIMATION
-	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
+	m_quad3 = new Quad(0.35f, -0.55f, 0.0f);
+	textureFilePath = L"Textures\\texSurface_1.png";
+	m_quad3->init(GraphicsEngine::getInstance()->getD3DDevice(), textureFilePath);
 
-	// DRAW FIRST SHAPE (Rectangle)
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
-
-	// Bind the texture to slot 0
-	m_texture->bind(GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
-
-	/*
-	// DRAW SECOND SHAPE (Triangle)
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs2);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps2);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb2);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb2->getSizeVertexList(), 0);
-
-
-	// DRAW THIRD SHAPE (Green Rectangle)
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs3);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps3);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb3);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb3->getSizeVertexList(), 0);
-	*/
-	m_swap_chain->present(true);
 }
 
-void AppWindow::onDestroy()
+
+bool AppWindow::isRunning()
 {
-	Window::onDestroy();
-	m_vb->release();
-	m_vb2->release();
-	m_swap_chain->release();
-	m_vs->release();
-	m_vs2->release();
-	m_ps->release();
-	m_ps2->release();
-	GraphicsEngine::get()->release();
+	return bRunning;
 }
 
-/*
-Window::onUpdate();
-//CLEAR THE RENDER TARGET 
-GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-	0, 0.3f, 0.4f, 1);
-//SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
-RECT rc = this->getClientWindowRect();
-GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-//SET DEFAULT SHADER IN THE GRAPHICS PIPELINE TO BE ABLE TO DRAW
-GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
-GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
+
+void AppWindow::onUpdate() {
+	Window::onUpdate();
+	GraphicsEngine::getInstance()->getImmediateDeviceContext()->clearRenderTargetColor(this->swapChain, 0, 0.3f, 0.4f, 1);
+
+	RECT rc = this->getClientWindowRect();
+	GraphicsEngine::getInstance()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+	this->m_quad->render();
+	this->m_quad2->render();
+	this->m_quad3->render();
+
+	this->swapChain->present(true);
+}
+
+void AppWindow::onDestroy() {
+	// Stop rendering first
+	bRunning = false; // If this flag controls the rendering loop
+
+	// Release resources in reverse order of creation
+	if (m_quad) m_quad->release();
+	if (m_quad2) m_quad2->release();
+	if (m_quad3) m_quad3->release();
+
+	// Release the swap chain and any other graphics resources
+	GraphicsEngine::getInstance()->destroy(); // Ensure this cleans up the DeviceContext, SwapChain, etc.
+
+	// Optionally set pointers to null after release
+	m_quad = nullptr;
+	m_quad2 = nullptr;
+	m_quad3 = nullptr;
+}
 
 
-//SET THE VERTICES OF THE TRIANGLE TO DRAW
-GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb2);
 
-// FINALLY DRAW THE TRIANGLE
-GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
-GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb2->getSizeVertexList(), 0);
-m_swap_chain->present(true);
-*/

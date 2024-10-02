@@ -11,14 +11,24 @@ class PixelShader;
 class GraphicsEngine
 {
 public:
+	static GraphicsEngine* getInstance();
+	static void initialize();
+	static void destroy();
+	
+private:
 	GraphicsEngine();
-	//Initialize the GraphicsEngine and DirectX 11 Device
 	bool init();
 	//Release all the resources loaded
 	bool release();
 	~GraphicsEngine();
+	GraphicsEngine(GraphicsEngine const&) {};
+	GraphicsEngine& operator =(GraphicsEngine const&) {};
+	static GraphicsEngine* sharedInstance;
+
+private:
+	SwapChain* m_swap_chain;
 public:
-	SwapChain* createSwapChain();
+	SwapChain* getSwapChain();
 	DeviceContext* getImmediateDeviceContext();
 	VertexBuffer* createVertexBuffer();
 	ConstantBuffer* createConstantBuffer();
@@ -27,11 +37,7 @@ public:
 public:
 	bool compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 	bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
-
 	void releaseCompiledShader();
-
-public:
-	static GraphicsEngine* get();
 	ID3D11Device* getD3DDevice();
 
 private:
@@ -47,13 +53,11 @@ private:
 
 private:
 	ID3DBlob* m_blob = nullptr;
-
-
-
 	ID3DBlob* m_vsblob = nullptr;
 	ID3DBlob* m_psblob = nullptr;
 	ID3D11VertexShader* m_vs = nullptr;
 	ID3D11PixelShader* m_ps = nullptr;
+	
 private:
 	friend class SwapChain;
 	friend class VertexBuffer;

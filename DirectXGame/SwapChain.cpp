@@ -1,4 +1,5 @@
 #include "SwapChain.h"
+#include "DeviceContext.h"
 #include "GraphicsEngine.h"
 
 SwapChain::SwapChain()
@@ -7,11 +8,11 @@ SwapChain::SwapChain()
 
 bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 {
-	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
+	ID3D11Device* device = GraphicsEngine::getInstance()->m_d3d_device;
 
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-	desc.BufferCount = 1;
+	desc.BufferCount = 2;
 	desc.BufferDesc.Width = width;
 	desc.BufferDesc.Height = height;
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -23,13 +24,26 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
+	if (!device) {
+		MessageBox(hwnd, L"Direct3D device is not initialized.", L"Error", MB_OK);
+		return false;
+	}
+
+	if (!GraphicsEngine::getInstance()->m_dxgi_factory) {
+		MessageBox(hwnd, L"DXGI factory is not initialized.", L"Error", MB_OK);
+		return false;
+	}
+
 	//Create the swap chain for the window indicated by HWND parameter
-	HRESULT hr = GraphicsEngine::get()->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
+	HRESULT hr = GraphicsEngine::getInstance()->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
 
 	if (FAILED(hr))
 	{
+		// Log the error message
+		MessageBox(hwnd, L"Failed to create swap chain.", L"Error", MB_OK);
 		return false;
 	}
+
 
 	//Get the back buffer color and create its render target view
 	//--------------------------------
@@ -43,6 +57,12 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 
 	hr = device->CreateRenderTargetView(buffer, NULL, &m_rtv);
 	buffer->Release();
+
+	if (SUCCEEDED(hr)) {
+		hr = GraphicsEngine::getInstance()->getD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_rtv);
+		buffer->Release();  // Release the back buffer after use
+	}
+
 
 	if (FAILED(hr))
 	{
@@ -61,8 +81,7 @@ bool SwapChain::present(bool vsync)
 
 bool SwapChain::release()
 {
-	m_swap_chain->Release();
-	delete this;
+	if (m_swap_chain)m_swap_chain->Release();
 	return true;
 }
 

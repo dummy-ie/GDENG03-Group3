@@ -1,15 +1,14 @@
 #include "AppWindow.h"
-
+#include <iostream>
 int main()
 {
-	AppWindow app;
+	AppWindow::initialize();
+	AppWindow* runningApp = (AppWindow*)AppWindow::getInstance();
+	runningApp->initializeEngine();
 
-	if (app.init()) {
-		while (app.isRun())
-		{
-			app.broadcast();
-		}
+	while(runningApp->isRunning())
+	{
+		runningApp->broadcast();
+		
 	}
-
-	return 0;
 }

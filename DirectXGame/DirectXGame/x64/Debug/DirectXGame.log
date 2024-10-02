@@ -1,5 +1,5 @@
-﻿  AppWindow.cpp
-E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(43,73): warning C4129: 'm': unrecognized character escape sequence
-E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(151,33): warning C4244: '=': conversion from 'ULONGLONG' to 'unsigned long', possible loss of data
-E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(153,31): warning C4244: '=': conversion from 'ULONGLONG' to 'unsigned long', possible loss of data
+﻿  GraphicsEngine.cpp
+  main.cpp
+  Quad.cpp
+  Generating Code...
   DirectXGame.vcxproj -> E:\GDENG03\PersonalGDENG03\DirectXGame\x64\Debug\DirectXGame.exe
