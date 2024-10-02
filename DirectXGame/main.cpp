@@ -2,14 +2,11 @@
 
 int main()
 {
-	AppWindow app;
-	if (app.init())
+	AppWindow::initialize();
+	AppWindow* runningApp = (AppWindow*) AppWindow::get();
+	while (runningApp->isRunning())
 	{
-		while (app.isRun())
-		{
-			app.broadcast();
-		}
+		runningApp->broadcast();
 	}
-
 	return 0;
 }

@@ -26,7 +26,6 @@ bool VertexBuffer::load(void* list_vertices, UINT size_vertex, UINT size_list, v
 
 	D3D11_SUBRESOURCE_DATA init_data = {};
 	init_data.pSysMem = list_vertices;
-	//init_data.
 
 	m_size_vertex = size_vertex;
 	m_size_list = size_list;
@@ -46,11 +45,29 @@ bool VertexBuffer::load(void* list_vertices, UINT size_vertex, UINT size_list, v
 			0
 		},
 		{
+			"POSITION",
+			1,
+			DXGI_FORMAT_R32G32B32_FLOAT,
+			0,
+			12,
+			D3D11_INPUT_PER_VERTEX_DATA,
+			0
+		},
+		{
 			"COLOR",
 			0,
 			DXGI_FORMAT_R32G32B32_FLOAT,
 			0,
-			12,
+			24,
+			D3D11_INPUT_PER_VERTEX_DATA,
+			0
+		},
+		{
+			"COLOR",
+			1,
+			DXGI_FORMAT_R32G32B32_FLOAT,
+			0,
+			36,
 			D3D11_INPUT_PER_VERTEX_DATA,
 			0
 		}

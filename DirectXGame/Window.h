@@ -4,16 +4,16 @@
 class Window
 {
 public:
-	Window();
-	~Window();
+	virtual ~Window() = default;
+	Window() = default;
 
 	bool init();
 	bool broadcast();
 	bool release();
-	bool isRun();
+	bool isRunning();
 
 	RECT getClientWindowRect();
-	void setHWND(HWND hwnd);
+	void setHwnd(HWND hwnd);
 
 	virtual void onCreate();
 	virtual void onUpdate();
@@ -22,6 +22,6 @@ public:
 protected:
 	// ReSharper disable once IdentifierTypo
 	HWND m_Hwnd;
-	bool m_IsRun;
+	bool m_IsRunning;
 };
 

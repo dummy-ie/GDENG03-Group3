@@ -1,9 +1,11 @@
 #pragma once
 #include <d3d11.h>
 
+class ConstantBuffer;
 class SwapChain;
 class VertexBuffer;
 class VertexShader;
+class GeometryShader;
 class PixelShader;
 
 class DeviceContext
@@ -19,11 +21,18 @@ public:
 
 	void setViewportSize(UINT width, UINT height);
 	void setVertexShader(VertexShader* vertex_shader);
+	void setGeometryShader(GeometryShader* geometry_shader);
 	void setPixelShader(PixelShader* pixel_shader);
+
+	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer);
+	void setConstantBuffer(GeometryShader* geometry_shader, ConstantBuffer* constant_buffer);
+	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer);
 
 	bool release();
 
 private:
 	ID3D11DeviceContext* m_device_context;
+
+	friend class ConstantBuffer;
 };
 

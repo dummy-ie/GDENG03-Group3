@@ -3,7 +3,9 @@
 #include "PixelShader.h"
 #include "SwapChain.h"
 #include "VertexBuffer.h"
+#include "ConstantBuffer.h"
 #include "VertexShader.h"
+#include "GeometryShader.h"
 #include "PixelShader.h"
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* device_context) : m_device_context(device_context)
@@ -62,9 +64,30 @@ void DeviceContext::setVertexShader(VertexShader* vertex_shader)
 	m_device_context->VSSetShader(vertex_shader->m_vs, nullptr, 0);
 }
 
+void DeviceContext::setGeometryShader(GeometryShader* geometry_shader)
+{
+	m_device_context->GSSetShader(geometry_shader->m_gs, nullptr, 0);
+}
+
 void DeviceContext::setPixelShader(PixelShader* pixel_shader)
 {
 	m_device_context->PSSetShader(pixel_shader->m_ps, nullptr, 0);
+}
+
+void DeviceContext::setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer)
+{
+	m_device_context->VSSetConstantBuffers(0, 1, &constant_buffer->m_buffer);
+}
+
+void DeviceContext::setConstantBuffer(GeometryShader* geometry_shader, ConstantBuffer* constant_buffer)
+{
+	m_device_context->GSSetConstantBuffers(0, 1, &constant_buffer->m_buffer);
+}
+
+
+void DeviceContext::setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer)
+{
+	m_device_context->PSSetConstantBuffers(0, 1, &constant_buffer->m_buffer);
 }
 
 bool DeviceContext::release()

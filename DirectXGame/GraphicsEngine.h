@@ -1,34 +1,44 @@
 #pragma once
 #include <d3d11.h>
 
+class ConstantBuffer;
 class SwapChain;
 class DeviceContext;
 class VertexBuffer;
 class VertexShader;
+class GeometryShader;
 class PixelShader;
 
 class GraphicsEngine
 {
 public:
-	GraphicsEngine();
-	~GraphicsEngine();
-
-	bool init();
-	bool release();
+	static GraphicsEngine* get();
+	static void initialize();
+	static void destroy();
 
 	SwapChain* createSwapChain();
 	DeviceContext* getImmediateDeviceContext();
 	VertexBuffer* createVertexBuffer();
+	ConstantBuffer* createConstantBuffer();
 	VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);
 	PixelShader* createPixelShader(const void* shader_byte_code, size_t byte_code_size);
+	GeometryShader* createGeometryShader(const void* shader_byte_code, size_t byte_code_size);
 
 	bool compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 	bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
+	bool compileGeometryShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 	void releaseCompiledShader();
 
-	static GraphicsEngine* get();
-
 private:
+	GraphicsEngine();
+	~GraphicsEngine();
+	GraphicsEngine(GraphicsEngine const&) {};
+	GraphicsEngine& operator=(GraphicsEngine const&) {};
+	static GraphicsEngine* sharedInstance;
+
+	bool init();
+	bool release();
+
 	DeviceContext* m_imm_device_context;
 
 	ID3D11Device* m_d3d_device;
@@ -48,7 +58,9 @@ private:
 
 	friend class SwapChain;
 	friend class VertexBuffer;
+	friend class ConstantBuffer;
 	friend class VertexShader;
 	friend class PixelShader;
+	friend class GeometryShader;
 };
 

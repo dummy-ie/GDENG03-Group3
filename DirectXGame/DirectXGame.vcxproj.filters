@@ -28,6 +28,21 @@
     <Filter Include="GameEngine\GraphicsEngine\PixelShader">
       <UniqueIdentifier>{97d5be49-3854-4144-92bc-4fafbd428ef8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Primitives">
+      <UniqueIdentifier>{4a4cf811-cac6-4de5-9d5d-55e89a36f9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\ConstantBuffer">
+      <UniqueIdentifier>{53243fd4-4348-4f55-b38e-79f959287cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Structs">
+      <UniqueIdentifier>{a08c8cb8-278c-4d55-a577-1fd4340d2d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\GeometryShader">
+      <UniqueIdentifier>{0ea37a0e-e909-4a9b-bd9c-577a01d98c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Shaders">
+      <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,6 +72,15 @@
     <ClCompile Include="PixelShader.cpp">
       <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
     </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>GameEngine\GraphicsEngine\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryShader.cpp">
+      <Filter>GameEngine\GraphicsEngine\GeometryShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -83,16 +107,37 @@
     <ClInclude Include="PixelShader.h">
       <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
     </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>GameEngine\GraphicsEngine\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Vectors.h">
+      <Filter>GameEngine\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>GameEngine\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant.h">
+      <Filter>GameEngine\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryShader.h">
+      <Filter>GameEngine\GraphicsEngine\GeometryShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>App</Filter>
-    </FxCompile>
-    <FxCompile Include="shader.fx">
-      <Filter>App</Filter>
+    <FxCompile Include="GeometryShader.hlsl">
+      <Filter>App\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>App</Filter>
+      <Filter>App\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>App\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shader.fx">
+      <Filter>App\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

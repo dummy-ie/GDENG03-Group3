@@ -2,9 +2,14 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "GeometryShader.h"
 #include <d3dcompiler.h>
+
+GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
+
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -92,6 +97,11 @@ VertexBuffer* GraphicsEngine::createVertexBuffer()
 	return new VertexBuffer();
 }
 
+ConstantBuffer* GraphicsEngine::createConstantBuffer()
+{
+	return new ConstantBuffer();
+}
+
 VertexShader* GraphicsEngine::createVertexShader(const void* shader_byte_code, size_t byte_code_size)
 {
 	VertexShader* vs = new VertexShader();
@@ -112,6 +122,45 @@ PixelShader* GraphicsEngine::createPixelShader(const void* shader_byte_code, siz
 		return nullptr;
 	}
 	return ps;
+}
+
+GeometryShader* GraphicsEngine::createGeometryShader(const void* shader_byte_code, size_t byte_code_size)
+{
+	GeometryShader* gs = new GeometryShader();
+	if (!gs->init(shader_byte_code, byte_code_size))
+	{
+		gs->release();
+		return nullptr;
+	}
+	return gs;
+}
+
+bool GraphicsEngine::compileGeometryShader(const wchar_t* file_name, const char* entry_point_name,
+	void** shader_byte_code, size_t* byte_code_size)
+{
+	ID3DBlob* error_blob = nullptr;
+	if (!SUCCEEDED(::D3DCompileFromFile(
+		file_name,
+		nullptr,
+		nullptr,
+		entry_point_name,
+		"gs_5_0",
+		0,
+		0,
+		&m_blob,
+		&error_blob
+	)))
+	{
+		if (error_blob)
+			error_blob->Release();
+
+		return false;
+	}
+
+	*shader_byte_code = m_blob->GetBufferPointer();
+	*byte_code_size = m_blob->GetBufferSize();
+
+	return true;
 }
 
 bool GraphicsEngine::compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size)
@@ -177,7 +226,21 @@ void GraphicsEngine::releaseCompiledShader()
 
 GraphicsEngine* GraphicsEngine::get()
 {
-	static GraphicsEngine engine;
+	// if (!sharedInstance)
+	// sharedInstance = new GraphicsEngine();
+	return sharedInstance;
+}
 
-	return &engine;
+void GraphicsEngine::initialize()
+{
+	sharedInstance = new GraphicsEngine();
+	sharedInstance->init();
+}
+
+void GraphicsEngine::destroy()
+{
+	if (sharedInstance != NULL)
+		sharedInstance->release();
+
+	delete sharedInstance;
 }

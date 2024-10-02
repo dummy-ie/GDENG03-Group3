@@ -13,7 +13,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		Window* window = static_cast<Window*>(reinterpret_cast<LPCREATESTRUCT>(lparam)->lpCreateParams);
 		// ...and then stored for later lookup
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
-		window->setHWND(hwnd);
+		window->setHwnd(hwnd);
 		window->onCreate();
 		break;
 	}
@@ -30,14 +30,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	}
 
 	return NULL;
-}
-
-Window::Window()
-{
-}
-
-Window::~Window()
-{
 }
 
 bool Window::init()
@@ -79,7 +71,7 @@ bool Window::init()
 	::ShowWindow(m_Hwnd, SW_SHOW);
 	::UpdateWindow(m_Hwnd);
 
-	m_IsRun = true;
+	m_IsRunning = true;
 
 	return true;
 }
@@ -109,9 +101,9 @@ bool Window::release()
 	return true;
 }
 
-bool Window::isRun()
+bool Window::isRunning()
 {
-	return m_IsRun;
+	return m_IsRunning;
 }
 
 RECT Window::getClientWindowRect()
@@ -121,7 +113,7 @@ RECT Window::getClientWindowRect()
 	return rc;
 }
 
-void Window::setHWND(HWND hwnd)
+void Window::setHwnd(HWND hwnd)
 {
 	this->m_Hwnd = hwnd;
 }
@@ -138,5 +130,5 @@ void Window::onUpdate()
 
 void Window::onDestroy()
 {
-	m_IsRun = false;
+	m_IsRunning = false;
 }
