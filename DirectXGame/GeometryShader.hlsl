@@ -18,7 +18,7 @@ cbuffer constant : register(b0)
     float angle;
 };
 
-[maxvertexcount(32)]
+[maxvertexcount(16)]
 void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStream)
 {
     GS_OUTPUT output;
