@@ -22,19 +22,8 @@ struct vec3
 struct vertex
 {
     vec3 position;
-    //vec3 position1;
-    //vec3 color;
-    //vec3 color1;
     vec2 texcoord;
 };
-
-
-/*__declspec(align(16))
-struct constant
-{
-    float m_angle;
-};
-*/
 
 class Quad
 {
@@ -48,14 +37,11 @@ public:
 
 private:
     float position1[3];
-    //float position2[3];
-   // float color[3];
     VertexBuffer* m_vb;
     ConstantBuffer* m_cb;
     VertexShader* m_vs;
     PixelShader* m_ps;
     ID3D11ShaderResourceView* m_texture;
-    //constant m_constant;
     ID3D11SamplerState* m_samplerState;
 
 };

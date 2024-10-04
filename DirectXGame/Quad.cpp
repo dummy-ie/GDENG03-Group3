@@ -8,13 +8,6 @@ Quad::Quad(float x, float y, float z) : m_vb(nullptr), m_cb(nullptr), m_vs(nullp
     position1[1] = y;
     position1[2] = z;
 
-
-    // Set the color
-   // color[0] = r;  // Red component
-   // color[1] = g;  // Green component
-   // color[2] = b;  // Blue component
-
-
 }
 
 Quad::~Quad()
@@ -30,8 +23,6 @@ void Quad::init(ID3D11Device* device, const std::wstring& textureFilePath)
         { -0.25f + position1[0],  0.25f + position1[1], position1[2], 0.0f, 0.0f },  // Top-left
         {  0.25f + position1[0], -0.25f + position1[1], position1[2], 1.0f, 1.0f },  // Bottom-right
         {  0.25f + position1[0],  0.25f + position1[1], position1[2], 1.0f, 0.0f }   // Top-right
- 
-
     };
 
     // Load shaders
@@ -82,10 +73,6 @@ void Quad::init(ID3D11Device* device, const std::wstring& textureFilePath)
         return;
     }
 
-    // Initialize constant buffer
-    //m_cb = graphEngine->createConstantBuffer();
-    //m_constant.m_angle = 0;
-    //m_cb->load(&m_constant, sizeof(constant));
 }
 
 void Quad::render()
@@ -93,9 +80,6 @@ void Quad::render()
     GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
     DeviceContext* deviceContext = graphEngine->getImmediateDeviceContext();
 
-    // Update constant buffer with rotation angle
-    //m_constant.m_angle = angle;
-    //m_cb->update(deviceContext, &m_constant);
 
      // Bind the sampler state
     deviceContext->getContext()->PSSetSamplers(0, 1, &m_samplerState);
@@ -112,10 +96,6 @@ void Quad::render()
     deviceContext->setVertexShader(m_vs);
     deviceContext->setPixelShader(m_ps);
 
-    // Set the constant buffer
-    //deviceContext->setConstantBuffer(m_vs, m_cb);
-    //deviceContext->setConstantBuffer(m_ps, m_cb);
-
     // Set the vertex buffer and draw
     deviceContext->setVertexBuffer(m_vb);
     deviceContext->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
@@ -128,3 +108,21 @@ void Quad::release()
     if (m_vs) m_vs->release();
     if (m_ps) m_ps->release();
 }
+
+
+
+
+
+// Initialize constant buffer
+    //m_cb = graphEngine->createConstantBuffer();
+    //m_constant.m_angle = 0;
+    //m_cb->load(&m_constant, sizeof(constant));
+
+// Update constant buffer with rotation angle
+//m_constant.m_angle = angle;
+//m_cb->update(deviceContext, &m_constant);
+
+
+// Set the constant buffer
+  //deviceContext->setConstantBuffer(m_vs, m_cb);
+  //deviceContext->setConstantBuffer(m_ps, m_cb);
