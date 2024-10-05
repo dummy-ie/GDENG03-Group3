@@ -4,7 +4,6 @@
 class ConstantBuffer;
 class SwapChain;
 class VertexBuffer;
-class IndexBuffer;
 class VertexShader;
 class GeometryShader;
 class PixelShader;
@@ -17,9 +16,7 @@ public:
 
 	void clearRenderTargetColor(SwapChain* swap_chain, float r, float g, float b, float a);
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
-	void setIndexBuffer(IndexBuffer* index_buffer);
 	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
-	void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
 	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 
 	void setViewportSize(UINT width, UINT height);

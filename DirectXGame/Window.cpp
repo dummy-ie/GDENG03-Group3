@@ -71,8 +71,6 @@ bool Window::init()
 	::ShowWindow(m_Hwnd, SW_SHOW);
 	::UpdateWindow(m_Hwnd);
 
-	EngineTime::initialize();
-
 	m_IsRunning = true;
 
 	return true;
@@ -82,7 +80,6 @@ bool Window::broadcast()
 {
 	MSG msg;
 
-	EngineTime::LogFrameStart();
 	this->onUpdate();
 
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
@@ -92,7 +89,6 @@ bool Window::broadcast()
 	}
 
 	Sleep(1);
-	EngineTime::LogFrameEnd();
 
 	return true;
 }

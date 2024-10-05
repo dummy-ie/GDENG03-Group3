@@ -28,6 +28,9 @@
     <Filter Include="GameEngine\GraphicsEngine\PixelShader">
       <UniqueIdentifier>{97d5be49-3854-4144-92bc-4fafbd428ef8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Primitives">
+      <UniqueIdentifier>{4a4cf811-cac6-4de5-9d5d-55e89a36f9be}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\ConstantBuffer">
       <UniqueIdentifier>{53243fd4-4348-4f55-b38e-79f959287cd7}</UniqueIdentifier>
     </Filter>
@@ -39,15 +42,6 @@
     </Filter>
     <Filter Include="App\Shaders">
       <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\Math">
-      <UniqueIdentifier>{0bead97d-eeb1-4372-8d38-6b195fd236b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\IndexBuffer">
-      <UniqueIdentifier>{5a18d984-d86a-4ed2-b2f2-788deb6f01cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\Shapes">
-      <UniqueIdentifier>{4a4cf811-cac6-4de5-9d5d-55e89a36f9be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,22 +73,13 @@
       <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
+      <Filter>GameEngine\GraphicsEngine\Primitives</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="GeometryShader.cpp">
       <Filter>GameEngine\GraphicsEngine\GeometryShader</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineTime.cpp">
-      <Filter>GameEngine\GraphicsEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +108,7 @@
       <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
+      <Filter>GameEngine\GraphicsEngine\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="Vectors.h">
       <Filter>GameEngine\Structs</Filter>
@@ -139,21 +124,6 @@
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
       <Filter>GameEngine\GraphicsEngine\GeometryShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3D.h">
-      <Filter>GameEngine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix4x4.h">
-      <Filter>GameEngine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineTime.h">
-      <Filter>GameEngine\GraphicsEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

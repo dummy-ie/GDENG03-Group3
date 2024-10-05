@@ -4,42 +4,33 @@
 #include "PixelShader.h"
 #include "VertexShader.h"
 
-Quad::Quad(const Vec2 size, const Vector3D pos, const Vector3D pos1, const Vector3D color) : size(size), pos(pos), pos1(pos1), color(color)
+Quad::Quad(const Vec2 size, const Vec2 pos, const Vec2 pos1, const Vec3 color) : size(size), pos(pos), color(color)
 {
-	// Vertex list[] =
-	// {
-	// 	{
-	// 		{-size.x + pos.x, -size.y + pos.y, 0.0f},
-	// 		{-size.x + pos1.x, -size.y + pos1.y, 0.0f},
-	// 		color,
-	// 		{0, 1, 0}},
-	//
-	// 	{
-	// 		{-size.x + pos.x, size.y + pos.y, 0.0f},
-	// 		{-size.x + pos1.x, size.y + pos1.y, 0.0f},
-	// 		color,
-	// 		{	0, 1, 1}},
-	//
-	// 	{
-	// 		{size.x + pos.x, -size.y + pos.y, 0.0f},
-	// 		{size.x + pos1.x, -size.y + pos1.y, 0.0f},
-	// 		color,
-	// 		{	1, 0, 0}},
-	//
-	// 	{
-	// 		{size.x + pos.x, size.y + pos.y, 0.0f},
-	// 		{size.x + pos1.x, size.y + pos1.y, 0.0f},
-	// 		color,
-	// 		{0, 0, 1}}
-	// };
-
 	Vertex list[] =
 	{
-		//X - Y - Z
-		{Vector3D(-0.5f,-0.5f,0.0f),      Vector3D(0,0,0), Vector3D(0,1,0) }, // POS1
-		{Vector3D(-0.5f,0.5f,0.0f),        Vector3D(1,1,0), Vector3D(0,1,1) }, // POS2
-		{ Vector3D(0.5f,-0.5f,0.0f),      Vector3D(0,0,1),  Vector3D(1,0,0) },// POS2
-		{ Vector3D(0.5f,0.5f,0.0f),        Vector3D(1,1,1), Vector3D(0,0,1) }
+		{
+			{-size.x + pos.x, -size.y + pos.y, 0.0f},
+			{-size.x + pos1.x, -size.y + pos1.y, 0.0f},
+			color,
+			{0, 1, 0}},
+
+		{
+			{-size.x + pos.x, size.y + pos.y, 0.0f},
+			{-size.x + pos1.x, size.y + pos1.y, 0.0f},
+			color,
+			{	0, 1, 1}},
+
+		{
+			{size.x + pos.x, -size.y + pos.y, 0.0f},
+			{size.x + pos1.x, -size.y + pos1.y, 0.0f},
+			color,
+			{	1, 0, 0}},
+
+		{
+			{size.x + pos.x, size.y + pos.y, 0.0f},
+			{size.x + pos1.x, size.y + pos1.y, 0.0f},
+			color,
+			{0, 0, 1}}
 	};
 
 	void* shader_byte_code = nullptr;
@@ -62,7 +53,7 @@ Quad::Quad(const Vec2 size, const Vector3D pos, const Vector3D pos1, const Vecto
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	Constant cc;
-	cc.time = 0;
+	//cc.time = 0;
 
 	cb = GraphicsEngine::get()->createConstantBuffer();
 	cb->load(&cc, sizeof(Constant));
@@ -75,37 +66,15 @@ void Quad::release() const
 	ps->release();
 }
 
-void Quad::draw(float deltaTime, RECT clientWindow)
+void Quad::draw(float deltaTime)
 {
 	this->angle += 1.57f * deltaTime;
-
-	m_delta_pos += deltaTime / 10.0f;
-	if (m_delta_pos > 1.0f)
-		m_delta_pos = 0;
-
-	m_delta_scale += deltaTime / 0.15f;
-
 	Constant cc;
-	//cc.world.setTranslation(Vector3D(0, 0, 0));
-	Matrix4x4 temp;
-
-	temp.setTranslation(Vector3D::lerp(pos, pos1, m_delta_pos));
-	cc.world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1.0f, 1.0f, 0), (sin(m_delta_scale) + 1.0f) / 2.0f));
-
-	cc.world *= temp;
-
-	cc.view.setIdentity();
-	cc.proj.setOrthoLH(
-		(clientWindow.right - clientWindow.left) / 400.f,
-		(clientWindow.bottom - clientWindow.top) / 400.f,
-		-4.0f,
-		4.0f);
-	cc.time = angle;
+	cc.angle = angle;
 
 	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vs, cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(gs, cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(ps, cb);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vs);
