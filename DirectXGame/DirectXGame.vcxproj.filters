@@ -37,6 +37,9 @@
     <Filter Include="GameEngine\Quad">
       <UniqueIdentifier>{52c44e4b-f8e0-4b93-8508-f14b8b1694a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Engine Time">
+      <UniqueIdentifier>{3eb31828-b0c0-47de-be12-0eae12b682cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +75,9 @@
     <ClCompile Include="Quad.cpp">
       <Filter>GameEngine\Quad</Filter>
     </ClCompile>
+    <ClCompile Include="EngineTime.cpp">
+      <Filter>GameEngine\Engine Time</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>GameEngine\Quad</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTime.h">
+      <Filter>GameEngine\Engine Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,7 @@ void AppWindow::onCreate()
 
 void AppWindow::initializeEngine() {
 	GraphicsEngine::initialize();
+	EngineTime::initialize();
 	GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
 	RECT rc = this->getClientWindowRect();
 
@@ -49,20 +50,10 @@ void AppWindow::initializeEngine() {
 	int height = rc.bottom - rc.top;
 
 	this->swapChain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
-	
 
 	// Initialize three distinct quads with different colors
-	m_quad = new Quad(-0.35f, -0.55f, 0.0f); 
-	std::wstring textureFilePath = L"Textures\\texRustedMetal_1.png";
-	m_quad->init(GraphicsEngine::getInstance()->getD3DDevice(), textureFilePath);
-
-	m_quad2 = new Quad(0.35f, 0.45f, 0.0f);
-	textureFilePath = L"Textures\\texCleanMetal_2.png";
-	m_quad2->init(GraphicsEngine::getInstance()->getD3DDevice(),textureFilePath);
-
-	m_quad3 = new Quad(0.35f, -0.55f, 0.0f);
-	textureFilePath = L"Textures\\texSurface_1.png";
-	m_quad3->init(GraphicsEngine::getInstance()->getD3DDevice(), textureFilePath);
+	m_quad = new Quad(0.0f, 0.0f, 0.0f); 
+	m_quad->init(GraphicsEngine::getInstance()->getD3DDevice());
 
 }
 
@@ -80,9 +71,7 @@ void AppWindow::onUpdate() {
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::getInstance()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	this->m_quad->render();
-	this->m_quad2->render();
-	this->m_quad3->render();
+	this->m_quad->render(EngineTime::getDeltaTime());
 
 	this->swapChain->present(true);
 }
