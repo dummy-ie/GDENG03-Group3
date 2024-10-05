@@ -34,27 +34,27 @@ void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStre
 
     outputStream.RestartStrip();
 
-    const float4 positions[4] =
-    {
-        float4(-0.10f, 0.10f, 0.0f, 0.0f),
-        float4(0.10f, 0.10f, 0.0f, 0.0f),
-        float4(-0.10f, -0.10f, 0.0f, 0.0f),
-        float4(0.10f, -0.10f, 0.0f, 0.0f),
-    };
-
-    for (int i = 0; i < 3; i++)
-    {
-        // int next = (i + 1) % 3;
-        for (int j = 0; j < 4; j++)
-        {
-            output.pos = input[i].pos + positions[j];
-            output.color = input[i].color;
-            output.color1 = input[i].color1;
-    
-            outputStream.Append(output);
-        }
-
-        outputStream.RestartStrip();
-    }
+    // const float4 positions[4] =
+    // {
+    //     float4(-0.10f, 0.10f, 0.0f, 0.0f),
+    //     float4(0.10f, 0.10f, 0.0f, 0.0f),
+    //     float4(-0.10f, -0.10f, 0.0f, 0.0f),
+    //     float4(0.10f, -0.10f, 0.0f, 0.0f),
+    // };
+    //
+    // for (int i = 0; i < 3; i++)
+    // {
+    //     // int next = (i + 1) % 3;
+    //     for (int j = 0; j < 4; j++)
+    //     {
+    //         output.pos = input[i].pos + positions[j];
+    //         output.color = input[i].color;
+    //         output.color1 = input[i].color1;
+    //
+    //         outputStream.Append(output);
+    //     }
+    //
+    //     outputStream.RestartStrip();
+    // }
 
 }

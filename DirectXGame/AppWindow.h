@@ -30,7 +30,7 @@ private:
 	AppWindow& operator=(AppWindow const&) {};
 	static AppWindow* sharedInstance;
 
-	Quad* qList[3]; // object manager later
+	Quad* qList[1]; // object manager later
 
 	SwapChain* swapChain;
 	VertexBuffer* vb;

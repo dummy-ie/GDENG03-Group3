@@ -59,6 +59,34 @@ Quad::Quad(const Vec2 size, const Vec2 pos, const Vec2 pos1, const Vec3 color) :
 	cb->load(&cc, sizeof(Constant));
 }
 
+Quad::Quad(Vertex list[], int size_list)
+{
+	void* shader_byte_code = nullptr;
+	size_t byte_code_size = 0;
+
+	vb = GraphicsEngine::get()->createVertexBuffer();
+	//constexpr UINT size_list = ARRAYSIZE(list);
+
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "main", &shader_byte_code, &byte_code_size);
+	vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, byte_code_size);
+	vb->load(list, sizeof(Vertex), size_list, shader_byte_code, static_cast<UINT>(byte_code_size));
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shader_byte_code, &byte_code_size);
+	gs = GraphicsEngine::get()->createGeometryShader(shader_byte_code, byte_code_size);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "main", &shader_byte_code, &byte_code_size);
+	ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, byte_code_size);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	Constant cc;
+	//cc.time = 0;
+
+	cb = GraphicsEngine::get()->createConstantBuffer();
+	cb->load(&cc, sizeof(Constant));
+}
+
 void Quad::release() const
 {
 	vb->release();
@@ -69,6 +97,7 @@ void Quad::release() const
 void Quad::draw(float deltaTime)
 {
 	this->angle += 1.57f * deltaTime;
+
 	Constant cc;
 	cc.angle = angle;
 

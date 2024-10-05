@@ -39,56 +39,18 @@ void AppWindow::onCreate()
 
 	const RECT rc = this->getClientWindowRect();
 	swapChain->init(this->m_Hwnd, rc.right - rc.left, rc.bottom - rc.top);
-	//
-	// Vertex list[] =
-	// {
-	// 	//X - Y - Z
-	// 	{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
-	// 	{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
-	// 	{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
-	// 	{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
-	// };
-	//
-	// vb = GraphicsEngine::get()->createVertexBuffer();
-	// UINT size_list = ARRAYSIZE(list);
-	//
-	// void* shader_byte_code = nullptr;
-	// size_t size_shader = 0;
-	// GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "main", &shader_byte_code, &size_shader);
-	//
-	// vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-	// vb->load(list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
-	//
-	// GraphicsEngine::get()->releaseCompiledShader();
-	//
-	//
-	// GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "main", &shader_byte_code, &size_shader);
-	// ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-	// GraphicsEngine::get()->releaseCompiledShader();
-	//
-	// Constant cc;
-	// cc.angle = 0;
-	//
-	// cb = GraphicsEngine::get()->createConstantBuffer();
-	// cb->load(&cc, sizeof(Constant));
 
-	qList[0] = new Quad(
-		{ 0.3f, 0.25f },
-		{ .2f, .2f },
-		{ .5f, .8f },
-		{ 1.0f, 0.0f, 0.0f });
+	Vertex list[] =
+	{
+		//X - Y - Z
+		{-0.6f,-0.8f,0.0f,    -0.4f,0.2f,0.0f,   0,0,0,  0,1,0 }, // POS1
+		{-0.8f,0.5f,0.0f,     -0.2f,0.7f,0.0f,    1,1,0,  0,1,1 }, // POS2
+		{ 0.9f,-0.4f,0.0f,    0.2f,-0.6f,0.0f,   0,0,1,  1,0,0 },// POS2
+		{ -0.6f,-0.8f,0.0f,     0.8f,0.8f,0.0f,    1,1,1,  0,0,1 }
+	};
 
-	qList[1] = new Quad(
-		{ 0.25f, 0.3f },
-		{ -0.5f, .2f },
-		{ -0.5f, .8f },
-		{ 0.0f, 1.0f, 0.0f });
+	qList[0] = new Quad(list, ARRAYSIZE(list));
 
-	qList[2] = new Quad(
-		{ 0.25, 0.25 },
-		{ .2, -.5 },
-		{ .0f, -.8f },
-		{ 0, 0, 1 });
 }
 
 void AppWindow::onUpdate()

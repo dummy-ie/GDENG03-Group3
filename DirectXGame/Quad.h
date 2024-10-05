@@ -16,6 +16,8 @@ public:
 		Vec2 pos1 = { 0.0f, 0.0f },
 		Vec3 color = { 1.0f, 1.0f, 1.0f });
 
+	explicit Quad(Vertex list[], int size_list);
+
 	void release() const;
 	void draw(float deltaTime);
 
