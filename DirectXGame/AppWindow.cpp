@@ -55,9 +55,6 @@ void AppWindow::onCreate()
 	// 	{ 1.0f, 0.0f, 0.0f });
 
 	qList[0] = new Quad(list);
-
-	qList[0] = new Quad(list, ARRAYSIZE(list));
-
 }
 
 void AppWindow::onUpdate()
@@ -73,12 +70,6 @@ void AppWindow::onUpdate()
 
 	const RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-
-	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount() - m_old_time;
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount();
 
 	// m_angle += 1.57f * m_delta_time;
 	// Constant cc;
@@ -104,7 +95,7 @@ void AppWindow::onUpdate()
 
 	for (Quad* q : qList)
 	{
-		q->draw(m_delta_time);
+		q->draw(EngineTime::getDeltaTime(), getClientWindowRect());
 	}
 
 	swapChain->present(true);
