@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "GraphicsEngine.h"
@@ -7,15 +7,15 @@
 #include "Vertex.h"
 #include "Constant.h"
 
-class Quad
+class Cube
 {
 public:
 
-	explicit Quad(
+	explicit Cube(
 		Vec2 size = { 0.1f, 0.1f },
 		Vector3D pos = { 0.0f, 0.0f, 0.0f },
 		Vector3D pos1 = { 0.0f, 0.0f, 0.0f },
-		Vector3D color = Vector3D( 1.0f, 1.0f, 1.0f ));
+		Vector3D color = Vector3D(1.0f, 1.0f, 1.0f));
 
 	void release() const;
 	void draw(float deltaTime, RECT clientWindow);

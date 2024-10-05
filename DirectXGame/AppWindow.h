@@ -3,11 +3,13 @@
 #include <Windows.h>
 
 #include "Window.h"
+#include "EngineTime.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "Cube.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "Quad.h"
@@ -23,6 +25,8 @@ public:
 	void onUpdate() override;
 	void onDestroy() override;
 
+	void updateQuadPosition();
+
 private:
 	AppWindow();
 	~AppWindow();
@@ -30,18 +34,17 @@ private:
 	AppWindow& operator=(AppWindow const&) {};
 	static AppWindow* sharedInstance;
 
-	Quad* qList[3]; // object manager later
-
+	Quad* qList[1]; // object manager later
+	Cube* cList[1]; // object manager later
+		
 	SwapChain* swapChain;
+
 	VertexBuffer* vb;
-	//VertexBuffer* m_vb1;
-	//VertexBuffer* m_vb2;
-	VertexShader* vs;
-	PixelShader* ps;
 	ConstantBuffer* cb;
 
-	unsigned long m_old_time = 0;
-	float m_delta_time = 0;
-	float m_angle = 0;
+	VertexShader* vs;
+	PixelShader* ps;
+
+	float ticks = 0.0f;
 };
 
