@@ -40,32 +40,29 @@ void AppWindow::onCreate()
 	const RECT rc = this->getClientWindowRect();
 	swapChain->init(this->m_Hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
-	qList[0] = new Quad(
-		{ 1.0f, 1.0f },
-		{ -0.2f, 0.2f, 0.0f },
-		{ 0.5f, -0.8f, 0.0f },
-		{ 1.0f, 0.0f, 0.0f });
+	Vertex list[4] = {
+		//X - Y - Z
+		{{-0.6f,-0.8f,0.0f},    {-0.4f,0.2f,0.0f},  { 0,0,0}, { 0,1,0} }, // POS1
+		{{-0.8f,0.5f,0.0f},     {-0.2f,0.7f,0.0f},   { 1,1,0}, { 0,1,1} }, // POS2
+		{ {0.9f,-0.4f,0.0f},    {0.2f,-0.6f,0.0f},  { 0,0,1}, { 1,0,0} },// POS2
+		{ {-0.6f,-0.8f,0.0f},    { 0.8f,0.8f,0.0f},   { 1,1,1}, { 0,0,1} }
+	};
 
-	cList[0] = new Cube();
+	// qList[0] = new Quad(
+	// 	{ 1.0f, 1.0f },
+	// 	{ -0.2f, 0.2f, 0.0f },
+	// 	{ 0.5f, -0.8f, 0.0f },
+	// 	{ 1.0f, 0.0f, 0.0f });
 
-	// qList[1] = new Quad(
-	// 	{ 0.25f, 0.3f },
-	// 	{ -0.5f, .2f },
-	// 	{ -0.5f, .8f },
-	// 	{ 0.0f, 1.0f, 0.0f });
-	//
-	// qList[2] = new Quad(
-	// 	{ 0.25, 0.25 },
-	// 	{ .2, -.5 },
-	// 	{ .0f, -.8f },
-	// 	{ 0, 0, 1 });
+	qList[0] = new Quad(list);
+
+	qList[0] = new Quad(list, ARRAYSIZE(list));
+
 }
 
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
-
-	ticks += EngineTime::getDeltaTime() * 1.0f;
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(
 		this->swapChain,
@@ -77,15 +74,38 @@ void AppWindow::onUpdate()
 	const RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	unsigned long new_time = 0;
+	if (m_old_time)
+		new_time = ::GetTickCount() - m_old_time;
+	m_delta_time = new_time / 1000.0f;
+	m_old_time = ::GetTickCount();
+
+	// m_angle += 1.57f * m_delta_time;
+	// Constant cc;
+	// cc.angle = m_angle;
+	//
+	// cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+	//
+	// GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vs, cb);
+	// GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(ps, cb);
+	//
+	// //SET DEFAULT SHADER IN THE GRAPHICS PIPELINE TO BE ABLE TO DRAW
+	// GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vs);
+	// GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(ps);
+	//
+	//
+	// //SET THE VERTICES OF THE TRIANGLE TO DRAW
+	// GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vb);
+	//
+	// // FINALLY DRAW THE TRIANGLE
+	// GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vb->getSizeVertexList(), 0);
+
+	//qList[0]->update(m_delta_time);
+
 	for (Quad* q : qList)
 	{
-		q->draw(EngineTime::getDeltaTime(), getClientWindowRect());
+		q->draw(m_delta_time);
 	}
-
-	// for (Cube* c : cList)
-	// {
-	// 	c->draw(EngineTime::getDeltaTime(), getClientWindowRect());
-	// }
 
 	swapChain->present(true);
 }
@@ -101,9 +121,4 @@ void AppWindow::onDestroy()
 
 	//GraphicsEngine::get()->release();
 	GraphicsEngine::destroy();
-}
-
-void AppWindow::updateQuadPosition()
-{
-
 }

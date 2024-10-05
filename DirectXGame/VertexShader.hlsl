@@ -1,6 +1,7 @@
 struct VS_INPUT
 {
     float4 pos : POSITION;
+    float4 pos1 : POSITION1;
     float3 color : COLOR;
     float3 color1 : COLOR1;
 };
@@ -24,7 +25,7 @@ VS_OUTPUT main(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
 
-    // input.pos = lerp(input.pos, input.pos1, (sin(time + 1.0f) / 2.0f));
+    input.pos = lerp(input.pos, input.pos1, (sin(time) + 1.0f) / 2.0f);
     output.pos = mul(input.pos, world);
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, proj);
