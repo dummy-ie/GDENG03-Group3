@@ -77,15 +77,15 @@ void AppWindow::onUpdate()
 	const RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	for (Quad* q : qList)
-	{
-		q->draw(EngineTime::getDeltaTime(), getClientWindowRect());
-	}
-
-	// for (Cube* c : cList)
+	// for (Quad* q : qList)
 	// {
-	// 	c->draw(EngineTime::getDeltaTime(), getClientWindowRect());
+	// 	q->draw(EngineTime::getDeltaTime(), getClientWindowRect());
 	// }
+
+	for (Cube* c : cList)
+	{
+		c->draw(EngineTime::getDeltaTime(), getClientWindowRect());
+	}
 
 	swapChain->present(true);
 }
