@@ -10,7 +10,7 @@ Quad::Quad(float x, float y, float z) : m_vb(nullptr), m_cb(nullptr), m_vs(nullp
 
 }
 
-Quad::~Quad()
+Quad::~Quad()   
 {
 }
 
