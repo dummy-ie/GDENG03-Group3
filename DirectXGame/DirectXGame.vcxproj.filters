@@ -40,6 +40,9 @@
     <Filter Include="GameEngine\Engine Time">
       <UniqueIdentifier>{3eb31828-b0c0-47de-be12-0eae12b682cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Circle">
+      <UniqueIdentifier>{948889c2-0018-42a5-a7b0-b86d85864e61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="EngineTime.cpp">
       <Filter>GameEngine\Engine Time</Filter>
     </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Circle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -112,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>GameEngine\Engine Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Circle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
