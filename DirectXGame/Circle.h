@@ -1,3 +1,4 @@
+
 #pragma once
 #include "GraphicsEngine.h"
 #include "VertexBuffer.h"
@@ -6,8 +7,9 @@
 #include "PixelShader.h"
 #include "DeviceContext.h"
 #include "Quad.h"
-#include <string>
 #include <cmath>
+#include <vector>
+
 
 class Circle
 {
@@ -17,18 +19,22 @@ public:
 
     void init(ID3D11Device* device);
     void render(float m_delta_time);
-    void release();
+    bool release();
+    void updateMovement(float deltaTime, RECT windowBounds);
+    void randomizeVelocity();
+    void setNewRandomDestination();
+
 
 private:
     float position1[3];
-    float m_angle = 0;
+    float radius;
+    vec3 velocity;
+    float m_speed = 0;
+    UINT pointsU;
+    constant cc;
     VertexBuffer* m_vb;
     ConstantBuffer* m_cb;
     VertexShader* m_vs;
     PixelShader* m_ps;
-    //ID3D11ShaderResourceView* m_texture;
-    //ID3D11SamplerState* m_samplerState;
-
 };
-
 

@@ -1,2 +1,4 @@
-﻿  Quad.cpp
+﻿  AppWindow.cpp
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(132,60): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(133,52): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   DirectXGame.vcxproj -> E:\GDENG03\PersonalGDENG03\DirectXGame\x64\Debug\DirectXGame.exe

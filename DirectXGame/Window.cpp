@@ -34,7 +34,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		break;
 	}
 
-
 	default:
 		return ::DefWindowProc(hwnd, msg, wparam, lparam);
 	}

@@ -92,11 +92,13 @@ void Quad::render(float m_delta_time)
     constant cc;
     cc.m_angle = m_angle;
 
-    m_cb->update(GraphicsEngine::getInstance()->getImmediateDeviceContext(), &cc);
+    if (m_cb != nullptr) {
+        m_cb->update(GraphicsEngine::getInstance()->getImmediateDeviceContext(), &cc);
 
-    GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
-    GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 
+        GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
+        GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
+    }
      // Bind the sampler state
     //deviceContext->getContext()->PSSetSamplers(0, 1, &m_samplerState);
 
@@ -118,12 +120,14 @@ void Quad::render(float m_delta_time)
     deviceContext->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 }
 
-void Quad::release()
+bool Quad::release()
 {
     if (m_vb) m_vb->release();
     if (m_cb) m_cb->release();
     if (m_vs) m_vs->release();
     if (m_ps) m_ps->release();
+    delete this;
+    return true;
 }
 
 

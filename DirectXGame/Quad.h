@@ -28,6 +28,7 @@ __declspec(align(16))
 struct constant
 {
     float m_angle;
+    vec3 new_position;
 };
 
 class Quad
@@ -38,7 +39,7 @@ public:
 
     void init(ID3D11Device* device);
     void render(float m_delta_time);
-    void release();
+    bool release();
 
 private:
     float position1[3];

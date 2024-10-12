@@ -43,6 +43,12 @@ void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index
 	m_device_context->Draw(vertex_count, start_vertex_index);
 }
 
+void DeviceContext::drawLineStrip(UINT vertex_count, UINT start_vertex_index)
+{
+	m_device_context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	m_device_context->Draw(vertex_count, start_vertex_index);
+}
+
 void DeviceContext::setViewportSize(UINT width, UINT height)
 {
 	D3D11_VIEWPORT vp = {};

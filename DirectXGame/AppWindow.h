@@ -1,6 +1,8 @@
 #pragma once
 #include "Window.h"
 #include "Quad.h"
+#include "list"
+#include "Circle.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -37,12 +39,11 @@ public:
 private:
 	SwapChain* swapChain;
 
-	VertexShader* m_vs;
-	PixelShader* m_ps;
-
-	Quad* m_quad;
+	std::vector<Circle*> m_circle_list;
 	Quad* m_quad2;
 	Quad* m_quad3;	
+
+	Circle* m_circle;
 
 	bool bRunning = false;
 
