@@ -1,7 +1,7 @@
 #include "Circle.h"
 
 #include "ConstantBuffer.h"
-#include "DebugUtils.h"
+#include "LogUtils.h"
 #include "PixelShader.h"
 #include "VertexShader.h"
 
@@ -57,7 +57,7 @@ void Circle::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pi
 
 	constants.world.setIdentity();
 	constants.view.setIdentity();
-	constants.proj.setOrthoLH(
+	constants.proj.setOrthographicProjection(
 		windowWidth,
 		windowHeight,
 		-4.0f,

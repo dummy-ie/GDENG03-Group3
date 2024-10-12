@@ -1,6 +1,5 @@
 #include "AppWindow.h"
 
-#include "InputSystem.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 
@@ -42,6 +41,12 @@ void AppWindow::onKeyUp(const int key)
 {
 	switch (key)
 	{
+	case 'W':
+	{
+		pressedW = true;
+		LogUtils::log(this, "Pressed W!");
+		break;
+	}
 	case VK_SPACE:
 	{
 		// float randsize = randrange_float(0.1f, 1.0f);
@@ -86,66 +91,52 @@ void AppWindow::onCreate()
 	void* shaderByteCode = nullptr;
 	size_t byteCodeSize = 0;
 
-	DebugUtils::log(this, "Vertex shader compilation");
+	LogUtils::log(this, "Vertex shader compilation");
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
 	vertexShader = GraphicsEngine::createVertexShader(shaderByteCode, byteCodeSize);
 
 	// Insert all GameObjects here
+	// Circle* circle = new Circle("circle1", shaderByteCode, byteCodeSize, 0.5f);
+	// gameObjectsVector.push_back(circle);
 
-	Circle* circle = new Circle("circle1", shaderByteCode, byteCodeSize, 0.5f);
-	gameObjectsVector.push_back(circle);
+	for (int i = 0; i < 100; ++i)
+	{
+		Cube* cube = new Cube("cube" + std::to_string(i), shaderByteCode, byteCodeSize);
+		cube->setPosition(randomRangeVector3D(-0.8f, 0.8f));
+		cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+		cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
 
-	Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
-	gameObjectsVector.push_back(cube);
+		gameObjectsVector.push_back(cube);
+	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	DebugUtils::log(this, "Geometry shader compilation");
+	LogUtils::log(this, "Geometry shader compilation");
 	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
 	geometryShader = GraphicsEngine::createGeometryShader(shaderByteCode, byteCodeSize);
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	DebugUtils::log(this, "Pixel shader compilation");
+	LogUtils::log(this, "Pixel shader compilation");
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
 	pixelShader = GraphicsEngine::createPixelShader(shaderByteCode, byteCodeSize);
 	GraphicsEngine::get()->releaseCompiledShader();
-
-	// qList[0] = new Quad(
-	// 	{ 1.0f, 1.0f },
-	// 	{ -0.2f, 0.2f, 0.0f },
-	// 	{ 0.5f, -0.8f, 0.0f },
-	// 	{ 1.0f, 0.0f, 0.0f });
-	//
-	// cList[0] = new Cube();
-
-	// qList[1] = new Quad(
-	// 	{ 0.25f, 0.3f },
-	// 	{ -0.5f, .2f },
-	// 	{ -0.5f, .8f },
-	// 	{ 0.0f, 1.0f, 0.0f });
-	//
-	// qList[2] = new Quad(
-	// 	{ 0.25, 0.25 },
-	// 	{ .2, -.5 },
-	// 	{ .0f, -.8f },
-	// 	{ 0, 0, 1 });
 }
 
 void AppWindow::onUpdate()
 {
-	//DebugUtils::log(this, "Updating window");
+	//LogUtils::log(this, "Updating window");
 	Window::onUpdate();
-	//DebugUtils::log(this, "Updating input system");
+	//LogUtils::log(this, "Updating input system");
 	InputSystem::get()->update();
 
 	ticks += static_cast<float>(EngineTime::getDeltaTime()) * 1.0f;
 
-	//DebugUtils::log(this, "Setting shaders");
+	//LogUtils::log(this, "Setting shaders");
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vertexShader);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
-	//DebugUtils::log(this, "Clear render target");
+	//LogUtils::log(this, "Clear render target");
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(
 		this->swapChain,
 		0.15f,
@@ -160,10 +151,12 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
-	//DebugUtils::log(this, "update and draw circles");
+	//LogUtils::log(this, "update and draw circles");
 	for (GameObject* gameObject : gameObjectsVector)
 	{
-		gameObject->update(EngineTime::getDeltaTime());
+		if (pressedW)
+			gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
+
 		gameObject->draw(vertexShader, geometryShader, pixelShader, getClientWindowRect());
 	}
 

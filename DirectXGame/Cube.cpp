@@ -71,42 +71,45 @@ Cube::~Cube()
 	GameObject::~GameObject();
 }
 
-void Cube::update(float deltaTime)
+void Cube::update(const float deltaTime)
 {
 	deltaPos += deltaTime / 10.0f;
 	if (deltaPos > 1.0f)
 		deltaPos = 0;
 
 	deltaScale += deltaTime / 1.0f;
+
+	localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
 void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 	Constant constants;
-	Matrix4x4 tempMatrix;
-	const float windowWidth = (clientWindow.right - clientWindow.left) / 400.f;
-	const float windowHeight = (clientWindow.bottom - clientWindow.top) / 400.f;
+	Matrix4x4
+		translateMatrix,
+		scaleMatrix,
+		xMatrix,
+		yMatrix,
+		zMatrix;
 
-	constants.world.setTranslation(localPosition);
-	constants.world.setScale(localScale);
+	const float windowWidth = clientWindow.right - clientWindow.left;
+	const float windowHeight = clientWindow.bottom - clientWindow.top;
 
-	tempMatrix.setIdentity();
-	tempMatrix.setRotationZ(localRotation.z);
-	constants.world *= tempMatrix;
+	translateMatrix.setTranslation(localPosition);
+	scaleMatrix.setScale(localScale);
 
-	tempMatrix.setIdentity();
-	tempMatrix.setRotationY(localRotation.y);
-	constants.world *= tempMatrix;
+	zMatrix.setRotationZ(localRotation.z);
+	xMatrix.setRotationX(localRotation.y);
+	yMatrix.setRotationY(localRotation.x);
 
-	tempMatrix.setIdentity();
-	tempMatrix.setRotationX(localRotation.x);
-	constants.world *= tempMatrix;
+	constants.world.setIdentity();
+	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
 	constants.view.setIdentity();
-	constants.proj.setOrthoLH(
-		windowWidth,
-		windowHeight,
+	constants.proj.setOrthographicProjection(
+		windowWidth / 400.f,
+		windowHeight / 400.f,
 		-4.0f,
 		4.0f);
 	constants.time = 0;

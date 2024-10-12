@@ -62,13 +62,13 @@ void Quad::draw(float deltaTime, RECT clientWindow)
 	//cc.world.setTranslation(Vector3D(0, 0, 0));
 	Matrix4x4 temp;
 
-	temp.setTranslation(Vector3D::lerp(pos, pos1, m_delta_pos));
-	cc.world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1.0f, 1.0f, 0), (sin(m_delta_scale) + 1.0f) / 2.0f));
+	temp.setTranslation(Vector3D::linearInterpolate(pos, pos1, m_delta_pos));
+	cc.world.setScale(Vector3D::linearInterpolate(Vector3D(0.5, 0.5, 0), Vector3D(1.0f, 1.0f, 0), (sin(m_delta_scale) + 1.0f) / 2.0f));
 
 	cc.world *= temp;
 
 	cc.view.setIdentity();
-	cc.proj.setOrthoLH(
+	cc.proj.setOrthographicProjection(
 		(clientWindow.right - clientWindow.left) / 400.f,
 		(clientWindow.bottom - clientWindow.top) / 400.f,
 		-4.0f,

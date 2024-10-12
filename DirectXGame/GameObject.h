@@ -27,7 +27,7 @@ public:
 			constantBuffer->release();
 	}
 
-	virtual void update(float deltaTime) = 0;
+	virtual void update(const float deltaTime) = 0;
 	virtual void draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow) = 0;
 
 	void setPosition(const Vector3D& position) { localPosition = position; }
@@ -37,7 +37,7 @@ public:
 protected:
 	std::string name;
 
-	Vector3D localScale = 0.5f;
+	Vector3D localScale = 0.25f;
 	Vector3D localPosition = 0.f;
 	Vector3D localRotation = 0.f;
 

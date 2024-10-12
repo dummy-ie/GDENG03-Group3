@@ -6,7 +6,7 @@
 #define ERROR_LOGS true
 #define SUCCESS_LOGS false
 
-class DebugUtils
+class LogUtils
 {
 public:
 	template <class T>

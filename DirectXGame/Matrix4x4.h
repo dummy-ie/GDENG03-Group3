@@ -6,8 +6,9 @@
 class Matrix4x4
 {
 public:
-	Matrix4x4() {}
-	~Matrix4x4() {}
+	Matrix4x4() = default;
+
+	~Matrix4x4() = default;
 
 	void setIdentity()
 	{
@@ -34,37 +35,40 @@ public:
 		mat[2][2] = translation.z;
 	}
 
-	void setRotationX(float x)
+	void setRotationX(const float x)
 	{
+		setIdentity();
 		mat[1][1] = cos(x);
 		mat[1][2] = sin(x);
 		mat[2][1] = -sin(x);
 		mat[2][2] = cos(x);
 	}
 
-	void setRotationY(float y)
+	void setRotationY(const float y)
 	{
+		setIdentity();
 		mat[0][0] = cos(y);
 		mat[0][2] = -sin(y);
 		mat[2][0] = sin(y);
 		mat[2][2] = cos(y);
 	}
 
-	void setRotationZ(float z)
+	void setRotationZ(const float z)
 	{
+		setIdentity();
 		mat[0][0] = cos(z);
 		mat[0][1] = sin(z);
 		mat[1][0] = -sin(z);
 		mat[1][1] = cos(z);
 	}
 
-	void setOrthoLH(float width, float height, float near_plane, float far_plane)
+	void setOrthographicProjection(const float width, const float height, const float nearPlane, const float farPlane)
 	{
 		setIdentity();
 		mat[0][0] = 2.0f / width;
 		mat[1][1] = 2.0f / height;
-		mat[2][2] = 1.0f / (far_plane - near_plane);
-		mat[3][2] = -(near_plane / (far_plane - near_plane));
+		mat[2][2] = 1.0f / (farPlane - nearPlane);
+		mat[3][2] = -(nearPlane / (farPlane - nearPlane));
 	}
 
 	void setMatrix(const Matrix4x4& matrix)
@@ -85,6 +89,35 @@ public:
 			}
 		}
 		setMatrix(out);
+	}
+
+	Matrix4x4 multiplyTo(const Matrix4x4& matrix) const
+	{
+		Matrix4x4 out;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				out.mat[i][j] =
+					this->mat[i][0] * matrix.mat[0][j] + this->mat[i][1] * matrix.mat[1][j] +
+					this->mat[i][2] * matrix.mat[2][j] + this->mat[i][3] * matrix.mat[3][j];
+			}
+		}
+
+		return out;
+	}
+
+	Matrix4x4 operator*(const Matrix4x4& matrix) const
+	{
+		Matrix4x4 out;
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				out.mat[i][j] =
+					mat[i][0] * matrix.mat[0][j] + mat[i][1] * matrix.mat[1][j] +
+					mat[i][2] * matrix.mat[2][j] + mat[i][3] * matrix.mat[3][j];
+			}
+		}
+		return out;
 	}
 
 public:

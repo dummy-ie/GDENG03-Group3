@@ -1,6 +1,6 @@
 #include "SwapChain.h"
 
-#include "DebugUtils.h"
+#include "LogUtils.h"
 
 SwapChain::SwapChain()
 = default;
@@ -25,13 +25,13 @@ bool SwapChain::init(const HWND windowHandle, const UINT width, const UINT heigh
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	HRESULT hr = DebugUtils::log(this, GraphicsEngine::get()->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
+	HRESULT hr = LogUtils::log(this, GraphicsEngine::get()->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
 
 	if (FAILED(hr))
 		return false;
 
 	ID3D11Texture2D* buffer = nullptr;
-	hr = DebugUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
+	hr = LogUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
 
 	if (FAILED(hr))
 		return false;
@@ -55,7 +55,7 @@ bool SwapChain::release() const
 
 bool SwapChain::present(const bool vsync) const
 {
-	DebugUtils::log(this, swapChain->Present(vsync, NULL));
+	LogUtils::log(this, swapChain->Present(vsync, NULL));
 
 	return true;
 }

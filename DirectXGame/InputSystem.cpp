@@ -1,7 +1,7 @@
 #include "InputSystem.h"
 #include <Windows.h>
 
-#include "DebugUtils.h"
+#include "LogUtils.h"
 
 
 InputSystem::InputSystem()

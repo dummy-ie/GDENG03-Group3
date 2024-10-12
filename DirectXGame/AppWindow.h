@@ -4,10 +4,11 @@
 #include <vector>
 #include <iostream>
 
-#include "DebugUtils.h"
+#include "LogUtils.h"
 
 #include "Window.h"
 #include "EngineTime.h"
+#include "InputSystem.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -51,6 +52,7 @@ private:
 	PixelShader* pixelShader;
 
 	float ticks = 0.0f;
+	bool pressedW = false;
 
 	// Inherited via InputListener
 	void onKeyDown(int key) override;

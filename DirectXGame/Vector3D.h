@@ -7,6 +7,7 @@ class Vector3D
 public:
 	Vector3D() : x(0), y(0), z(0) {}
 	Vector3D(const float n) : x(n), y(n), z(n) {}
+	Vector3D(const float x, const float y) : x(x), y(y), z(0) {}
 	Vector3D(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 	Vector3D(const Vector3D& vector) : x(vector.x), y(vector.y), z(vector.z) {}
 	~Vector3D() = default;
@@ -23,7 +24,7 @@ public:
 		// return this->scaleVector3D((1 / this->magnitude()));
 	}
 
-	static Vector3D lerp(const Vector3D& start, const Vector3D& end, const float delta)
+	static Vector3D linearInterpolate(const Vector3D& start, const Vector3D& end, const float delta)
 	{
 		Vector3D v;
 		v.x = start.x * (1.0f - delta) + end.x * (delta);
@@ -42,10 +43,13 @@ public:
 		return { this->x - subtrahend.x, this->y - subtrahend.y, this->z - subtrahend.z };
 	}
 
-	Vector3D operator*(const Vector3D& v) const
+	Vector3D operator*(const Vector3D& crossMultiplier) const
 		// cross product w/ vector3d
 	{
-		return { (this->y * v.z) - (this->z * v.y), (this->z * v.x) - (this->x * v.z), (this->x * v.y) - (this->y * v.x) };
+		return {
+			(this->y * crossMultiplier.z) - (this->z * crossMultiplier.y),
+			(this->z * crossMultiplier.x) - (this->x * crossMultiplier.z),
+			(this->x * crossMultiplier.y) - (this->y * crossMultiplier.x) };
 	}
 
 	// Vector3D operator*(const Matrix& m) // cross product w/ matrix
@@ -77,10 +81,54 @@ public:
 	}
 
 	Vector3D operator/(const float denominator) const
-	// scalar division
+		// scalar division
 	{
 		return { this->x / denominator, this->y / denominator, this->z / denominator };
 	}
+
+	Vector3D& operator+=(const Vector3D& addend)
+	{
+		this->x += addend.x;
+		this->y += addend.y;
+		this->z += addend.z;
+		return *this;
+	}
+
+	Vector3D& operator-=(const Vector3D& subtrahend)
+	{
+		this->x -= subtrahend.x;
+		this->y -= subtrahend.y;
+		this->z -= subtrahend.z;
+		return *this;
+	}
+
+	//Vector3D& operator*=(const Vector3D& multiplier)
+	//{
+	//	this->x *= multiplier.x;
+	//	this->y *= multiplier.y;
+	//	this->z *= multiplier.z;
+	//	return *this;
+	//}
+
+	//Vector3D& operator/=(const Vector3D& divisor)
+	//{
+	//	this->x /= divisor.x;
+	//	this->y /= divisor.y;
+	//	this->z /= divisor.z;
+	//	return *this;
+	//}
+
+	//friend void swap(Vector3D& first, Vector3D& second) noexcept
+	//{
+	//	// enable ADL (not necessary in our case, but good practice)
+	//	using std::swap;
+
+	//	// by swapping the members of two objects,
+	//	// the two objects are effectively swapped
+	//	swap(first.x, second.x);
+	//	swap(first.y, second.y);
+	//	swap(first.z, second.z);
+	//}
 
 	friend std::ostream& operator<<(std::ostream& os, const Vector3D& vec)
 	{

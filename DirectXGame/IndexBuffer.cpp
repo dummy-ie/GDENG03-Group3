@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-#include "DebugUtils.h"
+#include "LogUtils.h"
 #include "GraphicsEngine.h"
 
 IndexBuffer::IndexBuffer() : indexBuffer(nullptr)
@@ -27,7 +27,7 @@ bool IndexBuffer::load(const void* listIndices, const UINT sizeList)
 
 	indexListSize = sizeList;
 
-	return DebugUtils::log(this, GraphicsEngine::get()->d3dDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
+	return LogUtils::log(this, GraphicsEngine::get()->d3dDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
 }
 
 bool IndexBuffer::release() const
