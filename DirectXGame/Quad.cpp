@@ -18,7 +18,7 @@ void Quad::init(ID3D11Device* device)
 {
 
     // Define quad vertices with two positions and two colors
-    vertex quadVertices[] = {
+    vertex2D quadVertices[] = {
         { -0.6f + position1[0], -0.85f + position1[1], 0.0f +  position1[2],   -0.12f + position1[0], -0.11f + position1[1], 0.0f + position1[2], 0,-1,0,  0,1,0},  // Bottom-left
         { -0.85f + position1[0],  0.45f + position1[1],  0.0f +  position1[2], -0.10f + position1[0], 0.80f + position1[1], 0.0f + position1[2],   1,1,0,  1,1,0},  // Top-left
         {  1.0f + position1[0], -0.25f + position1[1],  0.0f +  position1[2], 0.30f + position1[0], -0.73f + position1[1], 0.0f + position1[2],  0,0,1,  1,0,0},  // Bottom-right
@@ -36,7 +36,7 @@ void Quad::init(ID3D11Device* device)
     // Compile and set vertex shader
     graphEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shader_size);
     m_vs = graphEngine->createVertexShader(shader_byte_code, shader_size);
-    m_vb->load(quadVertices, sizeof(vertex), ARRAYSIZE(quadVertices), shader_byte_code, shader_size);
+    m_vb->load(quadVertices, sizeof(vertex2D), ARRAYSIZE(quadVertices), shader_byte_code, shader_size);
     graphEngine->releaseCompiledShader();
 
     // Compile and set pixel shader
@@ -44,12 +44,6 @@ void Quad::init(ID3D11Device* device)
     m_ps = graphEngine->createPixelShader(shader_byte_code, shader_size);
     graphEngine->releaseCompiledShader();
 
-
-    constant cc;
-    cc.m_angle = 0;
-
-    m_cb = GraphicsEngine::getInstance()->createConstantBuffer();
-    m_cb->load(&cc, sizeof(constant));
 
     /*
     //load the texture
@@ -88,10 +82,7 @@ void Quad::render(float m_delta_time)
     GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
     DeviceContext* deviceContext = graphEngine->getImmediateDeviceContext();
 
-    m_angle += 1.57f * m_delta_time;
-    constant cc;
-    cc.m_angle = m_angle;
-
+    /*
     if (m_cb != nullptr) {
         m_cb->update(GraphicsEngine::getInstance()->getImmediateDeviceContext(), &cc);
 
@@ -99,6 +90,9 @@ void Quad::render(float m_delta_time)
         GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
         GraphicsEngine::getInstance()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
     }
+
+    */
+
      // Bind the sampler state
     //deviceContext->getContext()->PSSetSamplers(0, 1, &m_samplerState);
 

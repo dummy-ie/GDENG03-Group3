@@ -10,25 +10,17 @@
 
 class DeviceContext;
 
-struct vec3
-{
+struct vec3 {
     float x, y, z;
 };
 
-struct vertex
-{
+struct vertex2D {
+
     vec3 position;
-    vec3 position1;
+    vec3 position2;
     vec3 color;
-    vec3 color1;
-};
+    vec3 color2;
 
-
-__declspec(align(16))
-struct constant
-{
-    float m_angle;
-    vec3 new_position;
 };
 
 class Quad

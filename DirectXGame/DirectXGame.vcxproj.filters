@@ -34,14 +34,20 @@
     <Filter Include="GameEngine\Constant Buffer">
       <UniqueIdentifier>{908bb82f-1989-4907-a2ad-d6ae42750f99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Quad">
-      <UniqueIdentifier>{52c44e4b-f8e0-4b93-8508-f14b8b1694a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\Engine Time">
       <UniqueIdentifier>{3eb31828-b0c0-47de-be12-0eae12b682cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Circle">
-      <UniqueIdentifier>{948889c2-0018-42a5-a7b0-b86d85864e61}</UniqueIdentifier>
+    <Filter Include="GameEngine\Matrix and Vector">
+      <UniqueIdentifier>{9ba9d224-8be6-456e-826d-9a4b0d3a5663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Index Buffer">
+      <UniqueIdentifier>{b7d1c8a0-e5b9-4780-a275-5e8c09e5d5ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Primitives">
+      <UniqueIdentifier>{bff3f08a-a371-4640-a26a-a526ef7ed503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Primitives\Cube">
+      <UniqueIdentifier>{05d35de7-fcdf-4143-83b0-05aa29161410}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,14 +81,17 @@
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>GameEngine\Constant Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>GameEngine\Quad</Filter>
-    </ClCompile>
     <ClCompile Include="EngineTime.cpp">
       <Filter>GameEngine\Engine Time</Filter>
     </ClCompile>
-    <ClCompile Include="Circle.cpp">
-      <Filter>Circle</Filter>
+    <ClCompile Include="Cube.cpp">
+      <Filter>GameEngine\Primitives\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\Index Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameEngine\Primitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,14 +122,23 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>GameEngine\Constant Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Quad.h">
-      <Filter>GameEngine\Quad</Filter>
-    </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>GameEngine\Engine Time</Filter>
     </ClInclude>
-    <ClInclude Include="Circle.h">
-      <Filter>Circle</Filter>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>GameEngine\Matrix and Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>GameEngine\Matrix and Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>GameEngine\Primitives\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\Index Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameEngine\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

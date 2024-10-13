@@ -1,12 +1,13 @@
 E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\AppWindow.obj
-E:\GDENG03\PersonalGDENG03\DirectXGame\Circle.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Circle.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\ConstantBuffer.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\ConstantBuffer.obj
+E:\GDENG03\PersonalGDENG03\DirectXGame\Cube.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Cube.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\DeviceContext.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\DeviceContext.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\EngineTime.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\EngineTime.obj
+E:\GDENG03\PersonalGDENG03\DirectXGame\GameObject.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\GameObject.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\GraphicsEngine.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\GraphicsEngine.obj
+E:\GDENG03\PersonalGDENG03\DirectXGame\IndexBuffer.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\IndexBuffer.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\main.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\main.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\PixelShader.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\PixelShader.obj
-E:\GDENG03\PersonalGDENG03\DirectXGame\Quad.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\Quad.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\SwapChain.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\SwapChain.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\VertexBuffer.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\VertexBuffer.obj
 E:\GDENG03\PersonalGDENG03\DirectXGame\VertexShader.cpp;E:\GDENG03\PersonalGDENG03\DirectXGame\DirectXGame\x64\Debug\VertexShader.obj

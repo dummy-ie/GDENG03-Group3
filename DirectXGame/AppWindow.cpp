@@ -58,6 +58,9 @@ void AppWindow::initializeEngine() {
     //m_circle = new Circle(0.5f, 0.5f, 0.0f);
     //m_circle->init(GraphicsEngine::getInstance()->getD3DDevice());
 
+    //Initialize a cube:
+    m_cube = new Cube(L"MyCube");
+
 }
 
 
@@ -74,20 +77,27 @@ void AppWindow::onUpdate() {
     RECT rc = this->getClientWindowRect();
     GraphicsEngine::getInstance()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+    this->m_cube->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+
     //this->m_quad->render(EngineTime::getDeltaTime());
     //this->m_circle->render(EngineTime::getDeltaTime());
+
+    handleUserInput();
+
+    this->swapChain->present(true);
+
+}
+
+void AppWindow::handleUserInput() {
 
     static bool spacePressed = false;
     static bool backspacePressed = false;
     static bool deletePressed = false;
     static bool escapePressed = false;
-
     // Handle SPACE key release
     if ((GetAsyncKeyState(VK_SPACE) & 0x8000) == 0 && spacePressed) {
         // SPACE key released
-        Circle* circle = new Circle(0.85f, 0.85f, 0.0f);
-        circle->init(GraphicsEngine::getInstance()->getD3DDevice());
-        this->m_circle_list.push_back(circle);
+     
         spacePressed = false; // Reset the flag
     }
     else if (GetAsyncKeyState(VK_SPACE) & 0x8000) {
@@ -97,8 +107,7 @@ void AppWindow::onUpdate() {
     // Handle BACKSPACE key release
     if ((GetAsyncKeyState(VK_BACK) & 0x8000) == 0 && backspacePressed) {
         // BACKSPACE key released
-        if (!m_circle_list.empty())
-            m_circle_list.pop_back();
+       
         backspacePressed = false; // Reset the flag
     }
     else if (GetAsyncKeyState(VK_BACK) & 0x8000) {
@@ -108,8 +117,7 @@ void AppWindow::onUpdate() {
     // Handle DELETE key release
     if ((GetAsyncKeyState(VK_DELETE) & 0x8000) == 0 && deletePressed) {
         // DELETE key released
-        if (!m_circle_list.empty())
-            m_circle_list.clear();
+
         deletePressed = false; // Reset the flag
     }
     else if (GetAsyncKeyState(VK_DELETE) & 0x8000) {
@@ -125,16 +133,6 @@ void AppWindow::onUpdate() {
     else if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
         escapePressed = true; // Key is being pressed
     }
-
-    // Render dynamic circles
-    if (!m_circle_list.empty()) {
-        for (Circle* circle : this->m_circle_list) {
-            circle->updateMovement(EngineTime::getDeltaTime(),rc); // Use fixed boundaries inside circle
-            circle->render(EngineTime::getDeltaTime());
-        }
-    }
-
-    this->swapChain->present(true);
 }
 
 void AppWindow::onDestroy() {
@@ -142,17 +140,16 @@ void AppWindow::onDestroy() {
     bRunning = false; // If this flag controls the rendering loop
 
     // Release resources in reverse order of creation
-    if (!m_circle_list.empty()) this->m_circle_list.clear();
-    //if (m_quad2) m_quad2->release();
-    if (m_quad3) m_quad3->release();
+    //if (!m_circle_list.empty()) this->m_circle_list.clear();
+    
+    if (m_cube) m_cube->release();
 
     // Release the swap chain and any other graphics resources
     GraphicsEngine::getInstance()->destroy(); // Ensure this cleans up the DeviceContext, SwapChain, etc.
 
     // Optionally set pointers to null after release
+    m_cube = nullptr;
 
-    m_quad2 = nullptr;
-    m_quad3 = nullptr;
 }
 
 

@@ -1,8 +1,7 @@
 #pragma once
 #include "Window.h"
-#include "Quad.h"
+#include "Cube.h"
 #include "list"
-#include "Circle.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -37,13 +36,11 @@ public:
 	bool isRunning();
 
 private:
+	void handleUserInput();
+
+private:
 	SwapChain* swapChain;
-
-	std::vector<Circle*> m_circle_list;
-	Quad* m_quad2;
-	Quad* m_quad3;	
-
-	Circle* m_circle;
+	Cube* m_cube;
 
 	bool bRunning = false;
 
