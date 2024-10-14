@@ -2,31 +2,45 @@
 
 //Window* window = nullptr;
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
-	switch (msg)
+	switch (message)
 	{
 	case WM_CREATE:
 	{
 		// Event fired when window is created
 		// collected here...
-		Window* window = static_cast<Window*>(reinterpret_cast<LPCREATESTRUCT>(lparam)->lpCreateParams);
+		Window* window = static_cast<Window*>(reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams);
 		// ...and then stored for later lookup
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
-		window->setHwnd(hwnd);
+		SetWindowLongPtr(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
+		window->setWindowHandle(windowHandle);
 		window->onCreate();
+		break;
+	}
+	case WM_SETFOCUS:
+	{
+		// Event fired when the window get focus
+		Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+		window->onFocus();
+		break;
+	}
+	case WM_KILLFOCUS:
+	{
+		// Event fired when the window lost focus
+		Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+		window->onKillFocus();
 		break;
 	}
 	case WM_DESTROY:
 	{
 		// Event fired when window is destroyed
-		Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 		window->onDestroy();
 		::PostQuitMessage(0);
 		break;
 	}
 	default:
-		return ::DefWindowProc(hwnd, msg, wparam, lparam);
+		return ::DefWindowProc(windowHandle, message, wParam, lParam);
 	}
 
 	return NULL;
@@ -46,12 +60,12 @@ bool Window::init()
 	wc.lpszClassName = "MyWindowClass";
 	wc.lpszMenuName = "";
 	wc.style = NULL;
-	wc.lpfnWndProc = &WndProc;
+	wc.lpfnWndProc = &windowProc;
 
 	if (!::RegisterClassEx(&wc))
 		return false;
 
-	m_Hwnd = ::CreateWindowEx(
+	windowHandle = ::CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
 		"MyWindowClass",
 		"[LEOCARIO] DirectX Application",
@@ -65,15 +79,15 @@ bool Window::init()
 		nullptr,
 		this);
 
-	if (!m_Hwnd)
+	if (!windowHandle)
 		return false;
 
-	::ShowWindow(m_Hwnd, SW_SHOW);
-	::UpdateWindow(m_Hwnd);
+	::ShowWindow(windowHandle, SW_SHOW);
+	::UpdateWindow(windowHandle);
 
 	EngineTime::initialize();
 
-	m_IsRunning = true;
+	windowIsRunning = true;
 
 	return true;
 }
@@ -85,7 +99,7 @@ bool Window::broadcast()
 	EngineTime::logFrameStart();
 	this->onUpdate();
 
-	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
+	while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -97,29 +111,29 @@ bool Window::broadcast()
 	return true;
 }
 
-bool Window::release()
+bool Window::release() const
 {
-	if (!::DestroyWindow(m_Hwnd))
+	if (!::DestroyWindow(windowHandle))
 		return false;
 
 	return true;
 }
 
-bool Window::isRunning()
+bool Window::isRunning() const
 {
-	return m_IsRunning;
+	return windowIsRunning;
 }
 
-RECT Window::getClientWindowRect()
+RECT Window::getClientWindowRect() const
 {
 	RECT rc;
-	::GetClientRect(this->m_Hwnd, &rc);
+	::GetClientRect(this->windowHandle, &rc);
 	return rc;
 }
 
-void Window::setHwnd(HWND hwnd)
+void Window::setWindowHandle(HWND windowHandle)
 {
-	this->m_Hwnd = hwnd;
+	this->windowHandle = windowHandle;
 }
 
 void Window::onCreate()
@@ -134,5 +148,13 @@ void Window::onUpdate()
 
 void Window::onDestroy()
 {
-	m_IsRunning = false;
+	windowIsRunning = false;
+}
+
+void Window::onFocus()
+{
+}
+
+void Window::onKillFocus()
+{
 }

@@ -1,4 +1,8 @@
 ﻿#pragma once
+#define _USE_MATH_DEFINES // Before including <cmath>
+#include <cmath>
+#include <vector>
+
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "GraphicsEngine.h"
@@ -8,31 +12,21 @@
 #include "Constant.h"
 #include "GameObject.h"
 
-class Quad
+class Quad : public GameObject
 {
 public:
+	Quad(const std::string& name, void* shaderByteCode, size_t sizeShader);
+	~Quad() override;
 
-	explicit Quad(
-		Vec2 size = { 0.1f, 0.1f },
-		Vector3D pos = { 0.0f, 0.0f, 0.0f },
-		Vector3D pos1 = { 0.0f, 0.0f, 0.0f },
-		Vector3D color = Vector3D( 1.0f, 1.0f, 1.0f ));
+	// release everything in destructor instead
+	//void release() const override;
 
-	void release() const;
-	void draw(float deltaTime, RECT clientWindow);
+	void update(float deltaTime) override;
+	void draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow) override;
 
-private:
-	float m_delta_pos = 0;
-	float m_delta_scale = 0;
-	Vec2 size;
-	Vector3D pos;
-	Vector3D pos1;
-	Vector3D color;
-	float angle = 0;
-	VertexBuffer* vb;
-	IndexBuffer* ib;
-	ConstantBuffer* cb;
-	VertexShader* vs;
-	GeometryShader* gs;
-	PixelShader* ps;
+	Vector3D originalPosition = 0.f;
+	Vector3D moveDirection = 0.f;
+	float movementSpeed = 1.f;
+	float acceleration = 0.2f;
+	float delta = 0.f;
 };

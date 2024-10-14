@@ -37,7 +37,7 @@ public:
 protected:
 	std::string name;
 
-	Vector3D localScale = 0.25f;
+	Vector3D localScale = 1.f;
 	Vector3D localPosition = 0.f;
 	Vector3D localRotation = 0.f;
 

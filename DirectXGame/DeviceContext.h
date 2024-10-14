@@ -15,22 +15,20 @@ public:
 	DeviceContext(ID3D11DeviceContext* deviceContext);
 	~DeviceContext();
 
-	void clearRenderTargetColor(SwapChain* swapChain, float r, float g, float b, float a);
-	void setVertexBuffer(VertexBuffer* vertexBuffer);
-	void setIndexBuffer(IndexBuffer* indexBuffer);
-	void drawTriangleList(UINT vertexCount, UINT startVertexIndex);
-	void drawIndexedTriangleList(UINT indexCount, UINT startVertexIndex, UINT startIndexLocation);
-	void drawTriangleStrip(UINT vertexCount, UINT startVertexIndex);
-	void drawLineStrip(UINT vertexCount, UINT startVertexIndex);
+	void clearRenderTargetColor(const SwapChain* swapChain, float red, float green, float blue, float alpha) const;
+	void setVertexBuffer(const VertexBuffer* vertexBuffer) const;
+	void setIndexBuffer(const IndexBuffer* indexBuffer) const;
+	void drawTriangleList(UINT vertexCount, UINT startVertexIndex) const;
+	void drawIndexedTriangleList(UINT indexCount, UINT startVertexIndex, UINT startIndexLocation) const;
+	void drawTriangleStrip(UINT vertexCount, UINT startVertexIndex) const;
+	void drawLineStrip(UINT vertexCount, UINT startVertexIndex) const;
 
-	void setViewportSize(UINT width, UINT height);
-	void setVertexShader(VertexShader* vertexShader);
-	void setGeometryShader(GeometryShader* geometryShader);
-	void setPixelShader(PixelShader* pixelShader);
+	void setViewportSize(UINT width, UINT height) const;
+	void setVertexShader(const VertexShader* vertexShader) const;
+	void setGeometryShader(const GeometryShader* geometryShader) const;
+	void setPixelShader(const PixelShader* pixelShader) const;
 
-	void setConstantBuffer(VertexShader* vertexShader, ConstantBuffer* constantBuffer);
-	void setConstantBuffer(GeometryShader* geometryShader, ConstantBuffer* constantBuffer);
-	void setConstantBuffer(PixelShader* pixelShader, ConstantBuffer* constantBuffer);
+	void setConstantBuffer(const ConstantBuffer* constantBuffer) const;
 
 	bool release();
 

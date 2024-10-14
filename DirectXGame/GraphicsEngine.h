@@ -17,7 +17,7 @@ public:
 	static void initialize();
 	static void destroy();
 
-	static SwapChain* createSwapChain();
+	SwapChain* createSwapChain() const;
 	DeviceContext* getImmediateDeviceContext() const;
 	static VertexBuffer* createVertexBuffer();
 	static IndexBuffer* createIndexBuffer();
@@ -43,7 +43,7 @@ private:
 
 	DeviceContext* immDeviceContext = nullptr;
 
-	ID3D11Device* d3dDevice = nullptr;
+	ID3D11Device* directXDevice = nullptr;
 	D3D_FEATURE_LEVEL featureLevel;
 	ID3D11DeviceContext* immContext = nullptr;
 

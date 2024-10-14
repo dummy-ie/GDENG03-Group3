@@ -21,6 +21,7 @@
 #include "InputListener.h"
 #include "Quad.h"
 #include "Circle.h"
+#include "Plane.h"
 #include "MathUtil.h"
 
 class AppWindow final : public Window, public InputListener
@@ -32,6 +33,8 @@ public:
 
 	void onCreate() override;
 	void onUpdate() override;
+	void onFocus() override;
+	void onKillFocus() override;
 	void onDestroy() override;
 
 private:
@@ -49,13 +52,18 @@ private:
 
 	VertexShader* vertexShader;
 	GeometryShader* geometryShader;
+	GeometryShader* geometryShader1;
 	PixelShader* pixelShader;
 
 	float ticks = 0.0f;
-	bool pressedW = false;
 
-	// Inherited via InputListener
 	void onKeyDown(int key) override;
 	void onKeyUp(int key) override;
+	void onMouseMove(const Vector2D& deltaMousePosition) override;
+
+	void onLeftMouseDown(const Vector2D& mousePosition) override;
+	void onLeftMouseUp(const Vector2D& mousePosition) override;
+	void onRightMouseDown(const Vector2D& mousePosition) override;
+	void onRightMouseUp(const Vector2D& mousePosition) override;
 };
 

@@ -7,15 +7,17 @@ class DeviceContext;
 class SwapChain
 {
 public:
-	SwapChain();
+	SwapChain(ID3D11Device* directXDevice);
 	~SwapChain();
-	bool init(HWND windowHandle, UINT width, UINT height);
+	void initialize(HWND windowHandle, UINT width, UINT height);
 	bool release() const;
 	bool present(bool vsync) const;
 
 private:
-	IDXGISwapChain* swapChain;
-	ID3D11RenderTargetView* renderTargetView;
+	ID3D11Device* directXDevice = nullptr;
+	IDXGISwapChain* swapChain = nullptr;
+	ID3D11RenderTargetView* renderTargetView = nullptr;
+	ID3D11DepthStencilView* depthStencilView = nullptr;
 
 	friend class DeviceContext;
 };

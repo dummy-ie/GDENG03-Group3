@@ -3,9 +3,15 @@
 #include "ConstantBuffer.h"
 #include "PixelShader.h"
 #include "VertexShader.h"
+#include "ConstantBuffer.h"
+#include "LogUtils.h"
+#include "MathUtil.h"
+#include "PixelShader.h"
+#include "VertexShader.h"
 
-Quad::Quad(const Vec2 size, const Vector3D pos, const Vector3D pos1, const Vector3D color) : size(size), pos(pos), pos1(pos1), color(color)
+Quad::Quad(const std::string& name, void* shaderByteCode, const size_t sizeShader) : GameObject(name)
 {
+	constexpr int numVertices = 64;
 	Vertex list[] =
 	{
 		//X - Y - Z
@@ -15,76 +21,86 @@ Quad::Quad(const Vec2 size, const Vector3D pos, const Vector3D pos1, const Vecto
 		{ Vector3D(0.5f,0.5f,0.0f),        Vector3D(1,1,1), Vector3D(0,0,1) }
 	};
 
-	void* shader_byte_code = nullptr;
-	size_t byte_code_size = 0;
+	vertexBuffer = GraphicsEngine::createVertexBuffer();
+	constexpr UINT indexListSize = ARRAYSIZE(list);
 
-	vb = GraphicsEngine::get()->createVertexBuffer();
-	constexpr UINT size_list = ARRAYSIZE(list);
+	vertexBuffer->load(list, sizeof(Vertex), indexListSize, shaderByteCode, static_cast<UINT>(sizeShader));
 
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "main", &shader_byte_code, &byte_code_size);
-	vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, byte_code_size);
-	vb->load(list, sizeof(Vertex), size_list, shader_byte_code, static_cast<UINT>(byte_code_size));
-	GraphicsEngine::get()->releaseCompiledShader();
+	Constant constants;
+	constants.time = 0;
 
-	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shader_byte_code, &byte_code_size);
-	gs = GraphicsEngine::get()->createGeometryShader(shader_byte_code, byte_code_size);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "main", &shader_byte_code, &byte_code_size);
-	ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, byte_code_size);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	Constant cc;
-	cc.time = 0;
-
-	cb = GraphicsEngine::get()->createConstantBuffer();
-	cb->load(&cc, sizeof(Constant));
+	constantBuffer = GraphicsEngine::createConstantBuffer();
+	constantBuffer->load(&constants, sizeof(Constant));
 }
 
-void Quad::release() const
+Quad::~Quad()
 {
-	vb->release();
-	vs->release();
-	ps->release();
+	GameObject::~GameObject();
 }
 
-void Quad::draw(float deltaTime, RECT clientWindow)
+void Quad::update(const float deltaTime)
 {
-	this->angle += 1.57f * deltaTime;
 
-	m_delta_pos += deltaTime / 10.0f;
-	if (m_delta_pos > 1.0f)
-		m_delta_pos = 0;
+	movementSpeed += acceleration;
+	localPosition += moveDirection * movementSpeed * deltaTime;
+	if (localPosition.y <= -5.f)
+	{
+		localPosition = originalPosition;
+		moveDirection.x = randomRangeFloat(-1.f, 1.f);
+		movementSpeed = 1.f;
+	}
 
-	m_delta_scale += deltaTime / 0.15f;
+	delta += deltaTime;
+	//LogUtils::log(this, "localPosition = " + localPosition.toString());
+}
 
-	Constant cc;
-	//cc.world.setTranslation(Vector3D(0, 0, 0));
-	Matrix4x4 temp;
+void Quad::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
+{
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	Constant constants;
+	Matrix4x4
+		translateMatrix,
+		scaleMatrix,
+		xMatrix,
+		yMatrix,
+		zMatrix;
 
-	temp.setTranslation(Vector3D::linearInterpolate(pos, pos1, m_delta_pos));
-	cc.world.setScale(Vector3D::linearInterpolate(Vector3D(0.5, 0.5, 0), Vector3D(1.0f, 1.0f, 0), (sin(m_delta_scale) + 1.0f) / 2.0f));
+	const float windowWidth = static_cast<float>(clientWindow.right - clientWindow.left);
+	const float windowHeight = static_cast<float>(clientWindow.bottom - clientWindow.top);
 
-	cc.world *= temp;
+	translateMatrix.setTranslation(localPosition);
+	scaleMatrix.setScale(localScale);
 
-	cc.view.setIdentity();
-	cc.proj.setOrthographicProjection(
-		(clientWindow.right - clientWindow.left) / 400.f,
-		(clientWindow.bottom - clientWindow.top) / 400.f,
-		-4.0f,
-		4.0f);
-	cc.time = angle;
+	zMatrix.setRotationZ(localRotation.z);
+	xMatrix.setRotationX(localRotation.y);
+	yMatrix.setRotationY(localRotation.x);
 
-	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+	constants.world.setIdentity();
+	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vs, cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(gs, cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(ps, cb);
+	constants.view.setIdentity();
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(gs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(ps);
+	// constants.proj.setOrthographicProjection(
+	// 	windowWidth / 400.f,
+	// 	windowHeight / 400.f,
+	// 	-4.0f,
+	// 	4.0f);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vb->getSizeVertexList(), 0);
+	const float aspectRatio = (windowWidth * 2.f) / (windowHeight * 2.f);
+	constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.01f, 10000.0f);
+
+	constants.time = (sin(delta + 1.0f) / 2.0f);
+
+	constantBuffer->update(deviceContext, &constants);
+
+	deviceContext->setConstantBuffer(constantBuffer);
+
+	deviceContext->setVertexBuffer(vertexBuffer);
+	//deviceContext->setIndexBuffer(indexBuffer);
+
+	deviceContext->setVertexShader(vertexShader);
+	deviceContext->setGeometryShader(geometryShader);
+	deviceContext->setPixelShader(pixelShader);
+
+	deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
 }

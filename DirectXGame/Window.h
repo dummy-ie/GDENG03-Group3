@@ -10,19 +10,20 @@ public:
 
 	bool init();
 	bool broadcast();
-	bool release();
-	bool isRunning();
+	bool release() const;
+	bool isRunning() const;
 
-	RECT getClientWindowRect();
-	void setHwnd(HWND hwnd);
+	RECT getClientWindowRect() const;
+	void setWindowHandle(HWND windowHandle);
 
 	virtual void onCreate();
 	virtual void onUpdate();
 	virtual void onDestroy();
+	virtual void onFocus();
+	virtual void onKillFocus();
 
 protected:
-	// ReSharper disable once IdentifierTypo
-	HWND m_Hwnd;
-	bool m_IsRunning;
+	HWND windowHandle;
+	bool windowIsRunning;
 };
 

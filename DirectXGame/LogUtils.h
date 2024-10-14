@@ -39,7 +39,7 @@ public:
 		if (!ERROR_LOGS)
 			return;
 
-		std::cout << getType(sender) << "[ERROR]: " << msg << '\n';
+		std::cout << "[" << getType(sender) << " ERROR]: " << msg << '\n';
 	}
 
 private:

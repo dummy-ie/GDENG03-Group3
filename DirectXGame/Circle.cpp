@@ -66,9 +66,7 @@ void Circle::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pi
 
 	constantBuffer->update(deviceContext, &constants);
 
-	deviceContext->setConstantBuffer(vertexShader, constantBuffer);
-	deviceContext->setConstantBuffer(geometryShader, constantBuffer);
-	deviceContext->setConstantBuffer(pixelShader, constantBuffer);
+	deviceContext->setConstantBuffer(constantBuffer);
 
 	deviceContext->setVertexBuffer(vertexBuffer);
 	deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);

@@ -17,14 +17,15 @@ DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext) : deviceContext
 DeviceContext::~DeviceContext()
 = default;
 
-void DeviceContext::clearRenderTargetColor(SwapChain* swapChain, float r, float g, float b, float a)
+void DeviceContext::clearRenderTargetColor(const SwapChain* swapChain, const float red, const float green, const float blue, const float alpha) const
 {
-	const FLOAT clearColor[] = { r, g, b, a };
+	const FLOAT clearColor[] = { red, green, blue, alpha };
 	deviceContext->ClearRenderTargetView(swapChain->renderTargetView, clearColor);
-	deviceContext->OMSetRenderTargets(1, &swapChain->renderTargetView, nullptr);
+	deviceContext->ClearDepthStencilView(swapChain->depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	deviceContext->OMSetRenderTargets(1, &swapChain->renderTargetView, swapChain->depthStencilView);
 }
 
-void DeviceContext::setVertexBuffer(VertexBuffer* vertexBuffer)
+void DeviceContext::setVertexBuffer(const VertexBuffer* vertexBuffer) const
 {
 	UINT stride = vertexBuffer->m_size_vertex;
 	UINT offset = 0;
@@ -33,39 +34,39 @@ void DeviceContext::setVertexBuffer(VertexBuffer* vertexBuffer)
 	deviceContext->IASetInputLayout(vertexBuffer->m_layout);
 }
 
-void DeviceContext::setIndexBuffer(IndexBuffer* indexBuffer)
+void DeviceContext::setIndexBuffer(const IndexBuffer* indexBuffer) const
 {
 	deviceContext->IASetIndexBuffer(indexBuffer->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void DeviceContext::drawTriangleList(UINT vertexCount, UINT startVertexIndex)
+void DeviceContext::drawTriangleList(const UINT vertexCount, const UINT startVertexIndex) const
 {
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	deviceContext->Draw(vertexCount, startVertexIndex);
 }
 
-void DeviceContext::drawIndexedTriangleList(UINT indexCount, UINT startVertexIndex, UINT startIndexLocation)
+void DeviceContext::drawIndexedTriangleList(const UINT indexCount, const UINT startVertexIndex, const UINT startIndexLocation) const
 {
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	deviceContext->DrawIndexed(indexCount, startIndexLocation, startVertexIndex);
 }
 
-void DeviceContext::drawTriangleStrip(UINT vertexCount, UINT startVertexIndex)
+void DeviceContext::drawTriangleStrip(const UINT vertexCount, const UINT startVertexIndex) const
 {
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	deviceContext->Draw(vertexCount, startVertexIndex);
 }
 
-void DeviceContext::drawLineStrip(UINT vertexCount, UINT startVertexIndex)
+void DeviceContext::drawLineStrip(const UINT vertexCount, const UINT startVertexIndex) const
 {
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	deviceContext->Draw(vertexCount, startVertexIndex);
 }
 
-void DeviceContext::setViewportSize(UINT width, UINT height)
+void DeviceContext::setViewportSize(const UINT width, const UINT height) const
 {
 	D3D11_VIEWPORT vp = {};
 	vp.Width = width;
@@ -77,35 +78,27 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	deviceContext->RSSetViewports(1, &vp);
 }
 
-void DeviceContext::setVertexShader(VertexShader* vertexShader)
+void DeviceContext::setVertexShader(const VertexShader* vertexShader) const
 {
 	deviceContext->VSSetShader(vertexShader->vs, nullptr, 0);
 }
 
-void DeviceContext::setGeometryShader(GeometryShader* geometryShader)
+void DeviceContext::setGeometryShader(const GeometryShader* geometryShader) const
 {
 	deviceContext->GSSetShader(geometryShader->gs, nullptr, 0);
 }
 
-void DeviceContext::setPixelShader(PixelShader* pixelShader)
+void DeviceContext::setPixelShader(const PixelShader* pixelShader) const
 {
 	deviceContext->PSSetShader(pixelShader->ps, nullptr, 0);
 }
 
-void DeviceContext::setConstantBuffer(VertexShader* vertexShader, ConstantBuffer* constantBuffer)
+void DeviceContext::setConstantBuffer(const ConstantBuffer* constantBuffer) const
 {
 	deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
-}
-
-void DeviceContext::setConstantBuffer(GeometryShader* geometryShader, ConstantBuffer* constantBuffer)
-{
 	deviceContext->GSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
-}
-
-
-void DeviceContext::setConstantBuffer(PixelShader* pixelShader, ConstantBuffer* constantBuffer)
-{
 	deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
+
 }
 
 bool DeviceContext::release()

@@ -1,6 +1,5 @@
 #include "AppWindow.h"
 
-
 AppWindow* AppWindow::sharedInstance = nullptr;
 
 AppWindow* AppWindow::get()
@@ -43,7 +42,6 @@ void AppWindow::onKeyUp(const int key)
 	{
 	case 'W':
 	{
-		pressedW = true;
 		LogUtils::log(this, "Pressed W!");
 		break;
 	}
@@ -75,16 +73,37 @@ void AppWindow::onKeyUp(const int key)
 	}
 }
 
+void AppWindow::onMouseMove(const Vector2D& deltaMousePosition)
+{
+
+}
+
+void AppWindow::onLeftMouseDown(const Vector2D& mousePosition)
+{
+}
+
+void AppWindow::onLeftMouseUp(const Vector2D& mousePosition)
+{
+}
+
+void AppWindow::onRightMouseDown(const Vector2D& mousePosition)
+{
+}
+
+void AppWindow::onRightMouseUp(const Vector2D& mousePosition)
+{
+}
+
 void AppWindow::onCreate()
 {
 	Window::onCreate();
 
 	//GraphicsEngine::get()->init();
 	GraphicsEngine::initialize();
-	swapChain = GraphicsEngine::createSwapChain();
+	swapChain = GraphicsEngine::get()->createSwapChain();
 
 	const RECT rc = this->getClientWindowRect();
-	swapChain->init(this->m_Hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	swapChain->initialize(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
 
 	InputSystem::get()->addListener(this);
 
@@ -99,21 +118,48 @@ void AppWindow::onCreate()
 	// Circle* circle = new Circle("circle1", shaderByteCode, byteCodeSize, 0.5f);
 	// gameObjectsVector.push_back(circle);
 
-	for (int i = 0; i < 100; ++i)
-	{
-		Cube* cube = new Cube("cube" + std::to_string(i), shaderByteCode, byteCodeSize);
-		cube->setPosition(randomRangeVector3D(-0.8f, 0.8f));
-		cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-		cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	Plane* plane = new Plane("plane", shaderByteCode, byteCodeSize);
+	plane->setRotation({ 0.f, 45.f });
+	plane->setScale(2.f);
+	plane->setPosition({ 0.0f, 0.0f, 2.0f });
+	plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	gameObjectsVector.push_back(plane);
 
-		gameObjectsVector.push_back(cube);
-	}
+	Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
+	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	cube->setPosition({ 0.f, 0.f, 2.f });
+
+	gameObjectsVector.push_back(cube);
+
+	Quad* quad = new Quad("quad", shaderByteCode, byteCodeSize);
+	quad->setPosition({ 0.f, 0.f, 1.f });
+	quad->originalPosition = {0.f, 0.f, 1.f};
+	quad->moveDirection = {0.f, -1.f, 0.f};
+	quad->setScale(0.1f);
+	gameObjectsVector.push_back(quad);
+
+	// for (int i = 0; i < 100; ++i)
+	// {
+	// 	Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
+	// 	cube->setPosition({ randomRangeFloat(-5.0f, 5.0f) , randomRangeFloat(-5.0f, 5.0f) , randomRangeFloat(1.0f, 10.0f) });
+	// 	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	// 	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	// 	//cube->setScale({0.1f, 0.01f, 0.1f});
+	// 	gameObjectsVector.push_back(cube);
+	// }
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	LogUtils::log(this, "Geometry shader compilation");
 	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
 	geometryShader = GraphicsEngine::createGeometryShader(shaderByteCode, byteCodeSize);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	LogUtils::log(this, "Geometry shader 1 compilation");
+	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader1.hlsl", "main", &shaderByteCode, &byteCodeSize);
+	geometryShader1 = GraphicsEngine::createGeometryShader(shaderByteCode, byteCodeSize);
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	LogUtils::log(this, "Pixel shader compilation");
@@ -148,19 +194,27 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
 	//LogUtils::log(this, "update and draw circles");
 	for (GameObject* gameObject : gameObjectsVector)
 	{
-		if (pressedW)
-			gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
-
-		gameObject->draw(vertexShader, geometryShader, pixelShader, getClientWindowRect());
+		gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
+		gameObject->draw(vertexShader, geometryShader1, pixelShader, getClientWindowRect());
 	}
 
 	swapChain->present(true);
+}
+
+void AppWindow::onFocus()
+{
+	Window::onFocus();
+}
+
+void AppWindow::onKillFocus()
+{
+	Window::onKillFocus();
 }
 
 void AppWindow::onDestroy()

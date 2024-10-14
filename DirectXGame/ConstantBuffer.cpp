@@ -19,7 +19,7 @@ bool ConstantBuffer::load(const void* buffer, const UINT sizeBuffer)
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = buffer;
 
-	if (FAILED(GraphicsEngine::get()->d3dDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer)))
+	if (FAILED(GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer)))
 		return false;
 
 	return true;

@@ -120,6 +120,9 @@
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GameObjects\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>GameEngine\GameObjects\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -200,6 +203,12 @@
     <ClInclude Include="LogUtils.h">
       <Filter>GameEngine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>GameEngine\GameObjects\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>GameEngine\Utilities\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">
@@ -212,6 +221,9 @@
       <Filter>App\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="shader.fx">
+      <Filter>App\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="GeometryShader1.hlsl">
       <Filter>App\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

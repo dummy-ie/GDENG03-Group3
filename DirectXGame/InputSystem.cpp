@@ -1,8 +1,4 @@
 #include "InputSystem.h"
-#include <Windows.h>
-
-#include "LogUtils.h"
-
 
 InputSystem::InputSystem()
 = default;
@@ -13,6 +9,28 @@ InputSystem::~InputSystem()
 
 void InputSystem::update()
 {
+	POINT currentMousePoint;
+	::GetCursorPos(&currentMousePoint);
+	Vector2D currentMousePosition = currentMousePoint;
+
+	if (firstMouseMove)
+	{
+		oldMousePosition = currentMousePosition;
+		firstMouseMove = false;
+	}
+
+	if (currentMousePosition != oldMousePosition)
+	{
+		std::unordered_set<InputListener*>::iterator it = setListeners.begin();
+
+		while (it != setListeners.end())
+		{
+			(*it)->onMouseMove(currentMousePosition - oldMousePosition);
+			++it;
+		}
+	}
+	oldMousePosition = currentMousePosition;
+
 	if (::GetKeyboardState(keysState))
 	{
 		for (unsigned int i = 0; i < 256; i++)
@@ -24,7 +42,19 @@ void InputSystem::update()
 
 				while (it != setListeners.end())
 				{
-					(*it)->onKeyDown(i);
+					if (i == VK_LBUTTON)
+					{
+						if (keysState[i] != oldKeysState[i])
+							(*it)->onLeftMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
+					}
+					else if (i == VK_RBUTTON)
+					{
+						if (keysState[i] != oldKeysState[i])
+							(*it)->onRightMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
+					}
+					else
+						(*it)->onKeyDown(i);
+
 					++it;
 				}
 			}
@@ -36,7 +66,13 @@ void InputSystem::update()
 
 					while (it != setListeners.end())
 					{
-						(*it)->onKeyUp(i);
+						if (i == VK_LBUTTON)
+							(*it)->onLeftMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						else if (i == VK_RBUTTON)
+							(*it)->onRightMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						else
+							(*it)->onKeyUp(i);
+
 						++it;
 					}
 				}

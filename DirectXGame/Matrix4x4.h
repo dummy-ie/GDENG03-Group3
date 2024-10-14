@@ -71,6 +71,19 @@ public:
 		mat[3][2] = -(nearPlane / (farPlane - nearPlane));
 	}
 
+	void setPerspectiveProjection(const float fov, const float aspect, const float zNear, const float zFar)
+	{
+		setIdentity();
+		const float yScale = 1.0f / tan(fov / 2.0f);
+		const float xScale = yScale / aspect;
+		mat[0][0] = xScale;
+		mat[1][1] = yScale;
+		mat[2][2] = zFar / (zFar - zNear);
+		mat[2][3] = 1.0f;
+		mat[3][2] = (-zNear * zFar) / (zFar - zNear);
+	}
+
+
 	void setMatrix(const Matrix4x4& matrix)
 	{
 		::memcpy(mat, matrix.mat, sizeof(float) * 16);

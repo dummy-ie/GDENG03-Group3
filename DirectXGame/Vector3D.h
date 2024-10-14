@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <ostream>
+#include <string>
 
 class Vector3D
 {
@@ -11,6 +12,11 @@ public:
 	Vector3D(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 	Vector3D(const Vector3D& vector) : x(vector.x), y(vector.y), z(vector.z) {}
 	~Vector3D() = default;
+
+	std::string toString() const
+	{
+		return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+	}
 
 	float magnitude() const
 	{

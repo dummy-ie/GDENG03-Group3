@@ -2,15 +2,17 @@
 
 #include "LogUtils.h"
 
-SwapChain::SwapChain()
-= default;
+SwapChain::SwapChain(ID3D11Device* directXDevice) : directXDevice(directXDevice)
+{
+	
+}
 
 SwapChain::~SwapChain()
 = default;
 
-bool SwapChain::init(const HWND windowHandle, const UINT width, const UINT height)
+void SwapChain::initialize(const HWND windowHandle, const UINT width, const UINT height)
 {
-	ID3D11Device* device = GraphicsEngine::get()->d3dDevice;
+	ID3D11Device* device = GraphicsEngine::get()->directXDevice;
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	desc.BufferCount = 1;
@@ -25,24 +27,31 @@ bool SwapChain::init(const HWND windowHandle, const UINT width, const UINT heigh
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	HRESULT hr = LogUtils::log(this, GraphicsEngine::get()->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
-
-	if (FAILED(hr))
-		return false;
+	LogUtils::log(this, GraphicsEngine::get()->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
 
 	ID3D11Texture2D* buffer = nullptr;
-	hr = LogUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
+	LogUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
 
-	if (FAILED(hr))
-		return false;
-
-	hr = device->CreateRenderTargetView(buffer, nullptr, &renderTargetView);
+	LogUtils::log(this, device->CreateRenderTargetView(buffer, nullptr, &renderTargetView));
 	buffer->Release();
 
-	if (FAILED(hr))
-		return false;
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = width;
+	texDesc.Height = height;
+	texDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	texDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	texDesc.MipLevels = 1;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.MiscFlags = 0;
+	texDesc.ArraySize = 1;
+	texDesc.CPUAccessFlags = 0;
 
-	return true;
+	LogUtils::log(this, directXDevice->CreateTexture2D(&texDesc, nullptr, &buffer));
+
+	LogUtils::log(this, directXDevice->CreateDepthStencilView(buffer, nullptr, &depthStencilView));
+	buffer->Release();
 }
 
 bool SwapChain::release() const

@@ -31,33 +31,31 @@ bool GraphicsEngine::init()
 		D3D_DRIVER_TYPE_WARP,
 		D3D_DRIVER_TYPE_REFERENCE
 	};
-	UINT num_driver_types = ARRAYSIZE(driverTypes);
+	constexpr UINT numDriverTypes = ARRAYSIZE(driverTypes);
 
-	D3D_FEATURE_LEVEL feature_levels[] =
+	D3D_FEATURE_LEVEL featureLevels[] =
 	{
 		D3D_FEATURE_LEVEL_11_0
 	};
-	UINT num_feature_levels = ARRAYSIZE(feature_levels);
+	constexpr UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
 	HRESULT res = 0;
-	for (UINT driver_type_index = 0; driver_type_index < num_driver_types;)
+	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; ++driverTypeIndex)
 	{
 		res = D3D11CreateDevice(
 			nullptr,
-			driverTypes[driver_type_index],
+			driverTypes[driverTypeIndex],
 			nullptr,
 			NULL,
-			feature_levels,
-			num_feature_levels,
+			featureLevels,
+			numFeatureLevels,
 			D3D11_SDK_VERSION,
-			&d3dDevice,
+			&directXDevice,
 			&featureLevel,
 			&immContext);
 
 		if (SUCCEEDED(res))
 			break;
-
-		++driver_type_index;
 	}
 
 	if (FAILED(res))
@@ -65,9 +63,9 @@ bool GraphicsEngine::init()
 
 	immDeviceContext = new DeviceContext(immContext);
 
-	d3dDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice));
-	dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&dxgiAdapter));
-	dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&dxgiFactory));
+	LogUtils::log(this, directXDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice)));
+	LogUtils::log(this, dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&dxgiAdapter)));
+	LogUtils::log(this, dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&dxgiFactory)));
 
 	return true;
 }
@@ -81,14 +79,14 @@ bool GraphicsEngine::release() const
 	immDeviceContext->release();
 
 	immContext->Release();
-	d3dDevice->Release();
+	directXDevice->Release();
 
 	return true;
 }
 
-SwapChain* GraphicsEngine::createSwapChain()
+SwapChain* GraphicsEngine::createSwapChain() const
 {
-	return new SwapChain();
+	return new SwapChain(directXDevice);
 }
 
 DeviceContext* GraphicsEngine::getImmediateDeviceContext() const

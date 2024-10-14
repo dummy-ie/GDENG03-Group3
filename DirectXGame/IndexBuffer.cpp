@@ -27,7 +27,7 @@ bool IndexBuffer::load(const void* listIndices, const UINT sizeList)
 
 	indexListSize = sizeList;
 
-	return LogUtils::log(this, GraphicsEngine::get()->d3dDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
+	return LogUtils::log(this, GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
 }
 
 bool IndexBuffer::release() const
