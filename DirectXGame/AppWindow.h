@@ -19,10 +19,13 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "InputListener.h"
+#include "Camera.h"
+#include "CameraManager.h"
 #include "Quad.h"
 #include "Circle.h"
 #include "Plane.h"
 #include "MathUtil.h"
+
 
 class AppWindow final : public Window, public InputListener
 {
@@ -37,6 +40,8 @@ public:
 	void onKillFocus() override;
 	void onDestroy() override;
 
+	//static Camera* activeCamera;
+
 private:
 	AppWindow();
 	~AppWindow();
@@ -47,6 +52,7 @@ private:
 	//Quad* qList[1]; // object manager later
 	//Cube* cList[1]; // object manager later
 	std::vector<GameObject*> gameObjectsVector;
+
 
 	SwapChain* swapChain;
 
@@ -59,7 +65,7 @@ private:
 
 	void onKeyDown(int key) override;
 	void onKeyUp(int key) override;
-	void onMouseMove(const Vector2D& deltaMousePosition) override;
+	void onMouseMove(const Vector2D& mousePosition) override;
 
 	void onLeftMouseDown(const Vector2D& mousePosition) override;
 	void onLeftMouseUp(const Vector2D& mousePosition) override;

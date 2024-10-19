@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Vector3D.h"
+#include "Vector4D.h"
 
 class Matrix4x4
 {
@@ -62,6 +63,54 @@ public:
 		mat[1][1] = cos(z);
 	}
 
+	float getDeterminant() const
+	{
+		Vector4D minor;
+
+		const Vector4D v1 = Vector4D(this->mat[0][0], this->mat[1][0], this->mat[2][0], this->mat[3][0]);
+		const Vector4D v2 = Vector4D(this->mat[0][1], this->mat[1][1], this->mat[2][1], this->mat[3][1]);
+		const Vector4D v3 = Vector4D(this->mat[0][2], this->mat[1][2], this->mat[2][2], this->mat[3][2]);
+
+
+		minor.cross(v1, v2, v3);
+		const float det = -(this->mat[0][3] * minor.x + this->mat[1][3] * minor.y + this->mat[2][3] * minor.z +
+			this->mat[3][3] * minor.w);
+		return det;
+	}
+
+	void inverse()
+	{
+		Matrix4x4 out;
+		Vector4D v;
+
+		const float det = this->getDeterminant();
+		if (!det) return;
+		for (int i = 0; i < 4; i++)
+		{
+			Vector4D vec[3];
+			for (int j = 0; j < 4; j++)
+			{
+				if (j != i)
+				{
+					int a = j;
+					if (j > i) a = a - 1;
+					vec[a].x = (this->mat[j][0]);
+					vec[a].y = (this->mat[j][1]);
+					vec[a].z = (this->mat[j][2]);
+					vec[a].w = (this->mat[j][3]);
+				}
+			}
+			v.cross(vec[0], vec[1], vec[2]);
+
+			out.mat[0][i] = pow(-1.0f, i) * v.x / det;
+			out.mat[1][i] = pow(-1.0f, i) * v.y / det;
+			out.mat[2][i] = pow(-1.0f, i) * v.z / det;
+			out.mat[3][i] = pow(-1.0f, i) * v.w / det;
+		}
+
+		this->setMatrix(out);
+	}
+
 	void setOrthographicProjection(const float width, const float height, const float nearPlane, const float farPlane)
 	{
 		setIdentity();
@@ -87,6 +136,21 @@ public:
 	void setMatrix(const Matrix4x4& matrix)
 	{
 		::memcpy(mat, matrix.mat, sizeof(float) * 16);
+	}
+
+	Vector3D getZDirection() const
+	{
+		return Vector3D(mat[2][0], mat[2][1], mat[2][2]);
+	}
+
+	Vector3D getXDirection() const
+	{
+		return Vector3D(mat[0][0], mat[0][1], mat[0][2]);
+	}
+
+	Vector3D getTranslation() const
+	{
+		return Vector3D(mat[3][0], mat[3][1], mat[3][2]);
 	}
 
 	void operator *=(const Matrix4x4& matrix)

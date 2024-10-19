@@ -14,6 +14,8 @@ public:
 	void update();
 	void addListener(InputListener* listener);
 	void removeListener(InputListener* listener);
+	void setCursorPosition(const Vector2D& pos);
+	void showCursor(const bool& show);
 
 public:
 	static InputSystem* get();

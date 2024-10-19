@@ -14,8 +14,8 @@ public:
 private:
 	EngineTime();
 	~EngineTime();
-	EngineTime(EngineTime const&) {};
-	EngineTime& operator=(EngineTime const&) {};
+	EngineTime(EngineTime const&) {}
+	EngineTime& operator=(EngineTime const&) {}
 	static EngineTime* sharedInstance;
 
 	static void logFrameStart();

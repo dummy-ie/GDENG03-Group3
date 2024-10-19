@@ -46,9 +46,9 @@ public:
 		return this->x == vector.x && this->y == vector.y;
 	}
 
-	bool operator!=(const Vector2D& vector)
+	bool operator!=(const Vector2D& vector) const
 	{
-		return this->x != vector.x && this->y != vector.y;
+		return this->x != vector.x || this->y != vector.y;
 	}
 
 	Vector2D operator+(const Vector2D& addend) const

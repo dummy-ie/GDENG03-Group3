@@ -82,13 +82,13 @@ void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pix
 	scaleMatrix.setScale(localScale);
 
 	zMatrix.setRotationZ(localRotation.z);
-	xMatrix.setRotationX(localRotation.y);
-	yMatrix.setRotationY(localRotation.x);
+	yMatrix.setRotationY(localRotation.y);
+	xMatrix.setRotationX(localRotation.x);
 
 	constants.world.setIdentity();
 	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
-	constants.view.setIdentity();
+	constants.view = CameraManager::getInstance()->getView();
 
 	// constants.proj.setOrthographicProjection(
 	// 	windowWidth / 400.f,
@@ -96,8 +96,8 @@ void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pix
 	// 	-4.0f,
 	// 	4.0f);
 
-	 const float aspectRatio = (windowWidth * 2.f) / (windowHeight * 2.f);
-	 constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.01f, 10000.0f);
+	const float aspectRatio = windowWidth / windowHeight;
+	constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.1f, 1000.0f);
 
 	constants.time = 0;
 

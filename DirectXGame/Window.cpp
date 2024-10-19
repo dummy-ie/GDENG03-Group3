@@ -124,6 +124,11 @@ bool Window::isRunning() const
 	return windowIsRunning;
 }
 
+bool Window::isFocused() const
+{
+	return windowIsFocused;
+}
+
 RECT Window::getClientWindowRect() const
 {
 	RECT rc;
@@ -153,8 +158,10 @@ void Window::onDestroy()
 
 void Window::onFocus()
 {
+	windowIsFocused = true;
 }
 
 void Window::onKillFocus()
 {
+	windowIsFocused = false;
 }

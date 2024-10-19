@@ -12,6 +12,7 @@ public:
 	bool broadcast();
 	bool release() const;
 	bool isRunning() const;
+	bool isFocused() const;
 
 	RECT getClientWindowRect() const;
 	void setWindowHandle(HWND windowHandle);
@@ -24,6 +25,7 @@ public:
 
 protected:
 	HWND windowHandle;
+	bool windowIsFocused;
 	bool windowIsRunning;
 };
 

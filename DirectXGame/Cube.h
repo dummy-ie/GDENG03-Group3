@@ -1,12 +1,7 @@
 #pragma once
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "GraphicsEngine.h"
-#include "DeviceContext.h"
-#include "Vectors.h"
-#include "Vertex.h"
-#include "Constant.h"
+
 #include "GameObject.h"
+#include "CameraManager.h"
 
 class Cube : public GameObject
 {

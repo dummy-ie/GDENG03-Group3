@@ -86,7 +86,7 @@ void Cube::update(const float deltaTime)
 
 void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,
@@ -95,29 +95,31 @@ void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 		yMatrix,
 		zMatrix;
 
-	const float windowWidth = clientWindow.right - clientWindow.left;
-	const float windowHeight = clientWindow.bottom - clientWindow.top;
+	const float windowWidth = static_cast<float>(clientWindow.right - clientWindow.left);
+	const float windowHeight = static_cast<float>(clientWindow.bottom - clientWindow.top);
 
 	translateMatrix.setTranslation(localPosition);
 	scaleMatrix.setScale(localScale);
 
 	zMatrix.setRotationZ(localRotation.z);
-	xMatrix.setRotationX(localRotation.y);
-	yMatrix.setRotationY(localRotation.x);
+	yMatrix.setRotationY(localRotation.y);
+	xMatrix.setRotationX(localRotation.x);
 
 	constants.world.setIdentity();
 	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
-	constants.view.setIdentity();
+	constants.view = CameraManager::getInstance()->activeCamera->getView();
+
 	// constants.proj.setOrthographicProjection(
 	// 	windowWidth / 400.f,
 	// 	windowHeight / 400.f,
 	// 	-4.0f,
 	// 	4.0f);
-	 constants.time = deltaScale;
 
 	const float aspectRatio = windowWidth / windowHeight;
-	constants.proj.setPerspectiveProjection(90.f * (static_cast<float>(M_PI) / 180.f) , aspectRatio, 0.1f, 1000.0f);
+	constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.1f, 1000.0f);
+
+	constants.time = deltaScale;
 
 	constantBuffer->update(deviceContext, &constants);
 

@@ -72,8 +72,8 @@ void Quad::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 	scaleMatrix.setScale(localScale);
 
 	zMatrix.setRotationZ(localRotation.z);
-	xMatrix.setRotationX(localRotation.y);
-	yMatrix.setRotationY(localRotation.x);
+	yMatrix.setRotationY(localRotation.y);
+	xMatrix.setRotationX(localRotation.x);
 
 	constants.world.setIdentity();
 	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;

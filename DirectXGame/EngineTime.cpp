@@ -13,12 +13,10 @@ double EngineTime::getDeltaTime()
 }
 
 EngineTime::EngineTime()
-{
-}
+= default;
 
 EngineTime::~EngineTime()
-{
-}
+= default;
 
 void EngineTime::logFrameStart()
 {

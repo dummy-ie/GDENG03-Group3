@@ -34,12 +34,6 @@
     <Filter Include="GameEngine\GameObjects">
       <UniqueIdentifier>{4a4cf811-cac6-4de5-9d5d-55e89a36f9be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GameObjects\2D">
-      <UniqueIdentifier>{e684f9af-b493-48c5-a879-093961d1fedb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObjects\3D">
-      <UniqueIdentifier>{f99d1caf-45d3-453a-8aa6-fbc9e837210a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\Shaders">
       <UniqueIdentifier>{0215f3e9-d23f-4402-a294-1be2367683e0}</UniqueIdentifier>
     </Filter>
@@ -63,6 +57,15 @@
     </Filter>
     <Filter Include="GameEngine\Utilities\Math">
       <UniqueIdentifier>{0bead97d-eeb1-4372-8d38-6b195fd236b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\2D Geometry">
+      <UniqueIdentifier>{e684f9af-b493-48c5-a879-093961d1fedb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\3D Geometry">
+      <UniqueIdentifier>{f99d1caf-45d3-453a-8aa6-fbc9e837210a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\Camera">
+      <UniqueIdentifier>{f3248771-6c25-4694-953a-f72af61275c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,16 +115,22 @@
       <Filter>GameEngine\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Circle.cpp">
-      <Filter>GameEngine\GameObjects\2D</Filter>
+      <Filter>GameEngine\GameObjects\2D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>GameEngine\GameObjects\2D</Filter>
+      <Filter>GameEngine\GameObjects\2D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
-      <Filter>GameEngine\GameObjects\3D</Filter>
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
-      <Filter>GameEngine\GameObjects\3D</Filter>
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,13 +198,13 @@
       <Filter>GameEngine\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Circle.h">
-      <Filter>GameEngine\GameObjects\2D</Filter>
+      <Filter>GameEngine\GameObjects\2D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>GameEngine\GameObjects\2D</Filter>
+      <Filter>GameEngine\GameObjects\2D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>GameEngine\GameObjects\3D</Filter>
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>GameEngine\GraphicsEngine\Shaders</Filter>
@@ -204,14 +213,29 @@
       <Filter>GameEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>GameEngine\GameObjects\3D</Filter>
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>GameEngine\Utilities\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4D.h">
+      <Filter>GameEngine\Utilities\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">
+      <Filter>App\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="GeometryShader1.hlsl">
       <Filter>App\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
@@ -220,14 +244,5 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>App\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="shader.fx">
-      <Filter>App\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="GeometryShader1.hlsl">
-      <Filter>App\HLSL</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

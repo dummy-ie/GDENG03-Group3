@@ -1,4 +1,5 @@
 #pragma once
+
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "GraphicsEngine.h"
@@ -34,12 +35,17 @@ public:
 	void setScale(const Vector3D& scale) { localScale = scale; }
 	void setRotation(const Vector3D& rotation) { localRotation = rotation; }
 
+	Vector3D getPosition() { return localPosition; }
+	Vector3D getScale() { return localScale; }
+	Vector3D getRotation() { return localRotation; }
+
 protected:
 	std::string name;
 
 	Vector3D localScale = 1.f;
 	Vector3D localPosition = 0.f;
 	Vector3D localRotation = 0.f;
+	Matrix4x4 localMatrix;
 
 	Vector3D color;
 
