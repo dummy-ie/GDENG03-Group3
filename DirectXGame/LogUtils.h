@@ -18,6 +18,14 @@ public:
 		std::cout << "[" << getType(sender) << " DEBUG]: " << message << '\n';
 	}
 
+	static void log(const std::string& message)
+	{
+		if (!DEBUG_LOGS)
+			return;
+
+		std::cout << "[DEBUG]: " << message << '\n';
+	}
+
 	template <class T>
 	static bool log(T* sender, const HRESULT result)
 	{

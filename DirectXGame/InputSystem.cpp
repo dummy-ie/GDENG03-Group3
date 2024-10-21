@@ -11,7 +11,8 @@ void InputSystem::update()
 {
 	POINT currentMousePoint;
 	::GetCursorPos(&currentMousePoint);
-	Vector2D currentMousePosition = currentMousePoint;
+	//LogUtils::log(this, "Getting cursor pos");
+	const Vector2D currentMousePosition = currentMousePoint;
 
 	if (firstMouseMove)
 	{
@@ -33,11 +34,13 @@ void InputSystem::update()
 
 	if (::GetKeyboardState(keysState))
 	{
+		//LogUtils::log(this, "Getting keyboard state");
 		for (unsigned int i = 0; i < 256; i++)
 		{
 			// KEY IS DOWN
 			if (keysState[i] & 0x80)
 			{
+				//LogUtils::log(this, "key is down");
 				std::unordered_set<InputListener*>::iterator it = setListeners.begin();
 
 				while (it != setListeners.end())
@@ -62,6 +65,7 @@ void InputSystem::update()
 			{
 				if (keysState[i] != oldKeysState[i])
 				{
+					//LogUtils::log(this, "key is up");
 					std::unordered_set<InputListener*>::iterator it = setListeners.begin();
 
 					while (it != setListeners.end())
@@ -80,6 +84,8 @@ void InputSystem::update()
 			}
 
 		}
+
+		//LogUtils::log(this, "Copying key state");
 		// store current keys state to old keys state buffer
 		::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 	}

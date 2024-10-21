@@ -17,6 +17,7 @@ public:
 		RECT clientWindow) override;
 
 	Matrix4x4 getView();
+	Matrix4x4 getProjection() const;
 
 private:
 	bool orthographic = false;

@@ -132,6 +132,9 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>GameEngine\GameObjects\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Vector3D.cpp">
+      <Filter>GameEngine\Utilities\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">

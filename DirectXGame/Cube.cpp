@@ -1,14 +1,9 @@
 #include "Cube.h"
 
-#include <corecrt_math_defines.h>
 
-#include "ConstantBuffer.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
-
-Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
+Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, const Vector3D& color) : GameObject(name)
 {
-	Vertex vertexList[] =
+	Vertex vertexListRainbow[] =
 	{
 		//X - Y - Z
 		//FRONT FACE
@@ -22,10 +17,29 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader) : G
 		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1), Vector3D(0,1.f,1.0f) },
 		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),  Vector3D(0,0.f,1.f) },
 		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0), Vector3D(1.f,0.f,0) }
+	};
 
+	Vertex vertexList[] =
+	{
+		//X - Y - Z
+		//FRONT FACE
+		{Vector3D(-0.5f,-0.5f,-0.5f),    color,  color},
+		{Vector3D(-0.5f,0.5f,-0.5f),    color, color},
+		{ Vector3D(0.5f,0.5f,-0.5f),   color,  color},
+		{ Vector3D(0.5f,-0.5f,-0.5f),    color, color},
+
+		//BACK FACE
+		{ Vector3D(0.5f,-0.5f,0.5f),   color, color},
+		{ Vector3D(0.5f,0.5f,0.5f),   color, color},
+		{ Vector3D(-0.5f,0.5f,0.5f),  color,  color},
+		{ Vector3D(-0.5f,-0.5f,0.5f),    color, color}
 	};
 
 	vertexBuffer = GraphicsEngine::createVertexBuffer();
+
+	// LogUtils::log(this, "Vector3D zero: " + Vector3D::zero.toString());
+	 //LogUtils::log(this, "Color and Vec3D zero not the same: " + std::to_string(color != Vector3D::zero));
+
 	constexpr UINT sizeList = ARRAYSIZE(vertexList);
 
 	unsigned int indexList[] =
@@ -54,12 +68,26 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader) : G
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
 
 	indexBuffer->load(indexList, sizeIndexList);
-	vertexBuffer->load(
-		vertexList,
-		sizeof(Vertex),
-		sizeList,
-		shaderByteCode,
-		static_cast<UINT>(sizeShader));
+	if (color != Vector3D::zero)
+	{
+		//LogUtils::log(this, "using rainbow vertices");
+		vertexBuffer->load(
+			vertexListRainbow,
+			sizeof(Vertex),
+			sizeList,
+			shaderByteCode,
+			static_cast<UINT>(sizeShader));
+	}
+	else
+	{
+		//LogUtils::log(this, "using colored vertices");
+		vertexBuffer->load(
+			vertexList,
+			sizeof(Vertex),
+			sizeList,
+			shaderByteCode,
+			static_cast<UINT>(sizeShader));
+	}
 
 	Constant constants;
 	constants.time = 0;
@@ -75,18 +103,23 @@ Cube::~Cube()
 
 void Cube::update(const float deltaTime)
 {
-	deltaPos += deltaTime / 10.0f;
-	if (deltaPos > 1.0f)
-		deltaPos = 0;
+	elapsedTime += deltaTime;
 
-	deltaScale += deltaTime / 2.0f;
+	deltaPos = (sin(elapsedTime) + 1.0f) * translationSpeed;
+	deltaScale = (sin(elapsedTime) + 1.0f) * scaleSpeed;
+
+	if (interpolatePosition)
+		localPosition = Vector3D::linearInterpolate(position1, position2, deltaPos);
+
+	if (interpolateScale)
+		localScale = Vector3D::linearInterpolate(scale1, scale2, deltaScale);
 
 	localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
 void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,
@@ -94,9 +127,6 @@ void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 		xMatrix,
 		yMatrix,
 		zMatrix;
-
-	const float windowWidth = static_cast<float>(clientWindow.right - clientWindow.left);
-	const float windowHeight = static_cast<float>(clientWindow.bottom - clientWindow.top);
 
 	translateMatrix.setTranslation(localPosition);
 	scaleMatrix.setScale(localScale);
@@ -109,17 +139,9 @@ void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
 	constants.view = CameraManager::getInstance()->activeCamera->getView();
+	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
 
-	// constants.proj.setOrthographicProjection(
-	// 	windowWidth / 400.f,
-	// 	windowHeight / 400.f,
-	// 	-4.0f,
-	// 	4.0f);
-
-	const float aspectRatio = windowWidth / windowHeight;
-	constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.1f, 1000.0f);
-
-	constants.time = deltaScale;
+	constants.time = 0;
 
 	constantBuffer->update(deviceContext, &constants);
 

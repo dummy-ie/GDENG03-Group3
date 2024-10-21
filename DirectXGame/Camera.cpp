@@ -41,3 +41,30 @@ Matrix4x4 Camera::getView()
 
 	return tempView;
 }
+
+Matrix4x4 Camera::getProjection() const
+{
+	Matrix4x4 proj;
+	const float windowWidth = static_cast<float>(windowRect.right - windowRect.left);
+	const float windowHeight = static_cast<float>(windowRect.bottom - windowRect.top);
+
+	if (orthographic)
+	{
+		// constants.proj.setOrthographicProjection(
+		// 	windowWidth / 400.f,
+		// 	windowHeight / 400.f,
+		// 	-4.0f,
+		// 	4.0f);
+		proj.setOrthographicProjection(
+			windowWidth / 200.f,
+			windowHeight / 200.f,
+			zNear,
+			zFar);
+	}
+	else
+	{
+		proj.setPerspectiveProjection(fov, aspect, zNear, zFar);
+	}
+
+	return proj;
+}

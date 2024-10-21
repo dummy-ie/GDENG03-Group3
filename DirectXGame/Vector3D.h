@@ -10,6 +10,7 @@ public:
 	Vector3D(const float n) : x(n), y(n), z(n) {}
 	Vector3D(const float x, const float y) : x(x), y(y), z(0) {}
 	Vector3D(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+	// Vector3D(const int x, const int y, const int z) : x(x), y(y), z(z) {}
 	Vector3D(const Vector3D& vector) : x(vector.x), y(vector.y), z(vector.z) {}
 	~Vector3D() = default;
 
@@ -39,6 +40,11 @@ public:
 		return v;
 	}
 
+	static Vector3D absolute(const Vector3D& vector)
+	{
+		return { abs(vector.x), abs(vector.y), abs(vector.z) };
+	}
+
 	Vector3D operator+(const Vector3D& addend) const
 	{
 		return { this->x + addend.x, this->y + addend.y, this->z + addend.z };
@@ -50,7 +56,7 @@ public:
 	}
 
 	Vector3D operator*(const Vector3D& crossMultiplier) const
-		// cross product w/ vector3d
+		// cross product w/ vector3D
 	{
 		return {
 			(this->y * crossMultiplier.z) - (this->z * crossMultiplier.y),
@@ -108,6 +114,19 @@ public:
 		return *this;
 	}
 
+	bool operator==(const Vector3D& vector) const
+	{
+		return
+			fabs(this->x - vector.x) > DBL_EPSILON &&
+			fabs(this->y - vector.y) > DBL_EPSILON &&
+			fabs(this->z - vector.z) > DBL_EPSILON;
+	}
+
+	bool operator!=(const Vector3D& vector) const
+	{
+		return !(*this == vector);
+	}
+
 	//Vector3D& operator*=(const Vector3D& multiplier)
 	//{
 	//	this->x *= multiplier.x;
@@ -143,5 +162,6 @@ public:
 	}
 public:
 	float x, y, z;
-};
 
+	static const Vector3D zero;
+};

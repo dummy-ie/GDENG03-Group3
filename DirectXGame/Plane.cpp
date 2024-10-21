@@ -1,26 +1,37 @@
 #include "Plane.h"
 
-#include "ConstantBuffer.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
-
-Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeShader) : GameObject(name)
+Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeShader, const Vector3D& color) : GameObject(name)
 {
+	Vertex vertexListRainbow[] =
+	{
+		//X - Y - Z
+		//FRONT FACE
+		{Vector3D(-0.5f,-0.5f,0.0f),    Vector3D(1,0,0),  Vector3D(1.0f,0,0) },
+		{Vector3D(-0.5f,0.5f,0.0f),    Vector3D(1,1,0), Vector3D(0.0f,1.0f,0) },
+		{ Vector3D(0.5f,0.5f,0.0f),   Vector3D(1,1,0),  Vector3D(0.0f,0.0f,1.0f) },
+		{ Vector3D(0.5f,-0.5f,0.0f),     Vector3D(1,0,0), Vector3D(1.0f,1.f,0) },
+
+		//BACK FACE
+		{ Vector3D(0.5f,-0.5f,0.0f),    Vector3D(0,1,0), Vector3D(0,1.f,0) },
+		{ Vector3D(0.5f,0.5f,0.0f),    Vector3D(0,1,1), Vector3D(0,1.f,1.0f) },
+		{ Vector3D(-0.5f,0.5f,0.0f),   Vector3D(0,1,1),  Vector3D(0,0.f,1.f) },
+		{ Vector3D(-0.5f,-0.5f,0.0f),     Vector3D(0,1,0), Vector3D(1.f,0.f,0) }
+	};
+
 	Vertex vertexList[] =
 	{
 		//X - Y - Z
 		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,0.0f),    Vector3D(1,0,0),  Vector3D(0.2f,0,0) },
-		{Vector3D(-0.5f,0.5f,0.0f),    Vector3D(1,1,0), Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,0.0f),   Vector3D(1,1,0),  Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,-0.5f,0.0f),     Vector3D(1,0,0), Vector3D(0.2f,0,0) },
+		{Vector3D(-0.5f,-0.5f,0.0f),    color,  color},
+		{Vector3D(-0.5f,0.5f,0.0f),    color, color},
+		{ Vector3D(0.5f,0.5f,0.0f),   color,  color},
+		{ Vector3D(0.5f,-0.5f,0.0f),    color, color},
 
 		//BACK FACE
-		{ Vector3D(0.5f,-0.5f,0.0f),    Vector3D(0,1,0), Vector3D(0,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,0.0f),    Vector3D(0,1,1), Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,0.5f,0.0f),   Vector3D(0,1,1),  Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,-0.5f,0.0f),     Vector3D(0,1,0), Vector3D(0,0.2f,0) }
-
+		{ Vector3D(0.5f,-0.5f,0.0f),   color, color},
+		{ Vector3D(0.5f,0.5f,0.0f),   color, color},
+		{ Vector3D(-0.5f,0.5f,0.0f),  color,  color},
+		{ Vector3D(-0.5f,-0.5f,0.0f),    color, color}
 	};
 
 	vertexBuffer = GraphicsEngine::createVertexBuffer();
@@ -40,12 +51,24 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
 
 	indexBuffer->load(indexList, sizeIndexList);
-	vertexBuffer->load(
-		vertexList,
-		sizeof(Vertex),
-		sizeList,
-		shaderByteCode,
-		static_cast<UINT>(sizeShader));
+	if (this->color != Vector3D::zero)
+	{
+		vertexBuffer->load(
+			vertexListRainbow,
+			sizeof(Vertex),
+			sizeList,
+			shaderByteCode,
+			static_cast<UINT>(sizeShader));
+	}
+	else
+	{
+		vertexBuffer->load(
+			vertexList,
+			sizeof(Vertex),
+			sizeList,
+			shaderByteCode,
+			static_cast<UINT>(sizeShader));
+	}
 
 	Constant constants;
 	constants.time = 0;
@@ -61,12 +84,12 @@ Plane::~Plane()
 
 void Plane::update(const float deltaTime)
 {
-	localRotation += rotationDirection * rotationSpeed * deltaTime;
+	//localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
 void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,
@@ -74,9 +97,6 @@ void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pix
 		xMatrix,
 		yMatrix,
 		zMatrix;
-
-	const float windowWidth = static_cast<float>(clientWindow.right - clientWindow.left);
-	const float windowHeight = static_cast<float>(clientWindow.bottom - clientWindow.top);
 
 	translateMatrix.setTranslation(localPosition);
 	scaleMatrix.setScale(localScale);
@@ -89,16 +109,7 @@ void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pix
 	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
 
 	constants.view = CameraManager::getInstance()->getView();
-
-	// constants.proj.setOrthographicProjection(
-	// 	windowWidth / 400.f,
-	// 	windowHeight / 400.f,
-	// 	-4.0f,
-	// 	4.0f);
-
-	const float aspectRatio = windowWidth / windowHeight;
-	constants.proj.setPerspectiveProjection(aspectRatio, aspectRatio, 0.1f, 1000.0f);
-
+	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
 	constants.time = 0;
 
 	constantBuffer->update(deviceContext, &constants);
