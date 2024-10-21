@@ -1,7 +1,7 @@
 #include "ConstantBuffer.h"
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
-
+#include <iostream>
 ConstantBuffer::ConstantBuffer()
 {
 }

@@ -14,13 +14,9 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::draw(int width, int height, VertexShader* vertexShader, PixelShader* pixelShader)
-{
-}
-
 void GameObject::setPosition(float x, float y, float z)
 {
-	this->localPosition = Vector3D(1, 1, 1);
+	this->localPosition = Vector3D(x,y,z);
 }
 
 void GameObject::setPosition(Vector3D pos)

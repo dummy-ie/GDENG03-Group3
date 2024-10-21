@@ -34,8 +34,9 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 		return false;
 	}
 
+	IDXGIFactory* dxFactory = GraphicsEngine::getInstance()->getDirectXFactory();
 	//Create the swap chain for the window indicated by HWND parameter
-	HRESULT hr = GraphicsEngine::getInstance()->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
+	HRESULT hr = GraphicsEngine::getInstance()->getDirectXFactory()->CreateSwapChain(device, &desc, &m_swap_chain);
 
 	if (FAILED(hr))
 	{
@@ -57,18 +58,34 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 
 	hr = device->CreateRenderTargetView(buffer, NULL, &m_rtv);
 	buffer->Release();
+	
 
-	if (SUCCEEDED(hr)) {
-		hr = GraphicsEngine::getInstance()->getD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_rtv);
-		buffer->Release();  // Release the back buffer after use
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = width;
+	texDesc.Height = height;
+	texDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	texDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	texDesc.MipLevels = 1;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.MiscFlags = 0;
+	texDesc.ArraySize = 1;
+	texDesc.CPUAccessFlags = 0;
+
+	HRESULT depthResult = GraphicsEngine::getInstance()->getD3DDevice()->CreateTexture2D(&texDesc, NULL, &buffer);
+
+	if SUCCEEDED(depthResult) {
+		HRESULT depthStencilResult = GraphicsEngine::getInstance()->getD3DDevice()->CreateDepthStencilView(buffer, nullptr, &this->m_dsv);
 	}
 
-
-	if (FAILED(hr))
+	if (FAILED(depthResult))
 	{
 		return false;
 	}
 
+	buffer->Release();
+	
 	return true;
 }
 

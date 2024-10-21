@@ -9,6 +9,23 @@ using namespace std;
 class VertexShader;
 class PixelShader;
 
+struct vertex
+{
+	Vector3D position;
+	Vector3D color;
+	Vector3D color1;
+};
+
+
+__declspec(align(16))
+struct CBData
+{
+	Matrix4x4 m_world;
+	Matrix4x4 m_view;
+	Matrix4x4 m_proj;
+	unsigned int m_time;
+};
+
 class GameObject
 {
 public:
@@ -16,7 +33,7 @@ public:
 	~GameObject();
 
 	virtual void update(float deltaTime, RECT windowBounds) = 0;
-	virtual void draw(int width, int height, VertexShader* vertexShader, PixelShader* pixelShader) = 0;
+	virtual void draw(int width, int height, float deltaTime, VertexShader* vertexShader, PixelShader* pixelShader) = 0;
 
 public:
 	void setPosition(float x, float y, float z);

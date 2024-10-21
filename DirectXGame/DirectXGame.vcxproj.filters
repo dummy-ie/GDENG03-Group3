@@ -49,6 +49,15 @@
     <Filter Include="GameEngine\Primitives\Cube">
       <UniqueIdentifier>{05d35de7-fcdf-4143-83b0-05aa29161410}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Primitives\Plane">
+      <UniqueIdentifier>{6c6eb429-f429-4023-b7b9-66209e6d1d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Camera / Scene Handler">
+      <UniqueIdentifier>{4fb73fab-ca51-4ff4-8f40-267ffae40498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Input Listener / System">
+      <UniqueIdentifier>{9d950728-927a-473f-88fc-5404330ff482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,6 +101,18 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameEngine\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>GameEngine\Primitives\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine\Camera / Scene Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>GameEngine\Input Listener / System</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCameraHandler.cpp">
+      <Filter>GameEngine\Camera / Scene Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +160,27 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameEngine\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>GameEngine\Primitives\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4D.h">
+      <Filter>GameEngine\Matrix and Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>GameEngine\Matrix and Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine\Camera / Scene Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="InputListener.h">
+      <Filter>GameEngine\Input Listener / System</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>GameEngine\Input Listener / System</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCameraHandler.h">
+      <Filter>GameEngine\Camera / Scene Handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

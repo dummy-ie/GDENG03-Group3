@@ -189,3 +189,8 @@ ID3D11Device* GraphicsEngine::getD3DDevice()
 {
 	return this->m_d3d_device;
 }
+
+IDXGIFactory* GraphicsEngine::getDirectXFactory()
+{
+	return this->m_dxgi_factory;
+}

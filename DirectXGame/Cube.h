@@ -1,5 +1,6 @@
 #pragma once
 #include "GraphicsEngine.h"
+#include "SceneCameraHandler.h"
 #include "GameObject.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
@@ -11,32 +12,15 @@
 #include "WICTextureLoader.h"
 #include <string>
 
-struct vertex
-{
-    Vector3D position;
-    Vector3D color;
-    Vector3D color1;
-};
-
-
-__declspec(align(16))
-struct constant
-{
-    Matrix4x4 m_world;
-    Matrix4x4 m_view;
-    Matrix4x4 m_proj;
-    unsigned int m_time;
-};
-
 class Cube : GameObject
 {
 public:
-    Cube(std::wstring name);
+    Cube(float x, float y, float z, float r_x, float r_y, float r_z, float s_x, float s_y, float s_z, std::wstring name, RECT windowBounds);
     ~Cube();
 
     void init(ID3D11Device* device);
     void update(float deltaTime, RECT windowBounds) override;
-    void draw(int width, int height, VertexShader* vertexShader, PixelShader* pixelShader) override;
+    void draw(int width, int height, float deltaTime, VertexShader* vertexShader, PixelShader* pixelShader) override;
     void setAnimSpeed(float speed);
     void updateQuadPosition(float m_delta_time, RECT windowBounds);
     bool release();
