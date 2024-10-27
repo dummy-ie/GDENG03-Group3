@@ -20,6 +20,7 @@
 #include "PixelShader.h"
 #include "InputListener.h"
 #include "Camera.h"
+#include "SceneCamera.h"
 #include "CameraManager.h"
 #include "Quad.h"
 #include "Circle.h"

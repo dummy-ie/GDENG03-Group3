@@ -91,6 +91,7 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 
 	Constant constants;
 	constants.time = 0;
+	//constants.cameraPos = 0.f;
 
 	constantBuffer = GraphicsEngine::createConstantBuffer();
 	constantBuffer->load(&constants, sizeof(Constant));
@@ -135,8 +136,12 @@ void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 	yMatrix.setRotationY(localRotation.y);
 	xMatrix.setRotationX(localRotation.x);
 
+	LogUtils::log(this, "Pos: " + CameraManager::getInstance()->activeCamera->getPosition().toString());
+	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
 	constants.world.setIdentity();
-	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
+
+	Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
+	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
 
 	constants.view = CameraManager::getInstance()->activeCamera->getView();
 	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();

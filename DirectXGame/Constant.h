@@ -7,5 +7,6 @@ struct Constant
 	Matrix4x4 world;
 	Matrix4x4 view;
 	Matrix4x4 proj;
+	Vector3D cameraPos;
 	float time;
 };

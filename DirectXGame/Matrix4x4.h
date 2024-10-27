@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <DirectXMath.h>
 
 #include "Vector3D.h"
 #include "Vector4D.h"
@@ -122,8 +123,18 @@ public:
 
 	void setPerspectiveProjection(const float fov, const float aspect, const float zNear, const float zFar)
 	{
-		setIdentity();
-		const float yScale = 1.0f / tan(fov / 2.0f);
+		// DirectX::XMMATRIX perspective = DirectX::XMMatrixPerspectiveFovLH(fov, aspect, zNear, zFar);
+		//
+		// for (int i = 0; i < 4; ++i)
+		// {
+		// 	for (int j = 0; j < 4; ++j)
+		// 	{
+		// 		mat[i][j] = perspective.r[i].m128_f32[j];
+		// 	}
+		// }
+		
+		 setIdentity();
+		const float yScale = 1.0f / tan((fov * (M_PI / 180.f)) / 2.0f);
 		const float xScale = yScale / aspect;
 		mat[0][0] = xScale;
 		mat[1][1] = yScale;
@@ -146,6 +157,11 @@ public:
 	Vector3D getXDirection() const
 	{
 		return Vector3D(mat[0][0], mat[0][1], mat[0][2]);
+	}
+
+	Vector3D getYDirection() const
+	{
+		return Vector3D(mat[1][0], mat[1][1], mat[1][2]);
 	}
 
 	Vector3D getTranslation() const

@@ -51,7 +51,7 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
 
 	indexBuffer->load(indexList, sizeIndexList);
-	if (this->color != Vector3D::zero)
+	if (this->color == Vector3D::zero)
 	{
 		vertexBuffer->load(
 			vertexListRainbow,
@@ -72,6 +72,7 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 
 	Constant constants;
 	constants.time = 0;
+	//constants.cameraPos = 0.f;
 
 	constantBuffer = GraphicsEngine::createConstantBuffer();
 	constantBuffer->load(&constants, sizeof(Constant));
@@ -84,7 +85,7 @@ Plane::~Plane()
 
 void Plane::update(const float deltaTime)
 {
-	//localRotation += rotationDirection * rotationSpeed * deltaTime;
+	localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
 void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow)
@@ -105,8 +106,10 @@ void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pix
 	yMatrix.setRotationY(localRotation.y);
 	xMatrix.setRotationX(localRotation.x);
 
+	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
 	constants.world.setIdentity();
-	constants.world *= xMatrix * yMatrix * zMatrix * scaleMatrix * translateMatrix;
+	Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
+	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
 
 	constants.view = CameraManager::getInstance()->getView();
 	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();

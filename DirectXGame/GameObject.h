@@ -34,8 +34,15 @@ public:
 	virtual void draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow) = 0;
 
 	void setPosition(const Vector3D& position) { localPosition = position; }
+	void translate(const Vector3D& translation) { localPosition += translation; }
+
 	void setScale(const Vector3D& scale) { localScale = scale; }
+	void scale(const Vector3D& scale) { localScale += scale; }
+
 	void setRotation(const Vector3D& rotation) { localRotation = rotation; }
+	void rotate(const Vector3D& rotation) { localRotation += rotation; }
+
+
 	void setColor(const Vector3D& newColor)
 	{
 		LogUtils::log("Setting color " + color.toString() + " to: " + newColor.toString());
@@ -57,7 +64,7 @@ protected:
 	Vector3D localScale = 1.f;
 	Vector3D localPosition = 0.f;
 	Vector3D localRotation = 0.f;
-	Matrix4x4 localMatrix;
+	//Matrix4x4 localMatrix;
 
 	Vector3D color;
 

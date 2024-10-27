@@ -23,23 +23,23 @@ Matrix4x4 Camera::getView()
 	zMatrix.setRotationZ(localRotation.z);
 	yMatrix.setRotationY(localRotation.y);
 	xMatrix.setRotationX(localRotation.x);
+	translationMatrix.setTranslation(localPosition);
 
 	tempView.setIdentity();
-	tempView *= xMatrix * yMatrix * zMatrix;
+	tempView = xMatrix * yMatrix * zMatrix * translationMatrix;
+	//tempView *= translationMatrix;
 
-	Vector3D newPos = view.getTranslation() + tempView.getZDirection() * (forward * 0.1f);
+	// Vector3D newPos = view.getTranslation() + tempView.getZDirection() * (forward * 0.1f);
+	//
+	// newPos += tempView.getXDirection() * (rightward * 0.1f);
 
-	newPos += tempView.getXDirection() * (rightward * 0.1f);
 
-	translationMatrix.setTranslation(newPos);
 
-	tempView *= translationMatrix;
-
-	view = tempView;
 
 	tempView.inverse();
+	view = tempView;
 
-	return tempView;
+	return view;
 }
 
 Matrix4x4 Camera::getProjection() const
@@ -58,8 +58,8 @@ Matrix4x4 Camera::getProjection() const
 		proj.setOrthographicProjection(
 			windowWidth / 200.f,
 			windowHeight / 200.f,
-			zNear,
-			zFar);
+			nearPlane,
+			farPlane);
 	}
 	else
 	{

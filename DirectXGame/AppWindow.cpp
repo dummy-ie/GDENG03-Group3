@@ -34,18 +34,6 @@ void AppWindow::onKeyDown(const int key)
 
 	switch (key)
 	{
-	case 'W':
-		CameraManager::getInstance()->activeCamera->forward = .5f;
-		break;
-	case 'S':
-		CameraManager::getInstance()->activeCamera->forward = -.5f;
-		break;
-	case 'A':
-		CameraManager::getInstance()->activeCamera->rightward = -.5f;
-		break;
-	case 'D':
-		CameraManager::getInstance()->activeCamera->rightward = .5f;
-		break;
 	case VK_ESCAPE:
 	{
 		LogUtils::log(this, "Exiting application");
@@ -82,15 +70,6 @@ void AppWindow::onKeyUp(const int key)
 	}
 	default:
 	{
-		if (!CameraManager::getInstance()->activeCamera)
-		{
-			LogUtils::error(this, "No activeCamera!");
-			break;
-		}
-
-		//LogUtils::log(this, "Camera reset forward and rightward");
-		CameraManager::getInstance()->activeCamera->forward = 0.0f;
-		CameraManager::getInstance()->activeCamera->rightward = 0.0f;
 		break;
 	}
 	}
@@ -98,27 +77,7 @@ void AppWindow::onKeyUp(const int key)
 
 void AppWindow::onMouseMove(const Vector2D& mousePosition)
 {
-	const float width = static_cast<float>(this->getClientWindowRect().right - this->getClientWindowRect().left);
-	const float height = static_cast<float>(this->getClientWindowRect().bottom - this->getClientWindowRect().top);
 
-	if (!CameraManager::getInstance()->activeCamera)
-		return;
-
-	if (!this->isFocused())
-		return;
-
-	const Vector3D currentRotation = CameraManager::getInstance()->activeCamera->getRotation();
-
-	float xRotation = currentRotation.x;
-	float yRotation = currentRotation.y;
-
-	xRotation += (mousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
-	yRotation += (mousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
-
-	CameraManager::getInstance()->activeCamera->setRotation({ xRotation, yRotation });
-
-	InputSystem::get()->setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
-	InputSystem::get()->showCursor(false);
 }
 
 void AppWindow::onLeftMouseDown(const Vector2D& mousePosition)
@@ -153,13 +112,10 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
 
-	// perspective
-	//CameraManager::getInstance()->activeCamera = new Camera("Camera", false, rc, 90, 0.1f, 100.0f);
+	// camera
+	CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
 
-	// orthographic
-	CameraManager::getInstance()->activeCamera = new Camera("Camera", true, rc, 90, -10.0f, 100.0f);
-
-	CameraManager::getInstance()->activeCamera->view.setTranslation({ 0.0f, 0.0f, .0f });
+	CameraManager::getInstance()->activeCamera->setPosition({ 0.0f, 0.0f, -1.0f });
 
 	void* shaderByteCode = nullptr;
 	size_t byteCodeSize = 0;
@@ -172,13 +128,48 @@ void AppWindow::onCreate()
 
 	gameObjectsVector.reserve(50);
 
-	// Plane* plane = new Plane("plane", shaderByteCode, byteCodeSize);
-	// plane->setRotation({ 0.f, 45.f });
-	// plane->setScale(2.f);
-	// plane->setPosition({ 0.0f, 0.0f, 0.0f });
-	// plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	// plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	// gameObjectsVector.push_back(plane);
+	Plane* floor = new Plane("floor", shaderByteCode, byteCodeSize, { 0.3f, 0.4f, 0.1f });
+	floor->setRotation({ 1.57f, 0.f });
+	floor->setScale({ 100.f, 100.f, 100.f });
+	floor->setPosition({ 0.0f, -1.0f, 0.0f });
+	gameObjectsVector.push_back(floor);
+
+	Plane* ceiling = new Plane("ceiling", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	ceiling->setRotation({ 1.57f, 0.f });
+	ceiling->setScale({ 100.f, 100.f, 100.f });
+	ceiling->setPosition({ 0.0f, 50.0f, 0.0f });
+	gameObjectsVector.push_back(ceiling);
+
+	Plane* wall1 = new Plane("wall1", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	wall1->setRotation({ 0.f, 0.f });
+	wall1->setScale({ 100.f, 100.f, 100.f });
+	wall1->setPosition({ 0.0f, 49.0f, 50.0f });
+	gameObjectsVector.push_back(wall1);
+
+	Plane* wall2 = new Plane("wall2", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	wall2->setRotation({ 0.f, 0.f });
+	wall2->setScale({ 100.f, 100.f, 100.f });
+	wall2->setPosition({ 0.0f, 49.0f, -50.0f });
+	gameObjectsVector.push_back(wall2);
+
+	Plane* wall3 = new Plane("wall3", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	wall3->setRotation({ 0.f, 1.57f });
+	wall3->setScale({ 100.f, 100.f, 100.f });
+	wall3->setPosition({ 50.0f, 49.0f, 0.0f });
+	gameObjectsVector.push_back(wall3);
+
+	Plane* wall4 = new Plane("wall4", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	wall4->setRotation({ 0.f, 1.57f });
+	wall4->setScale({ 100.f, 100.f, 100.f });
+	wall4->setPosition({ -50.0f, 49.0f, 0.0f });
+	gameObjectsVector.push_back(wall4);
+
+	Plane* plane = new Plane("plane", shaderByteCode, byteCodeSize);
+	plane->setRotation({ 1.57f, 0.f });
+	plane->setScale(2.f);
+	plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	gameObjectsVector.push_back(plane);
 
 	// 1. Rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
@@ -186,11 +177,11 @@ void AppWindow::onCreate()
 	// gameObjectsVector.push_back(cube);
 
 	// 2. Rotating white cube
-	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize, 1.f);
-	// cube->setPosition({ 0.f, 0.f, 0.f });
-	// gameObjectsVector.push_back(cube);
-	// cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	// cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize, 1.f);
+	cube->setPosition({ 0.f, 0.f, 0.f });
+	gameObjectsVector.push_back(cube);
+	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
 
 	// 3. Translating and scaling rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
@@ -239,39 +230,39 @@ void AppWindow::onCreate()
 	// gameObjectsVector.push_back(plane);
 
 	// 7. Card stacking
-	for (int i = 0; i < 3; ++i)
-	{
-		for (int j = 0; j < i + 1; ++j)
-		{
-			Plane* card1 = new Plane("card1", shaderByteCode, byteCodeSize);
-			card1->setRotation({ 0.5f,0.f, 0.f });
-			card1->setScale({ 0.5f, 1.f, .7f });
-			card1->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.f + (j * 0.67f) - (i * 0.33f) });
-			gameObjectsVector.push_back(card1);
-			Plane* card2 = new Plane("card2", shaderByteCode, byteCodeSize);
-			card2->setRotation({ -0.5f,0.f, 0.f });
-			card2->setScale({ 0.5f, 1.f, .7f });
-			card2->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.33f + (j * 0.67f) - (i * 0.33f) });
-			gameObjectsVector.push_back(card2);
-		}
-	}
-	Plane* card3 = new Plane("card3", shaderByteCode, byteCodeSize);
-	card3->setRotation({ 1.57f,0.0f, 0.f });
-	card3->setScale({ 0.5f, 1.f, 1.0f });
-	card3->setPosition({ 0.0f, -0.45f, 0.165f });
-	gameObjectsVector.push_back(card3);
-
-	Plane* card4 = new Plane("card4", shaderByteCode, byteCodeSize);
-	card4->setRotation({ 1.57f,0.f, 0.f });
-	card4->setScale({ 0.5f, 1.f, 1.0f });
-	card4->setPosition({ 0.0f, -1.35f, 0.5f });
-	gameObjectsVector.push_back(card4);
-
-	Plane* card5 = new Plane("card5", shaderByteCode, byteCodeSize);
-	card5->setRotation({ 1.57f,0.f, 0.f });
-	card5->setScale({ 0.5f, 1.f, 1.0f });
-	card5->setPosition({ 0.0f, -1.35f, -0.165f });
-	gameObjectsVector.push_back(card5);
+	// for (int i = 0; i < 3; ++i)
+	// {
+	// 	for (int j = 0; j < i + 1; ++j)
+	// 	{
+	// 		Plane* card1 = new Plane("card1", shaderByteCode, byteCodeSize);
+	// 		card1->setRotation({ 0.5f,0.f, 0.f });
+	// 		card1->setScale({ 0.5f, 1.f, .7f });
+	// 		card1->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.f + (j * 0.67f) - (i * 0.33f) });
+	// 		gameObjectsVector.push_back(card1);
+	// 		Plane* card2 = new Plane("card2", shaderByteCode, byteCodeSize);
+	// 		card2->setRotation({ -0.5f,0.f, 0.f });
+	// 		card2->setScale({ 0.5f, 1.f, .7f });
+	// 		card2->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.33f + (j * 0.67f) - (i * 0.33f) });
+	// 		gameObjectsVector.push_back(card2);
+	// 	}
+	// }
+	// Plane* card3 = new Plane("card3", shaderByteCode, byteCodeSize);
+	// card3->setRotation({ 1.57f,0.0f, 0.f });
+	// card3->setScale({ 0.5f, 1.f, 1.0f });
+	// card3->setPosition({ 0.0f, -0.45f, 0.165f });
+	// gameObjectsVector.push_back(card3);
+	//
+	// Plane* card4 = new Plane("card4", shaderByteCode, byteCodeSize);
+	// card4->setRotation({ 1.57f,0.f, 0.f });
+	// card4->setScale({ 0.5f, 1.f, 1.0f });
+	// card4->setPosition({ 0.0f, -1.35f, 0.5f });
+	// gameObjectsVector.push_back(card4);
+	//
+	// Plane* card5 = new Plane("card5", shaderByteCode, byteCodeSize);
+	// card5->setRotation({ 1.57f,0.f, 0.f });
+	// card5->setScale({ 0.5f, 1.f, 1.0f });
+	// card5->setPosition({ 0.0f, -1.35f, -0.165f });
+	// gameObjectsVector.push_back(card5);
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
@@ -308,9 +299,9 @@ void AppWindow::onUpdate()
 	//LogUtils::log(this, "Clear render target");
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(
 		this->swapChain,
-		0.15f,
-		0.2f,
-		0.60f,
+		0.f,
+		0.f,
+		0.f,
 		1.f);
 
 	const RECT& rc = this->getClientWindowRect();

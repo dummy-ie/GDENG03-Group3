@@ -2,6 +2,7 @@
 
 #include "DeviceContext.h"
 #include "GraphicsEngine.h"
+#include "LogUtils.h"
 
 bool ConstantBuffer::load(const void* buffer, const UINT sizeBuffer)
 {
@@ -19,7 +20,7 @@ bool ConstantBuffer::load(const void* buffer, const UINT sizeBuffer)
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = buffer;
 
-	if (FAILED(GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer)))
+	if (LogUtils::log(this, GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer)))
 		return false;
 
 	return true;

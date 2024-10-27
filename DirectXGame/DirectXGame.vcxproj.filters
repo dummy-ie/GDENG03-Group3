@@ -37,9 +37,6 @@
     <Filter Include="GameEngine\GraphicsEngine\Shaders">
       <UniqueIdentifier>{0215f3e9-d23f-4402-a294-1be2367683e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App\HLSL">
-      <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\Shaders\PixelShader">
       <UniqueIdentifier>{97d5be49-3854-4144-92bc-4fafbd428ef8}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="GameEngine\GameObjects\Camera">
       <UniqueIdentifier>{f3248771-6c25-4694-953a-f72af61275c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Shaders\HLSL">
+      <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="Vector3D.cpp">
       <Filter>GameEngine\Utilities\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCamera.cpp">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,22 +233,25 @@
     <ClInclude Include="CameraManager.h">
       <Filter>GameEngine\GameObjects\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="SceneCamera.h">
+      <Filter>GameEngine\GameObjects\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">
-      <Filter>App\HLSL</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="GeometryShader1.hlsl">
-      <Filter>App\HLSL</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>App\HLSL</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>App\HLSL</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
