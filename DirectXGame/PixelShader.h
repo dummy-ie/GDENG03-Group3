@@ -1,21 +1,23 @@
 #pragma once
 #include <d3d11.h>
 
-#include "Shader.h"
+#include "GraphicsResource.h"
+#include "LogUtils.h"
 
-class PixelShader : public Shader
+class PixelShader : public GraphicsResource
 {
 public:
-	PixelShader();
-	~PixelShader() override;
-	bool release() override;
+	PixelShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system);
+	~PixelShader();
+	PixelShader(const PixelShader& obj) = default;
+	PixelShader(PixelShader&& other) noexcept = default;
+	PixelShader& operator=(const PixelShader& other) = default;
+	PixelShader& operator=(PixelShader&& other) noexcept = default;
 
 private:
-	bool init(const void* shaderByteCode, const size_t byteCodeSize) override;
-
 	ID3D11PixelShader* ps;
 
-	friend class GraphicsEngine;
+	friend class RenderSystem;
 	friend class DeviceContext;
 };
 

@@ -1,19 +1,18 @@
 #pragma once
 #include <d3d11.h>
 
-class ConstantBuffer;
-class SwapChain;
-class VertexBuffer;
-class IndexBuffer;
-class VertexShader;
-class GeometryShader;
-class PixelShader;
+#include "GraphicsResource.h"
+#include "Prerequisites.h"
 
-class DeviceContext
+class DeviceContext : public GraphicsResource
 {
 public:
-	DeviceContext(ID3D11DeviceContext* deviceContext);
+	DeviceContext(ID3D11DeviceContext* deviceContext, RenderSystem* system);
 	~DeviceContext();
+	DeviceContext(const DeviceContext& obj) = default;
+	DeviceContext(DeviceContext&& other) noexcept = default;
+	DeviceContext& operator=(const DeviceContext& other) = default;
+	DeviceContext& operator=(DeviceContext&& other) noexcept = default;
 
 	void clearRenderTargetColor(const SwapChain* swapChain, float red, float green, float blue, float alpha) const;
 	void setVertexBuffer(const VertexBuffer* vertexBuffer) const;
@@ -29,8 +28,6 @@ public:
 	void setPixelShader(const PixelShader* pixelShader) const;
 
 	void setConstantBuffer(const ConstantBuffer* constantBuffer) const;
-
-	bool release();
 
 private:
 	ID3D11DeviceContext* deviceContext;

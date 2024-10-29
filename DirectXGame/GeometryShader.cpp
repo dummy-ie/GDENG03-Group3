@@ -1,26 +1,13 @@
 ﻿#include "GeometryShader.h"
 #include "GraphicsEngine.h"
+#include "LogUtils.h"
 
-GeometryShader::GeometryShader()
+GeometryShader::GeometryShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 {
+	LogUtils::log(this, system->directXDevice->CreateGeometryShader(shaderByteCode, byteCodeSize, nullptr, &gs));
 }
 
 GeometryShader::~GeometryShader()
 {
-}
-
-bool GeometryShader::release()
-{
 	gs->Release();
-	delete this;
-
-	return true;
-}
-
-bool GeometryShader::init(const void* shaderByteCode, const size_t byteCodeSize)
-{
-	if (!SUCCEEDED(GraphicsEngine::get()->directXDevice->CreateGeometryShader(shaderByteCode, byteCodeSize, nullptr, &gs)))
-		return false;
-
-	return true;
 }

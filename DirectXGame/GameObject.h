@@ -20,14 +20,9 @@ public:
 
 	virtual ~GameObject()
 	{
-		if (vertexBuffer)
-			vertexBuffer->release();
-
-		if (indexBuffer)
-			indexBuffer->release();
-
-		if (constantBuffer)
-			constantBuffer->release();
+		delete vertexBuffer;
+		delete indexBuffer;
+		delete constantBuffer;
 	}
 
 	virtual void update(const float deltaTime) = 0;

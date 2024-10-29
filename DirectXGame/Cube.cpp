@@ -35,8 +35,6 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		{ Vector3D(-0.5f,-0.5f,0.5f),    color, color}
 	};
 
-	vertexBuffer = GraphicsEngine::createVertexBuffer();
-
 	// LogUtils::log(this, "Vector3D zero: " + Vector3D::zero.toString());
 	 //LogUtils::log(this, "Color and Vec3D zero not the same: " + std::to_string(color != Vector3D::zero));
 
@@ -64,14 +62,13 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		1,0,7
 	};
 
-	indexBuffer = GraphicsEngine::createIndexBuffer();
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
+	indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(indexList, sizeIndexList);
 
-	indexBuffer->load(indexList, sizeIndexList);
 	if (color != Vector3D::zero)
 	{
 		//LogUtils::log(this, "using rainbow vertices");
-		vertexBuffer->load(
+		vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(
 			vertexListRainbow,
 			sizeof(Vertex),
 			sizeList,
@@ -81,7 +78,7 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 	else
 	{
 		//LogUtils::log(this, "using colored vertices");
-		vertexBuffer->load(
+		vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(
 			vertexList,
 			sizeof(Vertex),
 			sizeList,
@@ -93,8 +90,7 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 	constants.time = 0;
 	//constants.cameraPos = 0.f;
 
-	constantBuffer = GraphicsEngine::createConstantBuffer();
-	constantBuffer->load(&constants, sizeof(Constant));
+	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
 Cube::~Cube()
@@ -120,7 +116,7 @@ void Cube::update(const float deltaTime)
 
 void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,
@@ -136,11 +132,11 @@ void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, Pixe
 	yMatrix.setRotationY(localRotation.y);
 	xMatrix.setRotationX(localRotation.x);
 
-	LogUtils::log(this, "Pos: " + CameraManager::getInstance()->activeCamera->getPosition().toString());
+	//LogUtils::log(this, "Pos: " + CameraManager::getInstance()->activeCamera->getPosition().toString());
 	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
 	constants.world.setIdentity();
 
-	Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
+	const Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
 	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
 
 	constants.view = CameraManager::getInstance()->activeCamera->getView();

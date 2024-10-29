@@ -1,18 +1,15 @@
 #include "SwapChain.h"
 
 #include "LogUtils.h"
+#include "RenderSystem.h"
 
-SwapChain::SwapChain(ID3D11Device* directXDevice) : directXDevice(directXDevice)
+SwapChain::SwapChain(
+	const HWND windowHandle,
+	const UINT width,
+	const UINT height,
+	RenderSystem* system) : GraphicsResource(system)
 {
-	
-}
-
-SwapChain::~SwapChain()
-= default;
-
-void SwapChain::initialize(const HWND windowHandle, const UINT width, const UINT height)
-{
-	ID3D11Device* device = GraphicsEngine::get()->directXDevice;
+	ID3D11Device* device = system->directXDevice;
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	desc.BufferCount = 1;
@@ -27,7 +24,7 @@ void SwapChain::initialize(const HWND windowHandle, const UINT width, const UINT
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	LogUtils::log(this, GraphicsEngine::get()->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
+	LogUtils::log(this, system->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
 
 	ID3D11Texture2D* buffer = nullptr;
 	LogUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
@@ -35,7 +32,7 @@ void SwapChain::initialize(const HWND windowHandle, const UINT width, const UINT
 	LogUtils::log(this, device->CreateRenderTargetView(buffer, nullptr, &renderTargetView));
 	buffer->Release();
 
-	D3D11_TEXTURE2D_DESC texDesc = {};
+	D3D11_TEXTURE2D_DESC texDesc;
 	texDesc.Width = width;
 	texDesc.Height = height;
 	texDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -48,23 +45,19 @@ void SwapChain::initialize(const HWND windowHandle, const UINT width, const UINT
 	texDesc.ArraySize = 1;
 	texDesc.CPUAccessFlags = 0;
 
-	LogUtils::log(this, directXDevice->CreateTexture2D(&texDesc, nullptr, &buffer));
+	LogUtils::log(this, system->directXDevice->CreateTexture2D(&texDesc, nullptr, &buffer));
 
-	LogUtils::log(this, directXDevice->CreateDepthStencilView(buffer, nullptr, &depthStencilView));
+	LogUtils::log(this, system->directXDevice->CreateDepthStencilView(buffer, nullptr, &depthStencilView));
 	buffer->Release();
 }
 
-bool SwapChain::release() const
+SwapChain::~SwapChain()
 {
 	swapChain->Release();
-	delete this;
-
-	return true;
 }
 
 bool SwapChain::present(const bool vsync) const
 {
 	LogUtils::log(this, swapChain->Present(vsync, NULL));
-
 	return true;
 }

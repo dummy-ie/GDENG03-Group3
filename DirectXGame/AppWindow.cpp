@@ -100,17 +100,14 @@ void AppWindow::onCreate()
 {
 	Window::onCreate();
 
-	//GraphicsEngine::get()->init();
+	//GraphicsEngine::get()->getRenderSystem()->init();
 	GraphicsEngine::initialize();
 	CameraManager::initialize();
 
-	swapChain = GraphicsEngine::get()->createSwapChain();
-
 	const RECT rc = this->getClientWindowRect();
-	swapChain->initialize(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
+	swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
 
 	InputSystem::get()->addListener(this);
-	//InputSystem::get()->showCursor(false);
 
 	// camera
 	CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
@@ -121,8 +118,8 @@ void AppWindow::onCreate()
 	size_t byteCodeSize = 0;
 
 	LogUtils::log(this, "Vertex shader compilation");
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	vertexShader = GraphicsEngine::createVertexShader(shaderByteCode, byteCodeSize);
+	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"VertexShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
+	vertexShader = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shaderByteCode, byteCodeSize);
 
 	// Insert all GameObjects here
 
@@ -264,22 +261,17 @@ void AppWindow::onCreate()
 	// card5->setPosition({ 0.0f, -1.35f, -0.165f });
 	// gameObjectsVector.push_back(card5);
 
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 	LogUtils::log(this, "Geometry shader compilation");
-	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	geometryShader = GraphicsEngine::createGeometryShader(shaderByteCode, byteCodeSize);
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	// LogUtils::log(this, "Geometry shader 1 compilation");
-	// GraphicsEngine::get()->compileGeometryShader(L"GeometryShader1.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	// geometryShader1 = GraphicsEngine::createGeometryShader(shaderByteCode, byteCodeSize);
-	// GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
+	geometryShader = GraphicsEngine::get()->getRenderSystem()->createGeometryShader(shaderByteCode, byteCodeSize);
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 	LogUtils::log(this, "Pixel shader compilation");
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	pixelShader = GraphicsEngine::createPixelShader(shaderByteCode, byteCodeSize);
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"PixelShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
+	pixelShader = GraphicsEngine::get()->getRenderSystem()->createPixelShader(shaderByteCode, byteCodeSize);
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 }
 
 void AppWindow::onUpdate()
@@ -292,12 +284,12 @@ void AppWindow::onUpdate()
 	ticks += static_cast<float>(EngineTime::getDeltaTime()) * 1.0f;
 
 	//LogUtils::log(this, "Setting shaders");
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(pixelShader);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
 	//LogUtils::log(this, "Clear render target");
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(
 		this->swapChain,
 		0.f,
 		0.f,
@@ -305,11 +297,11 @@ void AppWindow::onUpdate()
 		1.f);
 
 	const RECT& rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(pixelShader);
+	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
+	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
+	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
 	//LogUtils::log(this, "update and draw GOs");
 	for (GameObject* gameObject : gameObjectsVector)
@@ -336,10 +328,14 @@ void AppWindow::onDestroy()
 	Window::onDestroy();
 
 	//vertexBuffer->release();
-	swapChain->release();
-	vertexShader->release();
-	pixelShader->release();
+	// swapChain->release();
+	// vertexShader->release();
+	// pixelShader->release();
 
-	//GraphicsEngine::get()->release();
+	delete swapChain;
+	delete vertexShader;
+	delete pixelShader;
+
+	//GraphicsEngine::get()->getRenderSystem()->release();
 	GraphicsEngine::destroy();
 }

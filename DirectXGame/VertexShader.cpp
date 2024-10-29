@@ -1,24 +1,13 @@
 #include "VertexShader.h"
 #include "GraphicsEngine.h"
+#include "LogUtils.h"
 
-VertexShader::VertexShader()
-= default;
-
-VertexShader::~VertexShader()
-= default;
-
-bool VertexShader::release()
+VertexShader::VertexShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 {
-	vs->Release();
-	delete this;
-
-	return true;
+	LogUtils::log(this, system->directXDevice->CreateVertexShader(shaderByteCode, byteCodeSize, nullptr, &vs));
 }
 
-bool VertexShader::init(const void* shaderByteCode, const size_t byteCodeSize)
+VertexShader::~VertexShader()
 {
-	if (!SUCCEEDED(GraphicsEngine::get()->directXDevice->CreateVertexShader(shaderByteCode, byteCodeSize, nullptr, &vs)))
-		return false;
-
-	return true;
+	vs->Release();
 }

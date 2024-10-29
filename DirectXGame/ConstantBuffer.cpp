@@ -3,13 +3,10 @@
 #include "DeviceContext.h"
 #include "GraphicsEngine.h"
 #include "LogUtils.h"
+#include "RenderSystem.h"
 
-bool ConstantBuffer::load(const void* buffer, const UINT sizeBuffer)
+ConstantBuffer::ConstantBuffer(const void* buffer, const UINT sizeBuffer, RenderSystem* system) : GraphicsResource(system)
 {
-	if (constantBuffer)
-		constantBuffer->Release();
-
-
 	D3D11_BUFFER_DESC buffDesc = {};
 	buffDesc.Usage = D3D11_USAGE_DEFAULT;
 	buffDesc.ByteWidth = sizeBuffer;
@@ -20,23 +17,16 @@ bool ConstantBuffer::load(const void* buffer, const UINT sizeBuffer)
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = buffer;
 
-	if (LogUtils::log(this, GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer)))
-		return false;
+	LogUtils::log(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer));
+}
 
-	return true;
+ConstantBuffer::~ConstantBuffer()
+{
+	if (constantBuffer)
+		constantBuffer->Release();
 }
 
 void ConstantBuffer::update(const DeviceContext* context, const void* buffer) const
 {
 	context->deviceContext->UpdateSubresource(this->constantBuffer, NULL, nullptr, buffer, NULL, NULL);
-}
-
-bool ConstantBuffer::release() const
-{
-	if (constantBuffer)
-		constantBuffer->Release();
-
-	delete this;
-
-	return true;
 }

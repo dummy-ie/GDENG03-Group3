@@ -103,10 +103,10 @@ public:
 			}
 			v.cross(vec[0], vec[1], vec[2]);
 
-			out.mat[0][i] = pow(-1.0f, i) * v.x / det;
-			out.mat[1][i] = pow(-1.0f, i) * v.y / det;
-			out.mat[2][i] = pow(-1.0f, i) * v.z / det;
-			out.mat[3][i] = pow(-1.0f, i) * v.w / det;
+			out.mat[0][i] = static_cast<float>(pow(-1.0f, i)) * v.x / det;
+			out.mat[1][i] = static_cast<float>(pow(-1.0f, i)) * v.y / det;
+			out.mat[2][i] = static_cast<float>(pow(-1.0f, i)) * v.z / det;
+			out.mat[3][i] = static_cast<float>(pow(-1.0f, i)) * v.w / det;
 		}
 
 		this->setMatrix(out);
@@ -132,9 +132,9 @@ public:
 		// 		mat[i][j] = perspective.r[i].m128_f32[j];
 		// 	}
 		// }
-		
-		 setIdentity();
-		const float yScale = 1.0f / tan((fov * (M_PI / 180.f)) / 2.0f);
+
+		setIdentity();
+		const float yScale = 1.0f / static_cast<float>(tan((fov * (M_PI / 180.f)) / 2.0f));
 		const float xScale = yScale / aspect;
 		mat[0][0] = xScale;
 		mat[1][1] = yScale;

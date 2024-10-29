@@ -9,13 +9,17 @@ class EngineTime
 {
 public:
 	static void initialize();
-	static double getDeltaTime();
+	static double getDeltaTimeDouble();
+	static float getDeltaTime();
+
+	EngineTime(EngineTime const&) = delete;
+	EngineTime& operator=(EngineTime const&) = delete;
+	EngineTime(EngineTime&& other) noexcept = delete;
+	EngineTime& operator=(EngineTime&& other) noexcept = delete;
 
 private:
 	EngineTime();
 	~EngineTime();
-	EngineTime(EngineTime const&) {}
-	EngineTime& operator=(EngineTime const&) {}
 	static EngineTime* sharedInstance;
 
 	static void logFrameStart();

@@ -1,16 +1,18 @@
 #pragma once
 #include <d3d11.h>
 
-class DeviceContext;
+#include "GraphicsResource.h"
+#include "Prerequisites.h"
 
-class IndexBuffer
+class IndexBuffer : public GraphicsResource
 {
 public:
-	IndexBuffer();
+	IndexBuffer(const void* listIndices, UINT sizeList, RenderSystem* system);
 	~IndexBuffer();
-
-	bool load(const void* listIndices, UINT sizeList);
-	bool release() const;
+	IndexBuffer(const IndexBuffer& obj) = default;
+	IndexBuffer(IndexBuffer&& other) noexcept = default;
+	IndexBuffer& operator=(const IndexBuffer& other) = default;
+	IndexBuffer& operator=(IndexBuffer&& other) noexcept = default;
 
 	UINT getSizeIndexList() const;
 

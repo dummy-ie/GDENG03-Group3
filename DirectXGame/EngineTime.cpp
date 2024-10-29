@@ -7,9 +7,14 @@ void EngineTime::initialize()
 	sharedInstance = new EngineTime();
 }
 
-double EngineTime::getDeltaTime()
+double EngineTime::getDeltaTimeDouble()
 {
 	return sharedInstance->deltaTime;
+}
+
+float EngineTime::getDeltaTime()
+{
+	return static_cast<float>(sharedInstance->deltaTime);
 }
 
 EngineTime::EngineTime()
@@ -26,7 +31,7 @@ void EngineTime::logFrameStart()
 void EngineTime::logFrameEnd()
 {
 	sharedInstance->end = std::chrono::system_clock::now();
-	std::chrono::duration<double> elapsed_seconds = sharedInstance->end - sharedInstance->start;
+	const std::chrono::duration<double> elapsedSeconds = sharedInstance->end - sharedInstance->start;
 
-	sharedInstance->deltaTime = elapsed_seconds.count();
+	sharedInstance->deltaTime = elapsedSeconds.count();
 }

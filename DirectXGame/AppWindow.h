@@ -45,9 +45,15 @@ public:
 
 private:
 	AppWindow();
-	~AppWindow();
-	AppWindow(AppWindow const&) {};
-	AppWindow& operator=(AppWindow const&) {};
+	~AppWindow() override;
+	AppWindow(AppWindow const&) :
+		swapChain(nullptr),
+		vertexShader(nullptr),
+		geometryShader(nullptr),
+		pixelShader(nullptr)
+	{
+	}
+	AppWindow& operator=(AppWindow const&) {}
 	static AppWindow* sharedInstance;
 
 	//Quad* qList[1]; // object manager later
@@ -59,7 +65,7 @@ private:
 
 	VertexShader* vertexShader;
 	GeometryShader* geometryShader;
-	GeometryShader* geometryShader1;
+	//GeometryShader* geometryShader1;
 	PixelShader* pixelShader;
 
 	float ticks = 0.0f;

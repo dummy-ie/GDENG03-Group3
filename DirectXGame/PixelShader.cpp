@@ -1,24 +1,11 @@
 #include "PixelShader.h"
-#include "GraphicsEngine.h"
 
-PixelShader::PixelShader()
-= default;
-
-PixelShader::~PixelShader()
-= default;
-
-bool PixelShader::release()
+PixelShader::PixelShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 {
-	ps->Release();
-	delete this;
-
-	return true;
+	LogUtils::log(this, system->directXDevice->CreatePixelShader(shaderByteCode, byteCodeSize, nullptr, &ps));
 }
 
-bool PixelShader::init(const void* shaderByteCode, const size_t byteCodeSize)
+PixelShader::~PixelShader()
 {
-	if (!SUCCEEDED(GraphicsEngine::get()->directXDevice->CreatePixelShader(shaderByteCode, byteCodeSize, nullptr, &ps)))
-		return false;
-
-	return true;
+	ps->Release();
 }

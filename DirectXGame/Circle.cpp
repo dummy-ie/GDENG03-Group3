@@ -11,7 +11,7 @@ Circle::Circle(const std::string& name, void* shaderByteCode, size_t sizeShader,
 	std::vector<Vertex> list;
 
 	for (int i = 0; i <= numVertices; i += 2) {
-		const float angle = i * (2.0f * M_PI / numVertices);
+		const float angle = static_cast<float>(i) * static_cast<float>(2.0f * M_PI / numVertices);
 		float x = radius * cos(angle);
 		float y = radius * sin(angle);
 
@@ -19,17 +19,18 @@ Circle::Circle(const std::string& name, void* shaderByteCode, size_t sizeShader,
 		list.push_back({ {0.0f, 0.0f, 0.0f}, color, {0.0f, 0.0f, 1.0f} });
 	}
 
-	vertexBuffer = GraphicsEngine::createVertexBuffer();
-	//constexpr UINT indexListSize = ARRAYSIZE(list);
-	const UINT sizeList = list.size();
-
-	vertexBuffer->load(list.data(), sizeof(Vertex), sizeList, shaderByteCode, static_cast<UINT>(sizeShader));
+	const UINT sizeList = static_cast<UINT>(list.size());
+	vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(
+		list.data(),
+		sizeof(Vertex),
+		sizeList,
+		shaderByteCode,
+		static_cast<UINT>(sizeShader));
 
 	Constant constants;
 	constants.time = 0;
 
-	constantBuffer = GraphicsEngine::createConstantBuffer();
-	constantBuffer->load(&constants, sizeof(Constant));
+	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants,sizeof(Constant));
 }
 
 Circle::~Circle()
@@ -49,7 +50,7 @@ void Circle::update(const float deltaTime)
 
 void Circle::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4 tempMatrix;
 	const float windowWidth = (clientWindow.right - clientWindow.left) / 400.f;

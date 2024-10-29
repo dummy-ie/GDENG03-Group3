@@ -1,8 +1,8 @@
 #include "Plane.h"
 
-Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeShader, const Vector3D& color) : GameObject(name)
+Plane::Plane(const std::string& name, const void* shaderByteCode, const size_t sizeShader, const Vector3D& color) : GameObject(name)
 {
-	Vertex vertexListRainbow[] =
+	const Vertex vertexListRainbow[] =
 	{
 		//X - Y - Z
 		//FRONT FACE
@@ -34,7 +34,6 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 		{ Vector3D(-0.5f,-0.5f,0.0f),    color, color}
 	};
 
-	vertexBuffer = GraphicsEngine::createVertexBuffer();
 	constexpr UINT sizeList = ARRAYSIZE(vertexList);
 
 	unsigned int indexList[] =
@@ -47,13 +46,12 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 		6,7,4,
 	};
 
-	indexBuffer = GraphicsEngine::createIndexBuffer();
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
+	indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(indexList, sizeIndexList);
 
-	indexBuffer->load(indexList, sizeIndexList);
 	if (this->color == Vector3D::zero)
 	{
-		vertexBuffer->load(
+		vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(
 			vertexListRainbow,
 			sizeof(Vertex),
 			sizeList,
@@ -62,7 +60,7 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 	}
 	else
 	{
-		vertexBuffer->load(
+		vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(
 			vertexList,
 			sizeof(Vertex),
 			sizeList,
@@ -74,8 +72,7 @@ Plane::Plane(const std::string& name, void* shaderByteCode, const size_t sizeSha
 	constants.time = 0;
 	//constants.cameraPos = 0.f;
 
-	constantBuffer = GraphicsEngine::createConstantBuffer();
-	constantBuffer->load(&constants, sizeof(Constant));
+	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
 Plane::~Plane()
@@ -90,7 +87,7 @@ void Plane::update(const float deltaTime)
 
 void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,

@@ -21,16 +21,13 @@ Quad::Quad(const std::string& name, void* shaderByteCode, const size_t sizeShade
 		{ Vector3D(0.5f,0.5f,0.0f),        Vector3D(1,1,1), Vector3D(0,0,1) }
 	};
 
-	vertexBuffer = GraphicsEngine::createVertexBuffer();
 	constexpr UINT indexListSize = ARRAYSIZE(list);
-
-	vertexBuffer->load(list, sizeof(Vertex), indexListSize, shaderByteCode, static_cast<UINT>(sizeShader));
+	vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(list, sizeof(Vertex), indexListSize, shaderByteCode, static_cast<UINT>(sizeShader));
 
 	Constant constants;
 	constants.time = 0;
 
-	constantBuffer = GraphicsEngine::createConstantBuffer();
-	constantBuffer->load(&constants, sizeof(Constant));
+	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
 Quad::~Quad()
@@ -56,7 +53,7 @@ void Quad::update(const float deltaTime)
 
 void Quad::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,

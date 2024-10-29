@@ -146,6 +146,7 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SceneCamera.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Vector3D.cpp" />
@@ -173,10 +174,12 @@
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SceneCamera.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />

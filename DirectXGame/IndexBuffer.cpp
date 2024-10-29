@@ -2,19 +2,10 @@
 
 #include "LogUtils.h"
 #include "GraphicsEngine.h"
+#include "RenderSystem.h"
 
-IndexBuffer::IndexBuffer() : indexBuffer(nullptr)
+IndexBuffer::IndexBuffer(const void* listIndices, const UINT sizeList, RenderSystem* system) : GraphicsResource(system), indexBuffer(nullptr)
 {
-}
-
-IndexBuffer::~IndexBuffer()
-= default;
-
-bool IndexBuffer::load(const void* listIndices, const UINT sizeList)
-{
-	if (indexBuffer)
-		indexBuffer->Release();
-
 	D3D11_BUFFER_DESC buffDesc = {};
 	buffDesc.Usage = D3D11_USAGE_DEFAULT;
 	buffDesc.ByteWidth = 4 * sizeList;
@@ -27,16 +18,12 @@ bool IndexBuffer::load(const void* listIndices, const UINT sizeList)
 
 	indexListSize = sizeList;
 
-	return LogUtils::log(this, GraphicsEngine::get()->directXDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
+	LogUtils::log(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
 }
 
-bool IndexBuffer::release() const
+IndexBuffer::~IndexBuffer()
 {
 	indexBuffer->Release();
-
-	delete this;
-
-	return true;
 }
 
 UINT IndexBuffer::getSizeIndexList() const

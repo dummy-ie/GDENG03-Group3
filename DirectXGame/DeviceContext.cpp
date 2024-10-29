@@ -9,13 +9,14 @@
 #include "IndexBuffer.h"
 #include "PixelShader.h"
 
-DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext) : deviceContext(deviceContext)
+DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext, RenderSystem* system) : deviceContext(deviceContext), GraphicsResource(system)
 {
-
 }
 
 DeviceContext::~DeviceContext()
-= default;
+{
+	deviceContext->Release();
+}
 
 void DeviceContext::clearRenderTargetColor(const SwapChain* swapChain, const float red, const float green, const float blue, const float alpha) const
 {
@@ -27,11 +28,11 @@ void DeviceContext::clearRenderTargetColor(const SwapChain* swapChain, const flo
 
 void DeviceContext::setVertexBuffer(const VertexBuffer* vertexBuffer) const
 {
-	UINT stride = vertexBuffer->m_size_vertex;
-	UINT offset = 0;
+	const UINT stride = vertexBuffer->sizeVertex;
+	constexpr UINT offset = 0;
 
-	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer->m_buffer, &stride, &offset);
-	deviceContext->IASetInputLayout(vertexBuffer->m_layout);
+	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer->buffer, &stride, &offset);
+	deviceContext->IASetInputLayout(vertexBuffer->layout);
 }
 
 void DeviceContext::setIndexBuffer(const IndexBuffer* indexBuffer) const
@@ -99,12 +100,4 @@ void DeviceContext::setConstantBuffer(const ConstantBuffer* constantBuffer) cons
 	deviceContext->GSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
 	deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
 
-}
-
-bool DeviceContext::release()
-{
-	deviceContext->Release();
-	delete this;
-
-	return true;
 }

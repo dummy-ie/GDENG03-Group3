@@ -1,25 +1,33 @@
 #pragma once
 #include <d3d11.h>
 
-class DeviceContext;
+#include "GraphicsResource.h"
+#include "Prerequisites.h"
 
-class VertexBuffer
+class VertexBuffer : public GraphicsResource
 {
 public:
-	VertexBuffer();
+	VertexBuffer(
+		const void* listVertices,
+		UINT sizeVertex,
+		UINT sizeList,
+		const void* shaderByteCode,
+		UINT sizeByteShader,
+		RenderSystem* system);
 	~VertexBuffer();
+	VertexBuffer(const VertexBuffer& obj) = default;
+	VertexBuffer(VertexBuffer&& other) noexcept = default;
+	VertexBuffer& operator=(const VertexBuffer& other) = default;
+	VertexBuffer& operator=(VertexBuffer&& other) noexcept = default;
 
-	bool load(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-	bool release();
-
-	UINT getSizeVertexList();
+	UINT getSizeVertexList() const;
 
 private:
-	UINT m_size_vertex;
-	UINT m_size_list;
+	UINT sizeVertex;
+	UINT sizeList;
 
-	ID3D11Buffer* m_buffer;
-	ID3D11InputLayout* m_layout;
+	ID3D11Buffer* buffer;
+	ID3D11InputLayout* layout;
 
 	friend class DeviceContext;
 };

@@ -32,6 +32,7 @@ public:
 		if (FAILED(result)) {
 			const std::string message = std::system_category().message(result);
 			log(sender, message);
+			throw std::exception(message.data());
 			return false;
 		}
 
@@ -47,7 +48,9 @@ public:
 		if (!ERROR_LOGS)
 			return;
 
-		std::cout << "[" << getType(sender) << " ERROR]: " << msg << '\n';
+		std::string message = "[" + getType(sender) + " ERROR]: " + msg + '\n';
+		std::cout << message;
+		throw std::exception(message.data());
 	}
 
 private:

@@ -2,19 +2,23 @@
 #include "GraphicsEngine.h"
 #include <d3d11.h>
 
-class DeviceContext;
+#include "GraphicsResource.h"
+#include "Prerequisites.h"
 
-class SwapChain
+class SwapChain : public GraphicsResource
 {
 public:
-	SwapChain(ID3D11Device* directXDevice);
+	SwapChain(const HWND windowHandle, const UINT width, const UINT height, RenderSystem* system);
 	~SwapChain();
-	void initialize(HWND windowHandle, UINT width, UINT height);
-	bool release() const;
+	SwapChain(const SwapChain& obj) = default;
+	SwapChain(SwapChain&& other) noexcept = default;
+	SwapChain& operator=(const SwapChain& other) = default;
+	SwapChain& operator=(SwapChain&& other) noexcept = default;
+
 	bool present(bool vsync) const;
 
 private:
-	ID3D11Device* directXDevice = nullptr;
+	//ID3D11Device* directXDevice = nullptr;
 	IDXGISwapChain* swapChain = nullptr;
 	ID3D11RenderTargetView* renderTargetView = nullptr;
 	ID3D11DepthStencilView* depthStencilView = nullptr;
