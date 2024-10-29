@@ -9,6 +9,9 @@ InputSystem::~InputSystem()
 
 void InputSystem::update()
 {
+	if (!isEnabled)
+		return;
+
 	POINT currentMousePoint;
 	::GetCursorPos(&currentMousePoint);
 	//LogUtils::log(this, "Getting cursor pos");
@@ -109,6 +112,11 @@ void InputSystem::setCursorPosition(const Vector2D& pos)
 void InputSystem::showCursor(const bool& show)
 {
 	::ShowCursor(show);
+}
+
+void InputSystem::setEnabled(const bool& enabled)
+{
+	isEnabled = enabled;
 }
 
 InputSystem* InputSystem::get()

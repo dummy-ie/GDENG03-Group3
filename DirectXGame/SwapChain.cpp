@@ -56,8 +56,7 @@ SwapChain::~SwapChain()
 	swapChain->Release();
 }
 
-bool SwapChain::present(const bool vsync) const
+void SwapChain::present(const bool vsync) const
 {
 	LogUtils::log(this, swapChain->Present(vsync, NULL));
-	return true;
 }

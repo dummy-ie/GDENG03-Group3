@@ -10,12 +10,17 @@ class InputSystem
 public:
 	InputSystem();
 	~InputSystem();
+	InputSystem(const InputSystem& obj) = default;
+	InputSystem(InputSystem&& other) noexcept = default;
+	InputSystem& operator=(const InputSystem& other) = default;
+	InputSystem& operator=(InputSystem&& other) noexcept = default;
 
 	void update();
 	void addListener(InputListener* listener);
 	void removeListener(InputListener* listener);
-	void setCursorPosition(const Vector2D& pos);
-	void showCursor(const bool& show);
+	static void setCursorPosition(const Vector2D& pos);
+	static void showCursor(const bool& show);
+	void setEnabled(const bool& enabled);
 
 public:
 	static InputSystem* get();
@@ -26,4 +31,6 @@ private:
 	unsigned char oldKeysState[256] = {};
 	Vector2D oldMousePosition;
 	bool firstMouseMove = true;
+
+	bool isEnabled;
 };

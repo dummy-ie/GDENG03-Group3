@@ -316,11 +316,13 @@ void AppWindow::onUpdate()
 void AppWindow::onFocus()
 {
 	Window::onFocus();
+	InputSystem::get()->setEnabled(true);
 }
 
 void AppWindow::onKillFocus()
 {
 	Window::onKillFocus();
+	InputSystem::get()->setEnabled(false);
 }
 
 void AppWindow::onDestroy()

@@ -15,7 +15,7 @@ public:
 	SwapChain& operator=(const SwapChain& other) = default;
 	SwapChain& operator=(SwapChain&& other) noexcept = default;
 
-	bool present(bool vsync) const;
+	void present(bool vsync) const;
 
 private:
 	//ID3D11Device* directXDevice = nullptr;
