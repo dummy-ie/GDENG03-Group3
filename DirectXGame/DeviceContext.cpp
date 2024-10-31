@@ -18,6 +18,11 @@ DeviceContext::~DeviceContext()
 	deviceContext->Release();
 }
 
+// ID3D11DeviceContext* DeviceContext::getContext() const
+// {
+// 	return this->deviceContext;
+// }
+
 void DeviceContext::clearRenderTargetColor(const SwapChainPtr& swapChain, const float red, const float green, const float blue, const float alpha) const
 {
 	const FLOAT clearColor[] = { red, green, blue, alpha };

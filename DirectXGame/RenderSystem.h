@@ -15,8 +15,10 @@ public:
 	//bool init();
 	//bool release() const;
 
-	SwapChainPtr createSwapChain(HWND windowHandle, UINT width, UINT height);
 	DeviceContextPtr getImmediateDeviceContext() const;
+	ID3D11Device* getDevice() const;
+
+	SwapChainPtr createSwapChain(HWND windowHandle, UINT width, UINT height);
 	VertexBufferPtr createVertexBuffer(const void* listVertices, UINT sizeVertex, UINT sizeList, const void* shaderByteCode, UINT sizeByteShader);
 	IndexBufferPtr createIndexBuffer(const void* listIndices, UINT sizeList);
 	ConstantBufferPtr createConstantBuffer(const void* buffer, UINT sizeBuffer);
@@ -24,13 +26,12 @@ public:
 	PixelShaderPtr createPixelShader(const void* shaderByteCode, size_t byteCodeSize);
 	GeometryShaderPtr createGeometryShader(const void* shaderByteCode, size_t byteCodeSize);
 
-	bool compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shader_byte_code, size_t* byte_code_size);
+	bool compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	bool compilePixelShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	bool compileGeometryShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	void releaseCompiledShader() const;
 
 private:
-
 	DeviceContextPtr immDeviceContext = nullptr;
 
 	ID3D11Device* directXDevice = nullptr;

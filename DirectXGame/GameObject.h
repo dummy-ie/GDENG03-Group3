@@ -42,6 +42,7 @@ public:
 	void setRotation(const Vector3D& rotation) { localRotation = rotation; }
 	void rotate(const Vector3D& rotation) { localRotation += rotation; }
 
+	void setEnabled(const bool enabled) { isEnabled = enabled; }
 
 	void setColor(const Vector3D& newColor)
 	{
@@ -51,6 +52,7 @@ public:
 	}
 
 	std::string getName() { return name; }
+	bool getEnabled() const { return isEnabled; }
 	Vector3D getPosition() { return localPosition; }
 	Vector3D getScale() { return localScale; }
 	Vector3D getRotation() { return localRotation; }
@@ -60,6 +62,7 @@ protected:
 	float elapsedTime = 0.f;
 
 	std::string name;
+	bool isEnabled = true;
 
 	Vector3D localScale = 1.f;
 	Vector3D localPosition = 0.f;

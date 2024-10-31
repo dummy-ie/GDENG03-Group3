@@ -8,7 +8,14 @@ SceneCamera::SceneCamera(const std::string& name, bool orthographic, const RECT&
 	InputSystem::get()->addListener(this);
 }
 
-void SceneCamera::onKeyDown(int key)
+void SceneCamera::update(const float deltaTime)
+{
+	Camera::update(deltaTime);
+
+	InputSystem::showCursor(!isRightMouseDown);
+}
+
+void SceneCamera::onKeyDown(const int key)
 {
 	Matrix4x4 temp = view;
 	temp.inverse();
@@ -56,16 +63,16 @@ void SceneCamera::onKeyUp(int key)
 
 void SceneCamera::onMouseMove(const Vector2D& mousePosition)
 {
+	if (!isRightMouseDown)
+		return;
+
 	const float width = static_cast<float>(windowRect.right - windowRect.left);
 	const float height = static_cast<float>(windowRect.bottom - windowRect.top);
 
 	localRotation.x += (mousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
 	localRotation.y += (mousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
 
-	//CameraManager::getInstance()->activeCamera->setRotation({ xRotation, yRotation });
-
-	InputSystem::get()->setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
-	InputSystem::get()->showCursor(false);
+	InputSystem::setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
 }
 
 void SceneCamera::onLeftMouseDown(const Vector2D& mousePosition)
@@ -78,9 +85,12 @@ void SceneCamera::onLeftMouseUp(const Vector2D& mousePosition)
 
 void SceneCamera::onRightMouseDown(const Vector2D& mousePosition)
 {
+	isRightMouseDown = true;
 }
 
 void SceneCamera::onRightMouseUp(const Vector2D& mousePosition)
 {
+	isRightMouseDown = false;
+	InputSystem::showCursor(true);
 	//InputSystem::get()->showCursor(true);
 }

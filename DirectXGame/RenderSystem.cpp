@@ -75,6 +75,11 @@ DeviceContextPtr RenderSystem::getImmediateDeviceContext() const
 	return this->immDeviceContext;
 }
 
+ID3D11Device* RenderSystem::getDevice() const
+{
+	return this->directXDevice;
+}
+
 VertexBufferPtr RenderSystem::createVertexBuffer(
 	const void* listVertices,
 	const UINT sizeVertex,
@@ -147,7 +152,7 @@ bool RenderSystem::compileGeometryShader(const wchar_t* fileName, const char* en
 	return true;
 }
 
-bool RenderSystem::compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shader_byte_code, size_t* byte_code_size)
+bool RenderSystem::compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3DBlob* errorBlob = nullptr;
 	if (FAILED(::D3DCompileFromFile(
@@ -171,8 +176,8 @@ bool RenderSystem::compileVertexShader(const wchar_t* fileName, const char* entr
 		return false;
 	}
 
-	*shader_byte_code = blob->GetBufferPointer();
-	*byte_code_size = blob->GetBufferSize();
+	*shaderByteCode = blob->GetBufferPointer();
+	*byteCodeSize = blob->GetBufferSize();
 
 	return true;
 }

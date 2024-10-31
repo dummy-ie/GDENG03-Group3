@@ -14,6 +14,8 @@ public:
 	DeviceContext& operator=(const DeviceContext& other) = default;
 	DeviceContext& operator=(DeviceContext&& other) noexcept = default;
 
+	//ID3D11DeviceContext* getContext() const;
+
 	void clearRenderTargetColor(const SwapChainPtr& swapChain, float red, float green, float blue, float alpha) const;
 	void setVertexBuffer(const VertexBufferPtr& vertexBuffer) const;
 	void setIndexBuffer(const IndexBufferPtr& indexBuffer) const;
@@ -33,4 +35,5 @@ private:
 	ID3D11DeviceContext* deviceContext;
 
 	friend class ConstantBuffer;
+	friend class UIManager;
 };

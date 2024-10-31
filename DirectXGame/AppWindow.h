@@ -6,6 +6,10 @@
 
 #include "LogUtils.h"
 
+#include "imgui.h"
+#include "backends/imgui_impl_dx11.h"
+#include "backends/imgui_impl_win32.h"
+
 #include "Window.h"
 #include "EngineTime.h"
 #include "InputSystem.h"
@@ -26,6 +30,7 @@
 #include "Circle.h"
 #include "Plane.h"
 #include "MathUtil.h"
+#include "UIManager.h"
 
 
 class AppWindow final : public Window, public InputListener
@@ -54,7 +59,7 @@ private:
 
 	//Quad* qList[1]; // object manager later
 	//Cube* cList[1]; // object manager later
-	std::vector<GameObject*> gameObjectsVector;
+	//std::vector<GameObject*> gameObjectsVector;
 
 
 	SwapChainPtr swapChain;

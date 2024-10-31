@@ -1,5 +1,7 @@
 #include "AppWindow.h"
 
+#include "GameObjectManager.h"
+
 AppWindow* AppWindow::sharedInstance = nullptr;
 
 AppWindow* AppWindow::get()
@@ -94,6 +96,7 @@ void AppWindow::onCreate()
 
 	//GraphicsEngine::get()->getRenderSystem()->init();
 	//GraphicsEngine::get()->initialize();
+	UIManager::initialize(this->windowHandle);
 	CameraManager::initialize();
 
 	const RECT rc = this->getClientWindowRect();
@@ -114,51 +117,48 @@ void AppWindow::onCreate()
 	vertexShader = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shaderByteCode, byteCodeSize);
 
 	// Insert all GameObjects here
-
-	gameObjectsVector.reserve(50);
-
-	Plane* floor = new Plane("floor", shaderByteCode, byteCodeSize, { 0.3f, 0.4f, 0.1f });
+	const std::shared_ptr<Plane> floor = std::make_shared<Plane>("floor", shaderByteCode, byteCodeSize, Vector3D(0.3f, 0.4f, 0.1f));
 	floor->setRotation({ 1.57f, 0.f });
 	floor->setScale({ 100.f, 100.f, 100.f });
 	floor->setPosition({ 0.0f, -1.0f, 0.0f });
-	gameObjectsVector.push_back(floor);
+	GameObjectManager::get()->addObject(floor);
 
-	Plane* ceiling = new Plane("ceiling", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	const std::shared_ptr<Plane> ceiling = std::make_shared<Plane>("ceiling", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
 	ceiling->setRotation({ 1.57f, 0.f });
 	ceiling->setScale({ 100.f, 100.f, 100.f });
 	ceiling->setPosition({ 0.0f, 50.0f, 0.0f });
-	gameObjectsVector.push_back(ceiling);
+	GameObjectManager::get()->addObject(ceiling);
 
-	Plane* wall1 = new Plane("wall1", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	const std::shared_ptr<Plane> wall1 = std::make_shared<Plane>("wall1", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
 	wall1->setRotation({ 0.f, 0.f });
 	wall1->setScale({ 100.f, 100.f, 100.f });
 	wall1->setPosition({ 0.0f, 49.0f, 50.0f });
-	gameObjectsVector.push_back(wall1);
+	GameObjectManager::get()->addObject(wall1);
 
-	Plane* wall2 = new Plane("wall2", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	const std::shared_ptr<Plane> wall2 = std::make_shared<Plane>("wall2", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
 	wall2->setRotation({ 0.f, 0.f });
 	wall2->setScale({ 100.f, 100.f, 100.f });
 	wall2->setPosition({ 0.0f, 49.0f, -50.0f });
-	gameObjectsVector.push_back(wall2);
+	GameObjectManager::get()->addObject(wall2);
 
-	Plane* wall3 = new Plane("wall3", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	const std::shared_ptr<Plane> wall3 = std::make_shared<Plane>("wall3", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
 	wall3->setRotation({ 0.f, 1.57f });
 	wall3->setScale({ 100.f, 100.f, 100.f });
 	wall3->setPosition({ 50.0f, 49.0f, 0.0f });
-	gameObjectsVector.push_back(wall3);
+	GameObjectManager::get()->addObject(wall3);
 
-	Plane* wall4 = new Plane("wall4", shaderByteCode, byteCodeSize, { 0.15f,0.2f,0.60f });
+	const std::shared_ptr<Plane> wall4 = std::make_shared<Plane>("wall4", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
 	wall4->setRotation({ 0.f, 1.57f });
 	wall4->setScale({ 100.f, 100.f, 100.f });
 	wall4->setPosition({ -50.0f, 49.0f, 0.0f });
-	gameObjectsVector.push_back(wall4);
+	GameObjectManager::get()->addObject(wall4);
 
-	Plane* plane = new Plane("plane", shaderByteCode, byteCodeSize);
+	const std::shared_ptr<Plane> plane = std::make_shared<Plane>("plane", shaderByteCode, byteCodeSize);
 	plane->setRotation({ 1.57f, 0.f });
 	plane->setScale(2.f);
 	plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
 	plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	gameObjectsVector.push_back(plane);
+	GameObjectManager::get()->addObject(plane);
 
 	// 1. Rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
@@ -166,11 +166,11 @@ void AppWindow::onCreate()
 	// gameObjectsVector.push_back(cube);
 
 	// 2. Rotating white cube
-	Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize, 1.f);
+	const std::shared_ptr<Cube> cube = std::make_shared<Cube>("cube", shaderByteCode, byteCodeSize, 1.f);
 	cube->setPosition({ 0.f, 0.f, 0.f });
-	gameObjectsVector.push_back(cube);
 	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	GameObjectManager::get()->addObject(cube);
 
 	// 3. Translating and scaling rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
@@ -296,11 +296,16 @@ void AppWindow::onUpdate()
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
 	//LogUtils::log(this, "update and draw GOs");
-	for (GameObject* gameObject : gameObjectsVector)
-	{
-		gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
-		gameObject->draw(vertexShader, geometryShader, pixelShader, getClientWindowRect());
-	}
+	// for (GameObject* gameObject : gameObjectsVector)
+	// {
+	// 	gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
+	// 	gameObject->draw(vertexShader, geometryShader, pixelShader, getClientWindowRect());
+	// }
+
+	GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
+	GameObjectManager::get()->drawAll(vertexShader, geometryShader, pixelShader, getClientWindowRect());
+
+	UIManager::get()->draw();
 
 	swapChain->present(true);
 }
