@@ -17,6 +17,9 @@ void SceneCamera::update(const float deltaTime)
 
 void SceneCamera::onKeyDown(const int key)
 {
+	if (!isRightMouseDown)
+		return;
+
 	Matrix4x4 temp = view;
 	temp.inverse();
 

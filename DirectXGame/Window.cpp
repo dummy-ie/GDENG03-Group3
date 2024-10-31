@@ -1,11 +1,16 @@
 #include "Window.h"
 
 #include "LogUtils.h"
+#include "imgui.h"
 
 //Window* window = nullptr;
 
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(windowHandle, message, wParam, lParam))
+		return true;
+
 	switch (message)
 	{
 	case WM_CREATE:

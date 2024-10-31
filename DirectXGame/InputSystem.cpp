@@ -1,5 +1,7 @@
 #include "InputSystem.h"
 
+#include "imgui.h"
+
 InputSystem* InputSystem::sharedInstance = nullptr;
 
 InputSystem::InputSystem()
@@ -20,6 +22,7 @@ void InputSystem::update()
 	::GetCursorPos(&currentMousePoint);
 	//LogUtils::log(this, "Getting cursor pos");
 	const Vector2D currentMousePosition = currentMousePoint;
+	const ImGuiIO& io = ImGui::GetIO();
 
 	if (firstMouseMove)
 	{
@@ -52,17 +55,17 @@ void InputSystem::update()
 
 				while (it != setListeners.end())
 				{
-					if (i == VK_LBUTTON)
+					if (i == VK_LBUTTON && !io.WantCaptureMouse)
 					{
 						if (keysState[i] != oldKeysState[i])
 							(*it)->onLeftMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
 					}
-					else if (i == VK_RBUTTON)
+					else if (i == VK_RBUTTON && !io.WantCaptureMouse)
 					{
 						if (keysState[i] != oldKeysState[i])
 							(*it)->onRightMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
 					}
-					else
+					else if (!io.WantCaptureKeyboard)
 						(*it)->onKeyDown(i);
 
 					++it;
@@ -77,11 +80,11 @@ void InputSystem::update()
 
 					while (it != setListeners.end())
 					{
-						if (i == VK_LBUTTON)
+						if (i == VK_LBUTTON && !io.WantCaptureMouse)
 							(*it)->onLeftMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
-						else if (i == VK_RBUTTON)
+						else if (i == VK_RBUTTON && !io.WantCaptureMouse)
 							(*it)->onRightMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
-						else
+						else if (!io.WantCaptureKeyboard)
 							(*it)->onKeyUp(i);
 
 						++it;
