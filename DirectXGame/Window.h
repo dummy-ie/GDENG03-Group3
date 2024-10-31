@@ -5,17 +5,17 @@
 class Window
 {
 public:
-	virtual ~Window() = default;
-	Window() = default;
+	Window();
+	virtual ~Window();
+	Window(const Window& obj) = default;
+	Window(Window&& other) noexcept = default;
+	Window& operator=(const Window& other) = default;
+	Window& operator=(Window&& other) noexcept = default;
 
-	bool init();
-	bool broadcast();
-	bool release() const;
-	bool isRunning() const;
+	bool isRunning();
 	bool isFocused() const;
 
 	RECT getClientWindowRect() const;
-	void setWindowHandle(HWND windowHandle);
 
 	virtual void onCreate();
 	virtual void onUpdate();
@@ -25,7 +25,10 @@ public:
 
 protected:
 	HWND windowHandle;
+	bool windowIsInitialized = false;
 	bool windowIsFocused;
 	bool windowIsRunning;
+
+	bool broadcast();
 };
 

@@ -93,11 +93,6 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
-Cube::~Cube()
-{
-	GameObject::~GameObject();
-}
-
 void Cube::update(const float deltaTime)
 {
 	elapsedTime += deltaTime;
@@ -114,47 +109,8 @@ void Cube::update(const float deltaTime)
 	localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
-void Cube::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
-{
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-	Constant constants;
-	Matrix4x4
-		translateMatrix,
-		scaleMatrix,
-		xMatrix,
-		yMatrix,
-		zMatrix;
-
-	translateMatrix.setTranslation(localPosition);
-	scaleMatrix.setScale(localScale);
-
-	zMatrix.setRotationZ(localRotation.z);
-	yMatrix.setRotationY(localRotation.y);
-	xMatrix.setRotationX(localRotation.x);
-
-	//LogUtils::log(this, "Pos: " + CameraManager::getInstance()->activeCamera->getPosition().toString());
-	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
-	constants.world.setIdentity();
-
-	const Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
-	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
-
-	constants.view = CameraManager::getInstance()->activeCamera->getView();
-	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
-
-	constants.time = 0;
-
-	constantBuffer->update(deviceContext, &constants);
-
-	deviceContext->setConstantBuffer(constantBuffer);
-
-	deviceContext->setVertexBuffer(vertexBuffer);
-	deviceContext->setIndexBuffer(indexBuffer);
-
-	deviceContext->setVertexShader(vertexShader);
-	deviceContext->setGeometryShader(geometryShader);
-	deviceContext->setPixelShader(pixelShader);
-
-	deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
-	// deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
-}
+// void Cube::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, const RECT clientWindow)
+// {
+// 	GameObject::draw(vertexShader, geometryShader, pixelShader, clientWindow);
+// 	// deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
+// }

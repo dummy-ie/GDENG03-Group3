@@ -8,10 +8,9 @@ class Cube : public GameObject
 public:
 
 	Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, const Vector3D& color = Vector3D::zero);
-	~Cube() override;
 
 	void update(float deltaTime) override;
-	void draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow) override;
+	//void draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, RECT clientWindow) override;
 
 	Vector3D rotationDirection = 0.f;
 	float rotationSpeed = 1.0f;

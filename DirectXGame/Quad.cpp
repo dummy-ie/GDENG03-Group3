@@ -1,15 +1,7 @@
 ﻿#include "Quad.h"
 
-#include "ConstantBuffer.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
-#include "ConstantBuffer.h"
-#include "LogUtils.h"
-#include "MathUtil.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
 
-Quad::Quad(const std::string& name, void* shaderByteCode, const size_t sizeShader) : GameObject(name)
+Quad::Quad(const std::string& name, const void* shaderByteCode, const size_t sizeShader) : GameObject(name)
 {
 	constexpr int numVertices = 64;
 	Vertex list[] =
@@ -30,11 +22,6 @@ Quad::Quad(const std::string& name, void* shaderByteCode, const size_t sizeShade
 	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
-Quad::~Quad()
-{
-	GameObject::~GameObject();
-}
-
 void Quad::update(const float deltaTime)
 {
 
@@ -51,9 +38,9 @@ void Quad::update(const float deltaTime)
 	//LogUtils::log(this, "localPosition = " + localPosition.toString());
 }
 
-void Quad::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
+void Quad::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, const RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4
 		translateMatrix,

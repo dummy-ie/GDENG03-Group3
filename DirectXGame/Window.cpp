@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "LogUtils.h"
+
 //Window* window = nullptr;
 
 LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const WPARAM wParam, const LPARAM lParam)
@@ -8,20 +10,14 @@ LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const W
 	{
 	case WM_CREATE:
 	{
-		// Event fired when window is created
-		// collected here...
-		Window* window = static_cast<Window*>(reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams);
-		// ...and then stored for later lookup
-		SetWindowLongPtr(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
-		window->setWindowHandle(windowHandle);
-		window->onCreate();
 		break;
 	}
 	case WM_SETFOCUS:
 	{
 		// Event fired when the window get focus
 		Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
-		window->onFocus();
+		if (window)
+			window->onFocus();
 		break;
 	}
 	case WM_KILLFOCUS:
@@ -46,7 +42,7 @@ LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const W
 	return NULL;
 }
 
-bool Window::init()
+Window::Window()
 {
 	WNDCLASSEX wc;
 	wc.cbClsExtra = NULL;
@@ -62,8 +58,7 @@ bool Window::init()
 	wc.style = NULL;
 	wc.lpfnWndProc = &windowProc;
 
-	if (!::RegisterClassEx(&wc))
-		return false;
+	LogUtils::log(this, ::RegisterClassEx(&wc));
 
 	windowHandle = ::CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
@@ -77,10 +72,9 @@ bool Window::init()
 		nullptr,
 		nullptr,
 		nullptr,
-		this);
+		nullptr);
 
-	if (!windowHandle)
-		return false;
+	LogUtils::log(this, static_cast<bool>(windowHandle));
 
 	::ShowWindow(windowHandle, SW_SHOW);
 	::UpdateWindow(windowHandle);
@@ -88,13 +82,23 @@ bool Window::init()
 	EngineTime::initialize();
 
 	windowIsRunning = true;
+}
 
-	return true;
+Window::~Window()
+{
+	LogUtils::log(this, ::DestroyWindow(windowHandle));
 }
 
 bool Window::broadcast()
 {
 	MSG msg;
+
+	if (!windowIsInitialized)
+	{
+		SetWindowLongPtr(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+		onCreate();
+		windowIsInitialized = true;
+	}
 
 	EngineTime::logFrameStart();
 	this->onUpdate();
@@ -111,16 +115,11 @@ bool Window::broadcast()
 	return true;
 }
 
-bool Window::release() const
+bool Window::isRunning()
 {
-	if (!::DestroyWindow(windowHandle))
-		return false;
+	if (windowIsRunning)
+		broadcast();
 
-	return true;
-}
-
-bool Window::isRunning() const
-{
 	return windowIsRunning;
 }
 
@@ -134,11 +133,6 @@ RECT Window::getClientWindowRect() const
 	RECT rc;
 	::GetClientRect(this->windowHandle, &rc);
 	return rc;
-}
-
-void Window::setWindowHandle(HWND windowHandle)
-{
-	this->windowHandle = windowHandle;
 }
 
 void Window::onCreate()

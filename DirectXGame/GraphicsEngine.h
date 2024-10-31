@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include "Prerequisites.h"
 #include "RenderSystem.h"
 
@@ -8,21 +9,24 @@ class GraphicsEngine
 {
 public:
 	static GraphicsEngine* get();
-	static void initialize();
-	static void destroy();
+	// void initialize();
+	// void destroy();
+
+	static void create();
+	static void release();
 
 	RenderSystem* getRenderSystem() const;
+
+	GraphicsEngine(GraphicsEngine const&) = delete;
+	GraphicsEngine& operator=(GraphicsEngine const&) = delete;
+	GraphicsEngine(GraphicsEngine&& other) noexcept = delete;
+	GraphicsEngine& operator=(GraphicsEngine&& other) noexcept = delete;
 
 private:
 	GraphicsEngine();
 	~GraphicsEngine();
-	GraphicsEngine(GraphicsEngine const&);
-	GraphicsEngine& operator=(GraphicsEngine const&) {}
+
 	static GraphicsEngine* sharedInstance;
-
-	bool init();
-	bool release() const;
-
 	RenderSystem* renderSystem = nullptr;
 };
 

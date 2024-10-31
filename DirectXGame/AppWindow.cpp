@@ -4,28 +4,20 @@ AppWindow* AppWindow::sharedInstance = nullptr;
 
 AppWindow* AppWindow::get()
 {
+	if (!sharedInstance)
+		sharedInstance = new AppWindow();
+
 	return sharedInstance;
-}
-
-void AppWindow::initialize()
-{
-	sharedInstance = new AppWindow();
-	sharedInstance->init();
-}
-
-void AppWindow::destroy()
-{
-	if (sharedInstance != nullptr)
-		sharedInstance->release();
-
-	delete sharedInstance;
 }
 
 AppWindow::AppWindow()
 = default;
 
 AppWindow::~AppWindow()
-= default;
+{
+	Window::~Window();
+	delete sharedInstance;
+}
 
 void AppWindow::onKeyDown(const int key)
 {
@@ -101,7 +93,7 @@ void AppWindow::onCreate()
 	Window::onCreate();
 
 	//GraphicsEngine::get()->getRenderSystem()->init();
-	GraphicsEngine::initialize();
+	//GraphicsEngine::get()->initialize();
 	CameraManager::initialize();
 
 	const RECT rc = this->getClientWindowRect();
@@ -334,10 +326,6 @@ void AppWindow::onDestroy()
 	// vertexShader->release();
 	// pixelShader->release();
 
-	delete swapChain;
-	delete vertexShader;
-	delete pixelShader;
 
 	//GraphicsEngine::get()->getRenderSystem()->release();
-	GraphicsEngine::destroy();
 }

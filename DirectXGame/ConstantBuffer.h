@@ -14,7 +14,7 @@ public:
 	ConstantBuffer& operator=(const ConstantBuffer& other) = default;
 	ConstantBuffer& operator=(ConstantBuffer&& other) noexcept = default;
 
-	void update(const DeviceContext* context, const void* buffer) const;
+	void update(const DeviceContextPtr& context, const void* buffer) const;
 
 private:
 	ID3D11Buffer* constantBuffer;

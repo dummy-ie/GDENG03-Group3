@@ -42,6 +42,22 @@ public:
 		return true;
 	}
 
+	// template <class T>
+	// static bool log(T* sender, const bool result)
+	// {
+	// 	if (!result) {
+	// 		const std::string message = std::system_category().message(result);
+	// 		log(sender, message);
+	// 		throw std::exception(message.data());
+	// 		return false;
+	// 	}
+	//
+	// 	if (SUCCESS_LOGS)
+	// 		log(sender, "Operation was successful.");
+	//
+	// 	return true;
+	// }
+
 	template <class T>
 	static void error(T* sender, const std::string& msg)
 	{

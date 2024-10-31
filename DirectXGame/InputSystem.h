@@ -8,12 +8,7 @@
 class InputSystem
 {
 public:
-	InputSystem();
-	~InputSystem();
-	InputSystem(const InputSystem& obj) = default;
-	InputSystem(InputSystem&& other) noexcept = default;
-	InputSystem& operator=(const InputSystem& other) = default;
-	InputSystem& operator=(InputSystem&& other) noexcept = default;
+	static InputSystem* get();
 
 	void update();
 	void addListener(InputListener* listener);
@@ -22,15 +17,21 @@ public:
 	static void showCursor(const bool& show);
 	void setEnabled(const bool& enabled);
 
-public:
-	static InputSystem* get();
+	InputSystem(InputSystem const&) = delete;
+	InputSystem& operator=(InputSystem const&) = delete;
+	InputSystem(InputSystem&& other) noexcept = delete;
+	InputSystem& operator=(InputSystem&& other) noexcept = delete;
 
 private:
+	InputSystem();
+	~InputSystem();
+	static InputSystem* sharedInstance;
+
 	std::unordered_set<InputListener*> setListeners;
 	unsigned char keysState[256] = {};
 	unsigned char oldKeysState[256] = {};
 	Vector2D oldMousePosition;
 	bool firstMouseMove = true;
 
-	bool isEnabled;
+	bool isEnabled = true;
 };

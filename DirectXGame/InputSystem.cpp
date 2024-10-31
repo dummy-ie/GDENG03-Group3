@@ -1,11 +1,15 @@
 #include "InputSystem.h"
 
+InputSystem* InputSystem::sharedInstance = nullptr;
+
 InputSystem::InputSystem()
 = default;
 
 
 InputSystem::~InputSystem()
-= default;
+{
+	delete sharedInstance;
+}
 
 void InputSystem::update()
 {
@@ -121,6 +125,8 @@ void InputSystem::setEnabled(const bool& enabled)
 
 InputSystem* InputSystem::get()
 {
-	static InputSystem system;
-	return &system;
+	if (!sharedInstance)
+		sharedInstance = new InputSystem();
+
+	return sharedInstance;
 }

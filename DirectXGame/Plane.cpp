@@ -75,50 +75,12 @@ Plane::Plane(const std::string& name, const void* shaderByteCode, const size_t s
 	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
 
-Plane::~Plane()
-{
-	GameObject::~GameObject();
-}
-
 void Plane::update(const float deltaTime)
 {
 	localRotation += rotationDirection * rotationSpeed * deltaTime;
 }
 
-void Plane::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow)
-{
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-	Constant constants;
-	Matrix4x4
-		translateMatrix,
-		scaleMatrix,
-		xMatrix,
-		yMatrix,
-		zMatrix;
-
-	translateMatrix.setTranslation(localPosition);
-	scaleMatrix.setScale(localScale);
-
-	zMatrix.setRotationZ(localRotation.z);
-	yMatrix.setRotationY(localRotation.y);
-	xMatrix.setRotationX(localRotation.x);
-
-	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
-	constants.world.setIdentity();
-	Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
-	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
-
-	constants.view = CameraManager::getInstance()->getView();
-	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
-	constants.time = 0;
-
-	constantBuffer->update(deviceContext, &constants);
-
-	deviceContext->setConstantBuffer(constantBuffer);
-
-	deviceContext->setVertexBuffer(vertexBuffer);
-	deviceContext->setIndexBuffer(indexBuffer);
-
-	deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
-	// deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
-}
+// void Plane::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, RECT clientWindow)
+// {
+// 	GameObject::draw(vertexShader, geometryShader, pixelShader, clientWindow);
+// }

@@ -12,17 +12,17 @@ public:
 	RenderSystem& operator=(const RenderSystem& other) = default;
 	RenderSystem& operator=(RenderSystem&& other) noexcept = default;
 
-	bool init();
-	bool release() const;
+	//bool init();
+	//bool release() const;
 
-	SwapChain* createSwapChain(HWND windowHandle, UINT width, UINT height);
-	DeviceContext* getImmediateDeviceContext() const;
-	VertexBuffer* createVertexBuffer(const void* listVertices, UINT sizeVertex, UINT sizeList, const void* shaderByteCode, UINT sizeByteShader);
-	IndexBuffer* createIndexBuffer(const void* listIndices, UINT sizeList);
-	ConstantBuffer* createConstantBuffer(const void* buffer, UINT sizeBuffer);
-	VertexShader* createVertexShader(const void* shaderByteCode, size_t byteCodeSize);
-	PixelShader* createPixelShader(const void* shaderByteCode, size_t byteCodeSize);
-	GeometryShader* createGeometryShader(const void* shaderByteCode, size_t byteCodeSize);
+	SwapChainPtr createSwapChain(HWND windowHandle, UINT width, UINT height);
+	DeviceContextPtr getImmediateDeviceContext() const;
+	VertexBufferPtr createVertexBuffer(const void* listVertices, UINT sizeVertex, UINT sizeList, const void* shaderByteCode, UINT sizeByteShader);
+	IndexBufferPtr createIndexBuffer(const void* listIndices, UINT sizeList);
+	ConstantBufferPtr createConstantBuffer(const void* buffer, UINT sizeBuffer);
+	VertexShaderPtr createVertexShader(const void* shaderByteCode, size_t byteCodeSize);
+	PixelShaderPtr createPixelShader(const void* shaderByteCode, size_t byteCodeSize);
+	GeometryShaderPtr createGeometryShader(const void* shaderByteCode, size_t byteCodeSize);
 
 	bool compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shader_byte_code, size_t* byte_code_size);
 	bool compilePixelShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
@@ -31,7 +31,7 @@ public:
 
 private:
 
-	DeviceContext* immDeviceContext = nullptr;
+	DeviceContextPtr immDeviceContext = nullptr;
 
 	ID3D11Device* directXDevice = nullptr;
 	D3D_FEATURE_LEVEL featureLevel;

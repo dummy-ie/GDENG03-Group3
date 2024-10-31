@@ -8,7 +8,7 @@
 class SwapChain : public GraphicsResource
 {
 public:
-	SwapChain(const HWND windowHandle, const UINT width, const UINT height, RenderSystem* system);
+	SwapChain(HWND windowHandle, UINT width, UINT height, RenderSystem* system);
 	~SwapChain();
 	SwapChain(const SwapChain& obj) = default;
 	SwapChain(SwapChain&& other) noexcept = default;

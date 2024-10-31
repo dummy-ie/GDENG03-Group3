@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "CameraManager.h"
 #include "ConstantBuffer.h"
 
 // void GameObject::draw(VertexShader* vs, GeometryShader* gs, PixelShader* ps, RECT clientWindow)
@@ -19,3 +20,48 @@
 // 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vertexBuffer);
 // 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
 // }
+
+void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader,
+                      RECT clientWindow)
+{
+	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	Constant constants;
+	Matrix4x4
+		translateMatrix,
+		scaleMatrix,
+		xMatrix,
+		yMatrix,
+		zMatrix;
+
+	translateMatrix.setTranslation(localPosition);
+	scaleMatrix.setScale(localScale);
+
+	zMatrix.setRotationZ(localRotation.z);
+	yMatrix.setRotationY(localRotation.y);
+	xMatrix.setRotationX(localRotation.x);
+
+	//LogUtils::log(this, "Pos: " + CameraManager::getInstance()->activeCamera->getPosition().toString());
+	constants.cameraPos = CameraManager::getInstance()->activeCamera->getPosition();
+	constants.world.setIdentity();
+
+	const Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
+	constants.world = scaleMatrix * rotateMatrix * translateMatrix;
+
+	constants.view = CameraManager::getInstance()->activeCamera->getView();
+	constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
+
+	constants.time = 0;
+
+	constantBuffer->update(deviceContext, &constants);
+
+	deviceContext->setConstantBuffer(constantBuffer);
+
+	deviceContext->setVertexBuffer(vertexBuffer);
+	deviceContext->setIndexBuffer(indexBuffer);
+
+	deviceContext->setVertexShader(vertexShader);
+	deviceContext->setGeometryShader(geometryShader);
+	deviceContext->setPixelShader(pixelShader);
+
+	deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
+}

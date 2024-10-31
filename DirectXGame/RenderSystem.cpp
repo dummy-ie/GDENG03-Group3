@@ -9,15 +9,7 @@
 #include "GeometryShader.h"
 #include <d3dcompiler.h>
 
-#include "LogUtils.h"
-
 RenderSystem::RenderSystem()
-= default;
-
-RenderSystem::~RenderSystem()
-= default;
-
-bool RenderSystem::init()
 {
 	D3D_DRIVER_TYPE driverTypes[] =
 	{
@@ -25,7 +17,6 @@ bool RenderSystem::init()
 		D3D_DRIVER_TYPE_WARP,
 		D3D_DRIVER_TYPE_REFERENCE
 	};
-	constexpr UINT numDriverTypes = ARRAYSIZE(driverTypes);
 
 	D3D_FEATURE_LEVEL featureLevels[] =
 	{
@@ -52,45 +43,39 @@ bool RenderSystem::init()
 			break;
 	}
 
-	if (FAILED(res))
-		return false;
+	LogUtils::log(this, res);
 
-	immDeviceContext = new DeviceContext(immContext, this);
+	immDeviceContext = std::make_shared<DeviceContext>(immContext, this);
 
 	LogUtils::log(this, directXDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice)));
 	LogUtils::log(this, dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&dxgiAdapter)));
 	LogUtils::log(this, dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&dxgiFactory)));
 
-	return true;
 }
 
-bool RenderSystem::release() const
+RenderSystem::~RenderSystem()
 {
 	dxgiDevice->Release();
 	dxgiAdapter->Release();
 	dxgiFactory->Release();
 
-	//immDeviceContext->release();
-	delete immDeviceContext;
-
 	immContext->Release();
 	directXDevice->Release();
 
-	return true;
 }
 
-SwapChain* RenderSystem::createSwapChain(const HWND windowHandle, const UINT width, const UINT height)
+SwapChainPtr RenderSystem::createSwapChain(const HWND windowHandle, const UINT width, const UINT height)
 {
-	try { return new SwapChain(windowHandle, width, height, this); }
+	try { return std::make_shared<SwapChain>(windowHandle, width, height, this); }
 	catch (...) { return nullptr; }
 }
 
-DeviceContext* RenderSystem::getImmediateDeviceContext() const
+DeviceContextPtr RenderSystem::getImmediateDeviceContext() const
 {
 	return this->immDeviceContext;
 }
 
-VertexBuffer* RenderSystem::createVertexBuffer(
+VertexBufferPtr RenderSystem::createVertexBuffer(
 	const void* listVertices,
 	const UINT sizeVertex,
 	const UINT sizeList,
@@ -98,37 +83,37 @@ VertexBuffer* RenderSystem::createVertexBuffer(
 	const UINT sizeByteShader)
 {
 
-	try { return new VertexBuffer(listVertices, sizeVertex, sizeList, shaderByteCode, sizeByteShader, this); }
+	try { return std::make_shared<VertexBuffer>(listVertices, sizeVertex, sizeList, shaderByteCode, sizeByteShader, this); }
 	catch (...) { return nullptr; }
 }
 
-IndexBuffer* RenderSystem::createIndexBuffer(const void* listIndices, const UINT sizeList)
+IndexBufferPtr RenderSystem::createIndexBuffer(const void* listIndices, const UINT sizeList)
 {
-	try { return new IndexBuffer(listIndices, sizeList, this); }
+	try { return std::make_shared<IndexBuffer>(listIndices, sizeList, this); }
 	catch (...) { return nullptr; }
 }
 
-ConstantBuffer* RenderSystem::createConstantBuffer(const void* buffer, const UINT sizeBuffer)
+ConstantBufferPtr RenderSystem::createConstantBuffer(const void* buffer, const UINT sizeBuffer)
 {
-	try { return new ConstantBuffer(buffer, sizeBuffer, this); }
+	try { return std::make_shared<ConstantBuffer>(buffer, sizeBuffer, this); }
 	catch (...) { return nullptr; }
 }
 
-VertexShader* RenderSystem::createVertexShader(const void* shaderByteCode, const size_t byteCodeSize)
+VertexShaderPtr RenderSystem::createVertexShader(const void* shaderByteCode, const size_t byteCodeSize)
 {
-	try { return new VertexShader(shaderByteCode, byteCodeSize, this); }
+	try { return std::make_shared<VertexShader>(shaderByteCode, byteCodeSize, this); }
 	catch (...) { return nullptr; }
 }
 
-PixelShader* RenderSystem::createPixelShader(const void* shaderByteCode, const size_t byteCodeSize)
+PixelShaderPtr RenderSystem::createPixelShader(const void* shaderByteCode, const size_t byteCodeSize)
 {
-	try { return new PixelShader(shaderByteCode, byteCodeSize, this); }
+	try { return std::make_shared<PixelShader>(shaderByteCode, byteCodeSize, this); }
 	catch (...) { return nullptr; }
 }
 
-GeometryShader* RenderSystem::createGeometryShader(const void* shaderByteCode, const size_t byteCodeSize)
+GeometryShaderPtr RenderSystem::createGeometryShader(const void* shaderByteCode, const size_t byteCodeSize)
 {
-	try { return new GeometryShader(shaderByteCode, byteCodeSize, this); }
+	try { return std::make_shared<GeometryShader>(shaderByteCode, byteCodeSize, this); }
 	catch (...) { return nullptr; }
 }
 

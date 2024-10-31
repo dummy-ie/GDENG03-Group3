@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <corecrt_math_defines.h>
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -18,15 +19,19 @@ public:
 	{
 	}
 
-	virtual ~GameObject()
-	{
-		delete vertexBuffer;
-		delete indexBuffer;
-		delete constantBuffer;
-	}
+	// virtual ~GameObject() 
+	// {
+	// 	delete vertexBuffer;
+	// 	delete indexBuffer;
+	// 	delete constantBuffer;
+	// }
 
-	virtual void update(const float deltaTime) = 0;
-	virtual void draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, RECT clientWindow) = 0;
+	virtual void update(float deltaTime) = 0;
+	virtual void draw(
+		const VertexShaderPtr& vertexShader,
+		const GeometryShaderPtr& geometryShader,
+		const PixelShaderPtr& pixelShader,
+		RECT clientWindow);
 
 	void setPosition(const Vector3D& position) { localPosition = position; }
 	void translate(const Vector3D& translation) { localPosition += translation; }
@@ -63,7 +68,7 @@ protected:
 
 	Vector3D color;
 
-	VertexBuffer* vertexBuffer = nullptr;
-	IndexBuffer* indexBuffer = nullptr;
-	ConstantBuffer* constantBuffer = nullptr;
+	VertexBufferPtr vertexBuffer = nullptr;
+	IndexBufferPtr indexBuffer = nullptr;
+	ConstantBufferPtr constantBuffer = nullptr;
 };

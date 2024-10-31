@@ -32,8 +32,6 @@ class AppWindow final : public Window, public InputListener
 {
 public:
 	static AppWindow* get();
-	static void initialize();
-	static void destroy();
 
 	void onCreate() override;
 	void onUpdate() override;
@@ -43,17 +41,15 @@ public:
 
 	//static Camera* activeCamera;
 
+	AppWindow(AppWindow const&) = delete;
+	AppWindow& operator=(AppWindow const&) = delete;
+	AppWindow(AppWindow&& other) noexcept = delete;
+	AppWindow& operator=(AppWindow&& other) noexcept = delete;
+
 private:
 	AppWindow();
 	~AppWindow() override;
-	AppWindow(AppWindow const&) :
-		swapChain(nullptr),
-		vertexShader(nullptr),
-		geometryShader(nullptr),
-		pixelShader(nullptr)
-	{
-	}
-	AppWindow& operator=(AppWindow const&) {}
+	
 	static AppWindow* sharedInstance;
 
 	//Quad* qList[1]; // object manager later
@@ -61,12 +57,12 @@ private:
 	std::vector<GameObject*> gameObjectsVector;
 
 
-	SwapChain* swapChain;
+	SwapChainPtr swapChain;
 
-	VertexShader* vertexShader;
-	GeometryShader* geometryShader;
+	VertexShaderPtr vertexShader;
+	GeometryShaderPtr geometryShader;
 	//GeometryShader* geometryShader1;
-	PixelShader* pixelShader;
+	PixelShaderPtr pixelShader;
 
 	float ticks = 0.0f;
 

@@ -26,7 +26,7 @@ ConstantBuffer::~ConstantBuffer()
 		constantBuffer->Release();
 }
 
-void ConstantBuffer::update(const DeviceContext* context, const void* buffer) const
+void ConstantBuffer::update(const DeviceContextPtr& context, const void* buffer) const
 {
 	context->deviceContext->UpdateSubresource(this->constantBuffer, NULL, nullptr, buffer, NULL, NULL);
 }

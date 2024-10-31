@@ -1,11 +1,9 @@
 #include "Circle.h"
 
 #include "ConstantBuffer.h"
-#include "LogUtils.h"
 #include "PixelShader.h"
-#include "VertexShader.h"
 
-Circle::Circle(const std::string& name, void* shaderByteCode, size_t sizeShader, const float radius) : GameObject(name)
+Circle::Circle(const std::string& name, const void* shaderByteCode, const size_t sizeShader, const float radius) : GameObject(name)
 {
 	constexpr int numVertices = 64;
 	std::vector<Vertex> list;
@@ -33,11 +31,6 @@ Circle::Circle(const std::string& name, void* shaderByteCode, size_t sizeShader,
 	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants,sizeof(Constant));
 }
 
-Circle::~Circle()
-{
-	GameObject::~GameObject();
-}
-
 void Circle::update(const float deltaTime)
 {
 
@@ -48,9 +41,9 @@ void Circle::update(const float deltaTime)
 	deltaScale += deltaTime / 0.15f;
 }
 
-void Circle::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader, const RECT clientWindow)
+void Circle::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, const RECT clientWindow)
 {
-	const DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
 	Matrix4x4 tempMatrix;
 	const float windowWidth = (clientWindow.right - clientWindow.left) / 400.f;

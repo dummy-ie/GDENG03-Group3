@@ -1,12 +1,13 @@
 #include "Camera.h"
 
-#include <corecrt_math_defines.h>
-
 void Camera::update(const float deltaTime)
 {
 }
 
-void Camera::draw(VertexShader* vertexShader, GeometryShader* geometryShader, PixelShader* pixelShader,
+void Camera::draw(
+	const VertexShaderPtr& vertexShader,
+	const GeometryShaderPtr& geometryShader,
+	const PixelShaderPtr& pixelShader,
 	RECT clientWindow)
 {
 }
