@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <winerror.h>
 
 #define DEBUG_LOGS true
 #define ERROR_LOGS true
@@ -27,10 +28,10 @@ public:
 	}
 
 	template <class T>
-	static bool log(T* sender, const HRESULT result)
+	static bool logHResult(T* sender, const long hResult)
 	{
-		if (FAILED(result)) {
-			const std::string message = std::system_category().message(result);
+		if (FAILED(hResult)) {
+			const std::string message = std::system_category().message(hResult);
 			log(sender, message);
 			throw std::exception(message.data());
 			return false;
@@ -42,21 +43,21 @@ public:
 		return true;
 	}
 
-	// template <class T>
-	// static bool log(T* sender, const bool result)
-	// {
-	// 	if (!result) {
-	// 		const std::string message = std::system_category().message(result);
-	// 		log(sender, message);
-	// 		throw std::exception(message.data());
-	// 		return false;
-	// 	}
-	//
-	// 	if (SUCCESS_LOGS)
-	// 		log(sender, "Operation was successful.");
-	//
-	// 	return true;
-	// }
+	template <class T>
+	static bool logBool(T* sender, const bool bResult)
+	{
+		if (!bResult) {
+			std::string message = "[" + std::to_string(bResult) + "] Operation failed!";
+			log(sender, message);
+			throw std::exception(message.data());
+			return false;
+		}
+
+		if (SUCCESS_LOGS)
+			log(sender, "Operation was successful.");
+
+		return true;
+	}
 
 	template <class T>
 	static void error(T* sender, const std::string& msg)

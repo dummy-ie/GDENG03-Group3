@@ -3,8 +3,8 @@
 #include "LogUtils.h"
 #include "imgui.h"
 
-//Window* window = nullptr;
-
+// ReSharper disable once CppInconsistentNaming
+// for ImGui input forwarding
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
@@ -62,13 +62,13 @@ Window::Window()
 	wc.lpszMenuName = "";
 	wc.style = NULL;
 	wc.lpfnWndProc = &windowProc;
-
-	LogUtils::log(this, ::RegisterClassEx(&wc));
+	
+	LogUtils::logBool(this, static_cast<bool>(::RegisterClassEx(&wc)));
 
 	windowHandle = ::CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
 		"MyWindowClass",
-		"[LEOCARIO] DirectX Application",
+		"MRLOL.engine",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -79,7 +79,7 @@ Window::Window()
 		nullptr,
 		nullptr);
 
-	LogUtils::log(this, static_cast<bool>(windowHandle));
+	LogUtils::logBool(this, static_cast<bool>(windowHandle));
 
 	::ShowWindow(windowHandle, SW_SHOW);
 	::UpdateWindow(windowHandle);
@@ -91,7 +91,7 @@ Window::Window()
 
 Window::~Window()
 {
-	LogUtils::log(this, ::DestroyWindow(windowHandle));
+	LogUtils::logBool(this, static_cast<bool>(::DestroyWindow(windowHandle)));
 }
 
 bool Window::broadcast()

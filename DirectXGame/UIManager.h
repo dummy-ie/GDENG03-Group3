@@ -13,13 +13,19 @@
 #include "DeviceContext.h"
 #include "Prerequisites.h"
 
+#include "MenuScreen.h"
+
 class UIManager
 {
+	typedef std::shared_ptr<UIScreen> UIScreenPtr;
+	typedef std::vector<UIScreenPtr> UIList;
+	typedef std::unordered_map<std::string, UIScreenPtr> UIMap;
+
 public:
 	static UIManager* get();
 
 	static void initialize(HWND windowHandle);
-	void draw();
+	void draw() const;
 
 	UIManager(UIManager const&) = delete;
 	UIManager& operator=(UIManager const&) = delete;
@@ -29,11 +35,13 @@ public:
 	static constexpr int WindowWidth = 1440;
 	static constexpr int WindowHeight = 900;
 private:
-	UIManager(HWND windowHandle);
+	explicit UIManager(HWND windowHandle);
 	~UIManager();
 	static UIManager* sharedInstance;
 
-	std::vector<UIScreen*> uiList;
-	std::unordered_map < std::string, UIScreen* > uiTable;
+	static void setupImGuiStyle();
+
+	UIList uiList;
+	UIMap uiMap;
 };
 

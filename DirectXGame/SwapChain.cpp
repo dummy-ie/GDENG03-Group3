@@ -24,12 +24,12 @@ SwapChain::SwapChain(
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	LogUtils::log(this, system->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
+	LogUtils::logHResult(this, system->dxgiFactory->CreateSwapChain(device, &desc, &swapChain));
 
 	ID3D11Texture2D* buffer = nullptr;
-	LogUtils::log(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
+	LogUtils::logHResult(this, swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer)));
 
-	LogUtils::log(this, device->CreateRenderTargetView(buffer, nullptr, &renderTargetView));
+	LogUtils::logHResult(this, device->CreateRenderTargetView(buffer, nullptr, &renderTargetView));
 	buffer->Release();
 
 	D3D11_TEXTURE2D_DESC texDesc;
@@ -45,9 +45,9 @@ SwapChain::SwapChain(
 	texDesc.ArraySize = 1;
 	texDesc.CPUAccessFlags = 0;
 
-	LogUtils::log(this, system->directXDevice->CreateTexture2D(&texDesc, nullptr, &buffer));
+	LogUtils::logHResult(this, system->directXDevice->CreateTexture2D(&texDesc, nullptr, &buffer));
 
-	LogUtils::log(this, system->directXDevice->CreateDepthStencilView(buffer, nullptr, &depthStencilView));
+	LogUtils::logHResult(this, system->directXDevice->CreateDepthStencilView(buffer, nullptr, &depthStencilView));
 	buffer->Release();
 }
 
@@ -58,5 +58,5 @@ SwapChain::~SwapChain()
 
 void SwapChain::present(const bool vsync) const
 {
-	LogUtils::log(this, swapChain->Present(vsync, NULL));
+	LogUtils::logHResult(this, swapChain->Present(vsync, NULL));
 }

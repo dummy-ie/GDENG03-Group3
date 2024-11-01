@@ -4,7 +4,7 @@
 
 VertexShader::VertexShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 {
-	LogUtils::log(this, system->directXDevice->CreateVertexShader(shaderByteCode, byteCodeSize, nullptr, &vs));
+	LogUtils::logHResult(this, system->directXDevice->CreateVertexShader(shaderByteCode, byteCodeSize, nullptr, &vs));
 }
 
 VertexShader::~VertexShader()

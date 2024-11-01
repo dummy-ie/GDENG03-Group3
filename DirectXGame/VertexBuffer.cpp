@@ -24,7 +24,7 @@ VertexBuffer::VertexBuffer(
 	this->sizeVertex = sizeVertex;
 	this->sizeList = sizeList;
 
-	LogUtils::log(this, system->directXDevice->CreateBuffer(&buffDesc, &init_data, &buffer));
+	LogUtils::logHResult(this, system->directXDevice->CreateBuffer(&buffDesc, &init_data, &buffer));
 
 	D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
 	{
@@ -59,7 +59,7 @@ VertexBuffer::VertexBuffer(
 
 	constexpr UINT sizeLayout = ARRAYSIZE(layoutDesc);
 
-	LogUtils::log(this, system->directXDevice->CreateInputLayout(layoutDesc, sizeLayout, shaderByteCode, sizeByteShader, &layout));
+	LogUtils::logHResult(this, system->directXDevice->CreateInputLayout(layoutDesc, sizeLayout, shaderByteCode, sizeByteShader, &layout));
 }
 
 VertexBuffer::~VertexBuffer()

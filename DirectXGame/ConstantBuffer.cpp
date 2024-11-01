@@ -17,7 +17,7 @@ ConstantBuffer::ConstantBuffer(const void* buffer, const UINT sizeBuffer, Render
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = buffer;
 
-	LogUtils::log(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer));
+	LogUtils::logHResult(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &constantBuffer));
 }
 
 ConstantBuffer::~ConstantBuffer()

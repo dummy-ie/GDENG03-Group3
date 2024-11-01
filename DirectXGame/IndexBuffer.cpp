@@ -18,7 +18,7 @@ IndexBuffer::IndexBuffer(const void* listIndices, const UINT sizeList, RenderSys
 
 	indexListSize = sizeList;
 
-	LogUtils::log(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
+	LogUtils::logHResult(this, system->directXDevice->CreateBuffer(&buffDesc, &initData, &indexBuffer));
 }
 
 IndexBuffer::~IndexBuffer()

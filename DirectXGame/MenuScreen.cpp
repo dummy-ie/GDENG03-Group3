@@ -1,0 +1,126 @@
+#include "MenuScreen.h"
+
+void MenuScreen::draw()
+{
+
+	if (!LogUtils::logBool(this, ImGui::BeginMainMenuBar())) return;
+
+	// File header
+	if (ImGui::BeginMenu("File")) {
+		if (ImGui::MenuItem("Open..", "Ctrl+O"))
+		{
+		}
+		if (ImGui::MenuItem("Save", "Ctrl+S"))
+		{
+		}
+		if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+		{
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::MenuItem("Quit", "Ctrl+W"))
+		{
+		}
+		ImGui::EndMenu();
+	}
+
+	// Game Object header
+	if (ImGui::BeginMenu("Game Object")) {
+		if (ImGui::MenuItem("Create Cube"))
+		{
+			onCreateCubeClicked();
+		}
+		if (ImGui::MenuItem("Create Sphere"))
+		{
+			onCreateSphereClicked();
+		}
+		if (ImGui::MenuItem("Create Plane"))
+		{
+			onCreatePlaneClicked();
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::BeginMenu("Light"))
+		{
+			if (ImGui::MenuItem("Point Light"))
+			{
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenu();
+	}
+
+	// About header
+	if (ImGui::BeginMenu("About"))
+	{
+		if (ImGui::MenuItem("Credits", nullptr, isCreditsOpen))
+		{
+			isCreditsOpen = !isCreditsOpen;
+		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMainMenuBar();
+
+
+	// if (!LogUtils::logBool(this, ImGui::BeginMainMenuBar()))
+	// 	return;
+	//
+	// // File header start
+	// if (LogUtils::logBool(this, ImGui::BeginMenu("File")))
+	// {
+	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Open...", "Ctrl+O")))
+	// 	{
+	// 	}
+	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Save", "Ctrl+S")))
+	// 	{
+	// 	}
+	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Save As", "Ctrl+Shift+S")))
+	// 	{
+	// 	}
+	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Exit Editor", "Ctrl+W")))
+	// 	{
+	// 	}
+	//
+	// 	// File header end
+	// 	ImGui::EndMenu();
+	//
+	//
+	// }
+	// ImGui::EndMainMenuBar();
+	if (isCreditsOpen)
+		showCreditsWindow();
+}
+
+void MenuScreen::onCreateCubeClicked()
+{
+}
+
+void MenuScreen::onCreateSphereClicked()
+{
+}
+
+void MenuScreen::onCreatePlaneClicked()
+{
+}
+
+void MenuScreen::showCreditsWindow()
+{
+	if (ImGui::Begin("Credits", &isCreditsOpen))
+	{
+
+		ImGui::TextColored(ImVec4(0.3f, 0.4f, 1.0f, 1.0f), "MRLOL.engine");
+		ImGui::Text("Developer: Marcus Rene Levin Oliva-Leocario");
+		ImGui::Text("In partial fulfillment of the requirements for GDENG03");
+
+		ImGui::Separator();
+
+		ImGui::Text("Dear ImGui Version: %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
+
+		if (ImGui::Button("OK"))
+			isCreditsOpen = false;
+	}
+	ImGui::End();
+}

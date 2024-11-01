@@ -159,9 +159,6 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameEngine\UISystem</Filter>
     </ClCompile>
-    <ClCompile Include="UIScreen.cpp">
-      <Filter>GameEngine\UISystem</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -185,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>GameEngine\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="PrimitiveType.h">
       <Filter>GameEngine\Utilities\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

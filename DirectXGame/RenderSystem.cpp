@@ -43,13 +43,13 @@ RenderSystem::RenderSystem()
 			break;
 	}
 
-	LogUtils::log(this, res);
+	LogUtils::logHResult(this, res);
 
 	immDeviceContext = std::make_shared<DeviceContext>(immContext, this);
 
-	LogUtils::log(this, directXDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice)));
-	LogUtils::log(this, dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&dxgiAdapter)));
-	LogUtils::log(this, dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&dxgiFactory)));
+	LogUtils::logHResult(this, directXDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice)));
+	LogUtils::logHResult(this, dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&dxgiAdapter)));
+	LogUtils::logHResult(this, dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&dxgiFactory)));
 
 }
 
