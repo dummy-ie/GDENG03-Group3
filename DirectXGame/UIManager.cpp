@@ -24,7 +24,7 @@ void UIManager::draw() const
 	{
 		uiScreen->draw();
 	}
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -37,37 +37,26 @@ UIManager::UIManager(const HWND windowHandle)
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
 	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
+	setupImGuiStyle();
+
+	// Setup Dear ImGui font
 	const ImFont* customFont = io.Fonts->AddFontFromFileTTF(
-		R"(C:\Users\marcu\Documents\C++\GDENG03\DirectXGame\DirectXGame\imgui\misc\fonts\Karla-Regular.ttf)", 20.f);
+		R"(imgui\misc\fonts\Karla-Regular.ttf)", 22.f);
 
 	if (!customFont)
 		io.Fonts->AddFontDefault();
 
-	setupImGuiStyle();
 
 	// Setup Platform/Renderer bindings
 	ImGui_ImplWin32_Init(windowHandle);
 	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getDevice(), GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->deviceContext);
 
-	// ProfilerScreen* profilerScreen = new ProfilerScreen();
-	// this->uiTable[uiNames.PROFILER_SCREEN] = profilerScreen;
-	// this->uiList.push_back(profilerScreen);
-
 	const std::shared_ptr<MenuScreen> menuScreen = std::make_shared<MenuScreen>();
 	this->uiMap[menuScreen->getName()] = menuScreen;
 	this->uiList.push_back(menuScreen);
-
-	// InspectorScreen* inspectorScreen = new InspectorScreen();
-	// this->uiTable[uiNames.INSPECTOR_SCREEN] = inspectorScreen;
-	// this->uiList.push_back(inspectorScreen);
-
-	// HierarchyScreen* hierarchyScreen = new HierarchyScreen();
-	// this->uiTable[uiNames.HIERARCHY_SCREEN] = hierarchyScreen;
-	// this->uiList.push_back(hierarchyScreen);
 }
 
 UIManager::~UIManager()

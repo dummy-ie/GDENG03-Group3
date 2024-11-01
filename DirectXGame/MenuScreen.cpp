@@ -1,5 +1,18 @@
 #include "MenuScreen.h"
 
+#include "GraphicsEngine.h"
+
+MenuScreen::MenuScreen() : UIScreen("MenuScreen")
+{
+	LogUtils::logHResult(
+		this,
+		DirectX::CreateWICTextureFromFile(
+			GraphicsEngine::get()->getRenderSystem()->getDevice(),
+			L"images/pompom logo.png",
+			nullptr,
+			creditsTexture.ReleaseAndGetAddressOf()));
+}
+
 void MenuScreen::draw()
 {
 
@@ -62,36 +75,23 @@ void MenuScreen::draw()
 		ImGui::EndMenu();
 	}
 
+	// Test header
+	if (ImGui::BeginMenu("Test"))
+	{
+		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
+		{
+			isColorPickerOpen = !isColorPickerOpen;
+		}
+		ImGui::EndMenu();
+	}
+
 	ImGui::EndMainMenuBar();
 
-
-	// if (!LogUtils::logBool(this, ImGui::BeginMainMenuBar()))
-	// 	return;
-	//
-	// // File header start
-	// if (LogUtils::logBool(this, ImGui::BeginMenu("File")))
-	// {
-	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Open...", "Ctrl+O")))
-	// 	{
-	// 	}
-	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Save", "Ctrl+S")))
-	// 	{
-	// 	}
-	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Save As", "Ctrl+Shift+S")))
-	// 	{
-	// 	}
-	// 	if (LogUtils::logBool(this, ImGui::MenuItem("Exit Editor", "Ctrl+W")))
-	// 	{
-	// 	}
-	//
-	// 	// File header end
-	// 	ImGui::EndMenu();
-	//
-	//
-	// }
-	// ImGui::EndMainMenuBar();
 	if (isCreditsOpen)
 		showCreditsWindow();
+
+	if (isColorPickerOpen)
+		showColorPickerWindow();
 }
 
 void MenuScreen::onCreateCubeClicked()
@@ -110,10 +110,25 @@ void MenuScreen::showCreditsWindow()
 {
 	if (ImGui::Begin("Credits", &isCreditsOpen))
 	{
+		constexpr ImVec2 imageSize = { 200, 200 };
+		ImGui::Image(static_cast<ImTextureID>(reinterpret_cast<intptr_t>(creditsTexture.Get())), imageSize);
+		ImGui::TextColored(ImVec4(0.3f, 0.4f, 1.0f, 1.0f), "MRLOL.engine v0.01 \n");
 
-		ImGui::TextColored(ImVec4(0.3f, 0.4f, 1.0f, 1.0f), "MRLOL.engine");
-		ImGui::Text("Developer: Marcus Rene Levin Oliva-Leocario");
-		ImGui::Text("In partial fulfillment of the requirements for GDENG03");
+		ImGui::NewLine();
+		ImGui::Text(
+			"About: \n"
+			"Developed by Marcus Rene Levin Oliva-Leocario \n"
+			"In partial fulfillment of the requirements for GDENG03"
+		);
+
+		ImGui::NewLine();
+		ImGui::Text(
+			"Acknowledgements: \n"
+			"Dr. Neil Del Gallego's GDENG03 Course \n"
+			"PardCode Game Engine Tutorial \n"
+			"Rimuru Tempest \n"
+		);
+		ImGui::NewLine();
 
 		ImGui::Separator();
 
@@ -121,6 +136,17 @@ void MenuScreen::showCreditsWindow()
 
 		if (ImGui::Button("OK"))
 			isCreditsOpen = false;
+	}
+	ImGui::End();
+}
+
+void MenuScreen::showColorPickerWindow()
+{
+	if (ImGui::Begin("Color Picker", &isColorPickerOpen))
+	{
+		static ImVec4 color(1.0f, 0.0f, 1.0f, 0.5f);
+		ImGui::SameLine();
+		ImGui::ColorPicker4("MyColor##4", reinterpret_cast<float*>(&color), 0);
 	}
 	ImGui::End();
 }

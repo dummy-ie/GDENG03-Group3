@@ -82,6 +82,9 @@
     <Filter Include="GameEngine\Utilities\Enums">
       <UniqueIdentifier>{44e8cb1a-a328-4050-b159-c8730b293ca5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Images">
+      <UniqueIdentifier>{96c3b50d-7f36-4c4c-9074-d14275933d47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -335,6 +338,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">
@@ -349,5 +353,13 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\pompom logo.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="images\waffle.jpg">
+      <Filter>Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>
