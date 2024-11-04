@@ -85,6 +85,15 @@
     <Filter Include="Images">
       <UniqueIdentifier>{96c3b50d-7f36-4c4c-9074-d14275933d47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObjects\GameObjectBase">
+      <UniqueIdentifier>{9670e58b-3fbc-46dd-9b65-3ba73942bf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\GameObjectManager">
+      <UniqueIdentifier>{4f56c64f-f93d-43df-aa88-a5a7b3a9aa75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\Materials">
+      <UniqueIdentifier>{e69319be-c5e4-4702-98fe-6f10f95a9179}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameEngine\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Circle.cpp">
       <Filter>GameEngine\GameObjects\2D Geometry</Filter>
@@ -183,11 +189,17 @@
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectManager.cpp">
-      <Filter>GameEngine\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="MenuScreen.cpp">
       <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameEngine\GameObjects\GameObjectBase</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>GameEngine\GameObjects\GameObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>GameEngine\GameObjects\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,9 +262,6 @@
     </ClInclude>
     <ClInclude Include="MathUtil.h">
       <Filter>GameEngine\Utilities\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameEngine\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Circle.h">
       <Filter>GameEngine\GameObjects\2D Geometry</Filter>
@@ -326,14 +335,20 @@
     <ClInclude Include="imgui\backends\imgui_impl_win32.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectManager.h">
-      <Filter>GameEngine\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="PrimitiveType.h">
       <Filter>GameEngine\Utilities\Enums</Filter>
     </ClInclude>
     <ClInclude Include="MenuScreen.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameEngine\GameObjects\GameObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>GameEngine\GameObjects\GameObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>GameEngine\GameObjects\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
