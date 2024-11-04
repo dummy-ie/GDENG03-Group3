@@ -1,3 +1,0 @@
-[submodule "DirectXGame/imgui"]
-	path = DirectXGame/imgui
-	url = https://github.com/ocornut/imgui.git
