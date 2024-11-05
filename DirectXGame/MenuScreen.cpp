@@ -13,6 +13,11 @@ MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 			creditsTexture.ReleaseAndGetAddressOf()));
 }
 
+void MenuScreen::setMaterialEditor(bool* isMaterialEditorOpen)
+{
+	this->isMaterialEditorOpen = isMaterialEditorOpen;
+}
+
 void MenuScreen::draw()
 {
 
@@ -76,14 +81,30 @@ void MenuScreen::draw()
 	}
 
 	// Test header
-	if (ImGui::BeginMenu("Test"))
+	if (ImGui::BeginMenu("Windows"))
 	{
+		if(isMaterialEditorOpen != nullptr)
+		if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
+		{
+			*isMaterialEditorOpen = !(*isMaterialEditorOpen);
+		}
+
 		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
 		ImGui::EndMenu();
 	}
+
+	// Test header
+	/*if (ImGui::BeginMenu("Test"))
+	{
+		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
+		{
+			isColorPickerOpen = !isColorPickerOpen;
+		}
+		ImGui::EndMenu();
+	}*/
 
 	ImGui::EndMainMenuBar();
 

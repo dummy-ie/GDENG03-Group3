@@ -36,8 +36,16 @@ MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 			normalTexture.ReleaseAndGetAddressOf()));
 }
 
+bool* MaterialEditor::getMaterialEditorOpen()
+{
+	return &isMaterialEditorOpen;
+}
+
 void MaterialEditor::draw()
 {
+	if (isColorPickerOpen && !isMaterialEditorOpen)
+		isColorPickerOpen = false;
+
 	if (isColorPickerOpen)
 		showColorPickerWindow();
 
@@ -66,14 +74,6 @@ void MaterialEditor::showMaterialEditorWindow()
 		if(ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture.Get())), imageSize))
 		{
 			loadTextureFile(albedoTexture);
-			if(albedoTexture)
-			{
-				
-			}
-			else
-			{
-				
-			}
 		}
 		ImGui::SameLine();
 		if(ImGui::ColorButton("Color", color, 0, ImVec2(50,30)))
@@ -159,7 +159,7 @@ void MaterialEditor::showMaterialEditorWindow()
 	ImGui::End();
 }
 
-void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture)
+void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture)
 {
 	//create file object instance
 	if(!LogUtils::logHResult(this,CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
@@ -183,6 +183,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	f_FileSystem->SetFileTypeIndex(1);
 	f_FileSystem->SetDefaultExtension(L"jpg");
 
+	//this part does NOT like LogUtils::logHResult at all
 	//open file dialogue window
 	HRESULT fileSelect = f_FileSystem->Show(NULL);
 	if(FAILED(fileSelect))
@@ -217,9 +218,6 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	std::replace(path.begin(), path.end(), L'\\', L'/');
 	const wchar_t* w_path = path.c_str();
 
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> oldTexture = texture;
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> newTexture;
-
 	//create texture from file
 	if(!LogUtils::logHResult(
 		this,
@@ -229,12 +227,12 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 			nullptr,
 			texture.ReleaseAndGetAddressOf())))
 	{
-		LogUtils::log("Texture load failed");
+		LogUtils::log(this, "Texture load failed");
 		LogUtils::log(this, std::string(path.begin(), path.end()));
 	}
 	else
 	{
-		LogUtils::log("Texture load success");
+		LogUtils::log(this, "Texture load success");
 		LogUtils::log(this, std::string(path.begin(), path.end()));
 	}
 	
