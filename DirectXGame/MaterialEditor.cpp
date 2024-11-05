@@ -36,8 +36,16 @@ MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 			normalTexture.ReleaseAndGetAddressOf()));
 }
 
+bool* MaterialEditor::getMaterialEditorOpen()
+{
+	return &isMaterialEditorOpen;
+}
+
 void MaterialEditor::draw()
 {
+	if (isColorPickerOpen && !isMaterialEditorOpen)
+		isColorPickerOpen = false;
+
 	if (isColorPickerOpen)
 		showColorPickerWindow();
 

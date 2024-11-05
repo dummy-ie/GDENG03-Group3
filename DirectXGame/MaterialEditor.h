@@ -15,6 +15,7 @@ class MaterialEditor :
 {
 public:
     MaterialEditor();
+    bool* getMaterialEditorOpen();
 
 private:
     void draw() override;
@@ -24,7 +25,7 @@ private:
     void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
 
     bool isColorPickerOpen = false;
-    bool isMaterialEditorOpen = true;
+    bool isMaterialEditorOpen = false;
 
     ImVec4 color = ImVec4(1,1,1,1);
     float metallic = 0;
