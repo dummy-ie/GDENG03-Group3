@@ -20,6 +20,7 @@
 #include "ConstantBuffer.h"
 #include "GameObject.h"
 #include "Cube.h"
+#include "Cylinder.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "InputListener.h"

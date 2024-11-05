@@ -1,5 +1,6 @@
 #include "AppWindow.h"
 
+
 #include "GameObjectManager.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
@@ -158,7 +159,7 @@ void AppWindow::onCreate()
 	plane->setScale(2.f);
 	plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
 	plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	GameObjectManager::get()->addObject(plane);
+	//GameObjectManager::get()->addObject(plane);
 
 	// 1. Rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
@@ -170,7 +171,13 @@ void AppWindow::onCreate()
 	cube->setPosition({ 0.f, 0.f, 0.f });
 	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	GameObjectManager::get()->addObject(cube);
+	//GameObjectManager::get()->addObject(cube);
+
+	const std::shared_ptr<Cylinder> cylinder = std::make_shared<Cylinder>("cylinder", shaderByteCode, byteCodeSize, 1.f);
+	cylinder->setPosition({ 1.f, 0.f, 0.f });
+	cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	GameObjectManager::get()->addObject(cylinder);
 
 	// 3. Translating and scaling rainbow cube
 	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);

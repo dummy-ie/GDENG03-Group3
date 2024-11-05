@@ -204,6 +204,9 @@
     <ClCompile Include="MaterialEditor.cpp">
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -355,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="MaterialEditor.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>GameEngine\GameObjects\3D Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
