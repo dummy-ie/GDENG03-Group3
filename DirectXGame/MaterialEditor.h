@@ -3,6 +3,8 @@
 #include <wrl/client.h>
 #include "WICTextureLoader.h"
 #include "DirectXHelpers.h"
+#include <string>
+#include <shobjidl.h> 
 
 #include "UIScreen.h"
 
@@ -27,6 +29,7 @@ private:
     ImVec4 color = ImVec4(1,1,1,1);
     float metallic = 0;
     float smoothness = 0;
+    float flatness = 0;
     float tiling[2] = { 1,1 };
     float offset[2] = { 0,0 };
 

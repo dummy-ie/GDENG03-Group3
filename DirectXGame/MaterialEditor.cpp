@@ -1,5 +1,7 @@
 #include "MaterialEditor.h"
 
+#include <algorithm>
+
 #include "GraphicsEngine.h"
 
 MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
@@ -63,7 +65,15 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::Text("Albedo Map");
 		if(ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture.Get())), imageSize))
 		{
-			
+			loadTextureFile(albedoTexture);
+			if(albedoTexture)
+			{
+				
+			}
+			else
+			{
+				
+			}
 		}
 		ImGui::SameLine();
 		if(ImGui::ColorButton("Color", color, 0, ImVec2(50,30)))
@@ -73,11 +83,14 @@ void MaterialEditor::showMaterialEditorWindow()
 
 		ImGui::NewLine();
 
+		//slider size
+		ImGui::PushItemWidth(250);
+
 		//metallic
 		ImGui::Text("Metallic Map");
 		if (ImGui::ImageButton("Metallic Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(metallicTexture.Get())), imageSize))
 		{
-
+			loadTextureFile(metallicTexture);
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Metallic", &metallic, 0, 1);
@@ -88,7 +101,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::Text("Smoothness Map");
 		if (ImGui::ImageButton("Smoothness Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(smoothnessTexture.Get())), imageSize))
 		{
-
+			loadTextureFile(smoothnessTexture);
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
@@ -99,14 +112,135 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::Text("Normal Map");
 		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture.Get())), imageSize))
 		{
-
+			loadTextureFile(normalTexture);
 		}
+		ImGui::SameLine();
+		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
 
 		ImGui::NewLine();
 
-		/*ImGui::Text("Tiling"); ImGui::SameLine();*/ ImGui::InputFloat2("Tiling", tiling);
-		ImGui::InputFloat2("Offset", offset);
+		//input field size
+		ImGui::PushItemWidth(125);
 
+		//tiling
+		ImGui::Text("Tiling");
+		//x
+		ImGui::Text("X"); ImGui::SameLine(40);
+		ImGui::PushItemWidth(225);
+		ImGui::SliderFloat("##TilingXSlider", &tiling[0], -20, 20);ImGui::SameLine();
+		ImGui::PushItemWidth(125);
+		ImGui::InputFloat("##Tiling X", &tiling[0]);
+		//y
+		ImGui::Text("Y"); ImGui::SameLine(40);
+		ImGui::PushItemWidth(225);
+		ImGui::SliderFloat("##TilingYSlider", &tiling[1], -20, 20);ImGui::SameLine();
+		ImGui::PushItemWidth(125);
+		ImGui::InputFloat("##Tiling Y", &tiling[1]);
+
+		ImGui::NewLine();
+
+		//offset
+		ImGui::Text("Offset");
+		//x
+		ImGui::Text("X"); ImGui::SameLine(40);
+		ImGui::PushItemWidth(225);
+		ImGui::SliderFloat("##OffsetXSlider", &offset[0], -20, 20);ImGui::SameLine();
+		ImGui::PushItemWidth(125);
+		ImGui::InputFloat("##Offset X", &offset[0]);
+		//y
+		ImGui::Text("Y"); ImGui::SameLine(40);
+		ImGui::PushItemWidth(225);
+		ImGui::SliderFloat("##OffsetYSlider", &offset[1], -20, 20);ImGui::SameLine();
+		ImGui::PushItemWidth(125);
+		ImGui::InputFloat("##Offset Y", &offset[1]);
+
+		ImGui::PopItemWidth();
 	}
 	ImGui::End();
+}
+
+void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture)
+{
+	//create file object instance
+	if(!LogUtils::logHResult(this,CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
+	{
+		return;
+	}
+
+	//create fileopnedialogue object
+	IFileOpenDialog* f_FileSystem;
+	if(!LogUtils::logHResult(this,CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem))))
+	{
+		CoUninitialize();
+		return;
+	}
+
+	COMDLG_FILTERSPEC fileTypes[] = {
+		{ L"Image Files", L"*.jpg;*.jpeg;*.png" }
+	};
+
+	f_FileSystem->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
+	f_FileSystem->SetFileTypeIndex(1);
+	f_FileSystem->SetDefaultExtension(L"jpg");
+
+	//open file dialogue window
+	HRESULT fileSelect = f_FileSystem->Show(NULL);
+	if(FAILED(fileSelect))
+	{
+		LogUtils::log(this, "Texture load cancelled");
+		f_FileSystem->Release();
+		CoUninitialize();
+		return;
+	}
+
+	//retrieve file name from selected item
+	IShellItem* f_Files;
+	if(!LogUtils::logHResult(this, f_FileSystem->GetResult(&f_Files)))
+	{
+		f_FileSystem->Release();
+		CoUninitialize();
+		return;
+	}
+
+	//store and convert file name
+	PWSTR f_Path;
+	if (!LogUtils::logHResult(this, f_Files->GetDisplayName(SIGDN_FILESYSPATH, &f_Path)))
+	{
+		f_Files->Release();
+		f_FileSystem->Release();
+		CoUninitialize();
+		return;
+	}
+
+	//format and store file path
+	std::wstring path(f_Path);
+	std::replace(path.begin(), path.end(), L'\\', L'/');
+	const wchar_t* w_path = path.c_str();
+
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> oldTexture = texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> newTexture;
+
+	//create texture from file
+	if(!LogUtils::logHResult(
+		this,
+		DirectX::CreateWICTextureFromFile(
+			GraphicsEngine::get()->getRenderSystem()->getDevice(),
+			w_path,
+			nullptr,
+			texture.ReleaseAndGetAddressOf())))
+	{
+		LogUtils::log("Texture load failed");
+		LogUtils::log(this, std::string(path.begin(), path.end()));
+	}
+	else
+	{
+		LogUtils::log("Texture load success");
+		LogUtils::log(this, std::string(path.begin(), path.end()));
+	}
+	
+
+	CoTaskMemFree(f_Path);
+	f_Files->Release();
+	f_FileSystem->Release();
+	CoUninitialize();
 }
