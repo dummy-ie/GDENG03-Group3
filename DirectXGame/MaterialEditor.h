@@ -21,8 +21,7 @@ private:
     void showColorPickerWindow();
     void showMaterialEditorWindow();
 
-    //void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture);
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> loadTextureFile();
+    void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
 
     bool isColorPickerOpen = false;
     bool isMaterialEditorOpen = true;
