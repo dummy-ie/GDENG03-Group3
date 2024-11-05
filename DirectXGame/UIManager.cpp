@@ -57,6 +57,10 @@ UIManager::UIManager(const HWND windowHandle)
 	const std::shared_ptr<MenuScreen> menuScreen = std::make_shared<MenuScreen>();
 	this->uiMap[menuScreen->getName()] = menuScreen;
 	this->uiList.push_back(menuScreen);
+
+	const std::shared_ptr<MaterialEditor> materialEditor = std::make_shared<MaterialEditor>();
+	this->uiMap[materialEditor->getName()] = materialEditor;
+	this->uiList.push_back(materialEditor);
 }
 
 UIManager::~UIManager()

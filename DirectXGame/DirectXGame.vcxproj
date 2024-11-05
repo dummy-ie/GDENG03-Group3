@@ -158,6 +158,7 @@
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialEditor.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialEditor.h" />
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MenuScreen.h" />

@@ -201,6 +201,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>GameEngine\GameObjects\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialEditor.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>GameEngine\GameObjects\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialEditor.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

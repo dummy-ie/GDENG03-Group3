@@ -14,6 +14,7 @@
 #include "Prerequisites.h"
 
 #include "MenuScreen.h"
+#include "MaterialEditor.h"
 
 class UIManager
 {
