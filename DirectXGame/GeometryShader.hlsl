@@ -2,7 +2,8 @@ struct GS_INPUT
 {
     float4 pos : POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
+    //float3 color1 : COLOR1;
     float fogFactor : FOG;
 };
 
@@ -10,7 +11,8 @@ struct GS_OUTPUT
 {
     float4 pos : SV_POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
+    //float3 color1 : COLOR1;
     float fogFactor : FOG;
 };
 
@@ -32,7 +34,8 @@ void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStre
         output.fogFactor = input[i].fogFactor;
         output.pos = input[i].pos;
         output.color = input[i].color;
-        output.color1 = input[i].color1;
+        output.texcoord = input[i].texcoord;
+        //output.color1 = input[i].color1;
 
         outputStream.Append(output);
     }

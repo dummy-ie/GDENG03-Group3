@@ -37,7 +37,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r;
 
     
-    color = float4(lerp(input.color, input.color1, (sin(time) + 1.0f) / 2.0f), 1.f);
+    color = float4(lerp(input.color, input.color, (sin(time) + 1.0f) / 2.0f), 1.f);
 
     // return lerp(color, fogColor, input.fogFactor);
     return color;

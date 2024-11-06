@@ -2,14 +2,15 @@ struct GS_INPUT
 {
     float4 pos : POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
+    //float3 color1 : COLOR1;
 };
 
 struct GS_OUTPUT
 {
     float4 pos : SV_POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
 };
 
 cbuffer constant : register(b0)
@@ -28,7 +29,8 @@ void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStre
     {
         output.pos = input[i].pos;
         output.color = input[i].color;
-        output.color1 = input[i].color1;
+        output.texcoord = input[i].texcoord;
+        //output.color1 = input[i].color1;
     
         outputStream.Append(output);
     }
@@ -51,7 +53,8 @@ void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStre
             output.pos = input[i].pos + positions[j];
             output.pos = output.pos + float4(0.f, time, 0.f, 0.f);
         	output.color = input[i].color;
-            output.color1 = input[i].color1;
+            output.texcoord = input[i].texcoord;
+            //output.color1 = input[i].color1;
     
             outputStream.Append(output);
         }
