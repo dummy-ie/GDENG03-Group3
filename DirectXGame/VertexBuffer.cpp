@@ -47,8 +47,8 @@ VertexBuffer::VertexBuffer(
 			0
 		},
 		{
-			"COLOR",
-			1,
+			"TEXCOORD",
+			0,
 			DXGI_FORMAT_R32G32B32_FLOAT,
 			0,
 			24,

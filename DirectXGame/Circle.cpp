@@ -13,8 +13,8 @@ Circle::Circle(const std::string& name, const void* shaderByteCode, const size_t
 		float x = radius * cos(angle);
 		float y = radius * sin(angle);
 
-		list.push_back({ { x, y, 0.0f }, color, {1.0f, 0.0f, 0.0f} });
-		list.push_back({ {0.0f, 0.0f, 0.0f}, color, {0.0f, 0.0f, 1.0f} });
+		list.push_back({ { x, y, 0.0f }, color, {1,1} });
+		list.push_back({ {0.0f, 0.0f, 0.0f}, color, {0,0} });
 	}
 
 	const UINT sizeList = static_cast<UINT>(list.size());

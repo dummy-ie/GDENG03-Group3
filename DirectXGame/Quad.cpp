@@ -7,10 +7,10 @@ Quad::Quad(const std::string& name, const void* shaderByteCode, const size_t siz
 	Vertex list[] =
 	{
 		//X - Y - Z
-		{Vector3D(-0.5f,-0.5f,0.0f),      Vector3D(0,0,0), Vector3D(0,1,0) }, // POS1
-		{Vector3D(-0.5f,0.5f,0.0f),        Vector3D(1,1,0), Vector3D(0,1,1) }, // POS2
-		{ Vector3D(0.5f,-0.5f,0.0f),      Vector3D(0,0,1),  Vector3D(1,0,0) },// POS2
-		{ Vector3D(0.5f,0.5f,0.0f),        Vector3D(1,1,1), Vector3D(0,0,1) }
+		{Vector3D(-0.5f,-0.5f,0.0f),      Vector3D(0,0,0), Vector2D(0,1)}, // POS1
+		{Vector3D(-0.5f,0.5f,0.0f),        Vector3D(1,1,0),Vector2D(0,0) }, // POS2
+		{ Vector3D(0.5f,-0.5f,0.0f),      Vector3D(0,0,1), Vector2D(0,1) },// POS2
+		{ Vector3D(0.5f,0.5f,0.0f),        Vector3D(1,1,1),Vector2D(1,1) }
 	};
 
 	constexpr UINT indexListSize = ARRAYSIZE(list);

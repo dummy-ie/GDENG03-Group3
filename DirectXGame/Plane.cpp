@@ -6,32 +6,31 @@ Plane::Plane(const std::string& name, const void* shaderByteCode, const size_t s
 	{
 		//X - Y - Z
 		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,0.0f),    Vector3D(1,0,0),  Vector3D(1.0f,0,0) },
-		{Vector3D(-0.5f,0.5f,0.0f),    Vector3D(1,1,0), Vector3D(0.0f,1.0f,0) },
-		{ Vector3D(0.5f,0.5f,0.0f),   Vector3D(1,1,0),  Vector3D(0.0f,0.0f,1.0f) },
-		{ Vector3D(0.5f,-0.5f,0.0f),     Vector3D(1,0,0), Vector3D(1.0f,1.f,0) },
-
-		//BACK FACE
-		{ Vector3D(0.5f,-0.5f,0.0f),    Vector3D(0,1,0), Vector3D(0,1.f,0) },
-		{ Vector3D(0.5f,0.5f,0.0f),    Vector3D(0,1,1), Vector3D(0,1.f,1.0f) },
-		{ Vector3D(-0.5f,0.5f,0.0f),   Vector3D(0,1,1),  Vector3D(0,0.f,1.f) },
-		{ Vector3D(-0.5f,-0.5f,0.0f),     Vector3D(0,1,0), Vector3D(1.f,0.f,0) }
+		{Vector3D(-0.5f,-0.5f,0.0f),    Vector3D(1,0,0),   Vector2D(0,1)},
+		{Vector3D(-0.5f,0.5f,0.0f),    Vector3D(1,1,0),    Vector2D(0,0) },
+		{ Vector3D(0.5f,0.5f,0.0f),   Vector3D(1,1,0),     Vector2D(0,1) },
+		{ Vector3D(0.5f,-0.5f,0.0f),     Vector3D(1,0,0),  Vector2D(1,1)},
+		//BACK FACE																			 			
+		{ Vector3D(0.5f,-0.5f,0.0f),    Vector3D(0,1,0),   Vector2D(1,1)},
+		{ Vector3D(0.5f,0.5f,0.0f),    Vector3D(0,1,1),    Vector2D(1,0) },
+		{ Vector3D(-0.5f,0.5f,0.0f),   Vector3D(0,1,1),    Vector2D(0,0)},
+		{ Vector3D(-0.5f,-0.5f,0.0f),     Vector3D(0,1,0), Vector2D(0,1)}
 	};
 
 	Vertex vertexList[] =
 	{
 		//X - Y - Z
 		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,0.0f),    color,  color},
-		{Vector3D(-0.5f,0.5f,0.0f),    color, color},
-		{ Vector3D(0.5f,0.5f,0.0f),   color,  color},
-		{ Vector3D(0.5f,-0.5f,0.0f),    color, color},
+		{Vector3D(-0.5f,-0.5f,0.0f),    color,  Vector2D(0,1)},
+		{Vector3D(-0.5f,0.5f,0.0f),    color,   Vector2D(0,0)},
+		{ Vector3D(0.5f,0.5f,0.0f),   color,    Vector2D(0,1)},
+		{ Vector3D(0.5f,-0.5f,0.0f),    color,  Vector2D(1,1)},
 
 		//BACK FACE
-		{ Vector3D(0.5f,-0.5f,0.0f),   color, color},
-		{ Vector3D(0.5f,0.5f,0.0f),   color, color},
-		{ Vector3D(-0.5f,0.5f,0.0f),  color,  color},
-		{ Vector3D(-0.5f,-0.5f,0.0f),    color, color}
+		{ Vector3D(0.5f,-0.5f,0.0f),   color,  Vector2D(1,1)},
+		{ Vector3D(0.5f,0.5f,0.0f),   color,   Vector2D(1,0)},
+		{ Vector3D(-0.5f,0.5f,0.0f),  color,   Vector2D(0,0)},
+		{ Vector3D(-0.5f,-0.5f,0.0f),    color,Vector2D(0,1)}
 	};
 
 	constexpr UINT sizeList = ARRAYSIZE(vertexList);
