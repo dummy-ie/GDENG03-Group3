@@ -29,7 +29,7 @@ private:
     bool isColorPickerOpen = false;
     bool isMaterialEditorOpen = false;
 
-    Imfloat4 color = Imfloat4(1,1,1,1);
+    ImVec4 color = ImVec4(1,1,1,1);
     float metallic = 0;
     float smoothness = 0;
     float flatness = 0;

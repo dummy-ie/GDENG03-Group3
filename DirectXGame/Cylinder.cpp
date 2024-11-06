@@ -9,8 +9,8 @@ Cylinder::Cylinder(const std::string& name, void* shaderByteCode, size_t sizeSha
 	//CREATING THE CIRCLES
 	Vertex topCenter = { Vector3D(0,0.5f,0), color, Vector2D(0,0)};
 	Vertex bottomCenter = { Vector3D(0,-0.5f,0), color, Vector2D(1,1)};
-	vertexList.push_back(bottomCenter);
 	vertexList.push_back(topCenter);
+	vertexList.push_back(bottomCenter);
 	
 
 	int segments = 50;

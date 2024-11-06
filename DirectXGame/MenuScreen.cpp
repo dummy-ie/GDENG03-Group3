@@ -133,7 +133,7 @@ void MenuScreen::showCreditsWindow()
 	{
 		constexpr ImVec2 imageSize = { 200, 200 };
 		ImGui::Image(static_cast<ImTextureID>(reinterpret_cast<intptr_t>(creditsTexture.Get())), imageSize);
-		ImGui::TextColored(Imfloat4(0.3f, 0.4f, 1.0f, 1.0f), "MRLOL.engine v0.01 \n");
+		ImGui::TextColored(ImVec4(0.3f, 0.4f, 1.0f, 1.0f), "MRLOL.engine v0.01 \n");
 
 		ImGui::NewLine();
 		ImGui::Text(
@@ -165,7 +165,7 @@ void MenuScreen::showColorPickerWindow()
 {
 	if (ImGui::Begin("Color Picker", &isColorPickerOpen))
 	{
-		static Imfloat4 color(1.0f, 0.0f, 1.0f, 0.5f);
+		static ImVec4 color(1.0f, 0.0f, 1.0f, 0.5f);
 		ImGui::SameLine();
 		ImGui::ColorPicker4("MyColor##4", reinterpret_cast<float*>(&color), 0);
 	}
