@@ -11,14 +11,14 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		//FRONT FACE
 		{Vector3D(-0.5f,-0.5f,-0.5f),    Vector3D(1,0,0),   Vector2D(0,1) },
 		{Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,0),    Vector2D(0,0) },
-		{ Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,0),     Vector2D(0,1) },
+		{ Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,0),     Vector2D(1,0) },
 		{ Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,0,0),  Vector2D(1,1) },
 																											
 
-		{ Vector3D(0.5f,-0.5f,0.5f),    Vector3D(0,1,0),    Vector2D(1,1) },
-		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1),     Vector2D(1,0) },
-		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),     Vector2D(0,0)},
-		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0),  Vector2D(0,1)}
+		{ Vector3D(0.5f,-0.5f,0.5f),    Vector3D(0,1,0),    Vector2D(0,1) },
+		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1),     Vector2D(0,0) },
+		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),     Vector2D(1,0)},
+		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0),  Vector2D(1,1)}
 	};
 
 	Vertex vertexList[] =
@@ -27,13 +27,29 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		//FRONT FACE
 		{Vector3D(-0.5f,-0.5f,-0.5f),    color,    Vector2D(0,1)},
 		{Vector3D(-0.5f,0.5f,-0.5f),    color,     Vector2D(0,0)},
-		{ Vector3D(0.5f,0.5f,-0.5f),   color,      Vector2D(0,1)},
+		{ Vector3D(0.5f,0.5f,-0.5f),   color,      Vector2D(1,0)},
 		{ Vector3D(0.5f,-0.5f,-0.5f),    color,    Vector2D(1,1)},
-																						
-		{ Vector3D(0.5f,-0.5f,0.5f),   color,      Vector2D(1,1)},
+			
+		//TOP FACE
+		{ Vector3D(0.5f,0.5f,-0.5f),   color,      Vector2D(1,1)},
 		{ Vector3D(0.5f,0.5f,0.5f),   color,       Vector2D(1,0)},
 		{ Vector3D(-0.5f,0.5f,0.5f),  color,       Vector2D(0,0)},
-		{ Vector3D(-0.5f,-0.5f,0.5f),    color,    Vector2D(0,1)}
+		{ Vector3D(-0.5f,0.5f,-0.5f),    color,    Vector2D(0,1)},
+
+		//BACK FACE
+		{ Vector3D(0.5f,-0.5f,0.5f),   color,      Vector2D(0,1)},
+		{ Vector3D(0.5f,0.5f,0.5f),   color,       Vector2D(0,0)},
+		{ Vector3D(-0.5f,0.5f,0.5f),  color,       Vector2D(1,0)},
+		{ Vector3D(-0.5f,-0.5f,0.5f),    color,    Vector2D(1,1)},
+			
+		//BOTTOM FACE
+		{ Vector3D(0.5f, -0.5f,-0.5f),   color,      Vector2D(0,0)},
+		{ Vector3D(0.5f, -0.5f,0.5f),   color,       Vector2D(0,1)},
+		{ Vector3D(-0.5f,-0.5f,0.5f),  color,       Vector2D(1,1)},
+		{ Vector3D(-0.5f,-0.5f,-0.5f),    color,    Vector2D(1,0)},
+
+		//This vertex needs to be here or the bottom face is f*cked
+		{ Vector3D(0,0,0),    Vector3D(0,0,0),    Vector2D(0,0)},
 	};
 
 	// LogUtils::log(this, "Vector3D zero: " + Vector3D::zero.toString());
@@ -46,21 +62,23 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		//FRONT SIDE
 		0,1,2,  //FIRST TRIANGLE
 		2,3,0,  //SECOND TRIANGLE
-		//BACK SIDE
-		4,5,6,
-		6,7,4,
 		//TOP SIDE
-		1,6,5,
-		5,2,1,
+		4,7,6,
+		6,5,4,
+		//BACK SIDE
+		8,9,10,
+		10,11,8,
 		//BOTTOM SIDE
-		7,0,3,
-		3,4,7,
+		12,13,14,
+		14,15,12,
 		//RIGHT SIDE
-		3,2,5,
-		5,4,3,
+		2,9,8,
+		8,3,2,
 		//LEFT SIDE
-		7,6,1,
-		1,0,7
+		1,0,11,
+		11,10,1
+		
+
 	};
 
 	constexpr UINT sizeIndexList = ARRAYSIZE(indexList);
