@@ -8,6 +8,7 @@
 #include "GeometryShader.h"
 #include "IndexBuffer.h"
 #include "PixelShader.h"
+#include "SamplerState.h"
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext, RenderSystem* system) : GraphicsResource(system), deviceContext(deviceContext)
 {
@@ -97,6 +98,21 @@ void DeviceContext::setGeometryShader(const GeometryShaderPtr& geometryShader) c
 void DeviceContext::setPixelShader(const PixelShaderPtr& pixelShader) const
 {
 	deviceContext->PSSetShader(pixelShader->ps, nullptr, 0);
+}
+
+void DeviceContext::setTexture(const Material& material)
+{
+	deviceContext->VSSetShaderResources(0, 1, material.albedoTexture.GetAddressOf());
+	deviceContext->VSSetShaderResources(1, 1, material.normalTexture.GetAddressOf());
+	deviceContext->VSSetShaderResources(2, 1, material.metallicTexture.GetAddressOf());
+	deviceContext->VSSetShaderResources(3, 1, material.smoothnessTexture.GetAddressOf());
+	deviceContext->VSSetSamplers(0, 1, &material.samplerState->m_sampler_state);
+
+	deviceContext->PSSetShaderResources(0, 1, material.albedoTexture.GetAddressOf());
+	deviceContext->PSSetShaderResources(1, 1, material.normalTexture.GetAddressOf());
+	deviceContext->PSSetShaderResources(2, 1, material.metallicTexture.GetAddressOf());
+	deviceContext->PSSetShaderResources(3, 1, material.smoothnessTexture.GetAddressOf());
+	deviceContext->PSSetSamplers(0, 1, &material.samplerState->m_sampler_state);
 }
 
 void DeviceContext::setConstantBuffer(const ConstantBufferPtr& constantBuffer) const

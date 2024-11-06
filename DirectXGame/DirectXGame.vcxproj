@@ -168,6 +168,7 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="SceneCamera.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -218,6 +219,7 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SamplerState.h" />
     <ClInclude Include="SceneCamera.h" />
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="Singleton.h">

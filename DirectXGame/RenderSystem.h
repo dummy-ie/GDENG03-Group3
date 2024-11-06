@@ -17,6 +17,8 @@ public:
 
 	DeviceContextPtr getImmediateDeviceContext() const;
 	ID3D11Device* getDevice() const;
+	SamplerStatePtr createSamplerState();
+
 
 	SwapChainPtr createSwapChain(HWND windowHandle, UINT width, UINT height);
 	VertexBufferPtr createVertexBuffer(const void* listVertices, UINT sizeVertex, UINT sizeList, const void* shaderByteCode, UINT sizeByteShader);

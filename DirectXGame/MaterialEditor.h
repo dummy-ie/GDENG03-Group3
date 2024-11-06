@@ -7,6 +7,7 @@
 #include <shobjidl.h> 
 
 #include "UIScreen.h"
+#include "Vector2D.h"
 
 class MenuScreen;
 
@@ -20,6 +21,7 @@ public:
 private:
     void draw() override;
     void showColorPickerWindow();
+    void updateSelectedMaterial() const;
     void showMaterialEditorWindow();
 
     void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
@@ -27,12 +29,12 @@ private:
     bool isColorPickerOpen = false;
     bool isMaterialEditorOpen = false;
 
-    ImVec4 color = ImVec4(1,1,1,1);
+    Imfloat4 color = Imfloat4(1,1,1,1);
     float metallic = 0;
     float smoothness = 0;
     float flatness = 0;
-    float tiling[2] = { 1,1 };
-    float offset[2] = { 0,0 };
+    Vector2D tiling = { 1,1 };
+    Vector2D offset = { 0,0 };
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> albedoTexture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> metallicTexture;

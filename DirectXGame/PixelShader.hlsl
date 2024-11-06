@@ -27,17 +27,43 @@ SamplerState samplerState : register(s0);
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-    float4 color = float4(0.f, 1.f, 0.f, 1.f);
+    float4 color = float4(1.f, 1.f, 1.f, 1.f);
     float4 fogColor = float4(0.83f, 0.58f, 0.895f, 1.f);
     // float4 fogColor = float4(1.f, 1.f, 1.f, 1.f);
-    // Sample textures
+
+	// Sample textures
     float4 albedo = albedoMap.Sample(samplerState, input.texcoord);
     float3 normal = normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0;
     float metallic = metallicMap.Sample(samplerState, input.texcoord).r;
     float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r;
 
+	// if there is a texture, apply it
+    if (all(albedo > float4(0.f, 0.f, 0.f, 0.f)))
+    {
+        color *= albedo;
+    }
+
+    // if (all(normal > float4(0.f, 0.f, 0.f, 0.f)))
+    // {
+    //     color *= float4(normal, 1.f);
+    // }
+ 
+    // if (all(metallic > 0.f))
+    // {
+    //     color *= metallic;
+    // }
     
-    color = float4(lerp(input.color, input.color, (sin(time) + 1.0f) / 2.0f), 1.f);
+    // if (all(smoothness > 0.f))
+    // {
+    //     color *= smoothness;
+    // }
+
+    // if (any(input.color < float3(1.f, 1.f, 1.f)))
+    // {
+        color *= float4(input.color, 1.f);
+    // }
+
+    // color = float4(lerp(input.color, input.color, (sin(time) + 1.0f) / 2.0f), 1.f);
 
     // return lerp(color, fogColor, input.fogFactor);
     return color;

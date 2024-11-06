@@ -94,6 +94,9 @@
     <Filter Include="GameEngine\GameObjects\Materials">
       <UniqueIdentifier>{e69319be-c5e4-4702-98fe-6f10f95a9179}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\SamplerState">
+      <UniqueIdentifier>{7eba562b-7402-4a68-ac3c-92ca0755eb23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="Cylinder.cpp">
       <Filter>GameEngine\GameObjects\3D Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="SamplerState.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="Cylinder.h">
       <Filter>GameEngine\GameObjects\3D Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="SamplerState.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

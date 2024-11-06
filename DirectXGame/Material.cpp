@@ -20,7 +20,7 @@ Material::Material(const std::string& pixelShaderName)
 	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 }
 
-PixelShaderPtr Material::getPixelShader()
+PixelShaderPtr Material::getPixelShader() const
 {
 	return pixelShader;
 }

@@ -38,7 +38,7 @@ void Quad::update(const float deltaTime)
 	//LogUtils::log(this, "localPosition = " + localPosition.toString());
 }
 
-void Quad::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, const RECT clientWindow)
+void Quad::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const Material& material, const RECT clientWindow)
 {
 	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;
@@ -84,7 +84,7 @@ void Quad::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& ge
 
 	deviceContext->setVertexShader(vertexShader);
 	deviceContext->setGeometryShader(geometryShader);
-	deviceContext->setPixelShader(pixelShader);
+	deviceContext->setPixelShader(material);
 
 	deviceContext->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
 }

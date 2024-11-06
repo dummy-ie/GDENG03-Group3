@@ -9,6 +9,8 @@
 #include "GeometryShader.h"
 #include <d3dcompiler.h>
 
+#include "SamplerState.h"
+
 RenderSystem::RenderSystem()
 {
 	D3D_DRIVER_TYPE driverTypes[] =
@@ -78,6 +80,17 @@ DeviceContextPtr RenderSystem::getImmediateDeviceContext() const
 ID3D11Device* RenderSystem::getDevice() const
 {
 	return this->directXDevice;
+}
+
+SamplerStatePtr RenderSystem::createSamplerState()
+{
+	SamplerStatePtr ss = nullptr;
+	try
+	{
+		ss = std::make_shared<SamplerState>(this);
+	}
+	catch (...) {}
+	return ss;
 }
 
 VertexBufferPtr RenderSystem::createVertexBuffer(

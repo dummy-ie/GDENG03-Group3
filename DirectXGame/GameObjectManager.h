@@ -20,7 +20,7 @@ public:
 	void drawAll(
 		const VertexShaderPtr& vertexShader,
 		const GeometryShaderPtr& geometryShader,
-		const PixelShaderPtr& pixelShader,
+		const Material& material,
 		RECT clientWindow) const;
 
 	void addObject(const GameObjectPtr& gameObject);

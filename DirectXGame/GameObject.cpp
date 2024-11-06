@@ -21,7 +21,7 @@
 // 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vertexBuffer->getSizeVertexList(), 0);
 // }
 
-void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader,
+void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const Material& material,
                       RECT clientWindow)
 {
 	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
@@ -61,7 +61,9 @@ void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderP
 
 	deviceContext->setVertexShader(vertexShader);
 	deviceContext->setGeometryShader(geometryShader);
-	deviceContext->setPixelShader(pixelShader);
+	deviceContext->setPixelShader(material.getPixelShader());
+
+	deviceContext->setTexture(material);
 
 	deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
 }

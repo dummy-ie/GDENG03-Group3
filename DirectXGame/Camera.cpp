@@ -7,7 +7,7 @@ void Camera::update(const float deltaTime)
 void Camera::draw(
 	const VertexShaderPtr& vertexShader,
 	const GeometryShaderPtr& geometryShader,
-	const PixelShaderPtr& pixelShader,
+	const Material& material,
 	RECT clientWindow)
 {
 }

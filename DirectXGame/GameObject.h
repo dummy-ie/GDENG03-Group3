@@ -11,6 +11,7 @@
 #include "Constant.h"
 #include "ConstantBuffer.h"
 #include "LogUtils.h"
+#include "Material.h"
 
 class GameObject
 {
@@ -30,7 +31,7 @@ public:
 	virtual void draw(
 		const VertexShaderPtr& vertexShader,
 		const GeometryShaderPtr& geometryShader,
-		const PixelShaderPtr& pixelShader,
+		const Material& material,
 		RECT clientWindow);
 
 	void setPosition(const Vector3D& position) { localPosition = position; }

@@ -62,7 +62,7 @@ private:
 	//Cube* cList[1]; // object manager later
 	//std::vector<GameObject*> gameObjectsVector;
 
-
+	std::shared_ptr<Material> mainMaterial = nullptr;
 	SwapChainPtr swapChain;
 
 	VertexShaderPtr vertexShader;

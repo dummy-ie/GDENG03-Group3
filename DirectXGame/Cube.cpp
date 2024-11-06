@@ -37,7 +37,7 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 	};
 
 	// LogUtils::log(this, "Vector3D zero: " + Vector3D::zero.toString());
-	 //LogUtils::log(this, "Color and Vec3D zero not the same: " + std::to_string(color != Vector3D::zero));
+	 //LogUtils::log(this, "Color and float3D zero not the same: " + std::to_string(color != Vector3D::zero));
 
 	constexpr UINT sizeList = ARRAYSIZE(vertexList);
 

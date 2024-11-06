@@ -14,7 +14,7 @@ public:
 	void draw(
 		const VertexShaderPtr& vertexShader,
 		const GeometryShaderPtr& geometryShader,
-		const PixelShaderPtr& pixelShader,
+		const Material& material,
 		RECT clientWindow) override;
 
 private:

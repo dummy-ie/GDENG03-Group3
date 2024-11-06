@@ -32,14 +32,14 @@ void GameObjectManager::updateAll(const float deltaTime) const
 }
 
 void GameObjectManager::drawAll(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader,
-	const PixelShaderPtr& pixelShader, const RECT clientWindow) const
+                                const Material& material, const RECT clientWindow) const
 {
 	for (const auto& gameObject : gameObjectList)
 	{
 		if (!gameObject->getEnabled())
 			continue;
 
-		gameObject->draw(vertexShader, geometryShader, pixelShader, clientWindow);
+		gameObject->draw(vertexShader, geometryShader, material, clientWindow);
 	}
 }
 

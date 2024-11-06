@@ -14,8 +14,8 @@ public:
 
 	// probably going to be empty or can render the gizmos through here
 	void update(const float deltaTime) override;
-	void draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader,
-		RECT clientWindow) override;
+	void draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const Material& material,
+	          RECT clientWindow) override;
 
 	Matrix4x4 getView();
 	Matrix4x4 getProjection() const;

@@ -2,6 +2,7 @@
 #include <d3d11.h>
 
 #include "GraphicsResource.h"
+#include "Material.h"
 #include "Prerequisites.h"
 
 class DeviceContext : public GraphicsResource
@@ -28,6 +29,7 @@ public:
 	void setVertexShader(const VertexShaderPtr& vertexShader) const;
 	void setGeometryShader(const GeometryShaderPtr& geometryShader) const;
 	void setPixelShader(const PixelShaderPtr& pixelShader) const;
+	void setTexture(const Material& material);
 
 	void setConstantBuffer(const ConstantBufferPtr& constantBuffer) const;
 

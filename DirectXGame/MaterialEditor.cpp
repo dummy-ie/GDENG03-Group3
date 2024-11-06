@@ -3,6 +3,8 @@
 #include <algorithm>
 
 #include "GraphicsEngine.h"
+#include "Material.h"
+#include "UIManager.h"
 
 MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 {
@@ -51,6 +53,8 @@ void MaterialEditor::draw()
 
 	if (isMaterialEditorOpen)
 		showMaterialEditorWindow();
+
+	updateSelectedMaterial();
 }
 
 void MaterialEditor::showColorPickerWindow()
@@ -61,6 +65,24 @@ void MaterialEditor::showColorPickerWindow()
 		ImGui::ColorPicker4("Albedo Color##4", reinterpret_cast<float*>(&color), 0);
 	}
 	ImGui::End();
+}
+
+void MaterialEditor::updateSelectedMaterial() const
+{
+	// Ideally, the material being edited is picked by the selected gameobject, but we don't have object picking yet
+	const std::shared_ptr<Material> currentMaterial = UIManager::get()->mainMaterial;
+
+	currentMaterial->albedoTexture = this->albedoTexture;
+	currentMaterial->metallicTexture = this->metallicTexture;
+	currentMaterial->smoothnessTexture = this->smoothnessTexture;
+	currentMaterial->normalTexture = this->normalTexture;
+
+	currentMaterial->metallic = this->metallic;
+	currentMaterial->smoothness = this->smoothness;
+	currentMaterial->flatness = this->flatness;
+
+	currentMaterial->tiling = this->tiling;
+	currentMaterial->offset = this->offset;
 }
 
 void MaterialEditor::showMaterialEditorWindow()
@@ -127,15 +149,15 @@ void MaterialEditor::showMaterialEditorWindow()
 		//x
 		ImGui::Text("X"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingXSlider", &tiling[0], -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##TilingXSlider", &tiling.x, -20, 20);ImGui::SameLine();
 		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Tiling X", &tiling[0]);
+		ImGui::InputFloat("##Tiling X", &tiling.x);
 		//y
 		ImGui::Text("Y"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingYSlider", &tiling[1], -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##TilingYSlider", &tiling.y, -20, 20);ImGui::SameLine();
 		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Tiling Y", &tiling[1]);
+		ImGui::InputFloat("##Tiling Y", &tiling.y);
 
 		ImGui::NewLine();
 
@@ -144,15 +166,15 @@ void MaterialEditor::showMaterialEditorWindow()
 		//x
 		ImGui::Text("X"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetXSlider", &offset[0], -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##OffsetXSlider", &offset.x, -20, 20);ImGui::SameLine();
 		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Offset X", &offset[0]);
+		ImGui::InputFloat("##Offset X", &offset.x);
 		//y
 		ImGui::Text("Y"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetYSlider", &offset[1], -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##OffsetYSlider", &offset.y, -20, 20);ImGui::SameLine();
 		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Offset Y", &offset[1]);
+		ImGui::InputFloat("##Offset Y", &offset.y);
 
 		ImGui::PopItemWidth();
 	}

@@ -3,6 +3,7 @@
 #include <memory>
 #include "LogUtils.h"
 
+class SamplerState;
 class GraphicsResource;
 class ConstantBuffer;
 class SwapChain;
@@ -23,3 +24,4 @@ typedef std::shared_ptr<ConstantBuffer> ConstantBufferPtr;
 typedef std::shared_ptr<VertexShader> VertexShaderPtr;
 typedef std::shared_ptr<GeometryShader> GeometryShaderPtr;
 typedef std::shared_ptr<PixelShader> PixelShaderPtr;
+typedef std::shared_ptr<SamplerState> SamplerStatePtr;

@@ -41,7 +41,7 @@ void Circle::update(const float deltaTime)
 	deltaScale += deltaTime / 0.15f;
 }
 
-void Circle::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const PixelShaderPtr& pixelShader, const RECT clientWindow)
+void Circle::draw(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader, const Material& material, const RECT clientWindow)
 {
 	const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	Constant constants;

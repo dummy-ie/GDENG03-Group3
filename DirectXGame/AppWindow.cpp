@@ -179,87 +179,6 @@ void AppWindow::onCreate()
 	cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
 	GameObjectManager::get()->addObject(cylinder);
 
-	// 3. Translating and scaling rainbow cube
-	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
-	// cube->setPosition({ 0.f, 0.f, 0.f });
-	// cube->interpolatePosition = true;
-	// cube->position1 = { -1.f, -1.f, 0.f };
-	// cube->position2 = { 1.f, 1.f, 0.f };
-	// cube->interpolateScale = true;
-	// cube->scale1 = 0.25f;
-	// cube->scale2 = 1.f;
-	// gameObjectsVector.push_back(cube);
-
-	// 4. 50 cubes randomly
-	// for (int i = 0; i < 50; ++i)
-	// {
-	// 	Cube* cube = new Cube("cube" + std::to_string(i), shaderByteCode, byteCodeSize);
-	// 	cube->setPosition({ randomRangeFloat(-20.0f, 20.0f) , randomRangeFloat(-20.0f, 20.0f) , randomRangeFloat(0.0f, 10.0f) });
-	// 	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	// 	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	// 	//cube->setScale({0.1f, 0.01f, 0.1f});
-	// 	gameObjectsVector.push_back(cube);
-	// }
-
-	// 5. Scaling cube into plane
-	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
-	// cube->setPosition({ 0.f, 0.f, 2.f });
-	// cube->interpolateScale = true;
-	// cube->scale1 = 1.f;
-	// cube->scale2 = {2.0f, 0.5f, 2.f};
-	// gameObjectsVector.push_back(cube);
-
-	// 6. Cubes and plane scene
-	// Cube* cube1 = new Cube("cube1", shaderByteCode, byteCodeSize, 1.f);
-	// cube1->setPosition({ 0.f, 0.9f, 0.f });
-	// gameObjectsVector.push_back(cube1);
-	// Cube* cube2 = new Cube("cube2", shaderByteCode, byteCodeSize, 1.f);
-	// cube2->setPosition({ -1.5f, 2.0f, 0.f });
-	// gameObjectsVector.push_back(cube2);
-	// Cube* cube3 = new Cube("cube3", shaderByteCode, byteCodeSize, 1.f);
-	// cube3->setPosition({ -1.5f, 3.0f, -2.f });
-	// gameObjectsVector.push_back(cube3);
-	// Plane* plane = new Plane("plane", shaderByteCode, byteCodeSize, 1.f);
-	// plane->setRotation({ -80.1f,0.f, 0.f });
-	// plane->setScale(10.f);
-	// plane->setPosition({ 0.0f, -0.5f, 0.0f });
-	// gameObjectsVector.push_back(plane);
-
-	// 7. Card stacking
-	// for (int i = 0; i < 3; ++i)
-	// {
-	// 	for (int j = 0; j < i + 1; ++j)
-	// 	{
-	// 		Plane* card1 = new Plane("card1", shaderByteCode, byteCodeSize);
-	// 		card1->setRotation({ 0.5f,0.f, 0.f });
-	// 		card1->setScale({ 0.5f, 1.f, .7f });
-	// 		card1->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.f + (j * 0.67f) - (i * 0.33f) });
-	// 		gameObjectsVector.push_back(card1);
-	// 		Plane* card2 = new Plane("card2", shaderByteCode, byteCodeSize);
-	// 		card2->setRotation({ -0.5f,0.f, 0.f });
-	// 		card2->setScale({ 0.5f, 1.f, .7f });
-	// 		card2->setPosition({ 0.0f, -static_cast<float>(i) * 0.9f, 0.33f + (j * 0.67f) - (i * 0.33f) });
-	// 		gameObjectsVector.push_back(card2);
-	// 	}
-	// }
-	// Plane* card3 = new Plane("card3", shaderByteCode, byteCodeSize);
-	// card3->setRotation({ 1.57f,0.0f, 0.f });
-	// card3->setScale({ 0.5f, 1.f, 1.0f });
-	// card3->setPosition({ 0.0f, -0.45f, 0.165f });
-	// gameObjectsVector.push_back(card3);
-	//
-	// Plane* card4 = new Plane("card4", shaderByteCode, byteCodeSize);
-	// card4->setRotation({ 1.57f,0.f, 0.f });
-	// card4->setScale({ 0.5f, 1.f, 1.0f });
-	// card4->setPosition({ 0.0f, -1.35f, 0.5f });
-	// gameObjectsVector.push_back(card4);
-	//
-	// Plane* card5 = new Plane("card5", shaderByteCode, byteCodeSize);
-	// card5->setRotation({ 1.57f,0.f, 0.f });
-	// card5->setScale({ 0.5f, 1.f, 1.0f });
-	// card5->setPosition({ 0.0f, -1.35f, -0.165f });
-	// gameObjectsVector.push_back(card5);
-
 	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 	LogUtils::log(this, "Geometry shader compilation");
@@ -271,6 +190,10 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"PixelShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
 	pixelShader = GraphicsEngine::get()->getRenderSystem()->createPixelShader(shaderByteCode, byteCodeSize);
 	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
+
+	mainMaterial = std::make_shared<Material>(pixelShader);
+	mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
+	UIManager::get()->mainMaterial = mainMaterial;
 }
 
 void AppWindow::onUpdate()
@@ -280,7 +203,7 @@ void AppWindow::onUpdate()
 	//LogUtils::log(this, "Updating input system");
 	InputSystem::get()->update();
 
-	ticks += static_cast<float>(EngineTime::getDeltaTime()) * 1.0f;
+	ticks += EngineTime::getDeltaTime() * 1.0f;
 
 	//LogUtils::log(this, "Setting shaders");
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
@@ -302,15 +225,9 @@ void AppWindow::onUpdate()
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
-	//LogUtils::log(this, "update and draw GOs");
-	// for (GameObject* gameObject : gameObjectsVector)
-	// {
-	// 	gameObject->update(static_cast<float>(EngineTime::getDeltaTime()));
-	// 	gameObject->draw(vertexShader, geometryShader, pixelShader, getClientWindowRect());
-	// }
 
 	GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
-	GameObjectManager::get()->drawAll(vertexShader, geometryShader, pixelShader, getClientWindowRect());
+	GameObjectManager::get()->drawAll(vertexShader, geometryShader, *mainMaterial, getClientWindowRect());
 
 	UIManager::get()->draw();
 

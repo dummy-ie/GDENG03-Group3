@@ -11,6 +11,7 @@
 #include "GraphicsEngine.h"
 #include "RenderSystem.h"
 #include "DeviceContext.h"
+#include "Material.h"
 #include "Prerequisites.h"
 
 #include "MenuScreen.h"
@@ -35,6 +36,9 @@ public:
 
 	static constexpr int WindowWidth = 1440;
 	static constexpr int WindowHeight = 900;
+
+	std::shared_ptr<Material> mainMaterial = nullptr;
+
 private:
 	explicit UIManager(HWND windowHandle);
 	~UIManager();
