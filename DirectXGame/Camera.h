@@ -27,9 +27,9 @@ protected:
 
 	// perspective
 	float aspect;
-	float fov = 90.f;
-	float zNear = 0.1f;
-	float zFar = 1000.f;
+	float fov = 60.f;
+	float zNear = 0.01f;
+	float zFar = 100.f;
 
 	// orthographic
 	float nearPlane = -10.f;

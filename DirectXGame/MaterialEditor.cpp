@@ -72,6 +72,8 @@ void MaterialEditor::updateSelectedMaterial() const
 	// Ideally, the material being edited is picked by the selected gameobject, but we don't have object picking yet
 	const std::shared_ptr<Material> currentMaterial = UIManager::get()->mainMaterial;
 
+	currentMaterial->color = { this->color.x, this->color.y, this->color.z, this->color.w };
+
 	currentMaterial->albedoTexture = this->albedoTexture;
 	currentMaterial->metallicTexture = this->metallicTexture;
 	currentMaterial->smoothnessTexture = this->smoothnessTexture;
@@ -93,12 +95,12 @@ void MaterialEditor::showMaterialEditorWindow()
 		constexpr ImVec2 imageSize = { 100, 100 };
 		//albedo
 		ImGui::Text("Albedo Map");
-		if(ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture.Get())), imageSize))
+		if (ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture.Get())), imageSize))
 		{
 			loadTextureFile(albedoTexture);
 		}
 		ImGui::SameLine();
-		if(ImGui::ColorButton("Color", color, 0, ImVec2(50,30)))
+		if (ImGui::ColorButton("Color", color, 0, ImVec2(50, 30)))
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
@@ -149,13 +151,13 @@ void MaterialEditor::showMaterialEditorWindow()
 		//x
 		ImGui::Text("X"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingXSlider", &tiling.x, -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##TilingXSlider", &tiling.x, -20, 20); ImGui::SameLine();
 		ImGui::PushItemWidth(125);
 		ImGui::InputFloat("##Tiling X", &tiling.x);
 		//y
 		ImGui::Text("Y"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingYSlider", &tiling.y, -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##TilingYSlider", &tiling.y, -20, 20); ImGui::SameLine();
 		ImGui::PushItemWidth(125);
 		ImGui::InputFloat("##Tiling Y", &tiling.y);
 
@@ -166,13 +168,13 @@ void MaterialEditor::showMaterialEditorWindow()
 		//x
 		ImGui::Text("X"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetXSlider", &offset.x, -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##OffsetXSlider", &offset.x, -20, 20); ImGui::SameLine();
 		ImGui::PushItemWidth(125);
 		ImGui::InputFloat("##Offset X", &offset.x);
 		//y
 		ImGui::Text("Y"); ImGui::SameLine(40);
 		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetYSlider", &offset.y, -20, 20);ImGui::SameLine();
+		ImGui::SliderFloat("##OffsetYSlider", &offset.y, -20, 20); ImGui::SameLine();
 		ImGui::PushItemWidth(125);
 		ImGui::InputFloat("##Offset Y", &offset.y);
 
@@ -181,17 +183,17 @@ void MaterialEditor::showMaterialEditorWindow()
 	ImGui::End();
 }
 
-void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture)
+void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture)
 {
 	//create file object instance
-	if(!LogUtils::logHResult(this,CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
+	if (!LogUtils::logHResult(this, CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
 	{
 		return;
 	}
 
 	//create fileopnedialogue object
 	IFileOpenDialog* f_FileSystem;
-	if(!LogUtils::logHResult(this,CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem))))
+	if (!LogUtils::logHResult(this, CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem))))
 	{
 		CoUninitialize();
 		return;
@@ -208,7 +210,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	//this part does NOT like LogUtils::logHResult at all
 	//open file dialogue window
 	HRESULT fileSelect = f_FileSystem->Show(NULL);
-	if(FAILED(fileSelect))
+	if (FAILED(fileSelect))
 	{
 		LogUtils::log(this, "Texture load cancelled");
 		f_FileSystem->Release();
@@ -218,7 +220,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 
 	//retrieve file name from selected item
 	IShellItem* f_Files;
-	if(!LogUtils::logHResult(this, f_FileSystem->GetResult(&f_Files)))
+	if (!LogUtils::logHResult(this, f_FileSystem->GetResult(&f_Files)))
 	{
 		f_FileSystem->Release();
 		CoUninitialize();
@@ -241,7 +243,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	const wchar_t* w_path = path.c_str();
 
 	//create texture from file
-	if(!LogUtils::logHResult(
+	if (!LogUtils::logHResult(
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
@@ -257,7 +259,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 		LogUtils::log(this, "Texture load success");
 		LogUtils::log(this, std::string(path.begin(), path.end()));
 	}
-	
+
 
 	CoTaskMemFree(f_Path);
 	f_Files->Release();

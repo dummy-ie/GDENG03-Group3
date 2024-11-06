@@ -23,10 +23,14 @@ public:
 
 	PixelShaderPtr getPixelShader() const;
 
+	float getMetallic();
+	float getSmoothness();
+	float getFlatness();
+
 private:
 	PixelShaderPtr pixelShader = nullptr;
 
-	Vector4D rgb = {1, 1, 1, 1};
+	Vector4D color = {1, 1, 1, 1};
 
 	TexturePtr albedoTexture = nullptr;
 	TexturePtr metallicTexture = nullptr;
