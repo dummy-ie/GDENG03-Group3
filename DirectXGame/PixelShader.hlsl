@@ -36,7 +36,7 @@ SamplerState samplerState : register(s0);
 float4 main(PS_INPUT input) : SV_TARGET
 {
 	// Sample textures
-    float4 albedo = albedoMap.Sample(samplerState, input.texcoord);
+    float4 albedo = albedoMap.Sample(samplerState, input.texcoord) * float4(color, 1.0);
     float3 normal = (normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0) * (1.0 - flatness) + float3(0.0, 0.0, flatness);
     float metallic = metallicMap.Sample(samplerState, input.texcoord).r * metallicMul;
     float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r * smoothnessMul;
