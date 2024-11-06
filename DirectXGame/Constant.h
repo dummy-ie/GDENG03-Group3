@@ -9,4 +9,11 @@ struct Constant
 	Matrix4x4 proj;
 	Vector3D cameraPos;
 	float time;
+
+	Vector3D color;
+	float metallic;
+	float smoothness;
+	float flatness;
+	Vector2D tiling;
+	Vector2D offset;
 };

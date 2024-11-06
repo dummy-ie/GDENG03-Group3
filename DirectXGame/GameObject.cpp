@@ -52,6 +52,13 @@ void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderP
 
 	constants.time = 0;
 
+	constants.color = Vector3D(material.rgb.x, material.rgb.y, material.rgb.z);
+	constants.metallic = material.metallic;
+	constants.smoothness = material.smoothness;
+	constants.flatness = material.flatness;
+	constants.tiling = material.tiling;
+	constants.offset = material.offset;
+
 	constantBuffer->update(deviceContext, &constants);
 
 	deviceContext->setConstantBuffer(constantBuffer);

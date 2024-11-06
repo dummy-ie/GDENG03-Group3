@@ -15,6 +15,13 @@ cbuffer constant : register(b0)
     row_major float4x4 proj;
     float3 cameraPos;
     float time;
+
+    float3 color;         // albedo color
+    float metallicMul;       // metallic strength
+    float smoothnessMul;     // specular strength
+    float flatness;       // normal flatness
+    float2 tiling;        // texture tiling
+    float2 offset;        // texture offset
 };
 
 // Texture Resources
@@ -29,10 +36,10 @@ SamplerState samplerState : register(s0);
 float4 main(PS_INPUT input) : SV_TARGET
 {
 	// Sample textures
-    float4 albedo = albedoMap.Sample(samplerState, input.texcoord);
-    float3 normal = normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0;
-    float metallic = metallicMap.Sample(samplerState, input.texcoord).r;
-    float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r;
+    float4 albedo = albedoMap.Sample(samplerState, input.texcoord) * float4(color, 1.0);
+    float3 normal = (normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0) * (1.0 - flatness) + float3(0.0, 0.0, flatness);
+    float metallic = metallicMap.Sample(samplerState, input.texcoord).r * metallicMul;
+    float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r * smoothnessMul;
 
     float3 m_light_direction = normalize(float3(0.f, -1.f, 0.f));
 

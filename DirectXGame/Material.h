@@ -49,5 +49,6 @@ private:
 	friend class MaterialEditor;
 	friend class DeviceContext;
 	friend class AppWindow;
+	friend class GameObject;
 };
 
