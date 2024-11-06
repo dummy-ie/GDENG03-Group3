@@ -52,7 +52,7 @@ void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderP
 
 	constants.time = 0;
 
-	constants.color = Vector3D(material.rgb.x, material.rgb.y, material.rgb.z);
+	constants.color = Vector3D(material.color.x, material.color.y, material.color.z);
 	constants.metallic = material.metallic;
 	constants.smoothness = material.smoothness;
 	constants.flatness = material.flatness;
