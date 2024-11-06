@@ -63,6 +63,9 @@ VS_OUTPUT main(VS_INPUT input)
 
     // World Space
     output.pos = mul(input.pos, world);
+    // Calculate linear fog    
+    output.fogFactor = getFogFactor(distance(cameraPos, output.pos));
+    output.directionToCamera = normalize(cameraPos - output.pos);
 
 	// View Space
     output.pos = mul(output.pos, view);
@@ -75,9 +78,6 @@ VS_OUTPUT main(VS_INPUT input)
     
     output.texcoord = input.texcoord * tiling + offset;
 
-    // Calculate linear fog    
-    output.fogFactor = getFogFactor(distance(cameraPos, input.pos));
-    output.directionToCamera = normalize(cameraPos - input.pos);
 
     return output;
 }
