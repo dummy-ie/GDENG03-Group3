@@ -50,20 +50,19 @@ float4 main(PS_INPUT input) : SV_TARGET
     float3 ambient_light = ka * ia;
 
 	//DIFFUSE LIGHT
-    float kd = 10.0;
+    float kd = 5.0 * metallic;
     float3 id = float3(1.0, 1.0, 1.0);
     float amount_diffuse_light = max(0.0, dot(m_light_direction, normal));
-
-    float3 diffuse_light = kd * amount_diffuse_light * id * (1.0 - metallic);
+    float3 diffuse_light = kd * amount_diffuse_light * id;
 
 	//SPECULAR LIGHT
-    float ks = 5.0;
+    float ks = metallic * 2.0 + 0.1;
     float3 is = float3(1.0, 1.0, 1.0);
-    float3 reflected_light = reflect(m_light_direction, normal);
-    float shininess = smoothness * 30.0;
+    float3 reflected_light = reflect(-m_light_direction, normal);
+    float shininess = lerp(5.0, 50.0, smoothness);
     float amount_specular_light = pow(max(0.0, dot(reflected_light, input.directionToCamera)), shininess);
 
-    float3 specular_light = ks * amount_specular_light * is * (metallic + smoothness);
+    float3 specular_light = ks * amount_specular_light * is;
 
     float3 final_light = ambient_light + diffuse_light + specular_light;
 
