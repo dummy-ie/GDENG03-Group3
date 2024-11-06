@@ -29,6 +29,11 @@ cbuffer constant : register(b0)
     float flatness;       // normal flatness
     float2 tiling;        // texture tiling
     float2 offset;        // texture offset
+
+    float hasAlbedoMap;
+    float hasNormalMap;
+    float hasMetallicMap;
+    float hasSmoothnessMap;
 };
 
 // Texture Resources

@@ -59,6 +59,11 @@ void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderP
 	constants.tiling = material.tiling;
 	constants.offset = material.offset;
 
+	constants.hasAlbedoMap = material.albedoTexture != nullptr;
+	constants.hasMetallicMap = material.metallicTexture != nullptr;
+	constants.hasSmoothnessMap = material.smoothnessTexture != nullptr;
+	constants.hasNormalMap = material.normalTexture != nullptr;
+
 	constantBuffer->update(deviceContext, &constants);
 
 	deviceContext->setConstantBuffer(constantBuffer);

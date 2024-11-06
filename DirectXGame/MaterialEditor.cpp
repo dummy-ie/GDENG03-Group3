@@ -104,6 +104,10 @@ void MaterialEditor::showMaterialEditorWindow()
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
+		if (ImGui::Button("Clear Albedo"))
+		{
+			albedoTexture.Reset();
+		}
 
 		ImGui::NewLine();
 
@@ -118,6 +122,10 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Metallic", &metallic, 0, 1);
+		if (ImGui::Button("Clear Metallic"))
+		{
+			metallicTexture.Reset();
+		}
 
 		ImGui::NewLine();
 
@@ -129,6 +137,10 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
+		if(ImGui::Button("Clear Smoothness"))
+		{
+			smoothnessTexture.Reset();
+		}
 
 		ImGui::NewLine();
 
@@ -140,6 +152,10 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
+		if (ImGui::Button("Clear Normal"))
+		{
+			normalTexture.Reset();
+		}
 
 		ImGui::NewLine();
 

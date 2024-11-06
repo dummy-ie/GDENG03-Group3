@@ -22,6 +22,11 @@ cbuffer constant : register(b0)
     float flatness;       // normal flatness
     float2 tiling;        // texture tiling
     float2 offset;        // texture offset
+
+    float hasAlbedoMap;
+    float hasNormalMap;
+    float hasMetallicMap;
+    float hasSmoothnessMap;
 };
 
 // Texture Resources
@@ -35,22 +40,28 @@ SamplerState samplerState : register(s0);
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
+    // Fallback textures
+    // In case textures are null
+	float4 fallbackAlbedo = float4(color, 1.0);
+    float3 fallbackNormal = float3(0.0, 0.0, 1.0);
+
 	// Sample textures
-    float4 albedo = albedoMap.Sample(samplerState, input.texcoord) * float4(color, 1.0);
-    float3 normal = (normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0) * (1.0 - flatness) + float3(0.0, 0.0, flatness);
-    float metallic = metallicMap.Sample(samplerState, input.texcoord).r * metallicMul;
-    float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r * smoothnessMul;
+	float4 albedo = (hasAlbedoMap > 0.5) ? albedoMap.Sample(samplerState, input.texcoord) * fallbackAlbedo : fallbackAlbedo;
+    float3 normal = (hasNormalMap > 0.5) ? (normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0) * (1.0 - flatness) + float3(0.0, 0.0, flatness)
+                          : fallbackNormal;
+    float metallic = (hasMetallicMap > 0.5) ? metallicMap.Sample(samplerState, input.texcoord).r * metallicMul : metallicMul;
+    float smoothness = (hasSmoothnessMap > 0.5) ? smoothnessMap.Sample(samplerState, input.texcoord).r * smoothnessMul : smoothnessMul;
 
     float3 m_light_direction = normalize(float3(0.f, -1.f, 0.f));
 
     //AMBIENT LIGHT
-    float ka = 0.5;
+    float ka = 0.6;
     float3 ia = float3(1.0, 1.0, 1.0);
 
     float3 ambient_light = ka * ia;
 
 	//DIFFUSE LIGHT
-    float kd = 5.0 * metallic;
+    float kd = 10.0 * metallic;
     float3 id = float3(1.0, 1.0, 1.0);
     float amount_diffuse_light = max(0.0, dot(m_light_direction, normal));
     float3 diffuse_light = kd * amount_diffuse_light * id;
@@ -70,11 +81,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     float4 fogColor = float4(0.83f, 0.58f, 0.895f, 1.f);
     // float4 fogColor = float4(1.f, 1.f, 1.f, 1.f);
 
-	// if there is a texture, apply it
-    if (all(albedo > float4(0.f, 0.f, 0.f, 0.f)))
-    {
-        color *= albedo;
-    }
+	color *= albedo;
 
     if (any(final_light > float3(0.f, 0.f, 0.f)))
     {

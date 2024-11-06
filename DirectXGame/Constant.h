@@ -16,4 +16,9 @@ struct Constant
 	float flatness;
 	Vector2D tiling;
 	Vector2D offset;
+
+	float hasAlbedoMap;
+	float hasNormalMap;
+	float hasMetallicMap;
+	float hasSmoothnessMap;
 };
