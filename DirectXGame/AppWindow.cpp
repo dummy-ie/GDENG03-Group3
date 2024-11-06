@@ -118,47 +118,47 @@ void AppWindow::onCreate()
 	vertexShader = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shaderByteCode, byteCodeSize);
 
 	// Insert all GameObjects here
-	const std::shared_ptr<Plane> floor = std::make_shared<Plane>("floor", shaderByteCode, byteCodeSize, Vector3D(0.3f, 0.4f, 0.1f));
-	floor->setRotation({ 1.57f, 0.f });
-	floor->setScale({ 100.f, 100.f, 100.f });
-	floor->setPosition({ 0.0f, -1.0f, 0.0f });
-	GameObjectManager::get()->addObject(floor);
-
-	const std::shared_ptr<Plane> ceiling = std::make_shared<Plane>("ceiling", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	ceiling->setRotation({ 1.57f, 0.f });
-	ceiling->setScale({ 100.f, 100.f, 100.f });
-	ceiling->setPosition({ 0.0f, 50.0f, 0.0f });
-	GameObjectManager::get()->addObject(ceiling);
-
-	const std::shared_ptr<Plane> wall1 = std::make_shared<Plane>("wall1", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	wall1->setRotation({ 0.f, 0.f });
-	wall1->setScale({ 100.f, 100.f, 100.f });
-	wall1->setPosition({ 0.0f, 49.0f, 50.0f });
-	GameObjectManager::get()->addObject(wall1);
-
-	const std::shared_ptr<Plane> wall2 = std::make_shared<Plane>("wall2", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	wall2->setRotation({ 0.f, 0.f });
-	wall2->setScale({ 100.f, 100.f, 100.f });
-	wall2->setPosition({ 0.0f, 49.0f, -50.0f });
-	GameObjectManager::get()->addObject(wall2);
-
-	const std::shared_ptr<Plane> wall3 = std::make_shared<Plane>("wall3", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	wall3->setRotation({ 0.f, 1.57f });
-	wall3->setScale({ 100.f, 100.f, 100.f });
-	wall3->setPosition({ 50.0f, 49.0f, 0.0f });
-	GameObjectManager::get()->addObject(wall3);
-
-	const std::shared_ptr<Plane> wall4 = std::make_shared<Plane>("wall4", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	wall4->setRotation({ 0.f, 1.57f });
-	wall4->setScale({ 100.f, 100.f, 100.f });
-	wall4->setPosition({ -50.0f, 49.0f, 0.0f });
-	GameObjectManager::get()->addObject(wall4);
-
-	const std::shared_ptr<Plane> plane = std::make_shared<Plane>("plane", shaderByteCode, byteCodeSize);
-	plane->setRotation({ 1.57f, 0.f });
-	plane->setScale(2.f);
-	plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	// const std::shared_ptr<Plane> floor = std::make_shared<Plane>("floor", shaderByteCode, byteCodeSize, Vector3D(0.3f, 0.4f, 0.1f));
+	// floor->setRotation({ 1.57f, 0.f });
+	// floor->setScale({ 100.f, 100.f, 100.f });
+	// floor->setPosition({ 0.0f, -1.0f, 0.0f });
+	// GameObjectManager::get()->addObject(floor);
+	//
+	// const std::shared_ptr<Plane> ceiling = std::make_shared<Plane>("ceiling", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
+	// ceiling->setRotation({ 1.57f, 0.f });
+	// ceiling->setScale({ 100.f, 100.f, 100.f });
+	// ceiling->setPosition({ 0.0f, 50.0f, 0.0f });
+	// GameObjectManager::get()->addObject(ceiling);
+	//
+	// const std::shared_ptr<Plane> wall1 = std::make_shared<Plane>("wall1", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
+	// wall1->setRotation({ 0.f, 0.f });
+	// wall1->setScale({ 100.f, 100.f, 100.f });
+	// wall1->setPosition({ 0.0f, 49.0f, 50.0f });
+	// GameObjectManager::get()->addObject(wall1);
+	//
+	// const std::shared_ptr<Plane> wall2 = std::make_shared<Plane>("wall2", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
+	// wall2->setRotation({ 0.f, 0.f });
+	// wall2->setScale({ 100.f, 100.f, 100.f });
+	// wall2->setPosition({ 0.0f, 49.0f, -50.0f });
+	// GameObjectManager::get()->addObject(wall2);
+	//
+	// const std::shared_ptr<Plane> wall3 = std::make_shared<Plane>("wall3", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
+	// wall3->setRotation({ 0.f, 1.57f });
+	// wall3->setScale({ 100.f, 100.f, 100.f });
+	// wall3->setPosition({ 50.0f, 49.0f, 0.0f });
+	// GameObjectManager::get()->addObject(wall3);
+	//
+	// const std::shared_ptr<Plane> wall4 = std::make_shared<Plane>("wall4", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
+	// wall4->setRotation({ 0.f, 1.57f });
+	// wall4->setScale({ 100.f, 100.f, 100.f });
+	// wall4->setPosition({ -50.0f, 49.0f, 0.0f });
+	// GameObjectManager::get()->addObject(wall4);
+	//
+	// const std::shared_ptr<Plane> plane = std::make_shared<Plane>("plane", shaderByteCode, byteCodeSize);
+	// plane->setRotation({ 1.57f, 0.f });
+	// plane->setScale(2.f);
+	// plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	// plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	//GameObjectManager::get()->addObject(plane);
 
 	// 1. Rainbow cube
@@ -168,15 +168,15 @@ void AppWindow::onCreate()
 
 	// 2. Rotating white cube
 	const std::shared_ptr<Cube> cube = std::make_shared<Cube>("cube", shaderByteCode, byteCodeSize, 1.f);
-	cube->setPosition({ 0.f, 0.f, 0.f });
-	cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	//GameObjectManager::get()->addObject(cube);
+	cube->setPosition({ -1.f, 0.f, 0.f });
+	// cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	// cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	GameObjectManager::get()->addObject(cube);
 
 	const std::shared_ptr<Cylinder> cylinder = std::make_shared<Cylinder>("cylinder", shaderByteCode, byteCodeSize, 1.f);
 	cylinder->setPosition({ 1.f, 0.f, 0.f });
-	cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
+	// cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
+	// cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
 	GameObjectManager::get()->addObject(cylinder);
 
 	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();

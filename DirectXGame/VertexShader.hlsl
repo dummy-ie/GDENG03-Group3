@@ -11,6 +11,7 @@ struct VS_OUTPUT
     float4 pos : POSITION;
     float3 color : COLOR;
     float2 texcoord : TEXCOORD;
+    float3 directionToCamera : TEXCOORD1;
     float fogFactor : FOG;
 };
 
@@ -64,6 +65,7 @@ VS_OUTPUT main(VS_INPUT input)
 
     // Calculate linear fog    
     output.fogFactor = getFogFactor(distance(cameraPos, input.pos));
+    output.directionToCamera = normalize(cameraPos - input.pos);
 
     return output;
 }
