@@ -22,6 +22,13 @@ cbuffer constant : register(b0)
     row_major float4x4 proj;
     float3 cameraPos;
     float time;
+
+    float3 color;         // albedo color
+    float metallic;       // metallic strength
+    float smoothness;     // specular strength
+    float flatness;       // normal flatness
+    float2 tiling;        // texture tiling
+    float2 offset;        // texture offset
 };
 
 // Texture Resources
@@ -61,7 +68,7 @@ VS_OUTPUT main(VS_INPUT input)
     output.color = input.color;
     //output.color1 = input.color1;
     
-    output.texcoord = input.texcoord;
+    output.texcoord = input.texcoord * tiling + offset;
 
     // Calculate linear fog    
     output.fogFactor = getFogFactor(distance(cameraPos, input.pos));
