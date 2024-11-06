@@ -2,14 +2,15 @@ struct VS_INPUT
 {
     float4 pos : POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
+    //float3 color1 : COLOR1;
 };
 
 struct VS_OUTPUT
 {
     float4 pos : POSITION;
     float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD;
     float fogFactor : FOG;
 };
 
@@ -21,6 +22,16 @@ cbuffer constant : register(b0)
     float3 cameraPos;
     float time;
 };
+
+// Texture Resources
+Texture2D albedoMap : register(t0);
+Texture2D normalMap : register(t1);
+Texture2D metallicMap : register(t2);
+Texture2D smoothnessMap : register(t3);
+
+// Sampler for Textures
+SamplerState samplerState : register(s0);
+
 
 float getFogFactor(float d)
 {
@@ -47,10 +58,20 @@ VS_OUTPUT main(VS_INPUT input)
     output.pos = mul(output.pos, proj);
 
     output.color = input.color;
-    output.color1 = input.color1;
+    //output.color1 = input.color1;
+    
+    output.texcoord = input.texcoord;
 
     // Calculate linear fog    
     output.fogFactor = getFogFactor(distance(cameraPos, input.pos));
 
     return output;
 }
+
+/* This is the required means to set shader resources. Conduct this WITHIN the rendering code.
+deviceContext->PSSetShaderResources(0, 1, &albedoTexture);
+deviceContext->PSSetShaderResources(1, 1, &normalTexture);
+deviceContext->PSSetShaderResources(2, 1, &metallicTexture);
+deviceContext->PSSetShaderResources(3, 1, &smoothnessTexture);
+deviceContext->PSSetSamplers(0, 1, &samplerState);
+*/
