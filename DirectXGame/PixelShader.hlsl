@@ -37,20 +37,20 @@ float4 main(PS_INPUT input) : SV_TARGET
     float3 m_light_direction = normalize(float3(0.f, -1.f, 0.f));
 
     //AMBIENT LIGHT
-    float ka = 0.3;
+    float ka = 0.5;
     float3 ia = float3(1.0, 1.0, 1.0);
 
     float3 ambient_light = ka * ia;
 
 	//DIFFUSE LIGHT
-    float kd = 0.7;
+    float kd = 10.0;
     float3 id = float3(1.0, 1.0, 1.0);
     float amount_diffuse_light = max(0.0, dot(m_light_direction, normal));
 
     float3 diffuse_light = kd * amount_diffuse_light * id * (1.0 - metallic);
 
 	//SPECULAR LIGHT
-    float ks = 1.0;
+    float ks = 5.0;
     float3 is = float3(1.0, 1.0, 1.0);
     float3 reflected_light = reflect(m_light_direction, normal);
     float shininess = smoothness * 30.0;
