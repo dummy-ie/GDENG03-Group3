@@ -48,7 +48,7 @@ Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, con
 		{ Vector3D(-0.5f,-0.5f,0.5f),  color,       Vector2D(1,1)},
 		{ Vector3D(-0.5f,-0.5f,-0.5f),    color,    Vector2D(1,0)},
 
-		//This vertex needs to be here or the bottom face is f*cked
+		//This vertex needs to be here or one of the bottom triangles is f*cked
 		{ Vector3D(0,0,0),    Vector3D(0,0,0),    Vector2D(0,0)},
 	};
 
