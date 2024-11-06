@@ -12,28 +12,28 @@ MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texWoodBark_1.jpg",
+			L"images/texScratchyMetal_1.png",
 			nullptr,
 			albedoTexture.ReleaseAndGetAddressOf()));
 	LogUtils::logHResult(
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texWoodBark_1_m.png",
+			L"images/texScratchyMetal_1_m.png",
 			nullptr,
 			metallicTexture.ReleaseAndGetAddressOf()));
 	LogUtils::logHResult(
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texWoodBark_1_s.png",
+			L"images/texScratchyMetal_1_s.png",
 			nullptr,
 			smoothnessTexture.ReleaseAndGetAddressOf()));
 	LogUtils::logHResult(
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texWoodBark_1_n.png",
+			L"images/texScratchyMetal_1_n.png",
 			nullptr,
 			normalTexture.ReleaseAndGetAddressOf()));
 }

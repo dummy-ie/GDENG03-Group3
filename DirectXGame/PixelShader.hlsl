@@ -34,7 +34,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     float metallic = metallicMap.Sample(samplerState, input.texcoord).r;
     float smoothness = smoothnessMap.Sample(samplerState, input.texcoord).r;
 
-    float4 m_light_direction = float4(0.f, -1.f, 0.f, 1.f);
+    float3 m_light_direction = normalize(float3(0.f, -1.f, 0.f));
 
     //AMBIENT LIGHT
     float ka = 0.3;
@@ -45,18 +45,18 @@ float4 main(PS_INPUT input) : SV_TARGET
 	//DIFFUSE LIGHT
     float kd = 0.7;
     float3 id = float3(1.0, 1.0, 1.0);
-    float amount_diffuse_light = max(0.0, dot(m_light_direction.xyz, normal));
+    float amount_diffuse_light = max(0.0, dot(m_light_direction, normal));
 
-    float3 diffuse_light = kd * amount_diffuse_light * id;
+    float3 diffuse_light = kd * amount_diffuse_light * id * (1.0 - metallic);
 
 	//SPECULAR LIGHT
     float ks = 1.0;
     float3 is = float3(1.0, 1.0, 1.0);
-    float3 reflected_light = reflect(m_light_direction.xyz, normal);
-    float shininess = 30.0;
+    float3 reflected_light = reflect(m_light_direction, normal);
+    float shininess = smoothness * 30.0;
     float amount_specular_light = pow(max(0.0, dot(reflected_light, input.directionToCamera)), shininess);
 
-    float3 specular_light = ks * amount_specular_light * is;
+    float3 specular_light = ks * amount_specular_light * is * (metallic + smoothness);
 
     float3 final_light = ambient_light + diffuse_light + specular_light;
 
@@ -69,21 +69,6 @@ float4 main(PS_INPUT input) : SV_TARGET
     {
         color *= albedo;
     }
-
-    // if (all(normal > float4(0.f, 0.f, 0.f, 0.f)))
-    // {
-    //     color *= float4(normal, 1.f);
-    // }
- 
-    // if (all(metallic > 0.f))
-    // {
-    //     color *= metallic;
-    // }
-    
-    // if (all(smoothness > 0.f))
-    // {
-    //     color *= smoothness;
-    // }
 
     if (any(final_light > float3(0.f, 0.f, 0.f)))
     {
