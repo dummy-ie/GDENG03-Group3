@@ -40,15 +40,10 @@ SamplerState samplerState : register(s0);
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-    // Fallback textures
-    // In case textures are null
-	float4 fallbackAlbedo = float4(color, 1.0);
-    float3 fallbackNormal = float3(0.0, 0.0, 1.0);
-
 	// Sample textures
-	float4 albedo = (hasAlbedoMap > 0.5) ? albedoMap.Sample(samplerState, input.texcoord) * fallbackAlbedo : fallbackAlbedo;
+	float4 albedo = (hasAlbedoMap > 0.5) ? albedoMap.Sample(samplerState, input.texcoord) * float4(color, 1.0) : float4(color, 1.0);
     float3 normal = (hasNormalMap > 0.5) ? (normalMap.Sample(samplerState, input.texcoord).rgb * 2.0 - 1.0) * (1.0 - flatness) + float3(0.0, 0.0, flatness)
-                          : fallbackNormal;
+                          : float3(0.0, 0.0, 1.0);
     float metallic = (hasMetallicMap > 0.5) ? metallicMap.Sample(samplerState, input.texcoord).r * metallicMul : metallicMul;
     float smoothness = (hasSmoothnessMap > 0.5) ? smoothnessMap.Sample(samplerState, input.texcoord).r * smoothnessMul : smoothnessMul;
 
@@ -63,14 +58,14 @@ float4 main(PS_INPUT input) : SV_TARGET
 	//DIFFUSE LIGHT
     float kd = 10.0 * metallic;
     float3 id = float3(1.0, 1.0, 1.0);
-    float amount_diffuse_light = max(0.0, dot(m_light_direction, normal));
-    float3 diffuse_light = kd * amount_diffuse_light * id;
+    float amount_diffuse_light = max(0.1 * smoothness, dot(m_light_direction, normal));
+    float3 diffuse_light = (kd + 1) * amount_diffuse_light * id;
 
 	//SPECULAR LIGHT
     float ks = metallic * 2.0 + 0.1;
     float3 is = float3(1.0, 1.0, 1.0);
     float3 reflected_light = reflect(-m_light_direction, normal);
-    float shininess = lerp(5.0, 50.0, smoothness);
+    float shininess = lerp(5.0, 100.0, smoothness);
     float amount_specular_light = pow(max(0.0, dot(reflected_light, input.directionToCamera)), shininess);
 
     float3 specular_light = ks * amount_specular_light * is;
