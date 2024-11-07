@@ -13,19 +13,19 @@ Cylinder::Cylinder(const std::string& name, void* shaderByteCode, size_t sizeSha
 	vertexList.push_back(bottomCenter);
 	
 
-	int segments = 200;
+	int segments = 50;
 	float radius = 0.4f;
 	for (int i = 0; i <= segments; ++i)
 	{
 		float theta = (2.0f * 3.14159f * i) / segments;
 
-		vertexList.push_back({Vector3D(radius * sinf(theta), -0.5f,  radius * cosf(theta)), color, Vector2D((float)i / segments - 1,1) });
-		vertexList.push_back({ Vector3D(radius * sinf(theta),  0.5f,  radius * cosf(theta)), color, Vector2D((float)i / segments - 1,0) });
+		vertexList.push_back({ Vector3D(radius * sinf(theta), -0.5f,  radius * cosf(theta)), color, Vector2D(segments - ((float)i / segments - 1),1) });
+		vertexList.push_back({ Vector3D(radius * sinf(theta),  0.5f,  radius * cosf(theta)), color, Vector2D(segments - ((float)i / segments - 1),0) });
 	}
 
 	for (int i = 0; i <= segments; ++i)
 	{
-		float theta = (2.0f * 3.14159f * i) / segments;
+		float theta = (2.0f * 3.14159f * i) / (segments - 1);
 
 		float u = 0.5f + 0.5f * cosf(theta);
 		float v = 0.5f + 0.5f * sinf(theta);
@@ -50,14 +50,14 @@ Cylinder::Cylinder(const std::string& name, void* shaderByteCode, size_t sizeSha
 		indexList.push_back(i + 3);
 	}
 
-	for (int i = 3; i <= segments * 2 + 3; i += 2)
+	for (int i = 3; i < segments * 2 + 3; i += 2)
 	{
 		indexList.push_back(0);
 		indexList.push_back(i + (segments * 2));
 		indexList.push_back(i + (segments * 2) + 2);
 	}
 
-    for (int i = 2; i <= segments * 2 + 2; i += 2)
+    for (int i = 2; i < segments * 2 + 2; i += 2)
     {
         indexList.push_back(1);
 		indexList.push_back(i + (segments * 2) + 2);

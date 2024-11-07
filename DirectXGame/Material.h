@@ -23,10 +23,6 @@ public:
 
 	PixelShaderPtr getPixelShader() const;
 
-	float getMetallic();
-	float getSmoothness();
-	float getFlatness();
-
 private:
 	PixelShaderPtr pixelShader = nullptr;
 
