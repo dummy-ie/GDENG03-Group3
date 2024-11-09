@@ -149,6 +149,10 @@ void MaterialEditor::showMaterialEditorWindow()
 		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture.Get())), imageSize))
 		{
 			loadTextureFile(normalTexture);
+			if(!isNormalImage(normalTexture))
+			{
+				normalTexture.Reset();
+			}
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
@@ -197,6 +201,79 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
+}
+
+std::vector<unsigned char> MaterialEditor::getPixelData(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture)
+{
+	std::vector<unsigned char> pixelData;
+
+	if (!texture) return pixelData;
+
+	//get the texture resource from the shader resource view
+	Microsoft::WRL::ComPtr<ID3D11Resource> resource;
+	texture->GetResource(resource.GetAddressOf());
+
+	//get the texture description
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
+	if (FAILED(resource.As(&texture2D))) return pixelData;
+
+	D3D11_TEXTURE2D_DESC textureDesc;
+	texture2D->GetDesc(&textureDesc);
+
+	//create a staging texture for cpu access
+	textureDesc.Usage = D3D11_USAGE_STAGING;
+	textureDesc.BindFlags = 0;
+	textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	textureDesc.MiscFlags = 0;
+
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
+	HRESULT hr = GraphicsEngine::get()->getRenderSystem()->getDevice()->CreateTexture2D(&textureDesc, nullptr, &stagingTexture);
+	if (FAILED(hr)) return pixelData;
+
+	//copy the original texture to the staging texture
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->copyResource(stagingTexture.Get(), resource.Get());
+
+	//map the staging texture for reading
+	D3D11_MAPPED_SUBRESOURCE mappedData;
+	if (!GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->mapResource(stagingTexture.Get(), mappedData, 0, D3D11_MAP_READ, 0)) {
+		return pixelData;
+	}
+
+	//calculate pixel data size and copy it
+	size_t rowPitch = mappedData.RowPitch;
+	size_t dataSize = rowPitch * textureDesc.Height;
+	pixelData.resize(dataSize);
+	memcpy(pixelData.data(), mappedData.pData, dataSize);
+
+	//unmap the resource
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->unmapResource(stagingTexture.Get(),0);
+
+	return pixelData;
+}
+
+bool MaterialEditor::isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture)
+{
+	std::vector<unsigned char> pixelData = getPixelData(texture);
+
+	//calculate average blue dominance.
+	int totalPixels = pixelData.size() / 4;
+	int blueDominantCount = 0;
+
+	for (int i = 0; i < totalPixels; ++i)
+	{
+		int r = pixelData[i * 4];
+		int g = pixelData[i * 4 + 1];
+		int b = pixelData[i * 4 + 2];
+
+		//check if blue is the highest component.
+		if (b > r && b > g)
+		{
+			blueDominantCount++;
+		}
+	}
+
+	//threshold
+	return (blueDominantCount / static_cast<float>(totalPixels)) >= 0.9f;
 }
 
 void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture)

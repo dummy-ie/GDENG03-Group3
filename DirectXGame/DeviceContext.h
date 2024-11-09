@@ -33,6 +33,10 @@ public:
 
 	void setConstantBuffer(const ConstantBufferPtr& constantBuffer) const;
 
+	bool copyResource(ID3D11Resource* destResource, ID3D11Resource* srcResource) const;
+	bool mapResource(ID3D11Resource* resource, D3D11_MAPPED_SUBRESOURCE& mappedData, UINT subresource, D3D11_MAP mapType, UINT mapFlags) const;
+	void unmapResource(ID3D11Resource* resource, UINT subresource) const;
+
 private:
 	ID3D11DeviceContext* deviceContext;
 

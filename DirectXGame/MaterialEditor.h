@@ -5,6 +5,7 @@
 #include "DirectXHelpers.h"
 #include <string>
 #include <shobjidl.h> 
+#include <vector>
 
 #include "UIScreen.h"
 #include "Vector2D.h"
@@ -23,6 +24,9 @@ private:
     void showColorPickerWindow();
     void updateSelectedMaterial() const;
     void showMaterialEditorWindow();
+
+    std::vector<unsigned char> getPixelData(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
+    bool isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
 
     void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
 

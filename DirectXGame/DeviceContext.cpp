@@ -122,3 +122,23 @@ void DeviceContext::setConstantBuffer(const ConstantBufferPtr& constantBuffer) c
 	deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
 
 }
+
+bool DeviceContext::copyResource(ID3D11Resource* destResource, ID3D11Resource* srcResource) const
+{
+	if (!deviceContext || !destResource || !srcResource) return false;
+	deviceContext->CopyResource(destResource, srcResource);
+	return true;
+}
+
+bool DeviceContext::mapResource(ID3D11Resource* resource, D3D11_MAPPED_SUBRESOURCE& mappedData, UINT subresource,
+	D3D11_MAP mapType, UINT mapFlags) const
+{
+	if (!deviceContext || !resource) return false;
+	HRESULT hr = deviceContext->Map(resource, subresource, mapType, mapFlags, &mappedData);
+	return SUCCEEDED(hr);
+}
+
+void DeviceContext::unmapResource(ID3D11Resource* resource, UINT subresource) const
+{
+	if (deviceContext && resource) deviceContext->Unmap(resource, subresource);
+}
