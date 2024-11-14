@@ -26,8 +26,8 @@ private:
     void updateSelectedMaterial() const;
     void showMaterialEditorWindow();
 
-    std::vector<unsigned char> getPixelData(const TexturePtr& texture);
-    bool isNormalImage(const TexturePtr& texture);
+    static std::vector<unsigned char> getPixelData(const TexturePtr& texture);
+    static bool isNormalImage(const TexturePtr& texture);
 
     void loadTextureFile(TexturePtr &texture);
     static void loadBlankTexture(TexturePtr &texture);

@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "CameraManager.h"
-#include "ConstantBuffer.h"
 
 // void GameObject::draw(VertexShader* vs, GeometryShader* gs, PixelShader* ps, RECT clientWindow)
 // {

@@ -6,6 +6,9 @@
 
 #include "LogUtils.h"
 
+// #define TINYOBJLOADER_IMPLEMENTATION
+// #include "tiny_obj_loader.h"
+
 #include "imgui.h"
 #include "backends/imgui_impl_dx11.h"
 #include "backends/imgui_impl_win32.h"
@@ -28,6 +31,7 @@
 #include "SceneCamera.h"
 #include "CameraManager.h"
 #include "Quad.h"
+#include "Mesh.h"
 #include "Circle.h"
 #include "Plane.h"
 #include "MathUtil.h"
@@ -55,7 +59,7 @@ public:
 private:
 	AppWindow();
 	~AppWindow() override;
-	
+
 	static AppWindow* sharedInstance;
 
 	//Quad* qList[1]; // object manager later

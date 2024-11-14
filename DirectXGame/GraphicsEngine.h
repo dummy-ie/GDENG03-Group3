@@ -5,6 +5,7 @@
 #include "Prerequisites.h"
 #include "RenderSystem.h"
 #include "TextureManager.h"
+//#include "MeshManager.h"
 
 class GraphicsEngine
 {
@@ -15,6 +16,9 @@ public:
 
 	RenderSystem* getRenderSystem() const;
 	TextureManager* getTextureManager() const;
+	MeshManager* getMeshManager() const;
+
+	void getVertexMeshLayoutShaderByteCodeAndSize(void** shaderByteCode, size_t* sizeShader);
 
 	GraphicsEngine(GraphicsEngine const&) = delete;
 	GraphicsEngine& operator=(GraphicsEngine const&) = delete;
@@ -28,5 +32,9 @@ private:
 	static GraphicsEngine* sharedInstance;
 	RenderSystem* renderSystem = nullptr;
 	TextureManager* textureManager = nullptr;
+	MeshManager* meshManager = nullptr;
+
+	unsigned char meshLayoutByteCode[1024];
+	size_t meshLayoutSize = 0;
 };
 

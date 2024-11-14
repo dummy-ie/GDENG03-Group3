@@ -20,12 +20,11 @@ public:
 	{
 	}
 
-	// virtual ~GameObject() 
-	// {
-	// 	delete vertexBuffer;
-	// 	delete indexBuffer;
-	// 	delete constantBuffer;
-	// }
+	virtual ~GameObject() = default;
+	GameObject(GameObject const&) = default;
+	GameObject& operator=(GameObject const&) = default;
+	GameObject(GameObject&& other) noexcept = default;
+	GameObject& operator=(GameObject&& other) noexcept = default;
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(

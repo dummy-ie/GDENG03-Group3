@@ -12,8 +12,7 @@
 
 ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* filePath)
 {
-
-#if (_MSC_VER >= 1900 && _MSC_VER <= 1916)  || ( _MSC_VER >= 1920 && __cplusplus <= 201402L) 
+#if (_MSC_VER >= 1900 && _MSC_VER <= 1916) || ( _MSC_VER >= 1920 && __cplusplus <= 201402L) 
 	const std::wstring fullPath = std::experimental::filesystem::absolute(filePath);
 #endif
 

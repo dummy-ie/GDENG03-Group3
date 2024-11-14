@@ -8,7 +8,7 @@ MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/pompom logo.png",
+			L"assets/images/pompom logo.png",
 			nullptr,
 			creditsTexture.ReleaseAndGetAddressOf()));
 }
@@ -93,6 +93,9 @@ void MenuScreen::draw()
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
+
+
+
 		ImGui::EndMenu();
 	}
 

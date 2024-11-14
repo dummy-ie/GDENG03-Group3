@@ -1,16 +1,15 @@
 struct VS_INPUT
 {
     float4 pos : POSITION;
-    float3 color : COLOR;
     float2 texcoord : TEXCOORD;
-    //float3 color1 : COLOR1;
+    float3 color : COLOR;
 };
 
 struct VS_OUTPUT
 {
-    float4 pos : POSITION;
-    float3 color : COLOR;
+    float4 pos : SV_POSITION;
     float2 texcoord : TEXCOORD;
+    float3 color : COLOR;
     float3 directionToCamera : TEXCOORD1;
     float fogFactor : FOG;
 };

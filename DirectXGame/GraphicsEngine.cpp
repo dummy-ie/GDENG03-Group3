@@ -1,5 +1,6 @@
 #include "GraphicsEngine.h"
 
+#include "MeshManager.h"
 
 GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
 
@@ -10,12 +11,23 @@ GraphicsEngine::GraphicsEngine()
 
 	try { textureManager = new TextureManager(); }
 	catch (...) { textureManager = nullptr; }
+
+	try { meshManager = new MeshManager(); }
+	catch (...) { meshManager = nullptr; }
+
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+	renderSystem->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "main", &shaderByteCode, &sizeShader);
+	::memcpy(meshLayoutByteCode, shaderByteCode, sizeShader);
+	meshLayoutSize = sizeShader;
+	renderSystem->releaseCompiledShader();
 }
 
 GraphicsEngine::~GraphicsEngine()
 {
 	delete renderSystem;
 	delete textureManager;
+	delete meshManager;
 	delete sharedInstance;
 }
 
@@ -35,4 +47,15 @@ RenderSystem* GraphicsEngine::getRenderSystem() const
 TextureManager* GraphicsEngine::getTextureManager() const
 {
 	return textureManager;
+}
+
+MeshManager* GraphicsEngine::getMeshManager() const
+{
+	return meshManager;
+}
+
+void GraphicsEngine::getVertexMeshLayoutShaderByteCodeAndSize(void** shaderByteCode, size_t* sizeShader)
+{
+	*shaderByteCode = meshLayoutByteCode;
+	*sizeShader = meshLayoutSize;
 }

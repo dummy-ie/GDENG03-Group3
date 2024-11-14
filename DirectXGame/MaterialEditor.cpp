@@ -10,10 +10,10 @@
 
 MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 {
-	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1.png");
-	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_m.png");
-	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_s.png");
-	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_n.png");
+	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1.png");
+	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_m.png");
+	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_s.png");
+	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_n.png");
 
 }
 
@@ -116,7 +116,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
-		if(ImGui::Button("Clear Smoothness"))
+		if (ImGui::Button("Clear Smoothness"))
 		{
 			loadBlankTexture(smoothnessTexture);
 		}
@@ -128,7 +128,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture->getShaderResourceView())), imageSize))
 		{
 			loadTextureFile(normalTexture);
-			if(!isNormalImage(normalTexture))
+			if (!isNormalImage(normalTexture))
 			{
 				loadBlankTexture(normalTexture);
 			}
@@ -182,14 +182,14 @@ void MaterialEditor::showMaterialEditorWindow()
 	ImGui::End();
 }
 
-std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr &texture)
+std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr& texture)
 {
 	std::vector<unsigned char> pixelData;
 
 	if (!texture) return pixelData;
 
 	//get the texture resource from the shader resource view
-	Microsoft::WRL::ComPtr<ID3D11Resource> resource = texture->getResource();
+	const Microsoft::WRL::ComPtr<ID3D11Resource> resource = texture->getResource();
 
 	//get the texture description
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
@@ -205,8 +205,8 @@ std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr &textur
 	textureDesc.MiscFlags = 0;
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
-	HRESULT hr = GraphicsEngine::get()->getRenderSystem()->getDevice()->CreateTexture2D(&textureDesc, nullptr, &stagingTexture);
-	if (FAILED(hr)) return pixelData;
+	if (const HRESULT hr = GraphicsEngine::get()->getRenderSystem()->getDevice()->CreateTexture2D(&textureDesc, nullptr, &stagingTexture); FAILED(hr))
+		return pixelData;
 
 	//copy the original texture to the staging texture
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->copyResource(stagingTexture.Get(), resource.Get());
@@ -218,30 +218,30 @@ std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr &textur
 	}
 
 	//calculate pixel data size and copy it
-	size_t rowPitch = mappedData.RowPitch;
-	size_t dataSize = rowPitch * textureDesc.Height;
+	const size_t rowPitch = mappedData.RowPitch;
+	const size_t dataSize = rowPitch * textureDesc.Height;
 	pixelData.resize(dataSize);
 	memcpy(pixelData.data(), mappedData.pData, dataSize);
 
 	//unmap the resource
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->unmapResource(stagingTexture.Get(),0);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->unmapResource(stagingTexture.Get(), 0);
 
 	return pixelData;
 }
 
 bool MaterialEditor::isNormalImage(const TexturePtr& texture)
 {
-	std::vector<unsigned char> pixelData = getPixelData(texture);
+	const std::vector<unsigned char> pixelData = getPixelData(texture);
 
 	//calculate average blue dominance.
-	int totalPixels = pixelData.size() / 4;
+	const int totalPixels = pixelData.size() / 4;
 	int blueDominantCount = 0;
 
 	for (int i = 0; i < totalPixels; ++i)
 	{
-		int r = pixelData[i * 4];
-		int g = pixelData[i * 4 + 1];
-		int b = pixelData[i * 4 + 2];
+		const int r = pixelData[i * 4];
+		const int g = pixelData[i * 4 + 1];
+		const int b = pixelData[i * 4 + 2];
 
 		//check if blue is the highest component.
 		if (b > r && b > g)
@@ -342,5 +342,5 @@ void MaterialEditor::loadTextureFile(TexturePtr& texture)
 void MaterialEditor::loadBlankTexture(TexturePtr& texture)
 {
 	texture.reset();
-	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/default_square.png");
+	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
 }

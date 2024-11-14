@@ -1,7 +1,7 @@
 #include "AppWindow.h"
 
-
 #include "GameObjectManager.h"
+#include "MeshManager.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 
@@ -118,6 +118,27 @@ void AppWindow::onCreate()
 	vertexShader = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shaderByteCode, byteCodeSize);
 
 	// Insert all GameObjects here
+
+	//const std::shared_ptr<Mesh> bunny = std::make_shared<Mesh>(L"assets/models/bunny.obj", "bunny");
+	//const std::shared_ptr<Mesh> bunny = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/bunny.obj");
+	//GameObjectManager::get()->addObject(bunny);
+	// bunny->setPosition({ -1, 0, 0 });
+	//bunny->setScale(5.f);
+	// bunny->interpolateScale = true;
+	// bunny->scale1 = 5.f;
+	// bunny->scale2 = 7.f;
+
+
+	 // const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
+	 // GameObjectManager::get()->addObject(teapot);
+	// teapot->setPosition({ 1, 0, 0 });
+	//
+	const std::shared_ptr<Mesh> armadillo = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/armadillo.obj");
+	GameObjectManager::get()->addObject(armadillo);
+	armadillo->setScale(0.5f);
+	// armadillo->setPosition({ 0, 0, 2 });
+
+
 	// const std::shared_ptr<Plane> floor = std::make_shared<Plane>("floor", shaderByteCode, byteCodeSize, Vector3D(0.3f, 0.4f, 0.1f));
 	// floor->setRotation({ 1.57f, 0.f });
 	// floor->setScale({ 100.f, 100.f, 100.f });
@@ -167,17 +188,17 @@ void AppWindow::onCreate()
 	// gameObjectsVector.push_back(cube);
 
 	// 2. Rotating white cube
-	const std::shared_ptr<Cube> cube = std::make_shared<Cube>("cube", shaderByteCode, byteCodeSize, 1.f);
-	cube->setPosition({ -1.f, 0.f, 0.f });
+	// const std::shared_ptr<Cube> cube = std::make_shared<Cube>("cube", shaderByteCode, byteCodeSize, 1.f);
+	// cube->setPosition({ -1.f, 0.f, 0.f });
 	// cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	// cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	GameObjectManager::get()->addObject(cube);
+	//GameObjectManager::get()->addObject(cube);
 
-	const std::shared_ptr<Cylinder> cylinder = std::make_shared<Cylinder>("cylinder", shaderByteCode, byteCodeSize, 1.f);
-	cylinder->setPosition({ 1.f, 0.f, 0.f });
+	// const std::shared_ptr<Cylinder> cylinder = std::make_shared<Cylinder>("cylinder", shaderByteCode, byteCodeSize, 1.f);
+	// cylinder->setPosition({ 1.f, 0.f, 0.f });
 	// cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	// cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	GameObjectManager::get()->addObject(cylinder);
+	// GameObjectManager::get()->addObject(cylinder);
 
 	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
@@ -213,13 +234,13 @@ void AppWindow::onUpdate()
 	//LogUtils::log(this, "Clear render target");
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(
 		this->swapChain,
-		0.f,
-		0.f,
-		0.f,
+		0.3f,
+		0.3f,
+		0.3f,
 		1.f);
 
-	const RECT& rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	const auto& [left, top, right, bottom] = this->getClientWindowRect();
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(right - left, bottom - top);
 
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
