@@ -3,15 +3,16 @@ struct VS_INPUT
     float4 pos : POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
+    //float3 color1 : COLOR1;
 };
 
 struct VS_OUTPUT
 {
-    float4 pos : SV_POSITION;
+    float4 pos : POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
-    float3 directionToCamera : TEXCOORD1;
-    float fogFactor : FOG;
+    // float3 directionToCamera : TEXCOORD1;
+    // float fogFactor : FOG;
 };
 
 cbuffer constant : register(b0)
@@ -63,8 +64,8 @@ VS_OUTPUT main(VS_INPUT input)
     // World Space
     output.pos = mul(input.pos, world);
     // Calculate linear fog    
-    output.fogFactor = getFogFactor(distance(cameraPos, output.pos));
-    output.directionToCamera = normalize(cameraPos - output.pos);
+    // output.fogFactor = getFogFactor(distance(cameraPos, output.pos));
+    // output.directionToCamera = normalize(cameraPos - output.pos);
 
 	// View Space
     output.pos = mul(output.pos, view);

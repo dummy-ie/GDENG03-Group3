@@ -1,9 +1,10 @@
 struct GS_INPUT
 {
-    float4 pos : SV_POSITION;
+    float4 pos : POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
-    float fogFactor : FOG;
+    //float3 color1 : COLOR1;
+    // float fogFactor : FOG;
 };
 
 struct GS_OUTPUT
@@ -11,7 +12,8 @@ struct GS_OUTPUT
     float4 pos : SV_POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
-    float fogFactor : FOG;
+    //float3 color1 : COLOR1;
+    // float fogFactor : FOG;
 };
 
 cbuffer constant : register(b0)
@@ -29,10 +31,10 @@ void main(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> outputStre
     for (int i = 0; i < 3; ++i)
     {
         GS_OUTPUT output;
+        // output.fogFactor = input[i].fogFactor;
         output.pos = input[i].pos;
         output.texcoord = input[i].texcoord;
         output.color = input[i].color;
-        output.fogFactor = input[i].fogFactor;
         //output.color1 = input[i].color1;
 
         outputStream.Append(output);

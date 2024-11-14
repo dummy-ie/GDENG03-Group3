@@ -122,17 +122,17 @@ void AppWindow::onCreate()
 	//const std::shared_ptr<Mesh> bunny = std::make_shared<Mesh>(L"assets/models/bunny.obj", "bunny");
 	//const std::shared_ptr<Mesh> bunny = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/bunny.obj");
 	//GameObjectManager::get()->addObject(bunny);
-	// bunny->setPosition({ -1, 0, 0 });
+	//bunny->setPosition({ -1, 0, 0 });
 	//bunny->setScale(5.f);
 	// bunny->interpolateScale = true;
 	// bunny->scale1 = 5.f;
 	// bunny->scale2 = 7.f;
 
 
-	 // const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
-	 // GameObjectManager::get()->addObject(teapot);
+	// const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
+	// GameObjectManager::get()->addObject(teapot);
 	// teapot->setPosition({ 1, 0, 0 });
-	//
+
 	const std::shared_ptr<Mesh> armadillo = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/armadillo.obj");
 	GameObjectManager::get()->addObject(armadillo);
 	armadillo->setScale(0.5f);
