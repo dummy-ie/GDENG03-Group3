@@ -7,11 +7,15 @@ GraphicsEngine::GraphicsEngine()
 {
 	try { renderSystem = new RenderSystem(); }
 	catch (...) { renderSystem = nullptr; }
+
+	try { textureManager = new TextureManager(); }
+	catch (...) { textureManager = nullptr; }
 }
 
 GraphicsEngine::~GraphicsEngine()
 {
 	delete renderSystem;
+	delete textureManager;
 	delete sharedInstance;
 }
 
@@ -23,15 +27,12 @@ GraphicsEngine* GraphicsEngine::get()
 	return sharedInstance;
 }
 
-void GraphicsEngine::create()
-{
-}
-
-void GraphicsEngine::release()
-{
-}
-
 RenderSystem* GraphicsEngine::getRenderSystem() const
 {
 	return renderSystem;
+}
+
+TextureManager* GraphicsEngine::getTextureManager() const
+{
+	return textureManager;
 }

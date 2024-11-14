@@ -147,6 +147,9 @@ void MenuScreen::showCreditsWindow()
 			"Acknowledgements: \n"
 			"Dr. Neil Del Gallego's GDENG03 Course \n"
 			"PardCode Game Engine Tutorial \n"
+			"Joachim Arguelles \n"
+			"James Ursua \n"
+			"Uriel Pascual \n"
 			"Rimuru Tempest \n"
 		);
 		ImGui::NewLine();

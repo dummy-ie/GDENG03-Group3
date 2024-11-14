@@ -4,38 +4,17 @@
 
 #include "GraphicsEngine.h"
 #include "Material.h"
+#include "Texture.h"
+#include "TextureManager.h"
 #include "UIManager.h"
 
 MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
 {
-	LogUtils::logHResult(
-		this,
-		DirectX::CreateWICTextureFromFile(
-			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texScratchyMetal_1.png",
-			nullptr,
-			albedoTexture.ReleaseAndGetAddressOf()));
-	LogUtils::logHResult(
-		this,
-		DirectX::CreateWICTextureFromFile(
-			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texScratchyMetal_1_m.png",
-			nullptr,
-			metallicTexture.ReleaseAndGetAddressOf()));
-	LogUtils::logHResult(
-		this,
-		DirectX::CreateWICTextureFromFile(
-			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texScratchyMetal_1_s.png",
-			nullptr,
-			smoothnessTexture.ReleaseAndGetAddressOf()));
-	LogUtils::logHResult(
-		this,
-		DirectX::CreateWICTextureFromFile(
-			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/texScratchyMetal_1_n.png",
-			nullptr,
-			normalTexture.ReleaseAndGetAddressOf()));
+	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1.png");
+	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_m.png");
+	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_s.png");
+	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/texScratchyMetal_1_n.png");
+
 }
 
 bool* MaterialEditor::getMaterialEditorOpen()
@@ -95,7 +74,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		constexpr ImVec2 imageSize = { 100, 100 };
 		//albedo
 		ImGui::Text("Albedo Map");
-		if (ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture.Get())), imageSize))
+		if (ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture->getShaderResourceView())), imageSize))
 		{
 			loadTextureFile(albedoTexture);
 		}
@@ -106,7 +85,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		if (ImGui::Button("Clear Albedo"))
 		{
-			albedoTexture.Reset();
+			loadBlankTexture(albedoTexture);
 		}
 
 		ImGui::NewLine();
@@ -116,7 +95,7 @@ void MaterialEditor::showMaterialEditorWindow()
 
 		//metallic
 		ImGui::Text("Metallic Map");
-		if (ImGui::ImageButton("Metallic Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(metallicTexture.Get())), imageSize))
+		if (ImGui::ImageButton("Metallic Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(metallicTexture->getShaderResourceView())), imageSize))
 		{
 			loadTextureFile(metallicTexture);
 		}
@@ -124,14 +103,14 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::SliderFloat("Metallic", &metallic, 0, 1);
 		if (ImGui::Button("Clear Metallic"))
 		{
-			metallicTexture.Reset();
+			loadBlankTexture(metallicTexture);
 		}
 
 		ImGui::NewLine();
 
 		//smoothness
 		ImGui::Text("Smoothness Map");
-		if (ImGui::ImageButton("Smoothness Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(smoothnessTexture.Get())), imageSize))
+		if (ImGui::ImageButton("Smoothness Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(smoothnessTexture->getShaderResourceView())), imageSize))
 		{
 			loadTextureFile(smoothnessTexture);
 		}
@@ -139,26 +118,26 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
 		if(ImGui::Button("Clear Smoothness"))
 		{
-			smoothnessTexture.Reset();
+			loadBlankTexture(smoothnessTexture);
 		}
 
 		ImGui::NewLine();
 
 		//albedo
 		ImGui::Text("Normal Map");
-		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture.Get())), imageSize))
+		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture->getShaderResourceView())), imageSize))
 		{
 			loadTextureFile(normalTexture);
 			if(!isNormalImage(normalTexture))
 			{
-				normalTexture.Reset();
+				loadBlankTexture(normalTexture);
 			}
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
 		if (ImGui::Button("Clear Normal"))
 		{
-			normalTexture.Reset();
+			loadBlankTexture(normalTexture);
 		}
 
 		ImGui::NewLine();
@@ -203,15 +182,14 @@ void MaterialEditor::showMaterialEditorWindow()
 	ImGui::End();
 }
 
-std::vector<unsigned char> MaterialEditor::getPixelData(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture)
+std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr &texture)
 {
 	std::vector<unsigned char> pixelData;
 
 	if (!texture) return pixelData;
 
 	//get the texture resource from the shader resource view
-	Microsoft::WRL::ComPtr<ID3D11Resource> resource;
-	texture->GetResource(resource.GetAddressOf());
+	Microsoft::WRL::ComPtr<ID3D11Resource> resource = texture->getResource();
 
 	//get the texture description
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
@@ -251,7 +229,7 @@ std::vector<unsigned char> MaterialEditor::getPixelData(Microsoft::WRL::ComPtr<I
 	return pixelData;
 }
 
-bool MaterialEditor::isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture)
+bool MaterialEditor::isNormalImage(const TexturePtr& texture)
 {
 	std::vector<unsigned char> pixelData = getPixelData(texture);
 
@@ -276,17 +254,17 @@ bool MaterialEditor::isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceVi
 	return (blueDominantCount / static_cast<float>(totalPixels)) >= 0.9f;
 }
 
-void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture)
+void MaterialEditor::loadTextureFile(TexturePtr& texture)
 {
 	//create file object instance
-	if (!LogUtils::logHResult(this, CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
+	if (!LogUtils::logHResult(this, CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
 	{
 		return;
 	}
 
 	//create fileopnedialogue object
 	IFileOpenDialog* f_FileSystem;
-	if (!LogUtils::logHResult(this, CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem))))
+	if (!LogUtils::logHResult(this, CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem))))
 	{
 		CoUninitialize();
 		return;
@@ -302,8 +280,7 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 
 	//this part does NOT like LogUtils::logHResult at all
 	//open file dialogue window
-	HRESULT fileSelect = f_FileSystem->Show(NULL);
-	if (FAILED(fileSelect))
+	if (const HRESULT fileSelect = f_FileSystem->Show(nullptr); FAILED(fileSelect))
 	{
 		LogUtils::log(this, "Texture load cancelled");
 		f_FileSystem->Release();
@@ -312,8 +289,8 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	}
 
 	//retrieve file name from selected item
-	IShellItem* f_Files;
-	if (!LogUtils::logHResult(this, f_FileSystem->GetResult(&f_Files)))
+	IShellItem* fFiles;
+	if (!LogUtils::logHResult(this, f_FileSystem->GetResult(&fFiles)))
 	{
 		f_FileSystem->Release();
 		CoUninitialize();
@@ -321,41 +298,49 @@ void MaterialEditor::loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResource
 	}
 
 	//store and convert file name
-	PWSTR f_Path;
-	if (!LogUtils::logHResult(this, f_Files->GetDisplayName(SIGDN_FILESYSPATH, &f_Path)))
+	PWSTR fPath;
+	if (!LogUtils::logHResult(this, fFiles->GetDisplayName(SIGDN_FILESYSPATH, &fPath)))
 	{
-		f_Files->Release();
+		fFiles->Release();
 		f_FileSystem->Release();
 		CoUninitialize();
 		return;
 	}
 
 	//format and store file path
-	std::wstring path(f_Path);
+	std::wstring path(fPath);
 	std::replace(path.begin(), path.end(), L'\\', L'/');
-	const wchar_t* w_path = path.c_str();
+	const wchar_t* wPath = path.c_str();
 
 	//create texture from file
-	if (!LogUtils::logHResult(
-		this,
-		DirectX::CreateWICTextureFromFile(
-			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			w_path,
-			nullptr,
-			texture.ReleaseAndGetAddressOf())))
-	{
-		LogUtils::log(this, "Texture load failed");
-		LogUtils::log(this, std::string(path.begin(), path.end()));
-	}
-	else
-	{
-		LogUtils::log(this, "Texture load success");
-		LogUtils::log(this, std::string(path.begin(), path.end()));
-	}
+	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(wPath);
+
+	// if (!LogUtils::logHResult(
+	// 	this,
+	// 	DirectX::CreateWICTextureFromFile(
+	// 		GraphicsEngine::get()->getRenderSystem()->getDevice(),
+	// 		w_path,
+	// 		nullptr,
+	// 		texture)))
+	// {
+	// 	LogUtils::log(this, "Texture load failed");
+	// 	LogUtils::log(this, std::string(path.begin(), path.end()));
+	// }
+	// else
+	// {
+	// 	LogUtils::log(this, "Texture load success");
+	// 	LogUtils::log(this, std::string(path.begin(), path.end()));
+	// }
 
 
-	CoTaskMemFree(f_Path);
-	f_Files->Release();
+	CoTaskMemFree(fPath);
+	fFiles->Release();
 	f_FileSystem->Release();
 	CoUninitialize();
+}
+
+void MaterialEditor::loadBlankTexture(TexturePtr& texture)
+{
+	texture.reset();
+	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"images/default_square.png");
 }

@@ -7,6 +7,7 @@
 #include <shobjidl.h> 
 #include <vector>
 
+#include "Prerequisites.h"
 #include "UIScreen.h"
 #include "Vector2D.h"
 
@@ -25,10 +26,11 @@ private:
     void updateSelectedMaterial() const;
     void showMaterialEditorWindow();
 
-    std::vector<unsigned char> getPixelData(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
-    bool isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
+    std::vector<unsigned char> getPixelData(const TexturePtr& texture);
+    bool isNormalImage(const TexturePtr& texture);
 
-    void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
+    void loadTextureFile(TexturePtr &texture);
+    static void loadBlankTexture(TexturePtr &texture);
 
     bool isColorPickerOpen = false;
     bool isMaterialEditorOpen = false;
@@ -40,10 +42,10 @@ private:
     Vector2D tiling = { 1,1 };
     Vector2D offset = { 0,0 };
 
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> albedoTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> metallicTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> smoothnessTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> normalTexture;
+    TexturePtr albedoTexture;
+    TexturePtr metallicTexture;
+    TexturePtr smoothnessTexture;
+    TexturePtr normalTexture;
 
     friend class MenuScreen;
 };

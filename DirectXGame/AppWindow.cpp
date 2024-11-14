@@ -225,7 +225,6 @@ void AppWindow::onUpdate()
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
 	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
-
 	GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
 	GameObjectManager::get()->drawAll(vertexShader, geometryShader, *mainMaterial, getClientWindowRect());
 

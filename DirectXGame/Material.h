@@ -10,16 +10,14 @@
 
 class Material
 {
-	typedef Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TexturePtr;
-
 public:
-	Material(PixelShaderPtr pixelShader);
+	explicit Material(PixelShaderPtr pixelShader);
 
 	/**
 	 * Passing a string will build the shader specified.
 	 * @param pixelShaderName The filename of the shader.
 	 */
-	Material(const std::string& pixelShaderName);
+	explicit Material(const std::string& pixelShaderName);
 
 	PixelShaderPtr getPixelShader() const;
 

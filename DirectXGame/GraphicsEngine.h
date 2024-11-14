@@ -4,6 +4,7 @@
 #include <d3dcompiler.h>
 #include "Prerequisites.h"
 #include "RenderSystem.h"
+#include "TextureManager.h"
 
 class GraphicsEngine
 {
@@ -12,10 +13,8 @@ public:
 	// void initialize();
 	// void destroy();
 
-	static void create();
-	static void release();
-
 	RenderSystem* getRenderSystem() const;
+	TextureManager* getTextureManager() const;
 
 	GraphicsEngine(GraphicsEngine const&) = delete;
 	GraphicsEngine& operator=(GraphicsEngine const&) = delete;
@@ -28,5 +27,6 @@ private:
 
 	static GraphicsEngine* sharedInstance;
 	RenderSystem* renderSystem = nullptr;
+	TextureManager* textureManager = nullptr;
 };
 

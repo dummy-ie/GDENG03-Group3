@@ -29,7 +29,7 @@ public:
 	void setVertexShader(const VertexShaderPtr& vertexShader) const;
 	void setGeometryShader(const GeometryShaderPtr& geometryShader) const;
 	void setPixelShader(const PixelShaderPtr& pixelShader) const;
-	void setTexture(const Material& material);
+	void setTexture(const Material& material) const;
 
 	void setConstantBuffer(const ConstantBufferPtr& constantBuffer) const;
 
