@@ -17,7 +17,7 @@ SamplerState::SamplerState(RenderSystem* system) : m_system(system)
     sampler_desc.MinLOD = 0;
     sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    if (FAILED(m_system->getDevice()->CreateSamplerState(&sampler_desc, &m_sampler_state)))
+    if (FAILED(m_system->getDevice()->CreateSamplerState(&sampler_desc, &samplerState)))
     {
         throw std::exception("SamplerState not created successfully");
     }
@@ -25,5 +25,5 @@ SamplerState::SamplerState(RenderSystem* system) : m_system(system)
 
 SamplerState::~SamplerState()
 {
-    if (m_sampler_state)m_sampler_state->Release();
+    if (samplerState)samplerState->Release();
 }

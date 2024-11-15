@@ -4,11 +4,11 @@
 #include "Prerequisites.h"
 #include "GraphicsResource.h"
 
-class ConstantBuffer : public GraphicsResource
+class ConstantBuffer final : public GraphicsResource
 {
 public:
 	ConstantBuffer(const void* buffer, UINT sizeBuffer, RenderSystem* system);
-	~ConstantBuffer();
+	~ConstantBuffer() override;
 	ConstantBuffer(const ConstantBuffer& obj) = default;
 	ConstantBuffer(ConstantBuffer&& other) noexcept = default;
 	ConstantBuffer& operator=(const ConstantBuffer& other) = default;

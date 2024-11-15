@@ -129,8 +129,8 @@ void DeviceContext::setTexture(const Material& material) const
 
 	if (material.samplerState)
 	{
-		deviceContext->VSSetSamplers(0, 1, &material.samplerState->m_sampler_state);
-		deviceContext->PSSetSamplers(0, 1, &material.samplerState->m_sampler_state);
+		deviceContext->VSSetSamplers(0, 1, &material.samplerState->samplerState);
+		deviceContext->PSSetSamplers(0, 1, &material.samplerState->samplerState);
 	}
 }
 

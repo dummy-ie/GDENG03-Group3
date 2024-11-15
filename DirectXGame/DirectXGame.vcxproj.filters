@@ -52,9 +52,6 @@
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\Shaders\GeometryShader">
       <UniqueIdentifier>{0ea37a0e-e909-4a9b-bd9c-577a01d98c6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL">
-      <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\IndexBuffer">
       <UniqueIdentifier>{5a18d984-d86a-4ed2-b2f2-788deb6f01cf}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,21 @@
     </Filter>
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\SamplerState">
       <UniqueIdentifier>{7eba562b-7402-4a68-ac3c-92ca0755eb23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObjects\Components">
+      <UniqueIdentifier>{22ee25ed-4a33-46a8-87ea-b2c42f6d8f71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources">
+      <UniqueIdentifier>{d58d74f9-bdc1-462b-8428-a3dbbc6d1e24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\HLSL">
+      <UniqueIdentifier>{401f121d-8b7c-4d7e-9171-461cf11156cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources\Mesh">
+      <UniqueIdentifier>{e41a45df-7b21-46ee-82df-a5dea58dd94b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources\Texture">
+      <UniqueIdentifier>{3ad8833c-fbad-42a4-8024-369e3fe29455}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +224,27 @@
     </ClCompile>
     <ClCompile Include="SamplerState.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>GameEngine\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +404,34 @@
     <ClInclude Include="SamplerState.h">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>
     </ClInclude>
+    <ClInclude Include="tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="Component.h">
+      <Filter>GameEngine\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>GameEngine\GraphicsEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>GameEngine\GraphicsEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexMesh.h">
+      <Filter>GameEngine\Utilities\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentType.h">
+      <Filter>GameEngine\Utilities\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -378,24 +439,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="GeometryShader1.hlsl">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL</Filter>
+      <Filter>App\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL</Filter>
+      <Filter>App\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\Shaders\HLSL</Filter>
+      <Filter>App\HLSL</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="images\pompom logo.png">
-      <Filter>Images</Filter>
-    </Image>
-    <Image Include="images\waffle.jpg">
-      <Filter>Images</Filter>
-    </Image>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <Filter>App\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

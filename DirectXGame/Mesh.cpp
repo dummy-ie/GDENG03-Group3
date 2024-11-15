@@ -86,8 +86,6 @@ Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath
 	indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(listIndices.data(), static_cast<UINT>(listIndices.size()));
 
 	Constant constants;
-	constants.time = 0;
-	//constants.cameraPos = 0.f;
 
 	constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 }
@@ -100,14 +98,4 @@ const VertexBufferPtr& Mesh::getVertexBuffer()
 const IndexBufferPtr& Mesh::getIndexBuffer()
 {
 	return indexBuffer;
-}
-
-void Mesh::update(const float deltaTime)
-{
-	elapsedTime += deltaTime;
-
-	deltaScale = (sin(elapsedTime) + 1.0f) * scaleSpeed;
-
-	if (interpolateScale)
-		localScale = Vector3D::linearInterpolate(scale1, scale2, deltaScale);
 }

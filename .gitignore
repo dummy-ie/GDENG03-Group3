@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# ReactPhysics3D
+/DirectXGame/libraries/reactphysics3d
+
+
 # User-specific files
 *.rsuser
 *.suo

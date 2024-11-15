@@ -21,6 +21,7 @@ class Texture;
 class TextureManager;
 class Mesh;
 class MeshManager;
+class GameObject;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -34,3 +35,4 @@ typedef std::shared_ptr<SamplerState> SamplerStatePtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::shared_ptr<GameObject> GameObjectPtr;

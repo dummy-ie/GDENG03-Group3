@@ -71,7 +71,7 @@ void GameObject::draw(const VertexShaderPtr& vertexShader, const GeometryShaderP
 	deviceContext->setIndexBuffer(indexBuffer);
 
 	deviceContext->setVertexShader(vertexShader);
-	deviceContext->setGeometryShader(geometryShader);
+	//deviceContext->setGeometryShader(geometryShader);
 	deviceContext->setPixelShader(material.getPixelShader());
 
 	deviceContext->setTexture(material);
