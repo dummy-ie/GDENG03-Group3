@@ -9,6 +9,7 @@
 #include "InputListener.h"
 #include "GraphicsEngine.h"
 #include "SceneCameraHandler.h"
+#include "UIManager.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"

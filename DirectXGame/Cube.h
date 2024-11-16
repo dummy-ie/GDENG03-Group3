@@ -15,7 +15,7 @@
 class Cube : GameObject
 {
 public:
-    Cube(float x, float y, float z, float r_x, float r_y, float r_z, float s_x, float s_y, float s_z, std::wstring name, RECT windowBounds);
+    Cube(float x, float y, float z, std::wstring name, RECT windowBounds);
     ~Cube();
 
     void init(ID3D11Device* device);

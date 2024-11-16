@@ -1,9 +1,9 @@
 #include "Cube.h"
 
-Cube::Cube(float x, float y, float z, float r_x, float r_y, float r_z, float s_x, float s_y, float s_z, std::wstring name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
+Cube::Cube(float x, float y, float z, std::wstring name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
 {
     this->init(GraphicsEngine::getInstance()->getD3DDevice());
-    this->setScale(s_x ,s_y, s_z);
+    this->setScale(1.0f , 1.0f, 1.0f);
     // Randomize position within screen bounds
     //float randomX = (float)(rand() % 1000)/1000.0f * (windowBounds.right - windowBounds.left) / 300.0f;
     //float randomY = (float)(rand() % 1000)/1000.0f * (windowBounds.bottom - windowBounds.top) / 300.0f; 
@@ -12,9 +12,9 @@ Cube::Cube(float x, float y, float z, float r_x, float r_y, float r_z, float s_x
     //float randomY = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Y in range [-2, 2]
     //float randomZ = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Z in range [-2, 2]
 
+    this->setRotation(0.0f, 0.0f, 0.0f);
 
     this->setPosition(x, y, z);
-    this->setRotation(r_x, r_y, r_z);
     
     this->m_speed = 1.0f;
 }
@@ -33,15 +33,15 @@ void Cube::init(ID3D11Device* device)
         //X - Y - Z
         //FRONT FACE
         {Vector3D(-1.0f,-1.0f,-1.0f), Vector3D(1,0,1),    Vector3D(0.2f,0,0) },
-        {Vector3D(-1.0f,1.0f,-1.0f),  Vector3D(1,0,1),    Vector3D(0.2f,0.2f,0) },
-        { Vector3D(1.0f,1.0f,-1.0f),  Vector3D(1,1,1),    Vector3D(0.2f,0.2f,0) },
-        { Vector3D(1.0f,-1.0f,-1.0f), Vector3D(1,1,1),    Vector3D(0.2f,0,0) },
+        {Vector3D(-1.0f,1.0f,-1.0f),  Vector3D(1,1,1),    Vector3D(0.2f,0.2f,0) },
+        { Vector3D(1.0f,1.0f,-1.0f),  Vector3D(1,1,0),    Vector3D(0.2f,0.2f,0) },
+        { Vector3D(1.0f,-1.0f,-1.0f), Vector3D(1,1,0),    Vector3D(0.2f,0,0) },
 
         //BACK FACE
         { Vector3D(1.0f,-1.0f,1.0f),   Vector3D(1,0,1), Vector3D(0,0.2f,0) },
-        { Vector3D(1.0f,1.0f,1.0f),    Vector3D(1,0,1),   Vector3D(0,0.2f,0.2f) },
-        { Vector3D(-1.0f,1.0f,1.0f),   Vector3D(1,1,1),  Vector3D(0,0.2f,0.2f) },
-        { Vector3D(-1.0f,-1.0f,1.0f),  Vector3D(1,1,1), Vector3D(0,0.2f,0) },
+        { Vector3D(1.0f,1.0f,1.0f),    Vector3D(1,1,1),   Vector3D(0,0.2f,0.2f) },
+        { Vector3D(-1.0f,1.0f,1.0f),   Vector3D(1,1,0),  Vector3D(0,0.2f,0.2f) },
+        { Vector3D(-1.0f,-1.0f,1.0f),  Vector3D(1,1,0), Vector3D(0,0.2f,0) },
 
     };
 
@@ -78,7 +78,7 @@ void Cube::init(ID3D11Device* device)
 
     void* shaderByteCode = nullptr;
     size_t sizeShader = 0;
-    graphEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+    graphEngine->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 
         
     this->m_vs = graphEngine->createVertexShader(shaderByteCode, sizeShader);
@@ -86,7 +86,7 @@ void Cube::init(ID3D11Device* device)
     graphEngine->releaseCompiledShader();
 
     // Compile and set pixel shader
-    graphEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+    graphEngine->compilePixelShader(L"TexturedPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
     m_ps = graphEngine->createPixelShader(shaderByteCode, sizeShader);
     graphEngine->releaseCompiledShader();
 
@@ -124,17 +124,7 @@ void Cube::draw(int width, int height, float deltaTime, VertexShader* vertexShad
    //this->localRotation.m_x += m_speed * deltaTime;
    //this->localRotation.m_y += m_speed * deltaTime;
    //this->localRotation.m_z += m_speed * deltaTime;
-   
-    
-   if (this->localScale.m_x < 2.5f && this->localScale.m_z < 2.5f) {
-       //this->localScale.m_x += m_speed * deltaTime;
-       //this->localScale.m_y -= m_speed * deltaTime;
-       //this->localScale.m_z += m_speed * deltaTime;
-   }
-
-   if (this->localScale.m_y >= 0.0f) {
-       this->localScale.m_y -= m_speed * deltaTime;
-   }
+  
 
     Matrix4x4 allMatrix; allMatrix.setIdentity();
     Matrix4x4 translationMatrix; translationMatrix.setIdentity(); translationMatrix.setTranslation(this->getLocalPosition());

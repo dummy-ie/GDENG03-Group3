@@ -1,15 +1,18 @@
 #include "Window.h"
 
 //Window* window=nullptr;
-
+#define NOMINMAX // to avoid conflict with Window.h MIN and MAX declarations
 Window::Window()
 {
 
 }
 
-
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true;
+
 	//GetWindowLong(hwnd,)
 	switch (msg)
 	{

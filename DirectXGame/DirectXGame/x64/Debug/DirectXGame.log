@@ -5,6 +5,7 @@ E:\GDENG03\PersonalGDENG03\DirectXGame\Matrix4x4.h(102,44): warning C4244: '=': 
 E:\GDENG03\PersonalGDENG03\DirectXGame\Matrix4x4.h(103,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 E:\GDENG03\PersonalGDENG03\DirectXGame\Matrix4x4.h(104,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(134,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(138,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(102,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(106,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\GDENG03\PersonalGDENG03\DirectXGame\AppWindow.cpp(108,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   DirectXGame.vcxproj -> E:\GDENG03\PersonalGDENG03\DirectXGame\x64\Debug\DirectXGame.exe

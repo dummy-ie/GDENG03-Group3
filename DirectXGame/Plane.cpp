@@ -19,10 +19,10 @@ void Plane::init(ID3D11Device* device)
     //set to quad for vertex list
     vertex vertex_list[] =
     {
-        { Vector3D(-1.5f, -1.5f, -1.5f), Vector3D(1,1,1),  Vector3D(0,1,0) },    // POS1
-        { Vector3D(-1.5f, 1.5f, 1.5f),  Vector3D(1,1,1),  Vector3D(0,1,1) },   // POS2
-        { Vector3D(1.5f, -1.5f,-1.5f),  Vector3D(1,1,1),  Vector3D(1,0,0) },  // POS3
-        { Vector3D(1.5f, 1.5f, 1.5f),   Vector3D(1,1,1),  Vector3D(0,0,1) }  // POS4
+        { Vector3D(-1.5f, 0.0f, -1.5f), Vector3D(1,1,1),  Vector3D(0,1,0) },    // POS1
+        { Vector3D(-1.5f, 0.0f, 1.5f),  Vector3D(1,1,1),  Vector3D(0,1,1) },   // POS2
+        { Vector3D(1.5f, 0.0f,-1.5f),  Vector3D(1,1,1),  Vector3D(1,0,0) },  // POS3
+        { Vector3D(1.5f, 0.0f, 1.5f),   Vector3D(1,1,1),  Vector3D(0,0,1) }  // POS4
     };
 
     m_vb = graphEngine->createVertexBuffer();

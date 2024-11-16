@@ -43,6 +43,7 @@ void AppWindow::onCreate()
 void AppWindow::initializeEngine() {
     GraphicsEngine::initialize();
     EngineTime::initialize();
+    UIManager::initialize(this->m_hwnd);
     SceneCameraHandler::initialize();
     GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
     RECT rc = this->getClientWindowRect();
@@ -64,48 +65,15 @@ void AppWindow::initializeEngine() {
 
     //m_camera = new Camera(L"MyCamera");
 
-    //m_plane = new Plane(L"MyPlane", this->getClientWindowRect());
+    m_plane = new Plane(L"MyPlane", this->getClientWindowRect());
 
 
-    //for (int i = 0; i < 1; i++) {
-        //Cube* m_cube = new Cube(L"MyCube" + to_wstring(i), this->getClientWindowRect());
-        //std::cout << "Cube has been created" << std::endl;
-        //cube_list.push_back(m_cube);
-    //}
+    for (int i = 0; i < 5; i++) {
+        Cube* m_cube = new Cube(0.0f, 0.5f, -1.f, L"MyCube" + to_wstring(i), this->getClientWindowRect());
+        std::cout << "Cube has been created" << std::endl;
+        cube_list.push_back(m_cube);
+    }
     
-    
-    Cube* cube2 = new Cube(-1.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube2", this->getClientWindowRect());
-    Cube* cube3 = new Cube(-1.5f, 1.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube3", this->getClientWindowRect());
-    Cube* cube4 = new Cube(-6.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube4", this->getClientWindowRect());
-    Cube* cube5 = new Cube(-6.5f, 1.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube5", this->getClientWindowRect());
-    Cube* cube6 = new Cube(-11.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube6", this->getClientWindowRect());
-    Cube* cube7 = new Cube(-11.5f, 1.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube7", this->getClientWindowRect());
-    Cube* cube8 = new Cube(-1.5f, 3.2f, -1.90f, 0.0f, 0.0f, 0.0f, 4.55f, 4.55f, 1.55f, L"Cube8", this->getClientWindowRect());
-    Cube* cube9 = new Cube(-10.5f, 3.2f, -1.90f, 0.0f, 0.0f, 0.0f, 4.55f, 4.55f, 1.55f, L"Cube9", this->getClientWindowRect());
-    Cube* cube10 = new Cube(-3.5f, 5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube10", this->getClientWindowRect());
-    Cube* cube11 = new Cube(-3.5f, 5.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube11", this->getClientWindowRect());
-    Cube* cube12 = new Cube(-8.5f, 5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube12", this->getClientWindowRect());
-    Cube* cube13 = new Cube(-8.5f, 5.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube13", this->getClientWindowRect());
-    Cube* cube14 = new Cube(-6.0f, 7.2f, -1.90f, 0.0f, 0.0f, 0.0f, 4.55f, 4.55f, 1.55f, L"Cube14", this->getClientWindowRect());
-    Cube* cube15 = new Cube(-6.5f, 9.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube15", this->getClientWindowRect());
-    Cube* cube = new Cube(-6.5f, 9.0f, -2.75f, -1.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, L"Cube", this->getClientWindowRect());
-    cube_list.push_back(cube);
-    cube_list.push_back(cube15);
-    cube_list.push_back(cube14);
-    cube_list.push_back(cube13);
-    cube_list.push_back(cube12);
-    cube_list.push_back(cube11);
-    cube_list.push_back(cube10);
-    cube_list.push_back(cube9);
-    cube_list.push_back(cube8);
-    cube_list.push_back(cube7);
-    cube_list.push_back(cube6);
-    cube_list.push_back(cube5);
-    cube_list.push_back(cube4);
-    cube_list.push_back(cube3);
-    cube_list.push_back(cube3);
-    cube_list.push_back(cube2);
-    //cube_list.push_back(cube);
 
     //m_plane = new Plane(L"MyPlane", this->getClientWindowRect());
 }
@@ -135,7 +103,10 @@ void AppWindow::onUpdate() {
         }
     }
 
+    m_plane->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+
     SceneCameraHandler::getInstance()->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+    UIManager::get()->draw();
 
     this->swapChain->present(true);
 
