@@ -17,11 +17,7 @@ public:
 	int activeObjects() const;
 
 	void updateAll(float deltaTime) const;
-	void drawAll(
-		const VertexShaderPtr& vertexShader,
-		const GeometryShaderPtr& geometryShader,
-		const Material& material,
-		RECT clientWindow) const;
+	void drawAll() const;
 
 	void addObject(const GameObjectPtr& gameObject);
 	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);

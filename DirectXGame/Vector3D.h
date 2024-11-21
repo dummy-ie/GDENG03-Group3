@@ -2,6 +2,7 @@
 #include <cmath>
 #include <ostream>
 #include <string>
+#include <reactphysics3d/mathematics/Vector3.h>
 
 class Vector3D
 {
@@ -12,6 +13,7 @@ public:
 	Vector3D(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 	// Vector3D(const int x, const int y, const int z) : x(x), y(y), z(z) {}
 	Vector3D(const Vector3D& vector) : x(vector.x), y(vector.y), z(vector.z) {}
+	Vector3D(const reactphysics3d::Vector3& vector) : x(vector.x), y(vector.y), z(vector.z) {}
 	~Vector3D() = default;
 
 	std::string toString() const

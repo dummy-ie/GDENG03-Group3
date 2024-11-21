@@ -8,16 +8,18 @@
 #include "Vector3D.h"
 #include "Vector4D.h"
 
+class Renderer3D;
+
 class Material
 {
 public:
 	explicit Material(PixelShaderPtr pixelShader);
 
 	/**
-	 * Passing a string will build the shader specified.
+	 * Passing a string will get the shader specified.
 	 * @param pixelShaderName The filename of the shader.
 	 */
-	explicit Material(const std::string& pixelShaderName);
+	explicit Material(const std::wstring& pixelShaderName);
 
 	PixelShaderPtr getPixelShader() const;
 
@@ -43,6 +45,6 @@ private:
 	friend class MaterialEditor;
 	friend class DeviceContext;
 	friend class AppWindow;
-	friend class GameObject;
+	friend class Renderer3D;
 };
 

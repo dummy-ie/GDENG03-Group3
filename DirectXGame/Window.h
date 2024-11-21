@@ -1,4 +1,9 @@
 #pragma once
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
 #include <Windows.h>
 #include "EngineTime.h"
 
@@ -16,6 +21,8 @@ public:
 	bool isFocused() const;
 
 	RECT getClientWindowRect() const;
+	int getWindowWidth() const;
+	int getWindowHeight() const;
 
 	virtual void onCreate();
 	virtual void onUpdate();

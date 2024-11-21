@@ -34,8 +34,8 @@ public:
 	UIManager(UIManager&& other) noexcept = delete;
 	UIManager& operator=(UIManager&& other) noexcept = delete;
 
-	static constexpr int WindowWidth = 1440;
-	static constexpr int WindowHeight = 900;
+	// static constexpr int WindowWidth = 1440;
+	// static constexpr int WindowHeight = 900;
 
 	std::shared_ptr<Material> mainMaterial = nullptr;
 

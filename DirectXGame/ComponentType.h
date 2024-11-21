@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-enum ComponentType : std::int8_t
+enum class ComponentType : std::int8_t
 {
 	NOT_SET = -1,
 	SCRIPT,
@@ -15,11 +15,11 @@ inline const char* ToString(const ComponentType e)
 {
 	switch (e)
 	{
-	case NOT_SET: return "Not Set";
-	case SCRIPT: return "Script";
-	case RENDERER: return "Renderer";
-	case INPUT: return "Input";
-	case PHYSICS: return "Physics";
+	case ComponentType::NOT_SET: return "Not Set";
+	case ComponentType::SCRIPT: return "Script";
+	case ComponentType::RENDERER: return "Renderer";
+	case ComponentType::INPUT: return "Input";
+	case ComponentType::PHYSICS: return "Physics";
 	default: return "Unknown Component Type";
 	}
 }

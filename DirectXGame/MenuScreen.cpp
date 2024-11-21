@@ -1,6 +1,14 @@
 #include "MenuScreen.h"
 
+#include "AppWindow.h"
+#include "BaseComponentSystem.h"
+#include "GameObjectManager.h"
 #include "GraphicsEngine.h"
+#include "Mesh.h"
+#include "PhysicsComponent.h"
+#include "PhysicsSystem.h"
+#include "Renderer3D.h"
+#include "UIManager.h"
 
 MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 {
@@ -39,6 +47,7 @@ void MenuScreen::draw()
 
 		if (ImGui::MenuItem("Quit", "Ctrl+W"))
 		{
+			AppWindow::get()->onDestroy();
 		}
 		ImGui::EndMenu();
 	}
@@ -56,6 +65,10 @@ void MenuScreen::draw()
 		if (ImGui::MenuItem("Create Plane"))
 		{
 			onCreatePlaneClicked();
+		}
+		if (ImGui::MenuItem("Create Physics Demo"))
+		{
+			onCreatePhysicsDemoClicked();
 		}
 
 		ImGui::Separator();
@@ -83,31 +96,19 @@ void MenuScreen::draw()
 	// Test header
 	if (ImGui::BeginMenu("Windows"))
 	{
-		if(isMaterialEditorOpen != nullptr)
-		if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
-		{
-			*isMaterialEditorOpen = !(*isMaterialEditorOpen);
-		}
+		if (isMaterialEditorOpen != nullptr)
+			if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
+			{
+				*isMaterialEditorOpen = !(*isMaterialEditorOpen);
+			}
 
 		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
-
-
 
 		ImGui::EndMenu();
 	}
-
-	// Test header
-	/*if (ImGui::BeginMenu("Test"))
-	{
-		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
-		{
-			isColorPickerOpen = !isColorPickerOpen;
-		}
-		ImGui::EndMenu();
-	}*/
 
 	ImGui::EndMainMenuBar();
 
@@ -128,6 +129,32 @@ void MenuScreen::onCreateSphereClicked()
 
 void MenuScreen::onCreatePlaneClicked()
 {
+	GameObjectPtr plane = std::make_shared<GameObject>("Plane");
+	MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "planeMesh");
+	plane->setPosition({ 0, -5, 20 });
+	plane->setScale({ 10, 0.1, 10 });
+
+	plane->attachComponent(new Renderer3D("planeRenderer", plane.get(), planeMesh, UIManager::get()->mainMaterial));
+	PhysicsComponent* staticPhysics = new PhysicsComponent("planePhysics", plane.get());
+	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
+	plane->attachComponent(staticPhysics);
+	GameObjectManager::get()->addObject(plane);
+}
+
+void MenuScreen::onCreatePhysicsDemoClicked()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
+		MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "cubeMesh" + std::to_string(i));
+		cube->setScale(1.f);
+		cube->setPosition({ 0, 10, 20 });
+
+		cube->attachComponent(new Renderer3D("cubeRenderer" + std::to_string(i), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+		PhysicsComponent* cubePhysics = new PhysicsComponent("cubePhysics" + std::to_string(i), cube.get());
+		cube->attachComponent(cubePhysics);
+		GameObjectManager::get()->addObject(cube);
+	}
 }
 
 void MenuScreen::showCreditsWindow()

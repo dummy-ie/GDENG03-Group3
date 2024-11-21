@@ -4,21 +4,6 @@
 
 CameraManager* CameraManager::sharedInstance = nullptr;
 
-CameraManager* CameraManager::getInstance()
-{
-	return sharedInstance;
-}
-
-void CameraManager::initialize()
-{
-	sharedInstance = new CameraManager();
-}
-
-void CameraManager::destroy()
-{
-	delete sharedInstance;
-}
-
 void CameraManager::update() const
 {
 	if (!checkActiveCamera())
@@ -41,11 +26,12 @@ Matrix4x4 CameraManager::getView() const
 }
 
 // TODO: FIND CAMERA TAGGED "MAIN" IN SCENE FROM GAME OBJECT MANAGER
-CameraManager::CameraManager()
-= default;
+CameraManager::CameraManager() = default;
 
 CameraManager::~CameraManager()
-= default;
+{
+	delete sharedInstance;
+};
 
 bool CameraManager::checkActiveCamera() const
 {

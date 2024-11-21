@@ -1,5 +1,7 @@
 #include "UIManager.h"
 
+#include "HierarchyScreen.h"
+
 UIManager* UIManager::sharedInstance = nullptr;
 
 UIManager* UIManager::get()
@@ -15,6 +17,7 @@ void UIManager::initialize(const HWND windowHandle)
 
 void UIManager::draw() const
 {
+	const ImGuiIO& io = ImGui::GetIO();
 
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -28,6 +31,14 @@ void UIManager::draw() const
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	// Update and Render additional Platform Windows
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		// TODO for OpenGL: restore current GL context.
+	}
 }
 
 UIManager::UIManager(const HWND windowHandle)
@@ -38,17 +49,17 @@ UIManager::UIManager(const HWND windowHandle)
 	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	// Setup Dear ImGui style
 	setupImGuiStyle();
 
 	// Setup Dear ImGui font
 	const ImFont* customFont = io.Fonts->AddFontFromFileTTF(
-		R"(imgui\misc\fonts\Karla-Regular.ttf)", 22.f);
+		R"(libraries\imgui\misc\fonts\Karla-Regular.ttf)", 22.f);
 
 	if (!customFont)
 		io.Fonts->AddFontDefault();
-
 
 	// Setup Platform/Renderer bindings
 	ImGui_ImplWin32_Init(windowHandle);
@@ -62,6 +73,10 @@ UIManager::UIManager(const HWND windowHandle)
 	this->uiMap[materialEditor->getName()] = materialEditor;
 	menuScreen->setMaterialEditor(materialEditor->getMaterialEditorOpen());
 	this->uiList.push_back(materialEditor);
+
+	const std::shared_ptr<HierarchyScreen> hierarchyScreen = std::make_shared<HierarchyScreen>();
+	this->uiMap[hierarchyScreen->getName()] = hierarchyScreen;
+	this->uiList.push_back(hierarchyScreen);
 }
 
 UIManager::~UIManager()

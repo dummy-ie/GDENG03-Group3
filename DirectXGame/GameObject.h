@@ -2,6 +2,10 @@
 
 #include <vector>
 #include <corecrt_math_defines.h>
+#include <reactphysics3d/reactphysics3d.h>
+
+#include "Quaternion.h"
+
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "GraphicsEngine.h"
@@ -12,13 +16,14 @@
 #include "ConstantBuffer.h"
 #include "LogUtils.h"
 #include "Material.h"
+#include "Component.h"
 
 class GameObject
 {
 public:
-	explicit GameObject(std::string name) : name(std::move(name))
-	{
-	}
+	typedef std::vector<Component*> ComponentList;
+
+	explicit GameObject(std::string name);
 
 	virtual ~GameObject() = default;
 	GameObject(GameObject const&) = default;
@@ -26,37 +31,40 @@ public:
 	GameObject(GameObject&& other) noexcept = default;
 	GameObject& operator=(GameObject&& other) noexcept = default;
 
-	virtual void update(float deltaTime) = 0;
-	virtual void draw(
-		const VertexShaderPtr& vertexShader,
-		const GeometryShaderPtr& geometryShader,
-		const Material& material,
-		RECT clientWindow);
+	virtual void awake() {}
+	virtual void update(float deltaTime) {}
 
-	void setPosition(const Vector3D& position) { localPosition = position; }
-	void translate(const Vector3D& translation) { localPosition += translation; }
+	void setPosition(const Vector3D& position);
+	void translate(const Vector3D& translation);
+	Vector3D getPosition();
 
-	void setScale(const Vector3D& scale) { localScale = scale; }
-	void scale(const Vector3D& scale) { localScale += scale; }
+	void setScale(const Vector3D& scale);
+	void scale(const Vector3D& scale);
+	Vector3D getScale();
 
-	void setRotation(const Vector3D& rotation) { localRotation = rotation; }
-	void rotate(const Vector3D& rotation) { localRotation += rotation; }
+	void setRotation(const Vector3D& rotation);
+	void rotate(const Vector3D& rotation);
+	Vector3D getRotation();
 
-	void setEnabled(const bool enabled) { isEnabled = enabled; }
+	void setEnabled(const bool enabled);
+	bool getEnabled() const;
 
-	void setColor(const Vector3D& newColor)
-	{
-		LogUtils::log("Setting color " + color.toString() + " to: " + newColor.toString());
-		color = newColor;
-		LogUtils::log("color: " + color.toString());
-	}
+	std::string getName();
 
-	std::string getName() { return name; }
-	bool getEnabled() const { return isEnabled; }
-	Vector3D getPosition() { return localPosition; }
-	Vector3D getScale() { return localScale; }
-	Vector3D getRotation() { return localRotation; }
-	Vector3D getColor() { return color; }
+	void updateLocalMatrix();
+	Matrix4x4 getMatrix() const;
+	void setMatrix(float matrix[16]);
+	float* getPhysicsLocalMatrix();
+
+	void attachComponent(Component* component);
+	void detachComponent(const Component* component);
+
+	Component* findComponentByName(const std::string& name);
+	Component* findComponentOfType(ComponentType type, const std::string& name);
+	ComponentList getComponentsOfType(ComponentType type) const;
+	ComponentList getComponentsOfTypeRecursive(ComponentType type) const;
+
+	//reactphysics3d::Transform transform;
 
 protected:
 	float elapsedTime = 0.f;
@@ -67,11 +75,11 @@ protected:
 	Vector3D localScale = 1.f;
 	Vector3D localPosition = 0.f;
 	Vector3D localRotation = 0.f;
-	//Matrix4x4 localMatrix;
+	Matrix4x4 localMatrix;
+	Quaternion orientation;
 
-	Vector3D color;
 
-	VertexBufferPtr vertexBuffer = nullptr;
-	IndexBufferPtr indexBuffer = nullptr;
-	ConstantBufferPtr constantBuffer = nullptr;
+	ComponentList componentList;
+
+	friend class GameObjectManager;
 };

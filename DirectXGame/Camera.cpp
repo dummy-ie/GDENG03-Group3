@@ -4,14 +4,6 @@ void Camera::update(const float deltaTime)
 {
 }
 
-void Camera::draw(
-	const VertexShaderPtr& vertexShader,
-	const GeometryShaderPtr& geometryShader,
-	const Material& material,
-	RECT clientWindow)
-{
-}
-
 Matrix4x4 Camera::getView()
 {
 	Matrix4x4
@@ -28,14 +20,6 @@ Matrix4x4 Camera::getView()
 
 	tempView.setIdentity();
 	tempView = xMatrix * yMatrix * zMatrix * translationMatrix;
-	//tempView *= translationMatrix;
-
-	// Vector3D newPos = view.getTranslation() + tempView.getZDirection() * (forward * 0.1f);
-	//
-	// newPos += tempView.getXDirection() * (rightward * 0.1f);
-
-
-
 
 	tempView.inverse();
 	view = tempView;
@@ -51,11 +35,6 @@ Matrix4x4 Camera::getProjection() const
 
 	if (orthographic)
 	{
-		// constants.proj.setOrthographicProjection(
-		// 	windowWidth / 400.f,
-		// 	windowHeight / 400.f,
-		// 	-4.0f,
-		// 	4.0f);
 		proj.setOrthographicProjection(
 			windowWidth / 200.f,
 			windowHeight / 200.f,

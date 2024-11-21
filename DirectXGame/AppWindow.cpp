@@ -2,6 +2,12 @@
 
 #include "GameObjectManager.h"
 #include "MeshManager.h"
+#include <reactphysics3d/reactphysics3d.h>
+
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
+#include "Renderer3D.h"
+#include "ShaderLibrary.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 
@@ -24,8 +30,8 @@ AppWindow::~AppWindow()
 
 void AppWindow::onKeyDown(const int key)
 {
-	if (!CameraManager::getInstance()->activeCamera)
-		return;
+	// if (!CameraManager::getInstance()->activeCamera)
+	// 	return;
 
 	switch (key)
 	{
@@ -95,10 +101,13 @@ void AppWindow::onCreate()
 {
 	Window::onCreate();
 
+	// initialize and get instance of shaderLibrary
+	ShaderLibrary* shaderLib = ShaderLibrary::get();
+
+
 	//GraphicsEngine::get()->getRenderSystem()->init();
 	//GraphicsEngine::get()->initialize();
 	UIManager::initialize(this->windowHandle);
-	CameraManager::initialize();
 
 	const RECT rc = this->getClientWindowRect();
 	swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
@@ -108,14 +117,12 @@ void AppWindow::onCreate()
 	// camera
 	CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
 
-	CameraManager::getInstance()->activeCamera->setPosition({ 0.0f, 0.0f, -1.0f });
+	CameraManager::getInstance()->activeCamera->setPosition({ 0.0f, 5.0f, -20.0f });
 
-	void* shaderByteCode = nullptr;
-	size_t byteCodeSize = 0;
 
-	LogUtils::log(this, "Vertex shader compilation");
-	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"VertexShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	vertexShader = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shaderByteCode, byteCodeSize);
+	mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
+	//mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
+	UIManager::get()->mainMaterial = mainMaterial;
 
 	// Insert all GameObjects here
 
@@ -128,14 +135,21 @@ void AppWindow::onCreate()
 	// bunny->scale1 = 5.f;
 	// bunny->scale2 = 7.f;
 
+	
 
-	// const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
-	// GameObjectManager::get()->addObject(teapot);
-	// teapot->setPosition({ 1, 0, 0 });
+	/*const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
+	GameObjectManager::get()->addObject(teapot);
+	teapot->setPosition({ 1, 0, 0 });*/
 
-	const std::shared_ptr<Mesh> armadillo = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/armadillo.obj");
-	GameObjectManager::get()->addObject(armadillo);
-	armadillo->setScale(0.5f);
+	// GameObjectPtr bunny = std::make_shared<GameObject>("Bunny");
+	// MeshPtr bunnyMesh = std::make_shared<Mesh>(L"assets/models/bunny.obj", "bunnyMesh");
+	// bunny->attachComponent(new Renderer3D("bunnyRenderer", bunny.get(), bunnyMesh, mainMaterial));
+	// bunny->setPosition({ 0, 0, 0 });
+	// GameObjectManager::get()->addObject(bunny);
+
+	// const std::shared_ptr<Mesh> armadillo = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/armadillo.obj");
+	// GameObjectManager::get()->addObject(armadillo);
+	// armadillo->setScale(0.5f);
 	// armadillo->setPosition({ 0, 0, 2 });
 
 
@@ -199,22 +213,6 @@ void AppWindow::onCreate()
 	// cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
 	// cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
 	// GameObjectManager::get()->addObject(cylinder);
-
-	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
-
-	LogUtils::log(this, "Geometry shader compilation");
-	GraphicsEngine::get()->getRenderSystem()->compileGeometryShader(L"GeometryShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	geometryShader = GraphicsEngine::get()->getRenderSystem()->createGeometryShader(shaderByteCode, byteCodeSize);
-	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
-
-	LogUtils::log(this, "Pixel shader compilation");
-	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"PixelShader.hlsl", "main", &shaderByteCode, &byteCodeSize);
-	pixelShader = GraphicsEngine::get()->getRenderSystem()->createPixelShader(shaderByteCode, byteCodeSize);
-	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
-
-	mainMaterial = std::make_shared<Material>(pixelShader);
-	mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-	UIManager::get()->mainMaterial = mainMaterial;
 }
 
 void AppWindow::onUpdate()
@@ -227,9 +225,9 @@ void AppWindow::onUpdate()
 	ticks += EngineTime::getDeltaTime() * 1.0f;
 
 	//LogUtils::log(this, "Setting shaders");
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
+	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
+	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
+	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
 
 	//LogUtils::log(this, "Clear render target");
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(
@@ -242,12 +240,13 @@ void AppWindow::onUpdate()
 	const auto& [left, top, right, bottom] = this->getClientWindowRect();
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(right - left, bottom - top);
 
-	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader1);
-	//GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
+	// physics
+	BaseComponentSystem::get()->getPhysicsSystem()->updateAllComponents();
 
 	GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
-	GameObjectManager::get()->drawAll(vertexShader, geometryShader, *mainMaterial, getClientWindowRect());
+
+	// renderers
+	GameObjectManager::get()->drawAll();
 
 	UIManager::get()->draw();
 

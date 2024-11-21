@@ -9,9 +9,11 @@
 // #define TINYOBJLOADER_IMPLEMENTATION
 // #include "tiny_obj_loader.h"
 
+#include <reactphysics3d/reactphysics3d.h>
+
 #include "imgui.h"
-#include "backends/imgui_impl_dx11.h"
-#include "backends/imgui_impl_win32.h"
+#include <backends/imgui_impl_win32.h>
+#include <backends/imgui_impl_dx11.h>
 
 #include "Window.h"
 #include "EngineTime.h"
@@ -22,21 +24,20 @@
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
 #include "GameObject.h"
-#include "Cube.h"
-#include "Cylinder.h"
+//#include "Cube.h"
+//#include "Cylinder.h"
+//#include "Circle.h"
+//#include "Quad.h"
+//#include "Plane.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "InputListener.h"
 #include "Camera.h"
 #include "SceneCamera.h"
 #include "CameraManager.h"
-#include "Quad.h"
 #include "Mesh.h"
-#include "Circle.h"
-#include "Plane.h"
 #include "MathUtil.h"
 #include "UIManager.h"
-
 
 class AppWindow final : public Window, public InputListener
 {
@@ -69,10 +70,10 @@ private:
 	std::shared_ptr<Material> mainMaterial = nullptr;
 	SwapChainPtr swapChain;
 
-	VertexShaderPtr vertexShader;
-	GeometryShaderPtr geometryShader;
+	//VertexShaderPtr vertexShader;
+	//GeometryShaderPtr geometryShader;
 	//GeometryShader* geometryShader1;
-	PixelShaderPtr pixelShader;
+	//PixelShaderPtr pixelShader;
 
 	float ticks = 0.0f;
 

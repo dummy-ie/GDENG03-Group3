@@ -1,6 +1,6 @@
 struct GS_INPUT
 {
-    float4 pos : POSITION;
+    float4 pos : SV_POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
     //float3 color1 : COLOR1;

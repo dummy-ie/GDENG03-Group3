@@ -6,28 +6,36 @@
 class CameraManager
 {
 public:
-	static CameraManager* getInstance();
-	static void initialize();
-	static void destroy();
-
 	void update() const;
 
 	void setActiveCamera(Camera* newActiveCamera);
 	Matrix4x4 getView() const;
 
 private:
-	// Singleton
-	CameraManager();
-	~CameraManager();
-	CameraManager(CameraManager const&) {}
-	CameraManager& operator=(CameraManager const&) { }
-	static CameraManager* sharedInstance;
-
 	bool checkActiveCamera() const;
 
 public:
 	// temporary
 	Camera* activeCamera;
 
+	// Singleton
+public:
+	static CameraManager* getInstance()
+	{
+		if (!sharedInstance)
+			sharedInstance = new CameraManager();
+
+		return sharedInstance;
+	}
+
+	CameraManager(CameraManager const&) = delete;
+	CameraManager& operator=(CameraManager const&) = delete;
+	CameraManager(CameraManager&& other) noexcept = delete;
+	CameraManager& operator=(CameraManager&& other) noexcept = delete;
+
+private:
+	CameraManager();
+	~CameraManager();
+	static CameraManager* sharedInstance;
 };
 

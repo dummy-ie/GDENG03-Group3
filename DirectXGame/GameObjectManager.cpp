@@ -1,8 +1,5 @@
 #include "GameObjectManager.h"
 
-#include "Cube.h"
-#include "Plane.h"
-
 GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 
 GameObjectManager::GameObjectPtr GameObjectManager::findObjectByName(const std::string& name)
@@ -28,18 +25,23 @@ void GameObjectManager::updateAll(const float deltaTime) const
 			continue;
 
 		gameObject->update(deltaTime);
+		//LogUtils::log(this, gameObject->getName() + " position: " + gameObject->getPosition().toString());
 	}
 }
 
-void GameObjectManager::drawAll(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader,
-                                const Material& material, const RECT clientWindow) const
+void GameObjectManager::drawAll() const
 {
 	for (const auto& gameObject : gameObjectList)
 	{
 		if (!gameObject->getEnabled())
 			continue;
 
-		gameObject->draw(vertexShader, geometryShader, material, clientWindow);
+		for (const auto renderer : gameObject->getComponentsOfType(ComponentType::RENDERER))
+		{
+			renderer->update();
+			//LogUtils::log(this, "rendering: " + renderer->getName());
+		}
+
 	}
 }
 
@@ -60,24 +62,24 @@ void GameObjectManager::createObject(const PrimitiveType type, void* shaderByteC
 {
 	switch (type)
 	{
-	case CUBE:
+	case PrimitiveType::CUBE:
 	{
-		const std::shared_ptr<Cube> cube = std::make_shared<Cube>("Cube", shaderByteCode, sizeShader);
-		addObject(cube);
+		//const std::shared_ptr<Cube> cube = std::make_shared<Cube>("Cube", shaderByteCode, sizeShader);
+		//addObject(cube);
 		break;
 	}
-	case PLANE:
+	case PrimitiveType::PLANE:
 	{
-		const std::shared_ptr<Plane> plane = std::make_shared<Plane>("Plane", shaderByteCode, sizeShader);
-		addObject(plane);
+		//const std::shared_ptr<Plane> plane = std::make_shared<Plane>("Plane", shaderByteCode, sizeShader);
+		//addObject(plane);
 		break;
 	}
-	case SPHERE:
+	case PrimitiveType::SPHERE:
 	{
 
 		break;
 	}
-	case CAPSULE:
+	case PrimitiveType::CAPSULE:
 	{
 
 		break;

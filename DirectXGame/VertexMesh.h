@@ -7,7 +7,7 @@ class VertexMesh
 public:
 	VertexMesh() = default;
 
-	VertexMesh(const Vector3D& position, const Vector2D& texcoord) : position(position), texcoord(texcoord)
+	VertexMesh(const Vector3D& position, const Vector2D& texcoord, const Vector3D& color) : position(position), texcoord(texcoord), color(color)
 	{
 	}
 
@@ -20,4 +20,5 @@ public:
 public:
 	Vector3D position;
 	Vector2D texcoord;
+	Vector3D color;
 };

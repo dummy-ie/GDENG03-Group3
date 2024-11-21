@@ -19,6 +19,7 @@ private:
 	void onCreateCubeClicked();
 	void onCreateSphereClicked();
 	void onCreatePlaneClicked();
+	void onCreatePhysicsDemoClicked();
 	void showCreditsWindow();
 	void showColorPickerWindow();
 

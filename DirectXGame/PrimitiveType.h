@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-enum PrimitiveType : std::uint8_t
+enum class PrimitiveType : std::uint8_t
 {
 	CUBE,
 	PLANE,

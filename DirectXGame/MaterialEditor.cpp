@@ -8,7 +8,7 @@
 #include "TextureManager.h"
 #include "UIManager.h"
 
-MaterialEditor::MaterialEditor() : UIScreen("MenuScreen")
+MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 {
 	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1.png");
 	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_m.png");

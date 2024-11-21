@@ -8,8 +8,10 @@
 class Matrix4x4
 {
 public:
-	Matrix4x4() = default;
-
+	Matrix4x4()
+	{
+		setIdentity();
+	}
 	~Matrix4x4() = default;
 
 	void setIdentity()
@@ -29,12 +31,12 @@ public:
 		mat[3][2] = translation.z;
 	}
 
-	void setScale(const Vector3D& translation)
+	void setScale(const Vector3D& scale)
 	{
 		setIdentity();
-		mat[0][0] = translation.x;
-		mat[1][1] = translation.y;
-		mat[2][2] = translation.z;
+		mat[0][0] = scale.x;
+		mat[1][1] = scale.y;
+		mat[2][2] = scale.z;
 	}
 
 	void setRotationX(const float x)
@@ -149,6 +151,16 @@ public:
 		::memcpy(mat, matrix.mat, sizeof(float) * 16);
 	}
 
+	void setMatrix(float matrix[16])
+	{
+		::memcpy(mat, matrix, sizeof(float) * 16);
+	}
+
+	void setMatrix(float matrix[4][4])
+	{
+		::memcpy(mat, matrix, sizeof(float) * 16);
+	}
+
 	Vector3D getZDirection() const
 	{
 		return Vector3D(mat[2][0], mat[2][1], mat[2][2]);
@@ -211,6 +223,34 @@ public:
 			}
 		}
 		return out;
+	}
+
+	void transpose()
+	{
+		float transpose[4][4] = {};
+		for (int i = 0; i < 4; ++i)
+			for (int j = 0; j < 4; ++j) {
+				transpose[j][i] = mat[i][j];
+			}
+
+		setMatrix(transpose);
+	}
+
+	Matrix4x4 getTranspose() const
+	{
+		Matrix4x4 transposed;
+
+		for (int i = 0; i < 4; ++i)
+			for (int j = 0; j < 4; ++j) {
+				transposed.mat[j][i] = mat[i][j];
+			}
+
+		return transposed;
+	}
+
+	float* getMatrix()
+	{
+		return *mat;
 	}
 
 public:

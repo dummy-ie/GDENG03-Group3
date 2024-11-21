@@ -7,7 +7,7 @@ class VertexShader : public GraphicsResource
 {
 public:
 	VertexShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system);
-	~VertexShader();
+	~VertexShader() override;
 	VertexShader(const VertexShader& obj) = default;
 	VertexShader(VertexShader&& other) noexcept = default;
 	VertexShader& operator=(const VertexShader& other) = default;

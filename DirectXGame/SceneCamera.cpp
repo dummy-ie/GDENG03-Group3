@@ -12,7 +12,7 @@ void SceneCamera::update(const float deltaTime)
 {
 	Camera::update(deltaTime);
 
-	InputSystem::showCursor(!isRightMouseDown);
+	//InputSystem::showCursor(!isRightMouseDown);
 }
 
 void SceneCamera::onKeyDown(const int key)
@@ -89,6 +89,7 @@ void SceneCamera::onLeftMouseUp(const Vector2D& mousePosition)
 void SceneCamera::onRightMouseDown(const Vector2D& mousePosition)
 {
 	isRightMouseDown = true;
+	InputSystem::showCursor(false);
 }
 
 void SceneCamera::onRightMouseUp(const Vector2D& mousePosition)

@@ -11,7 +11,7 @@
 #include "VertexMesh.h"
 
 
-Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath), GameObject(name)
+Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath)
 {
 	tinyobj::attrib_t attributes;
 	std::vector<tinyobj::shape_t> shapes;
@@ -35,7 +35,7 @@ Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath
 	std::vector<unsigned int> listIndices;
 
 
-	for (auto& [name, mesh, lines, points] : shapes)
+	for (auto& [shapeName, mesh, lines, points] : shapes)
 	{
 		size_t indexOffset = 0;
 		int vectorSize = 0;
@@ -68,7 +68,7 @@ Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath
 					ty = attributes.texcoords[texcoordIndex * 2 + 1];
 				}
 
-				VertexMesh vertex(Vector3D(vx, vy, vz), Vector2D(tx, ty));
+				VertexMesh vertex(Vector3D(vx, vy, vz), Vector2D(tx, ty), Vector3D(1, 1, 1));
 				listVertices.push_back(vertex);
 
 				listIndices.push_back(static_cast<unsigned int>(indexOffset) + v);

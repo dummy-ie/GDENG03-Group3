@@ -3,23 +3,23 @@
 Component::Component(
 	std::string name,
 	const ComponentType type,
-	GameObjectPtr owner
+	GameObject* owner
 ) :
 	name(std::move(name)),
 	type(type),
-	owner(std::move(owner))
+	owner(owner)
 {
 }
 
 Component::~Component()
 {
 	owner = nullptr;
-	type = NOT_SET;
+	type = ComponentType::NOT_SET;
 }
 
-void Component::attachOwner(GameObjectPtr owner)
+void Component::attachOwner(GameObject* owner)
 {
-	this->owner = std::move(owner);
+	this->owner = owner;
 }
 
 void Component::detachOwner()
@@ -28,7 +28,7 @@ void Component::detachOwner()
 	delete this;
 }
 
-GameObjectPtr Component::getOwner()
+GameObject* Component::getOwner() const
 {
 	return owner;
 }
