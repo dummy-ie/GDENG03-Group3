@@ -2,8 +2,7 @@
 
 Cube::Cube(float x, float y, float z, String name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
 {
-    this->init(GraphicsEngine::getInstance()->getD3DDevice());
-    this->setScale(0.5f , 0.5f, 0.5f);
+    this->setScale(1, 1, 1);
     // Randomize position within screen bounds
     //float randomX = (float)(rand() % 1000)/1000.0f * (windowBounds.right - windowBounds.left) / 300.0f;
     //float randomY = (float)(rand() % 1000)/1000.0f * (windowBounds.bottom - windowBounds.top) / 300.0f; 
@@ -15,13 +14,40 @@ Cube::Cube(float x, float y, float z, String name, RECT windowBounds) : GameObje
     //this->setRotation(0.0f, 0.0f, 0.0f);
 
     this->setPosition(x, y, z);
-    
+
+
     this->localMatrix.setIdentity();
     this->localPhysicsMatrix.setIdentity();
+    this->init(GraphicsEngine::getInstance()->getD3DDevice());
 
     this->m_speed = 1.0f;
     this->overrideMatrix = true;
    
+}
+
+Cube::Cube(float x, float y, float z, float scale_x, float scale_y, float scale_z, String name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
+{
+    this->setScale(scale_x, scale_y, scale_z);
+    // Randomize position within screen bounds
+    //float randomX = (float)(rand() % 1000)/1000.0f * (windowBounds.right - windowBounds.left) / 300.0f;
+    //float randomY = (float)(rand() % 1000)/1000.0f * (windowBounds.bottom - windowBounds.top) / 300.0f; 
+    //   
+    //float randomX = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // X in range [-2, 2]
+    //float randomY = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Y in range [-2, 2]
+    //float randomZ = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Z in range [-2, 2]
+
+    //this->setRotation(0.0f, 0.0f, 0.0f);
+
+    this->setPosition(x, y, z);
+
+
+    this->localMatrix.setIdentity();
+    this->localPhysicsMatrix.setIdentity();
+    this->init(GraphicsEngine::getInstance()->getD3DDevice());
+
+    this->m_speed = 1.0f;
+    this->overrideMatrix = true;
+
 }
 
 Cube::~Cube()
@@ -42,21 +68,41 @@ void Cube::init(ID3D11Device* device)
     {
         //X - Y - Z
         //FRONT FACE
-        {Vector3D(-1.0f,-1.0f,-1.0f), Vector3D(0.5f,0.5f,0.5f),    Vector3D(0.2f,0,0) },
-        {Vector3D(-1.0f,1.0f,-1.0f),  Vector3D(0,0,0),    Vector3D(0.2f,0.2f,0) },
-        { Vector3D(1.0f,1.0f,-1.0f),  Vector3D(1,0,0),    Vector3D(0.2f,0.2f,0) },
-        { Vector3D(1.0f,-1.0f,-1.0f), Vector3D(1,1,0),    Vector3D(0.2f,0,0) },
+        {Vector3D(-0.5f,-0.5f,-0.5f),    Vector3D(1,0,0),  Vector3D(0.2f,0,0) },
+        {Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,0), Vector3D(0.2f,0.2f,0) },
+        { Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,0),  Vector3D(0.2f,0.2f,0) },
+        { Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,0,0), Vector3D(0.2f,0,0) },
 
         //BACK FACE
-        { Vector3D(1.0f,-1.0f,1.0f),   Vector3D(0.5f,0.5f,0.5f), Vector3D(0,0.2f,0) },
-        { Vector3D(1.0f,1.0f,1.0f),     Vector3D(0,0,0),   Vector3D(0,0.2f,0.2f) },
-        { Vector3D(-1.0f,1.0f,1.0f),   Vector3D(1,0,0),  Vector3D(0,0.2f,0.2f) },
-        { Vector3D(-1.0f,-1.0f,1.0f),  Vector3D(1,1,0), Vector3D(0,0.2f,0) },
+        { Vector3D(0.5f,-0.5f,0.5f),    Vector3D(0,1,0), Vector3D(0,0.2f,0) },
+        { Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1), Vector3D(0,0.2f,0.2f) },
+        { Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),  Vector3D(0,0.2f,0.2f) },
+        { Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0), Vector3D(0,0.2f,0) }
+
+
+        ////COLOR INPUT
+        //{Vector3D(-0.5f,-0.5f,-0.5f),  this->color,  this->color },
+        //{Vector3D(-0.5f,0.5f,-0.5f),   this->color,  this->color },
+        //{ Vector3D(0.5f,0.5f,-0.5f),   this->color,  this->color },
+        //{ Vector3D(0.5f,-0.5f,-0.5f),  this->color,  this->color },
+
+        ////BACK FACE
+        //{ Vector3D(0.5f,-0.5f,0.5f),   this->color,  this->color },
+        //{ Vector3D(0.5f,0.5f,0.5f),    this->color,  this->color },
+        //{ Vector3D(-0.5f,0.5f,0.5f),   this->color,  this->color },
+        //{ Vector3D(-0.5f,-0.5f,0.5f),  this->color,  this->color }
+
+        ////PLANE
+        //{ Vector3D(10.0f,0.0f,-100.0f),    Vector3D(1,1,1),  Vector3D(1,1,1) },
+        //{ Vector3D(10.0f,0.0f,10.0f),		Vector3D(1,1,1),  Vector3D(1,1,1) },
+        //{ Vector3D(10.0f,0.0f,-100.0f),   Vector3D(1,1,1),  Vector3D(1,1,1) },
+        //{ Vector3D(-10.0f,0.0f,10.0f),   Vector3D(1,1,1),  Vector3D(1,1,1) }
 
     };
 
     m_vb = graphEngine->createVertexBuffer();
     UINT size_list = ARRAYSIZE(vertex_list);
+
 
     unsigned int index_list[] =
     {
@@ -78,6 +124,10 @@ void Cube::init(ID3D11Device* device)
         //LEFT SIDE
         7,6,1,
         1,0,7
+
+        ////PLANE
+        //8,9,10,
+        //9,11,10
     };
 
 
@@ -111,6 +161,12 @@ void Cube::init(ID3D11Device* device)
         this->phs = new PhysicsComponent(this->name + "CubePhysics", this);
         //this->phs->getRigidbody()->setType(BodyType::KINEMATIC);
         //this->phs->getRigidbody()->setMass(0);
+
+        //VERY HARDCODED SOLUTION LMAO
+        if (this->name == "Plane")
+            this->phs->getRigidbody()->setType(BodyType::STATIC);
+
+
         this->attachComponent(phs);
         BaseComponentSystem::getInstance()->getPhysicsSystem()->registerComponent(this->phs);
 

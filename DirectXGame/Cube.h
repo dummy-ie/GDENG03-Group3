@@ -17,6 +17,7 @@ class Cube : GameObject
 {
 public:
     Cube(float x, float y, float z, String name, RECT windowBounds);
+    Cube(float x, float y, float z, float scale_x, float scale_y, float scale_z, String name, RECT windowBounds);
     ~Cube();
 
     

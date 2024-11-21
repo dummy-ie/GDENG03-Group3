@@ -136,14 +136,15 @@ void AppWindow::onDestroy() {
 
 void AppWindow::spawnCube(int nCubeAmount) {
     for (int i = 0; i < 15; i++) {
-        Cube* m_cube = new Cube(0.0f, 8.5f, -1.f, "MyCube" + i, this->getClientWindowRect());
+        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, "MyCube" + i, this->getClientWindowRect());
         std::cout << "Cube has been created" << std::endl;
        cube_list.push_back(m_cube);
     }
 }
 
 void AppWindow::spawnPlane() {
-    this->m_plane = new Plane("MyPlane", this->getClientWindowRect());
+    Cube* plane = new Cube(0.0f, -1, 0.0f, 100.0f, 0.1f, 100.0f, "Plane", this->getClientWindowRect());
+    this->m_plane = plane;
 }
 
 

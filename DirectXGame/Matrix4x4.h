@@ -173,6 +173,12 @@ public:
 		return &m_mat[0][0];
 	}
 
+	float* getMatrix()
+	{
+
+		return *this->m_mat;
+	}
+
 	// Transposes the matrix in-place
 	void transpose() {
 		for (int i = 0; i < 4; ++i) {

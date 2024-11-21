@@ -56,9 +56,10 @@ public:
 	Vector3D getLocalRotation();
 
 	Matrix4x4 getLocalMatrix();
-	Matrix4x4 getLocalPhysicsMatrix();
+	float* getLocalPhysicsMatrix();
 
 	void setLocalMatrix(const Matrix4x4& matrix);
+	void recomputeMatrix(float matrix[16]);
 	void setLocalPhysicsMatrix(const Matrix4x4& matrix);
 
 	void attachComponent(Component* component);

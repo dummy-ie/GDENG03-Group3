@@ -62,7 +62,7 @@ public:
 private:
 	SwapChain* swapChain;
 	std::vector<Cube*> cube_list;
-	Plane* m_plane;
+	Cube* m_plane;
 
 	bool bRunning = false;
 	bool shouldRotate = false;

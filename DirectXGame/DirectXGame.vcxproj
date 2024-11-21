@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\bin;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\include;E:\GDENG03\PersonalGDENG03\DirectXGame\imgui;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Libs\DirectXTex\bin;$(ProjectDir)\Libs\ReactPhysics3D\lib;$(ProjectDir)\Libs\DirectXTK\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\Libs\DirectXTex\include;$(ProjectDir)\imgui;$(ProjectDir)\Libs\ReactPhysics3D\include;$(ProjectDir)\Libs\DirectXTK\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\bin;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\include;E:\GDENG03\PersonalGDENG03\DirectXGame\imgui;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Libs\DirectXTex\bin;$(ProjectDir)\Libs\ReactPhysics3D\lib;$(ProjectDir)\Libs\DirectXTK\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\Libs\DirectXTex\include;$(ProjectDir)\imgui;$(ProjectDir)\Libs\ReactPhysics3D\include;$(ProjectDir)\Libs\DirectXTK\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_HAS_STD_BYTE=0;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\include\reactphysics3d;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Libs\ReactPhysics3D\include\reactphysics3d;$(ProjectDir)\Libs\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_HAS_STD_BYTE=0;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\ReactPhysics3D\include\reactphysics3d;E:\GDENG03\PersonalGDENG03\DirectXGame\Libs\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Libs\ReactPhysics3D\include\reactphysics3d;$(ProjectDir)\Libs\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
