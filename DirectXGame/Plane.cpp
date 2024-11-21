@@ -1,12 +1,15 @@
 #include "Plane.h"
 
 
-Plane::Plane(std::wstring name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr)
-{
+Plane::Plane(String name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr)
+{    
     this->init(GraphicsEngine::getInstance()->getD3DDevice());
-    this->setScale(3.0f, 3.0f, 3.0f);
+    this->setScale(10.0f, 10.0f, 10.0f);
     this->setPosition(1, -1, 1);
     this->setRotation(-0.6f, 0.0f, 0.0f);
+    this->localMatrix.setIdentity();
+    this->localPhysicsMatrix.setIdentity();
+    this->overrideMatrix = true;
 }
 
 Plane::~Plane()
@@ -19,16 +22,21 @@ void Plane::init(ID3D11Device* device)
     //set to quad for vertex list
     vertex vertex_list[] =
     {
-        { Vector3D(-1.5f, 0.0f, -1.5f), Vector3D(1,1,1),  Vector3D(0,1,0) },    // POS1
-        { Vector3D(-1.5f, 0.0f, 1.5f),  Vector3D(1,1,1),  Vector3D(0,1,1) },   // POS2
-        { Vector3D(1.5f, 0.0f,-1.5f),  Vector3D(1,1,1),  Vector3D(1,0,0) },  // POS3
-        { Vector3D(1.5f, 0.0f, 1.5f),   Vector3D(1,1,1),  Vector3D(0,0,1) }  // POS4
+        { Vector3D(-1.5f, 0.1f, -1.5f), Vector3D(1,1,1),  Vector3D(0,1,0) },    // POS1
+        { Vector3D(-1.5f, 0.1f, 1.5f),  Vector3D(1,1,1),  Vector3D(0,1,1) },   // POS2
+        { Vector3D(1.5f, 0.1f,-1.5f),  Vector3D(1,1,1),  Vector3D(1,0,0) },  // POS3
+        { Vector3D(1.5f, 0.1f, 1.5f),   Vector3D(1,1,1),  Vector3D(0,0,1) },  // POS4
+
+        { Vector3D(-1.5f, 0.1f, -1.5f), Vector3D(1,1,1),  Vector3D(0,1,0) },    // POS1
+        { Vector3D(-1.5f, 0.1f, 1.5f),  Vector3D(1,1,1),  Vector3D(0,1,1) },   // POS2
+        { Vector3D(1.5f, 0.1f,-1.5f),  Vector3D(1,1,1),  Vector3D(1,0,0) },  // POS3
+        { Vector3D(1.5f, 0.1f, 1.5f),   Vector3D(1,1,1),  Vector3D(0,0,1) }  // POS4
     };
 
     m_vb = graphEngine->createVertexBuffer();
     UINT size_list = ARRAYSIZE(vertex_list);
 
-    /*unsigned int index_list[] =
+    unsigned int index_list[] =
     {
             //FRONT SIDE
           0,1,2, 1,3,2,
@@ -39,9 +47,9 @@ void Plane::init(ID3D11Device* device)
     };
 
     m_ib = graphEngine->createIndexBuffer();
-    UINT size_index_list = ARRAYSIZE(index_list);*/
+    UINT size_index_list = ARRAYSIZE(index_list);
 
-    //m_ib->load(index_list, size_index_list);
+    m_ib->load(index_list, size_index_list);
 
     void* shaderByteCode = nullptr;
     size_t sizeShader = 0;
@@ -60,11 +68,26 @@ void Plane::init(ID3D11Device* device)
 
     m_cb = graphEngine->createConstantBuffer();
     m_cb->load(&cc, sizeof(CBData));
+
+    
+    if (!phs) {
+        this->phs = new PhysicsComponent(this->name + "Physics", this);
+        this->attachComponent(phs);
+        //phs->getRigidbody()->setType(BodyType::STATIC);
+        //phs->getRigidbody()->setMass(0);
+        phs->getRigidbody()->setLinearLockAxisFactor({ 0.0f, 0.0f, 0.0f });
+        phs->getRigidbody()->setAngularLockAxisFactor({ 0.0f, 0.0f, 0.0f });
+        phs->getRigidbody()->enableGravity(false);
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->registerComponent(this->phs);
+    }
 }
 
 void Plane::update(float deltaTime, RECT windowBounds)
 {
+    phs->getRigidbody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+    phs->getRigidbody()->setAngularVelocity({ 0.0f, 0.0f, 0.0f });
     this->draw(windowBounds.right - windowBounds.left, windowBounds.bottom - windowBounds.top, deltaTime, m_vs, m_ps);
+    
 }
 
 void Plane::draw(int width, int height, float deltaTime, VertexShader* vertexShader, PixelShader* pixelShader)
@@ -86,9 +109,10 @@ void Plane::draw(int width, int height, float deltaTime, VertexShader* vertexSha
    //this->localRotation.m_x += m_speed * deltaTime / 0.55f;
    //this->localRotation.m_y += m_speed * deltaTime / 0.55f;
    //this->localRotation.m_z += m_speed * deltaTime / 0.55f;
-   
 
+    /*
     Matrix4x4 allMatrix; allMatrix.setIdentity();
+    
     Matrix4x4 translationMatrix; translationMatrix.setIdentity(); translationMatrix.setTranslation(this->getLocalPosition());
     Matrix4x4 scaleMatrix; scaleMatrix.setIdentity(); scaleMatrix.setScale(this->getLocalScale());
     Vector3D rotation = this->getLocalRotation();
@@ -101,7 +125,11 @@ void Plane::draw(int width, int height, float deltaTime, VertexShader* vertexSha
     allMatrix *= yMatrix;
     allMatrix *= xMatrix;
     allMatrix *= translationMatrix;
-    cc.m_world = allMatrix;
+
+    this->localMatrix *= allMatrix;
+    */
+
+    cc.m_world = localMatrix;
 
     /*
     Matrix4x4 rotMatrix; rotMatrix.setIdentity();

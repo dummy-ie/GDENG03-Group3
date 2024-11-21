@@ -17,8 +17,9 @@ public:
 private:
 	void draw() override;
 	void onCreateCubeClicked();
-	void onCreateSphereClicked();
+	void onCreatePhysicsCubeClicked();
 	void onCreatePlaneClicked();
+	void onCreatePhysicsPlaneClicked();
 	void showCreditsWindow();
 	void showColorPickerWindow();
 

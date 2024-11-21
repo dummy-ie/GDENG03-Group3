@@ -16,6 +16,7 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "BaseComponentSystem.h"
 #include <vector>
 
 class AppWindow : public Window, public InputListener
@@ -53,6 +54,8 @@ private:
 	static AppWindow* sharedInstance;
 
 public:
+	void spawnCube(int nCubeAmount);
+	void spawnPlane();
 	void initializeEngine();
 	bool isRunning();
 

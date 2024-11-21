@@ -3,8 +3,11 @@ using namespace std;
 
 #include <string>;
 #include <Windows.h>
-
+#include <vector>
 #include "Matrix4x4.h"
+#include <reactphysics3d/reactphysics3d.h>
+#include "PhysicsSystem.h"
+#include "Component.h"
 
 class VertexShader;
 class PixelShader;
@@ -28,8 +31,12 @@ struct CBData
 
 class GameObject
 {
+
 public:
-	GameObject(std::wstring name);
+	typedef std::string String;
+	typedef std::vector<Component*> ComponentList;
+
+	GameObject(String name);
 	~GameObject();
 
 	virtual void update(float deltaTime, RECT windowBounds) = 0;
@@ -48,11 +55,32 @@ public:
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
 
+	Matrix4x4 getLocalMatrix();
+	Matrix4x4 getLocalPhysicsMatrix();
+
+	void setLocalMatrix(const Matrix4x4& matrix);
+	void setLocalPhysicsMatrix(const Matrix4x4& matrix);
+
+	void attachComponent(Component* component);
+	void detachComponent(Component* component);
+
+	Component* findComponentByName(String Name);
+	Component* findComponentofType(Component::ComponentType type, String name);
+	ComponentList getComponentsofType(Component::ComponentType type);
+	ComponentList getComponentsOfTypeRecursive(Component::ComponentType type);
+
+	bool overrideMatrix = false;
+
 protected:
-	std::wstring name;
+	String name;
 	Vector3D localRotation;
 	Vector3D localPosition;
 	Vector3D localScale;
+	Matrix4x4 localMatrix;
+	Matrix4x4 localPhysicsMatrix;
+	ComponentList componentList;
+
+	virtual void Awake();
 
 };
 

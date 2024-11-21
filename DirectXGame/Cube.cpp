@@ -1,9 +1,9 @@
 #include "Cube.h"
 
-Cube::Cube(float x, float y, float z, std::wstring name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
+Cube::Cube(float x, float y, float z, String name, RECT windowBounds) : GameObject(name), m_vs(nullptr), m_ps(nullptr), m_vb(nullptr), m_cb(nullptr), m_ib(nullptr) //m_samplerState(nullptr), m_texture(nullptr)
 {
     this->init(GraphicsEngine::getInstance()->getD3DDevice());
-    this->setScale(1.0f , 1.0f, 1.0f);
+    this->setScale(0.5f , 0.5f, 0.5f);
     // Randomize position within screen bounds
     //float randomX = (float)(rand() % 1000)/1000.0f * (windowBounds.right - windowBounds.left) / 300.0f;
     //float randomY = (float)(rand() % 1000)/1000.0f * (windowBounds.bottom - windowBounds.top) / 300.0f; 
@@ -12,15 +12,25 @@ Cube::Cube(float x, float y, float z, std::wstring name, RECT windowBounds) : Ga
     //float randomY = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Y in range [-2, 2]
     //float randomZ = (float)(rand() % 1000) / 1000.0f * 10.0f - 5.0f; // Z in range [-2, 2]
 
-    this->setRotation(0.0f, 0.0f, 0.0f);
+    //this->setRotation(0.0f, 0.0f, 0.0f);
 
     this->setPosition(x, y, z);
     
+    this->localMatrix.setIdentity();
+    this->localPhysicsMatrix.setIdentity();
+
     this->m_speed = 1.0f;
+    this->overrideMatrix = true;
+   
 }
 
 Cube::~Cube()
 {
+}
+
+void Awake() {
+
+   
 }
 
 void Cube::init(ID3D11Device* device)
@@ -32,15 +42,15 @@ void Cube::init(ID3D11Device* device)
     {
         //X - Y - Z
         //FRONT FACE
-        {Vector3D(-1.0f,-1.0f,-1.0f), Vector3D(1,0,1),    Vector3D(0.2f,0,0) },
-        {Vector3D(-1.0f,1.0f,-1.0f),  Vector3D(1,1,1),    Vector3D(0.2f,0.2f,0) },
-        { Vector3D(1.0f,1.0f,-1.0f),  Vector3D(1,1,0),    Vector3D(0.2f,0.2f,0) },
+        {Vector3D(-1.0f,-1.0f,-1.0f), Vector3D(0.5f,0.5f,0.5f),    Vector3D(0.2f,0,0) },
+        {Vector3D(-1.0f,1.0f,-1.0f),  Vector3D(0,0,0),    Vector3D(0.2f,0.2f,0) },
+        { Vector3D(1.0f,1.0f,-1.0f),  Vector3D(1,0,0),    Vector3D(0.2f,0.2f,0) },
         { Vector3D(1.0f,-1.0f,-1.0f), Vector3D(1,1,0),    Vector3D(0.2f,0,0) },
 
         //BACK FACE
-        { Vector3D(1.0f,-1.0f,1.0f),   Vector3D(1,0,1), Vector3D(0,0.2f,0) },
-        { Vector3D(1.0f,1.0f,1.0f),    Vector3D(1,1,1),   Vector3D(0,0.2f,0.2f) },
-        { Vector3D(-1.0f,1.0f,1.0f),   Vector3D(1,1,0),  Vector3D(0,0.2f,0.2f) },
+        { Vector3D(1.0f,-1.0f,1.0f),   Vector3D(0.5f,0.5f,0.5f), Vector3D(0,0.2f,0) },
+        { Vector3D(1.0f,1.0f,1.0f),     Vector3D(0,0,0),   Vector3D(0,0.2f,0.2f) },
+        { Vector3D(-1.0f,1.0f,1.0f),   Vector3D(1,0,0),  Vector3D(0,0.2f,0.2f) },
         { Vector3D(-1.0f,-1.0f,1.0f),  Vector3D(1,1,0), Vector3D(0,0.2f,0) },
 
     };
@@ -97,8 +107,14 @@ void Cube::init(ID3D11Device* device)
     m_cb = graphEngine->createConstantBuffer();
     m_cb->load(&cc, sizeof(CBData));
 
+    if (!phs) {
+        this->phs = new PhysicsComponent(this->name + "CubePhysics", this);
+        //this->phs->getRigidbody()->setType(BodyType::KINEMATIC);
+        //this->phs->getRigidbody()->setMass(0);
+        this->attachComponent(phs);
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->registerComponent(this->phs);
 
-
+    }
 }
 
 void Cube::update(float deltaTime, RECT windowBounds)
@@ -124,22 +140,18 @@ void Cube::draw(int width, int height, float deltaTime, VertexShader* vertexShad
    //this->localRotation.m_x += m_speed * deltaTime;
    //this->localRotation.m_y += m_speed * deltaTime;
    //this->localRotation.m_z += m_speed * deltaTime;
-  
+   
 
-    Matrix4x4 allMatrix; allMatrix.setIdentity();
-    Matrix4x4 translationMatrix; translationMatrix.setIdentity(); translationMatrix.setTranslation(this->getLocalPosition());
-    Matrix4x4 scaleMatrix; scaleMatrix.setIdentity(); scaleMatrix.setScale(this->getLocalScale());
-    Vector3D rotation = this->getLocalRotation();
-    Matrix4x4 zMatrix; zMatrix.setIdentity(); zMatrix.setRotationZ(rotation.m_z);
-    Matrix4x4 xMatrix; xMatrix.setIdentity(); xMatrix.setRotationX(rotation.m_x);
-    Matrix4x4 yMatrix; yMatrix.setIdentity(); yMatrix.setRotationY(rotation.m_y);
+    
+    //localMatrix *= scaleMatrix;
+    //localMatrix *= zMatrix;
+    //localMatrix *= yMatrix;
+    //localMatrix *= xMatrix;
+    //localMatrix *= translationMatrix;
 
-    allMatrix *= scaleMatrix;
-    allMatrix *= zMatrix;
-    allMatrix *= yMatrix;
-    allMatrix *= xMatrix;
-    allMatrix *= translationMatrix;
-    cc.m_world = allMatrix;
+    //this->localMatrix *= this->localPhysicsMatrix;
+
+    cc.m_world = localMatrix;
 
     /*
     Matrix4x4 rotMatrix; rotMatrix.setIdentity();

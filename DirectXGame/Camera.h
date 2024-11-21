@@ -11,7 +11,7 @@
 class Camera : public GameObject, public InputListener
 {
 public:
-	Camera(std::wstring name);
+	Camera(String name);
 	~Camera();
 public:
 	Matrix4x4 getViewMatrix();

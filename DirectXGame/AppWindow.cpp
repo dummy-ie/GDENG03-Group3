@@ -39,10 +39,10 @@ void AppWindow::onCreate()
 }
 
 
-
 void AppWindow::initializeEngine() {
     GraphicsEngine::initialize();
     EngineTime::initialize();
+    BaseComponentSystem::initialize();
     UIManager::initialize(this->m_hwnd);
     SceneCameraHandler::initialize();
     GraphicsEngine* graphEngine = GraphicsEngine::getInstance();
@@ -65,17 +65,17 @@ void AppWindow::initializeEngine() {
 
     //m_camera = new Camera(L"MyCamera");
 
-    m_plane = new Plane(L"MyPlane", this->getClientWindowRect());
+    //m_plane = new Plane("MyPlane", this->getClientWindowRect());
 
 
-    for (int i = 0; i < 5; i++) {
-        Cube* m_cube = new Cube(0.0f, 0.5f, -1.f, L"MyCube" + to_wstring(i), this->getClientWindowRect());
-        std::cout << "Cube has been created" << std::endl;
-        cube_list.push_back(m_cube);
+    for (int i = 0; i < 15; i++) {
+        //Cube* m_cube = new Cube(0.0f, 3.5f, -1.f, "MyCube" + i, this->getClientWindowRect());
+        //std::cout << "Cube has been created" << std::endl;
+        //cube_list.push_back(m_cube);
     }
     
 
-    //m_plane = new Plane(L"MyPlane", this->getClientWindowRect());
+    //m_plane = new Plane("MyPlane", this->getClientWindowRect());
 }
 
 
@@ -96,6 +96,7 @@ void AppWindow::onUpdate() {
     GraphicsEngine::getInstance()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
     //m_plane->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+    BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
     if (!cube_list.empty()) {
         for (Cube* cube : cube_list) {
@@ -103,7 +104,10 @@ void AppWindow::onUpdate() {
         }
     }
 
-    m_plane->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+    if(m_plane != nullptr)
+        m_plane->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
+
+
 
     SceneCameraHandler::getInstance()->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
     UIManager::get()->draw();
@@ -129,6 +133,19 @@ void AppWindow::onDestroy() {
     GraphicsEngine::getInstance()->destroy(); // Ensure this cleans up the DeviceContext, SwapChain, etc.
 
 }
+
+void AppWindow::spawnCube(int nCubeAmount) {
+    for (int i = 0; i < 15; i++) {
+        Cube* m_cube = new Cube(0.0f, 8.5f, -1.f, "MyCube" + i, this->getClientWindowRect());
+        std::cout << "Cube has been created" << std::endl;
+       cube_list.push_back(m_cube);
+    }
+}
+
+void AppWindow::spawnPlane() {
+    this->m_plane = new Plane("MyPlane", this->getClientWindowRect());
+}
+
 
 void AppWindow::onKeyDown(int key)
 {

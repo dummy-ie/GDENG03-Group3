@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include <iostream>
 
-Camera::Camera(std::wstring name) : GameObject(name)
+Camera::Camera(String name) : GameObject(name)
 {
 	std::cout << "Camera has been created" << std::endl;
 	this->setPosition(0, 0, -2);

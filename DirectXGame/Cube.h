@@ -7,6 +7,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "IndexBuffer.h"
+#include "PhysicsComponent.h"
 #include "DeviceContext.h"
 #include "Matrix4x4.h"
 #include "WICTextureLoader.h"
@@ -15,9 +16,10 @@
 class Cube : GameObject
 {
 public:
-    Cube(float x, float y, float z, std::wstring name, RECT windowBounds);
+    Cube(float x, float y, float z, String name, RECT windowBounds);
     ~Cube();
 
+    
     void init(ID3D11Device* device);
     void update(float deltaTime, RECT windowBounds) override;
     void draw(int width, int height, float deltaTime, VertexShader* vertexShader, PixelShader* pixelShader) override;
@@ -31,11 +33,15 @@ private:
     float m_delta_scale = 0.0f;
     float m_delta_rot = 0.0f;
     float m_speed = 1.0f;
+
+    PhysicsComponent* phs;
     VertexBuffer* m_vb;
     ConstantBuffer* m_cb;
     IndexBuffer* m_ib;
     VertexShader* m_vs;
     PixelShader* m_ps;
+
+    //void Awake() override;
     //ID3D11ShaderResourceView* m_texture;
     //ID3D11SamplerState* m_samplerState;
 

@@ -1,5 +1,5 @@
 #include "MenuScreen.h"
-
+#include "AppWindow.h"
 #include "GraphicsEngine.h"
 
 MenuScreen::MenuScreen() : UIScreen("MenuScreen")
@@ -49,13 +49,18 @@ void MenuScreen::draw()
 		{
 			onCreateCubeClicked();
 		}
-		if (ImGui::MenuItem("Create Sphere"))
+		if (ImGui::MenuItem("Create Physics Cube"))
 		{
-			onCreateSphereClicked();
+			onCreatePhysicsCubeClicked();
 		}
 		if (ImGui::MenuItem("Create Plane"))
 		{
 			onCreatePlaneClicked();
+		}
+
+		if (ImGui::MenuItem("Create Physics Plane"))
+		{
+			onCreatePhysicsPlaneClicked();
 		}
 
 		ImGui::Separator();
@@ -119,12 +124,20 @@ void MenuScreen::onCreateCubeClicked()
 {
 }
 
-void MenuScreen::onCreateSphereClicked()
+void MenuScreen::onCreatePhysicsCubeClicked()
 {
+	AppWindow::getInstance()->spawnCube(15);
+	
 }
 
 void MenuScreen::onCreatePlaneClicked()
 {
+	
+}
+
+void MenuScreen::onCreatePhysicsPlaneClicked()
+{
+	AppWindow::getInstance()->spawnPlane();
 }
 
 void MenuScreen::showCreditsWindow()

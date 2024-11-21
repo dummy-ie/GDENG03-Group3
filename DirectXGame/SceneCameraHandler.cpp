@@ -25,7 +25,7 @@ void SceneCameraHandler::destroy()
 
 void SceneCameraHandler::init()
 {
-	this->camera = new Camera(L"MyCamera");
+	this->camera = new Camera("MyCamera");
 }
 
 void SceneCameraHandler::update(float deltaTime, RECT windowBounds)

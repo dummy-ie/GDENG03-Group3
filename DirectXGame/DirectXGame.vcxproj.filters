@@ -73,6 +73,9 @@
     <Filter Include="GameEngine\Component System">
       <UniqueIdentifier>{3d9b2c8f-00f1-4880-bed0-c67cf7a57684}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ReactPhysics">
+      <UniqueIdentifier>{0201cb89-78fb-4943-8add-e6653ec1dee8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -163,6 +166,9 @@
       <Filter>GameEngine\Component System</Filter>
     </ClCompile>
     <ClCompile Include="BaseComponentSystem.cpp">
+      <Filter>GameEngine\Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
       <Filter>GameEngine\Component System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,6 +286,15 @@
     </ClInclude>
     <ClInclude Include="BaseComponentSystem.h">
       <Filter>GameEngine\Component System</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReactPhysics3D\include\reactphysics3d\configuration.h">
+      <Filter>ReactPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReactPhysics3D\include\reactphysics3d\decimal.h">
+      <Filter>ReactPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReactPhysics3D\include\reactphysics3d\reactphysics3d.h">
+      <Filter>ReactPhysics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

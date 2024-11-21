@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "GameObject.h"
+#include "BaseComponentSystem.h"
 
 class GameObject;
 
@@ -17,7 +17,7 @@ public:
 	ComponentType getType();
 	String getName();
 
-	virtual void perform(float deltaTime) = 0;
+	virtual void perform(float deltaTime);
 
 protected:
 	GameObject* owner;

@@ -3,14 +3,12 @@
 #include <unordered_map>
 #include <vector>
 #include <reactphysics3d/reactphysics3d.h>
-#include "BaseComponentSystem.h"
 
 using namespace reactphysics3d;
 class PhysicsComponent;
 
-class PhysicsSystem : BaseComponentSystem
+class PhysicsSystem
 {
-	PhysicsSystem();
 public:
 	typedef std::string String;
 	typedef std::unordered_map<String, PhysicsComponent*> ComponentTable;

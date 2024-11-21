@@ -22,5 +22,6 @@ private:
 	static BaseComponentSystem* sharedInstance;
 	PhysicsSystem* physicsSystem;
 
+	friend class PhysicsSystem;
 };
 

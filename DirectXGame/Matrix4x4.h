@@ -168,6 +168,31 @@ public:
 	{
 	}
 
+	
+	const float* data() const {
+		return &m_mat[0][0];
+	}
+
+	// Transposes the matrix in-place
+	void transpose() {
+		for (int i = 0; i < 4; ++i) {
+			for (int j = i + 1; j < 4; ++j) {
+				std::swap(m_mat[i][j], m_mat[j][i]);
+			}
+		}
+	}
+
+	// Converts to column-major order for OpenGL if stored row-major
+	float* toColumnMajor() {
+		static float columnMajor[16];
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				columnMajor[j * 4 + i] = m_mat[i][j];
+			}
+		}
+		return columnMajor;
+	}
+
 public:
 	float m_mat[4][4] = {};
 };
