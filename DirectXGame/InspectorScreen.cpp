@@ -19,13 +19,32 @@ void InspectorScreen::draw() {
 
         // physics component checkbox
         bool hasPhysComp = true;
+        float fMass = 0.0f;
+        bool hasGravity = true;
+
         if (selectedCube->GetPhysicsComponent() == nullptr)
             hasPhysComp = false;
 
+       
         if (ImGui::Checkbox("Physics Component", &hasPhysComp)) {
-            selectedCube->TogglePhysicsComponent(hasPhysComp);
+                selectedCube->TogglePhysicsComponent(hasPhysComp);
         }
 
+        if (hasPhysComp != false) {
+
+            fMass = selectedCube->GetPhysicsComponent()->getMass();
+
+            if (!selectedCube->GetPhysicsComponent()->getGravity())
+                hasGravity = false;
+
+            if (ImGui::InputFloat("Mass Value", &fMass)) {
+                selectedCube->GetPhysicsComponent()->setMass(fMass);
+            }
+
+            if (ImGui::Checkbox("Has Gravity", &hasGravity)) {
+                selectedCube->GetPhysicsComponent()->setGravity(hasGravity);
+            }
+        }
         // other stuff like gravity down here
 
     }

@@ -29,6 +29,7 @@ void Component::perform(float deltaTime) {
 void Component::detachOwner()
 {
 	this->owner = nullptr;
+	
 }
 
 GameObject* Component::getOwner()

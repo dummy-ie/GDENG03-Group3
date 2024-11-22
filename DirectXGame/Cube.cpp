@@ -285,12 +285,12 @@ PhysicsComponent* Cube::GetPhysicsComponent() {
 
 void Cube::TogglePhysicsComponent(bool toAttach) {
     if (toAttach) {
-        attachRigidbody();
+        this->attachRigidbody();
         std::cout << "phys comp attached";
     }
     else {
         this->detachComponent(phs);
-        this->phs = nullptr;
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->unregisterComponent(phs);
         std::cout << "phys comp detached";
     }
 }

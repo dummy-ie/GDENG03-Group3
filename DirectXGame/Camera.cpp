@@ -116,6 +116,7 @@ void Camera::update(float deltaTime, RECT windowBounds)
 		this->updateViewMatrix();
 	}
 
+	/*
 	else if (InputSystem::getInstance()->isKeyDown('1')) {
 		r_x += deltaTime * moveSpeed;
 		this->setRotation(r_x, r_y, r_z);
@@ -140,7 +141,7 @@ void Camera::update(float deltaTime, RECT windowBounds)
 		this->setRotation(r_x, r_y, r_z);
 		this->updateViewMatrix();
 	}
-
+	*/
 
 }
 

@@ -14,6 +14,7 @@ public:
 
 private:
 	void draw() override;
+	
 
 	//Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> creditsTexture;
 };
