@@ -18,6 +18,7 @@
 #include "PixelShader.h"
 #include "BaseComponentSystem.h"
 #include "StateManager.h"
+#include "CubeManager.h"
 #include <vector>
 
 class AppWindow : public Window, public InputListener
@@ -63,7 +64,6 @@ public:
 
 private:
 	SwapChain* swapChain;
-	std::vector<Cube*> cube_list;
 	Cube* m_plane;
 
 	bool bRunning = false;

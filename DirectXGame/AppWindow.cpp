@@ -87,6 +87,10 @@ bool AppWindow::isRunning()
 
 
 void AppWindow::onUpdate() {
+
+    std::vector<Cube*> cube_list;
+    cube_list = CubeManager::GetInstance().GetCubeList();
+
     Window::onUpdate();
 
     InputSystem::getInstance()->update();
@@ -100,7 +104,6 @@ void AppWindow::onUpdate() {
     if (StateManager::getInstance()->getStateType() == StateManager::StateType::PLAY)
         BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
-    
     if (!cube_list.empty()) {
         for (Cube* cube : cube_list) {
             cube->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
@@ -121,14 +124,12 @@ void AppWindow::onUpdate() {
 
 
 void AppWindow::onDestroy() {
+
     // Stop rendering first
     bRunning = false; // If this flag controls the rendering loop
     Window::onDestroy();
     InputSystem::getInstance()->removeListener(this);
     InputSystem::getInstance()->destroy();
-
-    // Release resources in reverse order of creation
-    if (!cube_list.empty()) this->cube_list.clear();
 
     if (m_plane)m_plane->release();
    
@@ -138,20 +139,28 @@ void AppWindow::onDestroy() {
 }
 
 void AppWindow::spawnCube(int nCubeAmount) {
-    for (int i = 0; i < 15; i++) {
-        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, "MyCube" + i, this->getClientWindowRect());
-        std::cout << "Cube has been created" << std::endl;
-       cube_list.push_back(m_cube);
+    for (int i = 0; i < 1; i++) {
+        std::stringstream ss;
+        ss << "Cube_" << CubeManager::GetInstance().GetCubeList().size() + 1;
+        std::string UID = ss.str();
+
+        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, UID, this->getClientWindowRect());
+        //std::cout << "Cube has been created" << std::endl;
+        CubeManager::GetInstance().AddCube(m_cube);
     }
 }
 
 void AppWindow::spawnCubeWithPhysics(int nCubeAmount)
 {
-    for (int i = 0; i < 15; i++) {
-        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, "MyCube" + i, this->getClientWindowRect());
-        std::cout << "Cube with physics has been created" << std::endl;
+    for (int i = 0; i < 1; i++) {
+        std::stringstream ss;
+        ss << "Cube_" << CubeManager::GetInstance().GetCubeList().size() + 1;
+        std::string UID = ss.str();
+
+        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, UID, this->getClientWindowRect());
+        //std::cout << "Cube with physics has been created" << std::endl;
         m_cube->attachRigidbody();
-        cube_list.push_back(m_cube);
+        CubeManager::GetInstance().AddCube(m_cube);
     }
 }
 

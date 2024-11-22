@@ -275,4 +275,22 @@ bool Cube::release()
     return true;
 }
 
+Cube::String Cube::GetName() {
+    return this->name;
+}
 
+PhysicsComponent* Cube::GetPhysicsComponent() {
+    return this->phs;
+}
+
+void Cube::TogglePhysicsComponent(bool toAttach) {
+    if (toAttach) {
+        attachRigidbody();
+        std::cout << "phys comp attached";
+    }
+    else {
+        this->detachComponent(phs);
+        this->phs = nullptr;
+        std::cout << "phys comp detached";
+    }
+}

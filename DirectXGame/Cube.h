@@ -29,6 +29,10 @@ public:
     void attachRigidbody();
     bool release();
 
+    String GetName();
+    PhysicsComponent* GetPhysicsComponent();
+    void TogglePhysicsComponent(bool toAttach);
+
 private:
     float ticks = 0.0f;
     float m_delta_pos = 0.0f;

@@ -1,4 +1,6 @@
 #include "UIManager.h"
+#include "HeirarchyScreen.h"
+#include "InspectorScreen.h"
 
 UIManager* UIManager::sharedInstance = nullptr;
 
@@ -58,7 +60,13 @@ UIManager::UIManager(const HWND windowHandle)
 	this->uiMap[menuScreen->getName()] = menuScreen;
 	this->uiList.push_back(menuScreen);
 
+	const std::shared_ptr<HeirarchyScreen> heirarchyScreen = std::make_shared<HeirarchyScreen>();
+	this->uiMap[heirarchyScreen->getName()] = heirarchyScreen;
+	this->uiList.push_back(heirarchyScreen);
 
+	const std::shared_ptr<InspectorScreen> inspectorScreen = std::make_shared<InspectorScreen>();
+	this->uiMap[inspectorScreen->getName()] = inspectorScreen;
+	this->uiList.push_back(inspectorScreen);
 }
 
 UIManager::~UIManager()
