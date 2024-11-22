@@ -3,7 +3,7 @@
 #include <wrl/client.h>
 #include "WICTextureLoader.h"
 #include "DirectXHelpers.h"
-
+#include "StateManager.h"
 #include "UIScreen.h"
 
 class MenuScreen final :
@@ -25,6 +25,7 @@ private:
 
 	bool isColorPickerOpen = false;
 	bool isCreditsOpen = false;
+	bool isPlayPressed = false;
 	bool* isMaterialEditorOpen = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> creditsTexture;
 };

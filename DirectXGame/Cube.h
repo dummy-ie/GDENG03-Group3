@@ -26,6 +26,7 @@ public:
     void draw(int width, int height, float deltaTime, VertexShader* vertexShader, PixelShader* pixelShader) override;
     void setAnimSpeed(float speed);
     void updateQuadPosition(float m_delta_time, RECT windowBounds);
+    void attachRigidbody();
     bool release();
 
 private:

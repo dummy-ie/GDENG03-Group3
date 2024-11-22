@@ -17,6 +17,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "BaseComponentSystem.h"
+#include "StateManager.h"
 #include <vector>
 
 class AppWindow : public Window, public InputListener
@@ -55,6 +56,7 @@ private:
 
 public:
 	void spawnCube(int nCubeAmount);
+	void spawnCubeWithPhysics(int nCubeAmount);
 	void spawnPlane();
 	void initializeEngine();
 	bool isRunning();

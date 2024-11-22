@@ -41,6 +41,7 @@ void AppWindow::onCreate()
 
 void AppWindow::initializeEngine() {
     GraphicsEngine::initialize();
+    StateManager::initialize();
     EngineTime::initialize();
     BaseComponentSystem::initialize();
     UIManager::initialize(this->m_hwnd);
@@ -96,8 +97,10 @@ void AppWindow::onUpdate() {
     GraphicsEngine::getInstance()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
     //m_plane->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
-    BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+    if (StateManager::getInstance()->getStateType() == StateManager::StateType::PLAY)
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
+    
     if (!cube_list.empty()) {
         for (Cube* cube : cube_list) {
             cube->update(EngineTime::getDeltaTime(), this->getClientWindowRect());
@@ -142,9 +145,20 @@ void AppWindow::spawnCube(int nCubeAmount) {
     }
 }
 
+void AppWindow::spawnCubeWithPhysics(int nCubeAmount)
+{
+    for (int i = 0; i < 15; i++) {
+        Cube* m_cube = new Cube(0.0f, 8.5f, 0.0f, "MyCube" + i, this->getClientWindowRect());
+        std::cout << "Cube with physics has been created" << std::endl;
+        m_cube->attachRigidbody();
+        cube_list.push_back(m_cube);
+    }
+}
+
 void AppWindow::spawnPlane() {
     Cube* plane = new Cube(0.0f, -1, 0.0f, 100.0f, 0.1f, 100.0f, "Plane", this->getClientWindowRect());
     this->m_plane = plane;
+    this->m_plane->attachRigidbody();
 }
 
 

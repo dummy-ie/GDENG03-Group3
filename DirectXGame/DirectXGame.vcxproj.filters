@@ -177,6 +177,9 @@
     <ClCompile Include="StateManager.cpp">
       <Filter>GameEngine\Engine State</Filter>
     </ClCompile>
+    <ClCompile Include="InspectorScreen.cpp">
+      <Filter>GameEngine\UI Manager / Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="StateManager.h">
       <Filter>GameEngine\Engine State</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorScreen.h">
+      <Filter>GameEngine\UI Manager / Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

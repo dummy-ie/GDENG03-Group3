@@ -157,20 +157,6 @@ void Cube::init(ID3D11Device* device)
     m_cb = graphEngine->createConstantBuffer();
     m_cb->load(&cc, sizeof(CBData));
 
-    if (!phs) {
-        this->phs = new PhysicsComponent(this->name + "CubePhysics", this);
-        //this->phs->getRigidbody()->setType(BodyType::KINEMATIC);
-        //this->phs->getRigidbody()->setMass(0);
-
-        //VERY HARDCODED SOLUTION LMAO
-        if (this->name == "Plane")
-            this->phs->getRigidbody()->setType(BodyType::STATIC);
-
-
-        this->attachComponent(phs);
-        BaseComponentSystem::getInstance()->getPhysicsSystem()->registerComponent(this->phs);
-
-    }
 }
 
 void Cube::update(float deltaTime, RECT windowBounds)
@@ -255,6 +241,23 @@ void Cube::draw(int width, int height, float deltaTime, VertexShader* vertexShad
     deviceContext->setIndexBuffer(m_ib);
 
     deviceContext->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+}
+
+void Cube::attachRigidbody() {
+
+    if (!phs) {
+        this->phs = new PhysicsComponent(this->name + "CubePhysics", this);
+        //this->phs->getRigidbody()->setType(BodyType::KINEMATIC);
+        //this->phs->getRigidbody()->setMass(0);
+
+        //VERY HARDCODED SOLUTION LMAO
+        if (this->name == "Plane")
+            this->phs->getRigidbody()->setType(BodyType::STATIC);
+
+        this->attachComponent(phs);
+        BaseComponentSystem::getInstance()->getPhysicsSystem()->registerComponent(this->phs);
+
+    }
 }
 
 void Cube::setAnimSpeed(float speed)

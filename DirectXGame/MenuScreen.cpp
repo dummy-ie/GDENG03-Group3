@@ -23,6 +23,21 @@ void MenuScreen::draw()
 
 	if (!LogUtils::logBool(this, ImGui::BeginMainMenuBar())) return;
 
+
+	if (ImGui::Button("Play")) {
+
+		if (isPlayPressed == false){
+			StateManager::getInstance()->setStateType(StateManager::StateType::PLAY);
+			isPlayPressed = true;
+		}
+
+		else {
+			StateManager::getInstance()->setStateType(StateManager::StateType::EDITOR);
+			isPlayPressed = false;
+		}
+
+	}
+		
 	// File header
 	if (ImGui::BeginMenu("File")) {
 		if (ImGui::MenuItem("Open..", "Ctrl+O"))
@@ -122,11 +137,14 @@ void MenuScreen::draw()
 
 void MenuScreen::onCreateCubeClicked()
 {
+	//Spawns 1 cube with no spacing offset and no rigidbody attached, if you want, space them out so they are visible
+	AppWindow::getInstance()->spawnCube(1);
 }
 
 void MenuScreen::onCreatePhysicsCubeClicked()
 {
-	AppWindow::getInstance()->spawnCube(15);
+	//Spawns a cube with a pre-attached rigidbody
+	AppWindow::getInstance()->spawnCubeWithPhysics(10);
 	
 }
 

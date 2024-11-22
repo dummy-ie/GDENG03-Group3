@@ -3,20 +3,17 @@
 #include <unordered_map>
 #include <vector>
 
-
-
 class StateManager
 {
 public:
 	typedef std::string String;
-	enum StateType { DEFAULT = 0, PLAY = 1, PAUSE = 2 };
+	enum StateType { EDITOR = 0, PLAY = 1, PAUSE = 2 };
 	//typedef std::unordered_map<String, PhysicsComponent*> ComponentTable;
 	//typedef std::vector<PhysicsComponent*> ComponentList;
-
 	
 public:
 	StateType getStateType();
-	StateType setStateType(StateType state);
+	void setStateType(StateType state);
 	static StateManager* getInstance();
 	static void initialize();
 
@@ -27,7 +24,7 @@ public:
 
 
 private:
-	StateType currentState;
+	StateType currentState = StateType::EDITOR;
 	explicit StateManager();
 	~StateManager();
 	static StateManager* sharedInstance;
