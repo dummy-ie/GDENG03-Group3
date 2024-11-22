@@ -12,6 +12,11 @@ public:
 	~PhysicsComponent();
 	void perform(float deltaTime) override;
 	RigidBody* getRigidbody();
+	float getMass();
+	bool getGravity();
+	void setMass(float fMassVal);
+	void setGravity(bool isEnabled);
+
 
 public:
 	float mass = 1000.0f;

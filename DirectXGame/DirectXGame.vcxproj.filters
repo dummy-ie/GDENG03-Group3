@@ -76,6 +76,9 @@
     <Filter Include="ReactPhysics">
       <UniqueIdentifier>{0201cb89-78fb-4943-8add-e6653ec1dee8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Engine State">
+      <UniqueIdentifier>{e9c247c8-1546-4c21-95ce-3fb657b7e57f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>GameEngine\Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>GameEngine\Engine State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="Libs\ReactPhysics3D\include\reactphysics3d\reactphysics3d.h">
       <Filter>ReactPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>GameEngine\Engine State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

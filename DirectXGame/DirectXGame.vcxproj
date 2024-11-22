@@ -165,6 +165,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="SceneCameraHandler.cpp" />
+    <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="SceneCameraHandler.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UIScreen.h" />

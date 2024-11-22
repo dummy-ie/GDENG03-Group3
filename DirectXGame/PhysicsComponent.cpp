@@ -52,3 +52,25 @@ RigidBody* PhysicsComponent::getRigidbody()
 {
 	return this->rigidBody;
 }
+
+float PhysicsComponent::getMass()
+{
+	return this->rigidBody->getMass();
+}
+
+bool PhysicsComponent::getGravity()
+{
+	return this->rigidBody->isGravityEnabled();
+}
+
+void PhysicsComponent::setMass(float fMassVal) {
+
+	this->rigidBody->setMass(fMassVal);
+
+}
+
+void PhysicsComponent::setGravity(bool isEnabled) {
+	this->rigidBody->enableGravity(isEnabled);
+}
+
+
