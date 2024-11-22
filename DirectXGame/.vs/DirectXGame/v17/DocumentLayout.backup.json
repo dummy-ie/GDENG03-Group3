@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\school\\DLSU Term 13 (1)\\GDENG03\\Week 12\\Group Project\\PersonalGDENG03\\DirectXGame\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DB2C5428-F3F3-4FB3-AEB3-BC588216600E}|DirectXGame.vcxproj|C:\\school\\DLSU Term 13 (1)\\GDENG03\\Week 12\\Group Project\\PersonalGDENG03\\DirectXGame\\InspectorScreen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DB2C5428-F3F3-4FB3-AEB3-BC588216600E}|DirectXGame.vcxproj|solutionrelative:InspectorScreen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InspectorScreen.cpp",
+              "DocumentMoniker": "C:\\school\\DLSU Term 13 (1)\\GDENG03\\Week 12\\Group Project\\PersonalGDENG03\\DirectXGame\\InspectorScreen.cpp",
+              "RelativeDocumentMoniker": "InspectorScreen.cpp",
+              "ToolTip": "C:\\school\\DLSU Term 13 (1)\\GDENG03\\Week 12\\Group Project\\PersonalGDENG03\\DirectXGame\\InspectorScreen.cpp",
+              "RelativeToolTip": "InspectorScreen.cpp",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABwAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-22T12:18:41.411Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -14,10 +14,10 @@ void InspectorScreen::draw() {
     if (CubeManager::GetInstance().GetSelectedCube() != nullptr) {
         Cube* selectedCube = CubeManager::GetInstance().GetSelectedCube();
 
-        // Display the selected cube's name
+        // Display name
         ImGui::Text("Object: %s", selectedCube->GetName().c_str());
 
-        // Toggle checkbox for the 'isActive' property
+        // physics component checkbox
         bool hasPhysComp = true;
         if (selectedCube->GetPhysicsComponent() == nullptr)
             hasPhysComp = false;
@@ -26,7 +26,8 @@ void InspectorScreen::draw() {
             selectedCube->TogglePhysicsComponent(hasPhysComp);
         }
 
-        // You can add more properties to inspect in a similar way
+        // other stuff like gravity down here
+
     }
     else {
         ImGui::Text("No object selected.");
