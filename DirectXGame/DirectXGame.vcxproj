@@ -149,7 +149,7 @@
     <ClCompile Include="EngineTime.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
-    <ClCompile Include="HeirarchyScreen.cpp" />
+    <ClCompile Include="HierarchyScreen.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -186,7 +186,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="CubeManager.h" />
     <ClInclude Include="GraphicsEngine.h" />
-    <ClInclude Include="HeirarchyScreen.h" />
+    <ClInclude Include="HierarchyScreen.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imconfig.h" />

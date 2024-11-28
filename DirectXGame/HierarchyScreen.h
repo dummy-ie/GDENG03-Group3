@@ -6,11 +6,11 @@
 #include "StateManager.h"
 #include "UIScreen.h"
 
-class HeirarchyScreen final :
+class HierarchyScreen final :
 	public UIScreen
 {
 public:
-	HeirarchyScreen();
+	HierarchyScreen();
 
 private:
 	void draw() override;

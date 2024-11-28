@@ -359,3 +359,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/DirectXGame/.vs
+/DirectXGame/DirectXGame/x64
+/DirectXGame/x64

@@ -180,7 +180,7 @@
     <ClCompile Include="InspectorScreen.cpp">
       <Filter>GameEngine\UI Manager / Screens</Filter>
     </ClCompile>
-    <ClCompile Include="HeirarchyScreen.cpp">
+    <ClCompile Include="HierarchyScreen.cpp">
       <Filter>GameEngine\UI Manager / Screens</Filter>
     </ClCompile>
   </ItemGroup>
@@ -314,7 +314,7 @@
     <ClInclude Include="InspectorScreen.h">
       <Filter>GameEngine\UI Manager / Screens</Filter>
     </ClInclude>
-    <ClInclude Include="HeirarchyScreen.h">
+    <ClInclude Include="HierarchyScreen.h">
       <Filter>GameEngine\UI Manager / Screens</Filter>
     </ClInclude>
     <ClInclude Include="CubeManager.h">

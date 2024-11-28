@@ -1,11 +1,11 @@
-#include "HeirarchyScreen.h"
+#include "HierarchyScreen.h"
 #include "CubeManager.h"
 
-HeirarchyScreen::HeirarchyScreen() : UIScreen("HeirarchyScreen") {
+HierarchyScreen::HierarchyScreen() : UIScreen("HierarchyScreen") {
 
 }
 
-void HeirarchyScreen::draw() {
+void HierarchyScreen::draw() {
     static Cube* selectedCube = nullptr;
     std::vector<Cube*> cube_list = CubeManager::GetInstance().GetCubeList();
 
