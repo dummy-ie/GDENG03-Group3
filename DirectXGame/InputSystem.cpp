@@ -30,18 +30,22 @@ namespace mrlol
 		{
 			oldMousePosition = currentMousePosition;
 			firstMouseMove = false;
+			deltaMousePosition = 0;
 		}
 
 		if (currentMousePosition != oldMousePosition)
 		{
 			std::unordered_set<InputListener*>::iterator it = setListeners.begin();
-
+			deltaMousePosition = currentMousePosition - oldMousePosition;
 			while (it != setListeners.end())
 			{
 				(*it)->onMouseMove(currentMousePosition);
 				++it;
 			}
 		}
+		else
+			deltaMousePosition = 0;	
+
 		oldMousePosition = currentMousePosition;
 
 		if (::GetKeyboardState(keysState))
@@ -126,6 +130,23 @@ namespace mrlol
 	void InputSystem::setEnabled(const bool& enabled)
 	{
 		isEnabled = enabled;
+	}
+
+	Vector2D InputSystem::getMousePosition()
+	{
+		POINT currentMousePosition = {};
+		::GetCursorPos(&currentMousePosition);
+		return Vector2D(currentMousePosition.x, currentMousePosition.y);
+	}
+
+	Vector2D InputSystem::getOldMousePosition()
+	{
+		return oldMousePosition;
+	}
+
+	Vector2D InputSystem::getDeltaMousePosition()
+	{
+		return deltaMousePosition;
 	}
 
 	InputSystem* InputSystem::get()

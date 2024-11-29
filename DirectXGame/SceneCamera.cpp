@@ -71,7 +71,7 @@ namespace mrlol
 	{
 	}
 
-	void SceneCamera::onMouseMove(const Vector2D& mousePosition)
+	void SceneCamera::onMouseMove(const Vector2D& deltaMousePosition)
 	{
 		if (!isPossessed)
 			return;
@@ -79,10 +79,13 @@ namespace mrlol
 		const float width = static_cast<float>(windowRect.right - windowRect.left);
 		const float height = static_cast<float>(windowRect.bottom - windowRect.top);
 
-		localRotation.x += (mousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
-		localRotation.y += (mousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
+		// localRotation.x += (deltaMousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
+		// localRotation.y += (deltaMousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
 
-		InputSystem::setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
+		localRotation.x += ((deltaMousePosition.y) - (InputSystem::get()->getOldMousePosition().y)) * 0.2f * EngineTime::getDeltaTime();
+		localRotation.y += ((deltaMousePosition.x) - (InputSystem::get()->getOldMousePosition().x)) * 0.2f * EngineTime::getDeltaTime();
+
+		//InputSystem::setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
 	}
 
 	void SceneCamera::onLeftMouseDown(const Vector2D& mousePosition)

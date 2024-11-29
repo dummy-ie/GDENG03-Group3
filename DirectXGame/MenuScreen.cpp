@@ -9,6 +9,7 @@
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
 #include "UIManager.h"
+#include "ViewportManager.h"
 
 using namespace mrlol;
 
@@ -98,6 +99,43 @@ void MenuScreen::draw()
 	// Test header
 	if (ImGui::BeginMenu("Windows"))
 	{
+		if (ImGui::MenuItem("Inspector")) {
+			UIManager::get()->setActive("Inspector Screen");
+		}
+		if (ImGui::MenuItem("Hierarchy")) {
+			UIManager::get()->setActive("Hierarchy Screen");
+		}
+		if (ImGui::MenuItem("Profiler")) {
+			UIManager::get()->setActive("Profiler Screen");
+		}
+		if (ImGui::BeginMenu("Viewport"))
+		{
+			if (ImGui::MenuItem("Create Viewport"))
+			{
+				ViewportManager::get()->createViewport();
+			}
+			if (ImGui::MenuItem("Single Viewport"))
+			{
+				ViewportManager::get()->setNumViewports(1);
+			}
+			if (ImGui::MenuItem("2 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(2);
+			}
+			if (ImGui::MenuItem("3 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(3);
+			}
+			if (ImGui::MenuItem("4 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(4);
+			}
+			if (ImGui::MenuItem("Delete All Viewports"))
+			{
+				ViewportManager::get()->deleteAllViewports();
+			}
+			ImGui::EndMenu();
+		}
 		if (isMaterialEditorOpen != nullptr)
 			if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
 			{

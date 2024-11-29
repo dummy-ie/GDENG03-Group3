@@ -15,7 +15,7 @@ namespace mrlol
 		void update(const float deltaTime) override;
 		void onKeyDown(int key) override;
 		void onKeyUp(int key) override;
-		void onMouseMove(const Vector2D& mousePosition) override;
+		void onMouseMove(const Vector2D& deltaMousePosition) override;
 		void onLeftMouseDown(const Vector2D& mousePosition) override;
 		void onLeftMouseUp(const Vector2D& mousePosition) override;
 		void onRightMouseDown(const Vector2D& mousePosition) override;

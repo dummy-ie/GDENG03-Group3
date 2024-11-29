@@ -29,12 +29,14 @@ namespace mrlol
 		static UIManager* get();
 
 		static void initialize(HWND windowHandle);
+		void setActive(std::string name);
 		void draw() const;
 
 		UIManager(UIManager const&) = delete;
 		UIManager& operator=(UIManager const&) = delete;
 		UIManager(UIManager&& other) noexcept = delete;
 		UIManager& operator=(UIManager&& other) noexcept = delete;
+
 
 		static constexpr int WindowWidth = 1440;
 		static constexpr int WindowHeight = 900;
@@ -52,6 +54,7 @@ namespace mrlol
 		void addViewport(UIScreenPtr viewport);
 		static void setupImGuiStyle();
 
+		mutable bool firstTime = true;
 		UIList uiList;
 		UIMap uiMap;
 	};

@@ -43,7 +43,7 @@ namespace mrlol
 	{
 		const RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
-		renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->renderTexture, 0.83, 0.58, 0.895, 1);
+		renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->renderTexture, 0.3, 0.3, 0.3, 1);
 
 		// Push Style so Window has no padding
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
