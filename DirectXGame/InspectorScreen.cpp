@@ -4,7 +4,7 @@
 #include "AppWindow.h"
 #include "EngineBackend.h"
 #include "imgui.h"
-#include "libraries/imgui/misc/cpp/imgui_stdlib.h"
+#include "imgui/misc/cpp/imgui_stdlib.h"
 #include "UIManager.h"
 #include "GameObjectManager.h"
 #include "PhysicsComponent.h"

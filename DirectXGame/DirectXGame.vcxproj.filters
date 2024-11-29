@@ -318,6 +318,9 @@
     <ClCompile Include="ToolsScreen.cpp">
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="libraries\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Libraries\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -533,9 +536,6 @@
     <ClInclude Include="InspectorScreen.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h">
-      <Filter>Libraries\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="EngineBackend.h">
       <Filter>GameEngine\Backend</Filter>
     </ClInclude>
@@ -568,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="ProfilerScreen.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>Libraries\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

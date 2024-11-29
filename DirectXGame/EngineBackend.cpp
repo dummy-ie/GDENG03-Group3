@@ -8,22 +8,25 @@ namespace mrlol
 	EngineBackend* EngineBackend::sharedInstance = nullptr;
 	EngineBackend* EngineBackend::get()
 	{
+		if (!sharedInstance)
+			sharedInstance = new EngineBackend();
+
 		return sharedInstance;
 	}
 
-	void EngineBackend::initialize()
-	{
-		if (sharedInstance)
-		{
-			LogUtils::error("Input System already created");
-		}
-		sharedInstance = new EngineBackend();
-	}
+	// void EngineBackend::initialize()
+	// {
+	// 	if (sharedInstance)
+	// 	{
+	// 		LogUtils::error("Input System already created");
+	// 	}
+	// 	sharedInstance = new EngineBackend();
+	// }
 
-	void EngineBackend::destroy()
-	{
-		delete sharedInstance;
-	}
+	// void EngineBackend::destroy()
+	// {
+	// 	delete sharedInstance;
+	// }
 
 	void EngineBackend::setMode(EditorMode mode)
 	{
@@ -66,5 +69,6 @@ namespace mrlol
 	EngineBackend::~EngineBackend()
 	{
 		LogUtils::log(this, "Destroyed");
+		delete sharedInstance;
 	}
 }

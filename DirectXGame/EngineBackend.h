@@ -13,8 +13,8 @@ namespace mrlol
 		};
 		
 		static EngineBackend* get();
-		static void	initialize();
-		static void destroy();
+		//static void	initialize();
+		//static void destroy();
 
 		void setMode(EditorMode mode);
 		void startFrameStep();

@@ -70,7 +70,7 @@ namespace mrlol
 
 		static AppWindow* sharedInstance;
 
-		//std::shared_ptr<Material> mainMaterial = nullptr;
+		std::shared_ptr<Material> mainMaterial = nullptr;
 		SwapChainPtr swapChain;
 		RasterizerStatePtr solidState;
 

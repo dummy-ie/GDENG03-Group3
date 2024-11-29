@@ -101,9 +101,9 @@ namespace mrlol
 
 		this->solidState = renderSystem->createRasterizerState(D3D11_FILL_SOLID, D3D11_CULL_BACK);
 
-		//mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
+		mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
 		//mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-		//UIManager::get()->mainMaterial = mainMaterial;
+		UIManager::get()->mainMaterial = mainMaterial;
 	}
 
 	void AppWindow::draw(int width, int height, EFillMode fillMode)
