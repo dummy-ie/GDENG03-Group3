@@ -22,8 +22,8 @@ namespace mrlol
 		int index;
 		int camIndex;
 
-		SceneCamera* currentCamera;
-		SceneCamera* ownCamera;
+		SceneCameraPtr currentCamera;
+		SceneCameraPtr ownCamera;
 
 		EFillMode currentFillMode = SOLID;
 		RenderTexturePtr renderTexture;
@@ -34,7 +34,7 @@ namespace mrlol
 		int selectedState = 0;
 		int selectedCameraIndex;
 
-	private:
+	public:
 		ViewportScreen(int index);
 		~ViewportScreen();
 

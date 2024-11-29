@@ -190,6 +190,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="PlaybackScreen.cpp" />
+    <ClCompile Include="ProfilerScreen.cpp" />
     <ClCompile Include="Quad.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -207,6 +209,7 @@
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="ToolsScreen.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -274,8 +277,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="PlaybackScreen.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="PrimitiveType.h" />
+    <ClInclude Include="ProfilerScreen.h" />
     <ClInclude Include="Quad.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -301,6 +306,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="ToolsScreen.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="Vector2D.h" />

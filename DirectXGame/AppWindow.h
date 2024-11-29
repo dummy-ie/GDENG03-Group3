@@ -55,7 +55,7 @@ namespace mrlol
 		void onKillFocus() override;
 		void onDestroy() override;
 
-		void draw(int width, int height, EFillMode fillMode)
+		void draw(int width, int height, EFillMode fillMode);
 
 		SwapChain* getSwapChain() const;
 

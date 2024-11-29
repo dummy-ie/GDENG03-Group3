@@ -2,6 +2,7 @@
 
 #include "LogUtils.h"
 #include "imgui.h"
+#include "UIManager.h"
 
 using namespace mrlol;
 
@@ -15,6 +16,11 @@ LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const W
 
 	switch (message)
 	{
+	case WM_SIZE:
+		if (wParam == SIZE_MINIMIZED)
+			return 0;
+		UIManager::resizeWidth = static_cast<UINT>(LOWORD(lParam)); // Queue resize
+		UIManager::resizeHeight = static_cast<UINT>(HIWORD(lParam));
 	case WM_CREATE:
 	{
 		break;

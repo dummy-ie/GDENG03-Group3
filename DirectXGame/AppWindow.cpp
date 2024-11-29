@@ -95,10 +95,9 @@ namespace mrlol
 
 		InputSystem::get()->addListener(this);
 
-		// camera
-		CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
-
-		CameraManager::getInstance()->activeCamera->setLocalPosition({ 0.0f, 5.0f, -20.0f });
+		// camera moved to viewportscreen
+		//CameraManager::getInstance()->addSceneCamera(std::make_shared<SceneCamera>("Camera", false, rc));
+		//CameraManager::getInstance()->getActiveSceneCamera()->setLocalPosition({ 0.0f, 5.0f, -20.0f });
 
 		this->solidState = renderSystem->createRasterizerState(D3D11_FILL_SOLID, D3D11_CULL_BACK);
 
@@ -185,11 +184,11 @@ namespace mrlol
 
 		UIManager::get()->draw();
 
-		if (UIManager::RESIZE_WIDTH != 0 && UIManager::RESIZE_HEIGHT != 0)
+		if (UIManager::resizeWidth != 0 && UIManager::resizeHeight != 0)
 		{
 			swapChain->cleanRenderTarget();
-			swapChain->resizeBuffers(0, UIManager::RESIZE_WIDTH, UIManager::RESIZE_HEIGHT);
-			UIManager::RESIZE_WIDTH = UIManager::RESIZE_HEIGHT = 0;
+			swapChain->resizeBuffers(0, UIManager::resizeWidth, UIManager::resizeHeight);
+			UIManager::resizeWidth = UIManager::resizeHeight = 0;
 			swapChain->createRenderTarget();
 		}
 

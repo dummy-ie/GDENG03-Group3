@@ -6,10 +6,8 @@ namespace mrlol
 {
 	class InspectorScreen : public UIScreen
 	{
-	private:
-		friend class UIManager;
 
-	private:
+	public:
 		InspectorScreen();
 
 	private:
@@ -26,5 +24,7 @@ namespace mrlol
 		bool hasChanged = false;
 		bool isLeftDown = false;
 		bool addComponent = false;
+
+		friend class UIManager;
 	};
 }

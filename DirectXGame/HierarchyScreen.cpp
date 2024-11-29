@@ -11,6 +11,7 @@ namespace mrlol
 
 	void HierarchyScreen::draw()
 	{
+		ImGui::SetNextWindowSize(ImVec2(UIManager::WindowWidth / 6, UIManager::WindowHeight), ImGuiCond_Once);
 		ImGui::Begin("Scene Hierarchy");
 
 		for (const auto& gameObject : GameObjectManager::get()->getAllObjects())

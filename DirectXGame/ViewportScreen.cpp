@@ -16,7 +16,7 @@ namespace mrlol
 {
 	ViewportScreen::ViewportScreen(int index) : UIScreen("Viewport " + std::to_string(index + 1)), index(index)
 	{
-		this->currentCamera = new SceneCamera("Scene Camera " + std::to_string(index + 1), false, AppWindow::get()->getClientWindowRect());
+		this->currentCamera = std::make_shared<SceneCamera>("Scene Camera " + std::to_string(index + 1), false, AppWindow::get()->getClientWindowRect());
 		this->currentCamera->setLocalPosition({0, 1, -3});
 		this->currentCamera->setProjectionType(this->selectedProj);
 
@@ -41,7 +41,7 @@ namespace mrlol
 
 	void ViewportScreen::draw()
 	{
-		RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+		const RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 		renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->renderTexture, 0.83, 0.58, 0.895, 1);
 
@@ -65,7 +65,7 @@ namespace mrlol
 		if (!ImGui::IsWindowCollapsed() && viewportPanelSize.x > 0 && viewportPanelSize.y > 0)
 		{
 			this->renderTexture->resizeResources(viewportPanelSize.x, viewportPanelSize.y);
-			AppWindow::get()->draw(viewportPanelSize.x, viewportPanelSize.y, this->currentFillMode);
+			AppWindow::get()->draw(static_cast<int>(viewportPanelSize.x), static_cast<int>(viewportPanelSize.y), this->currentFillMode);
 		}
 
 		// Stores top left position
@@ -101,11 +101,11 @@ namespace mrlol
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 			{
-				InputSystem::get()->addListener(this->currentCamera);
+				InputSystem::get()->addListener(this->currentCamera.get());
 				this->currentCamera->setPossessed(true);
 				if (!ImGui::IsMouseHoveringRect(ImGui::GetWindowPos(), ImVec2(ImGui::GetWindowPos().x + viewportPanelSize.x, ImGui::GetWindowPos().y + viewportPanelSize.y)))
 				{
-					InputSystem::get()->removeListener(this->currentCamera);
+					InputSystem::get()->removeListener(this->currentCamera.get());
 					this->currentCamera->setPossessed(false);
 					ImGui::FocusWindow(nullptr);
 
@@ -118,7 +118,7 @@ namespace mrlol
 			}
 			if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 			{
-				InputSystem::get()->removeListener(this->currentCamera);
+				InputSystem::get()->removeListener(this->currentCamera.get());
 				this->currentCamera->setPossessed(false);
 			}
 		}
@@ -205,7 +205,7 @@ namespace mrlol
 			selectedCameraIndex = cameras.size() - 1;
 		}
 
-		std::string displayName = "Cam " + std::to_string(int(selectedCameraIndex + 1));
+		std::string displayName = "Cam " + std::to_string(selectedCameraIndex + 1);
 		if (ImGui::BeginCombo("##SelectCamera", displayName.c_str()))
 		{
 			for (size_t i = 0; i < cameras.size(); i++)

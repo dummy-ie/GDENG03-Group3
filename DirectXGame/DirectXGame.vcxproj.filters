@@ -309,6 +309,15 @@
     <ClCompile Include="RasterizerState.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\RasterizerState</Filter>
     </ClCompile>
+    <ClCompile Include="PlaybackScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfilerScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolsScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -550,6 +559,15 @@
     </ClInclude>
     <ClInclude Include="RasterizerState.h">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\RasterizerState</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolsScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaybackScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfilerScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

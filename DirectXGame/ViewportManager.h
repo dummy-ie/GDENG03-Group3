@@ -27,6 +27,7 @@ namespace mrlol
 
 		void createViewport();
 		void deleteViewport(const ViewportScreenPtr& viewport);
+		void deleteViewport(const ViewportScreen* viewport);
 		void deleteAllViewports();
 		void addViewport(UIScreen* viewport);
 		void setNumViewports(int count);

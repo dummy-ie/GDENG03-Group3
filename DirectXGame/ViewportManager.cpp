@@ -52,7 +52,20 @@ namespace mrlol
 
 			index++;
 		}
-		delete viewport;
+	}
+
+	void ViewportManager::deleteViewport(const ViewportScreen* viewport)
+	{
+		int index = 0;
+		for (int i = 0; i < viewportList.size(); i++)
+		{
+			if (viewportList[i].get() == viewport)
+			{
+				viewportList.erase(viewportList.begin() + index);
+			}
+
+			index++;
+		}
 	}
 
 	void ViewportManager::deleteAllViewports()

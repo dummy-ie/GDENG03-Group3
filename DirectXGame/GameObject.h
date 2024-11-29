@@ -17,10 +17,11 @@
 #include "LogUtils.h"
 #include "Material.h"
 #include "Component.h"
-#include "EditorAction.h"
 
 namespace mrlol
 {
+	class EditorAction;
+
 	class GameObject
 	{
 	public:
@@ -92,7 +93,7 @@ namespace mrlol
 		Matrix4x4 localMatrix;
 		Vector4D orientation;
 
-		EditorAction* lastEditState = nullptr;
+		EditorAction* lastEditState;
 
 		ComponentList componentList;
 

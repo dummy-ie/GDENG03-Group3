@@ -300,8 +300,8 @@ namespace mrlol
 			orientation = lastEditState->getStoredOrientation();
 			localMatrix = lastEditState->getStoredMatrix();
 
-			ComponentList physicsList = getComponentsOfType(ComponentType::PHYSICS);
-			for (Component* component : physicsList)
+			for (const ComponentList physicsList = getComponentsOfType(ComponentType::PHYSICS);
+				Component * component : physicsList)
 			{
 				PhysicsComponent* physicsComponent = dynamic_cast<PhysicsComponent*>(component);
 				physicsComponent->setTransformFromOpenGL(localMatrix.getMatrix());

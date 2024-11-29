@@ -28,6 +28,8 @@ namespace mrlol
 	class MeshManager;
 	class GameObject;
 	class Material;
+	class Camera;
+	class SceneCamera;
 
 	typedef std::shared_ptr<SwapChain> SwapChainPtr;
 	typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -46,4 +48,6 @@ namespace mrlol
 	typedef std::shared_ptr<Mesh> MeshPtr;
 	typedef std::shared_ptr<GameObject> GameObjectPtr;
 	typedef std::shared_ptr<Material> MaterialPtr;
+	typedef std::shared_ptr<Camera> CameraPtr;
+	typedef std::shared_ptr<SceneCamera> SceneCameraPtr;
 }

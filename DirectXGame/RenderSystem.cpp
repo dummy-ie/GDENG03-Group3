@@ -9,6 +9,7 @@
 #include "GeometryShader.h"
 #include <d3dcompiler.h>
 
+#include "RasterizerState.h"
 #include "SamplerState.h"
 
 namespace mrlol

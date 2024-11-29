@@ -16,22 +16,22 @@ namespace mrlol
 		return activeCamera->getProjection();
 	}
 
-	Matrix4x4 CameraManager::getSceneCameraView() const
+	Matrix4x4 CameraManager::getActiveSceneCameraView() const
 	{
 		return activeSceneCamera->getView();
 	}
 
-	Matrix4x4 CameraManager::getSceneCameraProjection() const
+	Matrix4x4 CameraManager::getActiveSceneCameraProjection() const
 	{
 		return activeSceneCamera->getProjection();
 	}
 
-	SceneCamera* CameraManager::getSceneCamera() const
+	SceneCameraPtr CameraManager::getActiveSceneCamera() const
 	{
 		return activeSceneCamera;
 	}
 
-	SceneCamera* CameraManager::getSceneCameraByIndex(const int index)
+	SceneCameraPtr CameraManager::getSceneCameraByIndex(const int index)
 	{
 		if (index > sceneCameraList.size())
 		{
@@ -41,12 +41,12 @@ namespace mrlol
 		return sceneCameraList[index];
 	}
 
-	std::vector<SceneCamera*> CameraManager::getSceneCameras()
+	CameraManager::SceneCameraList CameraManager::getSceneCameras()
 	{
 		return sceneCameraList;
 	}
 
-	void CameraManager::setMainCamera(Camera* camera)
+	void CameraManager::setMainCamera(const CameraPtr& camera)
 	{
 		activeCamera = camera;
 	}
@@ -71,14 +71,14 @@ namespace mrlol
 		activeSceneCamera->update(deltaTime);
 	}
 
-	void CameraManager::addCamera(Camera* camera)
+	void CameraManager::addCamera(const CameraPtr& camera)
 	{
 		if (!activeCamera)
 			setMainCamera(camera);
 		cameraList.push_back(camera);
 	}
 
-	void CameraManager::addSceneCamera(SceneCamera* camera)
+	void CameraManager::addSceneCamera(const SceneCameraPtr& camera)
 	{
 		if (!activeSceneCamera)
 			activeSceneCamera = camera;
@@ -86,7 +86,7 @@ namespace mrlol
 		this->sceneCameraList.push_back(camera);
 	}
 
-	void CameraManager::removeSceneCamera(SceneCamera* camera)
+	void CameraManager::removeSceneCamera(const SceneCameraPtr& camera)
 	{
 		std::string name = camera->getUniqueName();
 		int index = -1;
@@ -103,7 +103,7 @@ namespace mrlol
 		}
 	}
 
-	void CameraManager::removeCamera(Camera* camera)
+	void CameraManager::removeCamera(const CameraPtr& camera)
 	{
 		std::string name = camera->getUniqueName();
 		int index = -1;
@@ -128,7 +128,7 @@ namespace mrlol
 		this->activeCamera->update(EngineTime::getDeltaTime());
 	}
 
-	void CameraManager::setActiveCamera(Camera* newActiveCamera)
+	void CameraManager::setActiveCamera(const CameraPtr& newActiveCamera)
 	{
 		activeCamera = newActiveCamera;
 	}

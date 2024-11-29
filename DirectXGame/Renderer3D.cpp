@@ -73,8 +73,8 @@ namespace mrlol
 		constants.world = owner->getLocalMatrix();
 		//constants.world = scaleMatrix * transMatrix * newMatrix;
 
-		constants.view = CameraManager::getInstance()->activeCamera->getView();
-		constants.proj = CameraManager::getInstance()->activeCamera->getProjection();
+		constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
+		constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
 
 		constants.time = 0;
 

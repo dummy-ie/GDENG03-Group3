@@ -1,10 +1,17 @@
 #include "UIManager.h"
 
 #include "HierarchyScreen.h"
+#include "InspectorScreen.h"
+#include "PlaybackScreen.h"
+#include "ProfilerScreen.h"
+#include "ToolsScreen.h"
 
 namespace mrlol
 {
 	UIManager* UIManager::sharedInstance = nullptr;
+
+	int UIManager::resizeWidth = 0;
+	int UIManager::resizeHeight = 0;
 
 	UIManager* UIManager::get()
 	{
@@ -79,6 +86,22 @@ namespace mrlol
 		const std::shared_ptr<HierarchyScreen> hierarchyScreen = std::make_shared<HierarchyScreen>();
 		this->uiMap[hierarchyScreen->getName()] = hierarchyScreen;
 		this->uiList.push_back(hierarchyScreen);
+
+		const std::shared_ptr<InspectorScreen> inspectorScreen = std::make_shared<InspectorScreen>();
+		this->uiMap[inspectorScreen->getName()] = inspectorScreen;
+		this->uiList.push_back(inspectorScreen);
+
+		const std::shared_ptr<PlaybackScreen> playbackScreen = std::make_shared<PlaybackScreen>();
+		this->uiMap[playbackScreen->getName()] = playbackScreen;
+		this->uiList.push_back(playbackScreen);
+
+		const std::shared_ptr<ProfilerScreen> profilerScreen = std::make_shared<ProfilerScreen>();
+		this->uiMap[profilerScreen->getName()] = profilerScreen;
+		this->uiList.push_back(profilerScreen);
+
+		const std::shared_ptr<ToolsScreen> toolsScreen = std::make_shared<ToolsScreen>();
+		this->uiMap[toolsScreen->getName()] = toolsScreen;
+		this->uiList.push_back(toolsScreen);
 	}
 
 	UIManager::~UIManager()

@@ -11,6 +11,8 @@ namespace mrlol
 		{
 			const float windowWidth = static_cast<float>(windowRect.right) - static_cast<float>(windowRect.left);
 			const float windowHeight = static_cast<float>(windowRect.bottom) - static_cast<float>(windowRect.top);
+			height = windowHeight;
+			width = windowWidth;
 			aspect = windowWidth / windowHeight;
 		}
 
