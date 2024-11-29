@@ -1,12 +1,15 @@
 #pragma once
 #include "UIScreen.h"
 
-class HierarchyScreen final : public UIScreen
+namespace mrlol
 {
-public:
-	explicit HierarchyScreen();
+	class HierarchyScreen final : public UIScreen
+	{
+	public:
+		explicit HierarchyScreen();
 
-protected:
-	void draw() override;
-};
+	protected:
+		void draw() override;
+	};
+}
 

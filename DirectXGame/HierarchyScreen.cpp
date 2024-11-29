@@ -3,19 +3,22 @@
 #include "AppWindow.h"
 #include "GameObjectManager.h"
 
-HierarchyScreen::HierarchyScreen() : UIScreen("HierarchyScreen")
+namespace mrlol
 {
-}
-
-void HierarchyScreen::draw()
-{
-	ImGui::Begin("Scene Hierarchy");
-
-	for (const auto& gameObject : GameObjectManager::get()->getAllObjects())
+	HierarchyScreen::HierarchyScreen() : UIScreen("HierarchyScreen")
 	{
-		if (ImGui::Button(gameObject->getName().c_str(), ImVec2(250, 0)))
-			GameObjectManager::get()->setSelectedObject(gameObject);
 	}
 
-	ImGui::End();
+	void HierarchyScreen::draw()
+	{
+		ImGui::Begin("Scene Hierarchy");
+
+		for (const auto& gameObject : GameObjectManager::get()->getAllObjects())
+		{
+			if (ImGui::Button(gameObject->getUniqueName().c_str(), ImVec2(250, 0)))
+				GameObjectManager::get()->setSelectedObject(gameObject.get());
+		}
+
+		ImGui::End();
+	}
 }

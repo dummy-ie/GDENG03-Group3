@@ -39,51 +39,45 @@
 #include "MathUtil.h"
 #include "UIManager.h"
 
-class AppWindow final : public Window, public InputListener
+namespace mrlol
 {
-public:
-	static AppWindow* get();
+	enum EFillMode : int;
 
-	void onCreate() override;
-	void onUpdate() override;
-	void onFocus() override;
-	void onKillFocus() override;
-	void onDestroy() override;
+	class AppWindow final : public Window, public InputListener
+	{
 
-	//static Camera* activeCamera;
+	public:
+		static AppWindow* get();
 
-	AppWindow(AppWindow const&) = delete;
-	AppWindow& operator=(AppWindow const&) = delete;
-	AppWindow(AppWindow&& other) noexcept = delete;
-	AppWindow& operator=(AppWindow&& other) noexcept = delete;
+		void onCreate() override;
+		void onUpdate() override;
+		void onFocus() override;
+		void onKillFocus() override;
+		void onDestroy() override;
 
-private:
-	AppWindow();
-	~AppWindow() override;
+		void draw(int width, int height, EFillMode fillMode)
 
-	static AppWindow* sharedInstance;
+		SwapChain* getSwapChain() const;
 
-	//Quad* qList[1]; // object manager later
-	//Cube* cList[1]; // object manager later
-	//std::vector<GameObject*> gameObjectsVector;
+		AppWindow(AppWindow const&) = delete;
+		AppWindow& operator=(AppWindow const&) = delete;
+		AppWindow(AppWindow&& other) noexcept = delete;
+		AppWindow& operator=(AppWindow&& other) noexcept = delete;
 
-	std::shared_ptr<Material> mainMaterial = nullptr;
-	SwapChainPtr swapChain;
+	private:
+		AppWindow();
+		~AppWindow() override;
 
-	//VertexShaderPtr vertexShader;
-	//GeometryShaderPtr geometryShader;
-	//GeometryShader* geometryShader1;
-	//PixelShaderPtr pixelShader;
+		static AppWindow* sharedInstance;
 
-	float ticks = 0.0f;
+		//std::shared_ptr<Material> mainMaterial = nullptr;
+		SwapChainPtr swapChain;
+		RasterizerStatePtr solidState;
 
-	void onKeyDown(int key) override;
-	void onKeyUp(int key) override;
-	void onMouseMove(const Vector2D& mousePosition) override;
+		float ticks = 0.0f;
 
-	void onLeftMouseDown(const Vector2D& mousePosition) override;
-	void onLeftMouseUp(const Vector2D& mousePosition) override;
-	void onRightMouseDown(const Vector2D& mousePosition) override;
-	void onRightMouseUp(const Vector2D& mousePosition) override;
-};
+		void onKeyDown(int key) override;
+		void onKeyUp(int key) override;
+	};
+}
 

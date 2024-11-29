@@ -1,21 +1,23 @@
 #include "BaseComponentSystem.h"
 
 #include "PhysicsSystem.h"
-
-BaseComponentSystem* BaseComponentSystem::sharedInstance = nullptr;
-
-PhysicsSystem* BaseComponentSystem::getPhysicsSystem() const
+namespace mrlol
 {
-	return physicsSystem;
-}
+	BaseComponentSystem* BaseComponentSystem::sharedInstance = nullptr;
 
-BaseComponentSystem::BaseComponentSystem()
-{
-	physicsSystem = new PhysicsSystem();
-}
+	PhysicsSystem* BaseComponentSystem::getPhysicsSystem() const
+	{
+		return physicsSystem;
+	}
 
-BaseComponentSystem::~BaseComponentSystem()
-{
-	delete physicsSystem;
-	delete sharedInstance;
+	BaseComponentSystem::BaseComponentSystem()
+	{
+		physicsSystem = new PhysicsSystem();
+	}
+
+	BaseComponentSystem::~BaseComponentSystem()
+	{
+		delete physicsSystem;
+		delete sharedInstance;
+	}
 }

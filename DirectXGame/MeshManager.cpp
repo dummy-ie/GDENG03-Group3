@@ -1,21 +1,24 @@
 #include "MeshManager.h"
 
-MeshPtr MeshManager::createMeshFromFile(const wchar_t* filePath)
+namespace mrlol
 {
-	return std::static_pointer_cast<Mesh>(createResourceFromFile(filePath));
-}
-
-Resource* MeshManager::createResourceFromFileConcrete(const wchar_t* filePath)
-{
-	Mesh* mesh = nullptr;
-	try
+	MeshPtr MeshManager::createMeshFromFile(const wchar_t* filePath)
 	{
-		mesh = new Mesh(filePath, "mesh");
-	}
-	catch (...)
-	{
-		throw std::exception("Failed to create mesh!");
+		return std::static_pointer_cast<Mesh>(createResourceFromFile(filePath));
 	}
 
-	return mesh;
+	Resource* MeshManager::createResourceFromFileConcrete(const wchar_t* filePath)
+	{
+		Mesh* mesh = nullptr;
+		try
+		{
+			mesh = new Mesh(filePath, "mesh");
+		}
+		catch (...)
+		{
+			throw std::exception("Failed to create mesh!");
+		}
+
+		return mesh;
+	}
 }

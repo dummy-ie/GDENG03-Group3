@@ -3,33 +3,36 @@
 #include <chrono>
 #include <iostream>
 
-class Window;
-
-class EngineTime
+namespace mrlol
 {
-public:
-	static void initialize();
-	static double getDeltaTimeDouble();
-	static float getDeltaTime();
+	class Window;
 
-	EngineTime(EngineTime const&) = delete;
-	EngineTime& operator=(EngineTime const&) = delete;
-	EngineTime(EngineTime&& other) noexcept = delete;
-	EngineTime& operator=(EngineTime&& other) noexcept = delete;
+	class EngineTime
+	{
+	public:
+		static void initialize();
+		static double getDeltaTimeDouble();
+		static float getDeltaTime();
 
-private:
-	EngineTime();
-	~EngineTime();
-	static EngineTime* sharedInstance;
+		EngineTime(EngineTime const&) = delete;
+		EngineTime& operator=(EngineTime const&) = delete;
+		EngineTime(EngineTime&& other) noexcept = delete;
+		EngineTime& operator=(EngineTime&& other) noexcept = delete;
 
-	static void logFrameStart();
-	static void logFrameEnd();
+	private:
+		EngineTime();
+		~EngineTime();
+		static EngineTime* sharedInstance;
 
-	std::chrono::system_clock::time_point start;
-	std::chrono::system_clock::time_point end;
+		static void logFrameStart();
+		static void logFrameEnd();
 
-	double deltaTime = 0.0;
+		std::chrono::system_clock::time_point start;
+		std::chrono::system_clock::time_point end;
 
-	friend class Window;
-};
+		double deltaTime = 0.0;
+
+		friend class Window;
+	};
+}
 

@@ -4,25 +4,28 @@
 #include "Prerequisites.h"
 #include "Resource.h"
 
-class ResourceManager
+namespace mrlol
 {
-	typedef std::unordered_map<std::wstring, ResourcePtr> ResourceMap;
+	class ResourceManager
+	{
+		typedef std::unordered_map<std::wstring, ResourcePtr> ResourceMap;
 
-public:
-	ResourceManager() = default;
-	virtual ~ResourceManager() = default;
-	ResourceManager(ResourceManager const&) = default;
-	ResourceManager& operator=(ResourceManager const&) = default;
-	ResourceManager(ResourceManager&& other) noexcept = default;
-	ResourceManager& operator=(ResourceManager&& other) noexcept = default;
+	public:
+		ResourceManager() = default;
+		virtual ~ResourceManager() = default;
+		ResourceManager(ResourceManager const&) = default;
+		ResourceManager& operator=(ResourceManager const&) = default;
+		ResourceManager(ResourceManager&& other) noexcept = default;
+		ResourceManager& operator=(ResourceManager&& other) noexcept = default;
 
-	ResourcePtr createResourceFromFile(const wchar_t* filePath);
+		ResourcePtr createResourceFromFile(const wchar_t* filePath);
 
-protected:
-	virtual Resource* createResourceFromFileConcrete(const wchar_t* filePath) = 0;
+	protected:
+		virtual Resource* createResourceFromFileConcrete(const wchar_t* filePath) = 0;
 
-private:
-	ResourceMap resourceMap;
+	private:
+		ResourceMap resourceMap;
 
-};
+	};
+}
 

@@ -2,22 +2,25 @@
 
 #include "Texture.h"
 
-TexturePtr TextureManager::createTextureFromFile(const wchar_t* filePath)
+namespace mrlol
 {
-	return std::static_pointer_cast<Texture>(createResourceFromFile(filePath));
-}
-
-Resource* TextureManager::createResourceFromFileConcrete(const wchar_t* filePath)
-{
-	Texture* tex = nullptr;
-	try
+	TexturePtr TextureManager::createTextureFromFile(const wchar_t* filePath)
 	{
-		tex = new Texture(filePath);
-	}
-	catch (...)
-	{
-		throw std::exception("Failed to create texture!");
+		return std::static_pointer_cast<Texture>(createResourceFromFile(filePath));
 	}
 
-	return tex;
+	Resource* TextureManager::createResourceFromFileConcrete(const wchar_t* filePath)
+	{
+		Texture* tex = nullptr;
+		try
+		{
+			tex = new Texture(filePath);
+		}
+		catch (...)
+		{
+			throw std::exception("Failed to create texture!");
+		}
+
+		return tex;
+	}
 }

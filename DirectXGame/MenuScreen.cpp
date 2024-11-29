@@ -10,6 +10,8 @@
 #include "Renderer3D.h"
 #include "UIManager.h"
 
+using namespace mrlol;
+
 MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 {
 	LogUtils::logHResult(
@@ -131,8 +133,8 @@ void MenuScreen::onCreatePlaneClicked()
 {
 	GameObjectPtr plane = std::make_shared<GameObject>("Plane");
 	MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "planeMesh");
-	plane->setPosition({ 0, -5, 20 });
-	plane->setScale({ 10, 0.1, 10 });
+	plane->setLocalPosition({ 0, -5, 20 });
+	plane->setLocalScale({ 10, 0.1, 10 });
 
 	plane->attachComponent(new Renderer3D("planeRenderer", plane.get(), planeMesh, UIManager::get()->mainMaterial));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("planePhysics", plane.get());
@@ -147,8 +149,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 	{
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
 		MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "cubeMesh" + std::to_string(i));
-		cube->setScale(1.f);
-		cube->setPosition({ 0, 10, 20 });
+		cube->setLocalScale(1.f);
+		cube->setLocalPosition({ 0, 10, 20 });
 
 		cube->attachComponent(new Renderer3D("cubeRenderer" + std::to_string(i), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
 		PhysicsComponent* cubePhysics = new PhysicsComponent("cubePhysics" + std::to_string(i), cube.get());

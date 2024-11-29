@@ -8,43 +8,46 @@
 #include "Vector3D.h"
 #include "Vector4D.h"
 
-class Renderer3D;
-
-class Material
+namespace mrlol
 {
-public:
-	explicit Material(PixelShaderPtr pixelShader);
+	class Renderer3D;
 
-	/**
-	 * Passing a string will get the shader specified.
-	 * @param pixelShaderName The filename of the shader.
-	 */
-	explicit Material(const std::wstring& pixelShaderName);
+	class Material
+	{
+	public:
+		explicit Material(PixelShaderPtr pixelShader);
 
-	PixelShaderPtr getPixelShader() const;
+		/**
+		 * Passing a string will get the shader specified.
+		 * @param pixelShaderName The filename of the shader.
+		 */
+		explicit Material(const std::wstring& pixelShaderName);
 
-private:
-	PixelShaderPtr pixelShader = nullptr;
+		PixelShaderPtr getPixelShader() const;
 
-	Vector4D color = {1, 1, 1, 1};
+	private:
+		PixelShaderPtr pixelShader = nullptr;
 
-	TexturePtr albedoTexture = nullptr;
-	TexturePtr metallicTexture = nullptr;
-	TexturePtr smoothnessTexture = nullptr;
-	TexturePtr normalTexture = nullptr;
+		Vector4D color = { 1, 1, 1, 1 };
 
-	SamplerStatePtr samplerState = nullptr;
+		TexturePtr albedoTexture = nullptr;
+		TexturePtr metallicTexture = nullptr;
+		TexturePtr smoothnessTexture = nullptr;
+		TexturePtr normalTexture = nullptr;
 
-	float metallic = 0;
-	float smoothness = 0;
-	float flatness = 0;
+		SamplerStatePtr samplerState = nullptr;
 
-	Vector2D tiling = 0;
-	Vector2D offset = 0;
+		float metallic = 0;
+		float smoothness = 0;
+		float flatness = 0;
 
-	friend class MaterialEditor;
-	friend class DeviceContext;
-	friend class AppWindow;
-	friend class Renderer3D;
-};
+		Vector2D tiling = 0;
+		Vector2D offset = 0;
+
+		friend class MaterialEditor;
+		friend class DeviceContext;
+		friend class AppWindow;
+		friend class Renderer3D;
+	};
+}
 

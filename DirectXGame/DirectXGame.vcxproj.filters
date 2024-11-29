@@ -118,6 +118,15 @@
     <Filter Include="Libraries\imgui">
       <UniqueIdentifier>{b1dc107c-c88a-48da-868c-b60d888162e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Backend">
+      <UniqueIdentifier>{25242698-90b0-4609-a52f-d5a1ec98ad01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\UISystem\Screens\Viewport">
+      <UniqueIdentifier>{3fb8346e-fa1d-442b-96d1-79de474e2709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\RasterizerState">
+      <UniqueIdentifier>{79cdb99c-ee19-418a-a5df-0b3a49854a10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -272,6 +281,33 @@
     </ClCompile>
     <ClCompile Include="HierarchyScreen.cpp">
       <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorAction.cpp">
+      <Filter>GameEngine\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineBackend.cpp">
+      <Filter>GameEngine\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHistory.cpp">
+      <Filter>GameEngine\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewportManager.cpp">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewportScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture.cpp">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizerState.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\RasterizerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +479,6 @@
     <ClInclude Include="PhysicsComponent.h">
       <Filter>GameEngine\EntityComponentSystem\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Quaternion.h">
-      <Filter>GameEngine\Utilities\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderLibrary.h">
       <Filter>GameEngine\GraphicsEngine\ShaderLibrary</Filter>
     </ClInclude>
@@ -488,10 +521,41 @@
     <ClInclude Include="HierarchyScreen.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="InspectorScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>Libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineBackend.h">
+      <Filter>GameEngine\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorAction.h">
+      <Filter>GameEngine\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHistory.h">
+      <Filter>GameEngine\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewportManager.h">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewportScreen.h">
+      <Filter>GameEngine\UISystem\Screens\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture.h">
+      <Filter>GameEngine\GraphicsEngine\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RasterizerState.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\RasterizerState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
     <None Include="packages.config" />
+    <None Include="..\todo.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GeometryShader.hlsl">

@@ -17,69 +17,85 @@
 #include "LogUtils.h"
 #include "Material.h"
 #include "Component.h"
+#include "EditorAction.h"
 
-class GameObject
+namespace mrlol
 {
-public:
-	typedef std::vector<Component*> ComponentList;
+	class GameObject
+	{
+	public:
+		typedef std::vector<Component*> ComponentList;
 
-	explicit GameObject(std::string name);
+		explicit GameObject(const std::string& name);
 
-	virtual ~GameObject() = default;
-	GameObject(GameObject const&) = default;
-	GameObject& operator=(GameObject const&) = default;
-	GameObject(GameObject&& other) noexcept = default;
-	GameObject& operator=(GameObject&& other) noexcept = default;
+		virtual ~GameObject() = default;
+		GameObject(GameObject const&) = default;
+		GameObject& operator=(GameObject const&) = default;
+		GameObject(GameObject&& other) noexcept = default;
+		GameObject& operator=(GameObject&& other) noexcept = default;
 
-	virtual void awake() {}
-	virtual void update(float deltaTime) {}
+		virtual void awake() {}
+		virtual void update(float deltaTime) {}
 
-	void setPosition(const Vector3D& position);
-	void translate(const Vector3D& translation);
-	Vector3D getPosition();
+		void setLocalPosition(const Vector3D& position);
+		void translate(const Vector3D& translation);
+		Vector3D getLocalPosition();
 
-	void setScale(const Vector3D& scale);
-	void scale(const Vector3D& scale);
-	Vector3D getScale();
+		void setLocalScale(const Vector3D& scale);
+		void scale(const Vector3D& scale);
+		Vector3D getLocalScale();
 
-	void setRotation(const Vector3D& rotation);
-	void rotate(const Vector3D& rotation);
-	Vector3D getRotation();
+		void setLocalRotation(const Vector3D& rotation);
+		void rotate(const Vector3D& rotation);
+		Vector3D getLocalRotation();
 
-	void setEnabled(const bool enabled);
-	bool getEnabled() const;
+		void setOrientation(const Vector4D& orientation);
+		Vector4D getOrientation();
 
-	std::string getName();
+		void setEnabled(const bool enabled);
+		bool getEnabled() const;
 
-	void updateLocalMatrix();
-	Matrix4x4 getMatrix() const;
-	void setMatrix(float matrix[16]);
-	float* getPhysicsLocalMatrix();
+		void setDisplayName(const std::string& displayName);
+		std::string getUniqueName();
+		std::string getDisplayName();
 
-	void attachComponent(Component* component);
-	void detachComponent(const Component* component);
+		void updateLocalMatrix();
+		Matrix4x4 getLocalMatrix() const;
+		void setLocalMatrix(float matrix[16]);
+		float* getPhysicsLocalMatrix();
 
-	Component* findComponentByName(const std::string& name);
-	Component* findComponentOfType(ComponentType type, const std::string& name);
-	ComponentList getComponentsOfType(ComponentType type) const;
-	ComponentList getComponentsOfTypeRecursive(ComponentType type) const;
+		void attachComponent(Component* component);
+		void detachComponent(const Component* component);
 
-	//reactphysics3d::Transform transform;
+		Component* findComponentByName(const std::string& name);
+		Component* findComponentOfType(ComponentType type, const std::string& name);
+		ComponentList getComponentsOfType(ComponentType type) const;
+		ComponentList getComponentsOfTypeRecursive(ComponentType type) const;
 
-protected:
-	float elapsedTime = 0.f;
+		void saveEditState();
+		void restoreEditState();
 
-	std::string name;
-	bool isEnabled = true;
+		//reactphysics3d::Transform transform;
 
-	Vector3D localScale = 1.f;
-	Vector3D localPosition = 0.f;
-	Vector3D localRotation = 0.f;
-	Matrix4x4 localMatrix;
-	Quaternion orientation;
+	protected:
+		void setUniqueName(const std::string& uniqueName);
 
+		float elapsedTime = 0.f;
 
-	ComponentList componentList;
+		std::string displayName;
+		std::string name;
+		bool isEnabled = true;
 
-	friend class GameObjectManager;
-};
+		Vector3D localScale = 1.f;
+		Vector3D localPosition = 0.f;
+		Vector3D localRotation = 0.f;
+		Matrix4x4 localMatrix;
+		Vector4D orientation;
+
+		EditorAction* lastEditState = nullptr;
+
+		ComponentList componentList;
+
+		friend class GameObjectManager;
+	};
+}

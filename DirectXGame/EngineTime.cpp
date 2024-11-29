@@ -1,37 +1,40 @@
 #include "EngineTime.h"
 
-EngineTime* EngineTime::sharedInstance = nullptr;
-
-void EngineTime::initialize()
+namespace mrlol
 {
-	sharedInstance = new EngineTime();
-}
+	EngineTime* EngineTime::sharedInstance = nullptr;
 
-double EngineTime::getDeltaTimeDouble()
-{
-	return sharedInstance->deltaTime;
-}
+	void EngineTime::initialize()
+	{
+		sharedInstance = new EngineTime();
+	}
 
-float EngineTime::getDeltaTime()
-{
-	return static_cast<float>(sharedInstance->deltaTime);
-}
+	double EngineTime::getDeltaTimeDouble()
+	{
+		return sharedInstance->deltaTime;
+	}
 
-EngineTime::EngineTime()
-= default;
+	float EngineTime::getDeltaTime()
+	{
+		return static_cast<float>(sharedInstance->deltaTime);
+	}
 
-EngineTime::~EngineTime()
-= default;
+	EngineTime::EngineTime()
+		= default;
 
-void EngineTime::logFrameStart()
-{
-	sharedInstance->start = std::chrono::system_clock::now();
-}
+	EngineTime::~EngineTime()
+		= default;
 
-void EngineTime::logFrameEnd()
-{
-	sharedInstance->end = std::chrono::system_clock::now();
-	const std::chrono::duration<double> elapsedSeconds = sharedInstance->end - sharedInstance->start;
+	void EngineTime::logFrameStart()
+	{
+		sharedInstance->start = std::chrono::system_clock::now();
+	}
 
-	sharedInstance->deltaTime = elapsedSeconds.count();
+	void EngineTime::logFrameEnd()
+	{
+		sharedInstance->end = std::chrono::system_clock::now();
+		const std::chrono::duration<double> elapsedSeconds = sharedInstance->end - sharedInstance->start;
+
+		sharedInstance->deltaTime = elapsedSeconds.count();
+	}
 }

@@ -129,7 +129,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\DirectXGame\libraries\reactphysics3d\include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionHistory.cpp" />
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="BaseComponentSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -159,6 +160,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp" />
+    <ClCompile Include="EditorAction.cpp" />
+    <ClCompile Include="EngineBackend.cpp" />
     <ClCompile Include="EngineTime.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryShader.cpp" />
@@ -166,6 +169,7 @@
     <ClCompile Include="HierarchyScreen.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="InspectorScreen.cpp" />
     <ClCompile Include="libraries\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="libraries\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="libraries\imgui\imgui.cpp" />
@@ -191,8 +195,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="RasterizerState.cpp" />
     <ClCompile Include="Renderer3D.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SamplerState.cpp" />
@@ -205,9 +211,13 @@
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="Viewport.cpp" />
+    <ClCompile Include="ViewportManager.cpp" />
+    <ClCompile Include="ViewportScreen.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionHistory.h" />
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="BaseComponentSystem.h" />
     <ClInclude Include="Camera.h" />
@@ -228,8 +238,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="EditorAction.h" />
+    <ClInclude Include="EngineBackend.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="HierarchyScreen.h" />
+    <ClInclude Include="InspectorScreen.h" />
     <ClInclude Include="libraries\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="libraries\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="libraries\imgui\imconfig.h" />
@@ -238,6 +251,7 @@
     <ClInclude Include="libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
@@ -267,9 +281,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SamplerState.h" />
@@ -296,10 +311,14 @@
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="ViewportManager.h" />
+    <ClInclude Include="ViewportScreen.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="..\todo.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

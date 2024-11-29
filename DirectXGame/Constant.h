@@ -1,24 +1,27 @@
 ﻿#pragma once
 #include "Matrix4x4.h"
 
-__declspec(align(16))
-struct Constant
+namespace mrlol
 {
-	Matrix4x4 world;
-	Matrix4x4 view;
-	Matrix4x4 proj;
-	Vector3D cameraPos;
-	float time;
+	__declspec(align(16))
+		struct Constant
+	{
+		Matrix4x4 world;
+		Matrix4x4 view;
+		Matrix4x4 proj;
+		Vector3D cameraPos;
+		float time;
 
-	Vector3D color;
-	float metallic;
-	float smoothness;
-	float flatness;
-	Vector2D tiling;
-	Vector2D offset;
+		Vector3D color;
+		float metallic;
+		float smoothness;
+		float flatness;
+		Vector2D tiling;
+		Vector2D offset;
 
-	float hasAlbedoMap;
-	float hasNormalMap;
-	float hasMetallicMap;
-	float hasSmoothnessMap;
-};
+		float hasAlbedoMap;
+		float hasNormalMap;
+		float hasMetallicMap;
+		float hasSmoothnessMap;
+	};
+}

@@ -5,38 +5,41 @@
 #include <vector>
 #include <reactphysics3d/reactphysics3d.h>
 
-class PhysicsComponent;
-
-class PhysicsSystem
+namespace mrlol
 {
-public:
-	typedef reactphysics3d::PhysicsCommon PhysicsCommon;
-	typedef reactphysics3d::PhysicsWorld PhysicsWorld;
-	typedef std::unordered_map<std::string, PhysicsComponent*> ComponentMap;
-	typedef std::vector<PhysicsComponent*> ComponentList;
+	class PhysicsComponent;
 
-	PhysicsSystem();
-	~PhysicsSystem();
-	PhysicsSystem(PhysicsSystem const&) = default;
-	PhysicsSystem& operator=(PhysicsSystem const&) = default;
-	PhysicsSystem(PhysicsSystem&& other) noexcept = default;
-	PhysicsSystem& operator=(PhysicsSystem&& other) noexcept = default;
+	class PhysicsSystem
+	{
+	public:
+		typedef reactphysics3d::PhysicsCommon PhysicsCommon;
+		typedef reactphysics3d::PhysicsWorld PhysicsWorld;
+		typedef std::unordered_map<std::string, PhysicsComponent*> ComponentMap;
+		typedef std::vector<PhysicsComponent*> ComponentList;
 
-	void registerComponent(PhysicsComponent* component);
-	void unregisterComponent(PhysicsComponent* component);
-	void unregisterComponentByName(const std::string& name);
+		PhysicsSystem();
+		~PhysicsSystem();
+		PhysicsSystem(PhysicsSystem const&) = default;
+		PhysicsSystem& operator=(PhysicsSystem const&) = default;
+		PhysicsSystem(PhysicsSystem&& other) noexcept = default;
+		PhysicsSystem& operator=(PhysicsSystem&& other) noexcept = default;
 
-	PhysicsComponent* findComponentByName(const std::string& name);
-	ComponentList getAllComponents();
+		void registerComponent(PhysicsComponent* component);
+		void unregisterComponent(PhysicsComponent* component);
+		void unregisterComponentByName(const std::string& name);
 
-	void updateAllComponents() const;
-	PhysicsCommon* getPhysicsCommon() const;
-	PhysicsWorld* getPhysicsWorld() const;
+		PhysicsComponent* findComponentByName(const std::string& name);
+		ComponentList getAllComponents();
 
-private:
-	ComponentMap componentMap;
-	ComponentList componentList;
+		void updateAllComponents() const;
+		PhysicsCommon* getPhysicsCommon() const;
+		PhysicsWorld* getPhysicsWorld() const;
 
-	PhysicsCommon* physicsCommon;
-	PhysicsWorld* physicsWorld;
-};
+	private:
+		ComponentMap componentMap;
+		ComponentList componentList;
+
+		PhysicsCommon* physicsCommon;
+		PhysicsWorld* physicsWorld;
+	};
+}

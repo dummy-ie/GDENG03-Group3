@@ -17,36 +17,39 @@
 #include "MenuScreen.h"
 #include "MaterialEditor.h"
 
-class UIManager
+namespace mrlol
 {
-	typedef std::shared_ptr<UIScreen> UIScreenPtr;
-	typedef std::vector<UIScreenPtr> UIList;
-	typedef std::unordered_map<std::string, UIScreenPtr> UIMap;
+	class UIManager
+	{
+		typedef std::shared_ptr<UIScreen> UIScreenPtr;
+		typedef std::vector<UIScreenPtr> UIList;
+		typedef std::unordered_map<std::string, UIScreenPtr> UIMap;
 
-public:
-	static UIManager* get();
+	public:
+		static UIManager* get();
 
-	static void initialize(HWND windowHandle);
-	void draw() const;
+		static void initialize(HWND windowHandle);
+		void draw() const;
 
-	UIManager(UIManager const&) = delete;
-	UIManager& operator=(UIManager const&) = delete;
-	UIManager(UIManager&& other) noexcept = delete;
-	UIManager& operator=(UIManager&& other) noexcept = delete;
+		UIManager(UIManager const&) = delete;
+		UIManager& operator=(UIManager const&) = delete;
+		UIManager(UIManager&& other) noexcept = delete;
+		UIManager& operator=(UIManager&& other) noexcept = delete;
 
-	// static constexpr int WindowWidth = 1440;
-	// static constexpr int WindowHeight = 900;
+		// static constexpr int WindowWidth = 1440;
+		// static constexpr int WindowHeight = 900;
 
-	std::shared_ptr<Material> mainMaterial = nullptr;
+		std::shared_ptr<Material> mainMaterial = nullptr;
 
-private:
-	explicit UIManager(HWND windowHandle);
-	~UIManager();
-	static UIManager* sharedInstance;
+	private:
+		explicit UIManager(HWND windowHandle);
+		~UIManager();
+		static UIManager* sharedInstance;
 
-	static void setupImGuiStyle();
+		static void setupImGuiStyle();
 
-	UIList uiList;
-	UIMap uiMap;
-};
+		UIList uiList;
+		UIMap uiMap;
+	};
+}
 

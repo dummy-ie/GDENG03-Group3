@@ -1,5 +1,8 @@
 #include "Resource.h"
 
-Resource::Resource(const wchar_t* fullPath) : fullPath(fullPath)
+namespace mrlol
 {
+	Resource::Resource(const wchar_t* fullPath) : fullPath(fullPath)
+	{
+	}
 }

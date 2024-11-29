@@ -2,34 +2,37 @@
 
 #include <string>
 
-class PhysicsSystem;
-
-class BaseComponentSystem
+namespace mrlol
 {
-public:
-	PhysicsSystem* getPhysicsSystem() const;
+	class PhysicsSystem;
 
-private:
-	PhysicsSystem* physicsSystem;
-
-	// Singleton
-public:
-	static BaseComponentSystem* get()
+	class BaseComponentSystem
 	{
-		if (!sharedInstance)
-			sharedInstance = new BaseComponentSystem();
+	public:
+		PhysicsSystem* getPhysicsSystem() const;
 
-		return sharedInstance;
-	}
+	private:
+		PhysicsSystem* physicsSystem;
 
-	BaseComponentSystem(BaseComponentSystem const&) = delete;
-	BaseComponentSystem& operator=(BaseComponentSystem const&) = delete;
-	BaseComponentSystem(BaseComponentSystem&& other) noexcept = delete;
-	BaseComponentSystem& operator=(BaseComponentSystem&& other) noexcept = delete;
+		// Singleton
+	public:
+		static BaseComponentSystem* get()
+		{
+			if (!sharedInstance)
+				sharedInstance = new BaseComponentSystem();
 
-private:
-	BaseComponentSystem();
-	~BaseComponentSystem();
-	static BaseComponentSystem* sharedInstance;
-};
+			return sharedInstance;
+		}
+
+		BaseComponentSystem(BaseComponentSystem const&) = delete;
+		BaseComponentSystem& operator=(BaseComponentSystem const&) = delete;
+		BaseComponentSystem(BaseComponentSystem&& other) noexcept = delete;
+		BaseComponentSystem& operator=(BaseComponentSystem&& other) noexcept = delete;
+
+	private:
+		BaseComponentSystem();
+		~BaseComponentSystem();
+		static BaseComponentSystem* sharedInstance;
+	};
+}
 

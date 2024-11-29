@@ -4,19 +4,22 @@
 #include "GameObject.h"
 #include "Prerequisites.h"
 
-class Mesh final : public Resource
+namespace mrlol
 {
-public:
-	explicit Mesh(const wchar_t* fullPath, const std::string& name);
-	
-	const VertexBufferPtr& getVertexBuffer();
-	const IndexBufferPtr& getIndexBuffer();
+	class Mesh final : public Resource
+	{
+	public:
+		explicit Mesh(const wchar_t* fullPath, const std::string& name);
 
-private:
-	VertexBufferPtr vertexBuffer;
-	IndexBufferPtr indexBuffer;
-	ConstantBufferPtr constantBuffer;
+		const VertexBufferPtr& getVertexBuffer();
+		const IndexBufferPtr& getIndexBuffer();
 
-	friend class DeviceContext;
-};
+	private:
+		VertexBufferPtr vertexBuffer;
+		IndexBufferPtr indexBuffer;
+		ConstantBufferPtr constantBuffer;
+
+		friend class DeviceContext;
+	};
+}
 

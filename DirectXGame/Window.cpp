@@ -3,6 +3,8 @@
 #include "LogUtils.h"
 #include "imgui.h"
 
+using namespace mrlol;
+
 // ReSharper disable once CppInconsistentNaming
 // for ImGui input forwarding
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -62,7 +64,7 @@ Window::Window()
 	wc.lpszMenuName = L"";
 	wc.style = NULL;
 	wc.lpfnWndProc = &windowProc;
-	
+
 	LogUtils::logBool(this, static_cast<bool>(::RegisterClassEx(&wc)));
 
 	windowHandle = ::CreateWindowEx(

@@ -2,9 +2,11 @@
 #include <string>
 
 #include "ShaderType.h"
-
-struct ShaderToCompile
+namespace mrlol
 {
-	ShaderType type;
-	std::wstring name;
-};
+	struct ShaderToCompile
+	{
+		ShaderType type;
+		std::wstring name;
+	};
+}

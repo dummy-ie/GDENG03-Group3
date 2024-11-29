@@ -1,45 +1,55 @@
 #pragma once
 #include "GameObject.h"
 
-class Camera : public GameObject
+namespace mrlol
 {
-public:
-	Camera(const std::string& name, const bool orthographic, const RECT windowRect)
-		: GameObject(name), orthographic(orthographic), windowRect(windowRect)
+	class Camera : public GameObject
 	{
-		const float windowWidth = static_cast<float>(windowRect.right) - static_cast<float>(windowRect.left);
-		const float windowHeight = static_cast<float>(windowRect.bottom) - static_cast<float>(windowRect.top);
-		aspect = windowWidth / windowHeight;
-	}
+	public:
+		Camera(const std::string& name, const bool orthographic, const RECT windowRect)
+			: GameObject(name), orthographic(orthographic), windowRect(windowRect)
+		{
+			const float windowWidth = static_cast<float>(windowRect.right) - static_cast<float>(windowRect.left);
+			const float windowHeight = static_cast<float>(windowRect.bottom) - static_cast<float>(windowRect.top);
+			aspect = windowWidth / windowHeight;
+		}
 
-	void update(const float deltaTime) override;
+		void update(const float deltaTime) override;
 
-	Matrix4x4 getView();
-	Matrix4x4 getProjection() const;
+		Matrix4x4 getView();
+		Matrix4x4 getProjection() const;
+		void setProjectionType(bool isOrthographic);
 
-protected:
-	bool orthographic = false;
+		void setWidth(float width);
+		void setHeight(float height);
 
-	RECT windowRect;
+	protected:
+		bool orthographic = false;
 
-	// perspective
-	float aspect;
-	float fov = 30.f;
-	float zNear = 0.00001f;
-	float zFar = 100.f;
+		RECT windowRect;
+		int width;
+		int height;
 
-	// orthographic
-	float nearPlane = -10.f;
-	float farPlane = 100.f;
 
-	Matrix4x4 view;
-public:
-	// temp
-	// float xRot;
-	// float yRot;
-	// float forward = 0.0f;
-	// float rightward = 0.0f;
-	// float upward = 0.0f;
-	//float squidward = 0.0f;
-};
+		// perspective
+		float aspect;
+		float fov = 30.f;
+		float zNear = 0.00001f;
+		float zFar = 100.f;
+
+		// orthographic
+		float nearPlane = -10.f;
+		float farPlane = 100.f;
+
+		Matrix4x4 view;
+	public:
+		// temp
+		// float xRot;
+		// float yRot;
+		// float forward = 0.0f;
+		// float rightward = 0.0f;
+		// float upward = 0.0f;
+		//float squidward = 0.0f;
+	};
+}
 

@@ -5,275 +5,224 @@
 #include <reactphysics3d/reactphysics3d.h>
 
 #include "BaseComponentSystem.h"
+#include "EngineBackend.h"
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
 #include "ShaderLibrary.h"
+#include "ViewportScreen.h"
 
-AppWindow* AppWindow::sharedInstance = nullptr;
-
-AppWindow* AppWindow::get()
+namespace mrlol
 {
-	if (!sharedInstance)
-		sharedInstance = new AppWindow();
+	AppWindow* AppWindow::sharedInstance = nullptr;
 
-	return sharedInstance;
-}
-
-AppWindow::AppWindow()
-= default;
-
-AppWindow::~AppWindow()
-{
-	Window::~Window();
-	delete sharedInstance;
-}
-
-void AppWindow::onKeyDown(const int key)
-{
-	// if (!CameraManager::getInstance()->activeCamera)
-	// 	return;
-
-	switch (key)
+	AppWindow* AppWindow::get()
 	{
-	case VK_ESCAPE:
+		if (!sharedInstance)
+			sharedInstance = new AppWindow();
+
+		return sharedInstance;
+	}
+
+	AppWindow::AppWindow()
+		= default;
+
+	AppWindow::~AppWindow()
 	{
-		LogUtils::log(this, "Exiting application");
-		this->windowIsRunning = false;
-		//exit(0);
-		break;
+		Window::~Window();
+		delete sharedInstance;
 	}
-	default:
+
+	void AppWindow::onKeyDown(const int key)
 	{
-		break;
-	}
-	}
-}
+		// if (!CameraManager::getInstance()->activeCamera)
+		// 	return;
 
-void AppWindow::onKeyUp(const int key)
-{
-	switch (key)
+		switch (key)
+		{
+		case VK_ESCAPE:
+		{
+			LogUtils::log(this, "Exiting application");
+			this->windowIsRunning = false;
+			//exit(0);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+
+	void AppWindow::onKeyUp(const int key)
 	{
-		//case 'W':
-		//{
-		//	LogUtils::log(this, "Pressed W!");
-		//	break;
-		//}
-	case VK_SPACE:
+		switch (key)
+		{
+			//case 'W':
+			//{
+			//	LogUtils::log(this, "Pressed W!");
+			//	break;
+			//}
+		case VK_SPACE:
+		{
+			// float randsize = randrange_float(0.1f, 1.0f);
+			// Vec2 size = { randsize, randsize };
+			// Vector3D pos = { randrange_float(-0.8f, 0.8f), randrange_float(-0.8f, 0.8f), randrange_float(-0.8f, 0.8f) };
+			//
+			// std::cout << "position: " << pos << std::endl;
+			// circleVector.emplace_back(size, pos);
+			//circleVector.emplace_back();
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+
+	void AppWindow::onCreate()
 	{
-		// float randsize = randrange_float(0.1f, 1.0f);
-		// Vec2 size = { randsize, randsize };
-		// Vector3D pos = { randrange_float(-0.8f, 0.8f), randrange_float(-0.8f, 0.8f), randrange_float(-0.8f, 0.8f) };
-		//
-		// std::cout << "position: " << pos << std::endl;
-		// circleVector.emplace_back(size, pos);
-		//circleVector.emplace_back();
-		break;
+		Window::onCreate();
+
+		// initialize and get instance of 
+		ShaderLibrary* shaderLib = ShaderLibrary::get();
+		RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
+		UIManager::initialize(this->windowHandle);
+
+		const RECT rc = this->getClientWindowRect();
+		swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
+
+		InputSystem::get()->addListener(this);
+
+		// camera
+		CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
+
+		CameraManager::getInstance()->activeCamera->setLocalPosition({ 0.0f, 5.0f, -20.0f });
+
+		this->solidState = renderSystem->createRasterizerState(D3D11_FILL_SOLID, D3D11_CULL_BACK);
+
+		//mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
+		//mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
+		//UIManager::get()->mainMaterial = mainMaterial;
 	}
-	default:
+
+	void AppWindow::draw(int width, int height, EFillMode fillMode)
 	{
-		break;
+		const DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+		//CBEditor cbData;
+		switch (fillMode)
+		{
+		default:
+			context->setRasterizerState(solidState);
+			//cbData.wireframe = false;
+			break;
+		// case WIREFRAME:
+		// 	context->setRasterizerState(wireframeState);
+		// 	cbData.wireframe = true;
+		// 	break;
+		// case SOLID_WIREFRAME:
+		// 	context->setRasterizerState(solidState);
+		// 	this->draw(width, height, SOLID);
+		// 	context->setRasterizerState(wireframeState);
+		// 	cbData.wireframe = true;
+		// 	break;
+		}
+
+		//context->setConstantBuffer(constantBuffer, 2);
+		//this->constantBuffer->update(context, &cbData);
+
+		GameObjectManager::get()->drawAll(width, height);
 	}
+
+	void AppWindow::onUpdate()
+	{
+		//LogUtils::log(this, "Updating window");
+		Window::onUpdate();
+		//LogUtils::log(this, "Updating input system");
+		InputSystem::get()->update();
+
+		ticks += EngineTime::getDeltaTime() * 1.0f;
+
+		//LogUtils::log(this, "Setting shaders");
+		// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
+		// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
+		// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
+
+		//LogUtils::log(this, "Clear render target");
+		GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(
+			this->swapChain,
+			0.3f,
+			0.3f,
+			0.3f,
+			1.f);
+
+		const auto& [left, top, right, bottom] = this->getClientWindowRect();
+		GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(right - left, bottom - top);
+
+		EngineBackend* backend = EngineBackend::get();
+		if (backend->getMode() == EngineBackend::EditorMode::PLAY)
+		{
+			//GameObjectManager::get()->setPhysics(true);
+			GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
+			BaseComponentSystem::get()->getPhysicsSystem()->updateAllComponents();
+		}
+		else if (backend->getMode() == EngineBackend::EditorMode::EDITOR)
+		{
+			//GameObjectManager::get()->setPhysics(false);
+			GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
+		}
+		else if (backend->getMode() == EngineBackend::EditorMode::PAUSED)
+		{
+			if (backend->insideFrameStep())
+			{
+				GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
+				BaseComponentSystem::get()->getPhysicsSystem()->updateAllComponents();
+				backend->endFrameStep();
+			}
+		}
+
+		UIManager::get()->draw();
+
+		if (UIManager::RESIZE_WIDTH != 0 && UIManager::RESIZE_HEIGHT != 0)
+		{
+			swapChain->cleanRenderTarget();
+			swapChain->resizeBuffers(0, UIManager::RESIZE_WIDTH, UIManager::RESIZE_HEIGHT);
+			UIManager::RESIZE_WIDTH = UIManager::RESIZE_HEIGHT = 0;
+			swapChain->createRenderTarget();
+		}
+
+		swapChain->present(true);
 	}
-}
 
-void AppWindow::onMouseMove(const Vector2D& mousePosition)
-{
+	void AppWindow::onFocus()
+	{
+		Window::onFocus();
+		InputSystem::get()->setEnabled(true);
+	}
 
-}
+	void AppWindow::onKillFocus()
+	{
+		Window::onKillFocus();
+		InputSystem::get()->setEnabled(false);
+	}
 
-void AppWindow::onLeftMouseDown(const Vector2D& mousePosition)
-{
-}
+	void AppWindow::onDestroy()
+	{
+		Window::onDestroy();
 
-void AppWindow::onLeftMouseUp(const Vector2D& mousePosition)
-{
-}
-
-void AppWindow::onRightMouseDown(const Vector2D& mousePosition)
-{
-}
-
-void AppWindow::onRightMouseUp(const Vector2D& mousePosition)
-{
-}
-
-void AppWindow::onCreate()
-{
-	Window::onCreate();
-
-	// initialize and get instance of shaderLibrary
-	ShaderLibrary* shaderLib = ShaderLibrary::get();
+		//vertexBuffer->release();
+		// swapChain->release();
+		// vertexShader->release();
+		// pixelShader->release();
 
 
-	//GraphicsEngine::get()->getRenderSystem()->init();
-	//GraphicsEngine::get()->initialize();
-	UIManager::initialize(this->windowHandle);
+		//GraphicsEngine::get()->getRenderSystem()->release();
+	}
 
-	const RECT rc = this->getClientWindowRect();
-	swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
-
-	InputSystem::get()->addListener(this);
-
-	// camera
-	CameraManager::getInstance()->activeCamera = new SceneCamera("Camera", false, rc);
-
-	CameraManager::getInstance()->activeCamera->setPosition({ 0.0f, 5.0f, -20.0f });
-
-
-	mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
-	//mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-	UIManager::get()->mainMaterial = mainMaterial;
-
-	// Insert all GameObjects here
-
-	//const std::shared_ptr<Mesh> bunny = std::make_shared<Mesh>(L"assets/models/bunny.obj", "bunny");
-	//const std::shared_ptr<Mesh> bunny = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/bunny.obj");
-	//GameObjectManager::get()->addObject(bunny);
-	//bunny->setPosition({ -1, 0, 0 });
-	//bunny->setScale(5.f);
-	// bunny->interpolateScale = true;
-	// bunny->scale1 = 5.f;
-	// bunny->scale2 = 7.f;
-
-	
-
-	/*const std::shared_ptr<Mesh> teapot = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/teapot.obj");
-	GameObjectManager::get()->addObject(teapot);
-	teapot->setPosition({ 1, 0, 0 });*/
-
-	// GameObjectPtr bunny = std::make_shared<GameObject>("Bunny");
-	// MeshPtr bunnyMesh = std::make_shared<Mesh>(L"assets/models/bunny.obj", "bunnyMesh");
-	// bunny->attachComponent(new Renderer3D("bunnyRenderer", bunny.get(), bunnyMesh, mainMaterial));
-	// bunny->setPosition({ 0, 0, 0 });
-	// GameObjectManager::get()->addObject(bunny);
-
-	// const std::shared_ptr<Mesh> armadillo = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/armadillo.obj");
-	// GameObjectManager::get()->addObject(armadillo);
-	// armadillo->setScale(0.5f);
-	// armadillo->setPosition({ 0, 0, 2 });
-
-
-	// const std::shared_ptr<Plane> floor = std::make_shared<Plane>("floor", shaderByteCode, byteCodeSize, Vector3D(0.3f, 0.4f, 0.1f));
-	// floor->setRotation({ 1.57f, 0.f });
-	// floor->setScale({ 100.f, 100.f, 100.f });
-	// floor->setPosition({ 0.0f, -1.0f, 0.0f });
-	// GameObjectManager::get()->addObject(floor);
-	//
-	// const std::shared_ptr<Plane> ceiling = std::make_shared<Plane>("ceiling", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	// ceiling->setRotation({ 1.57f, 0.f });
-	// ceiling->setScale({ 100.f, 100.f, 100.f });
-	// ceiling->setPosition({ 0.0f, 50.0f, 0.0f });
-	// GameObjectManager::get()->addObject(ceiling);
-	//
-	// const std::shared_ptr<Plane> wall1 = std::make_shared<Plane>("wall1", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	// wall1->setRotation({ 0.f, 0.f });
-	// wall1->setScale({ 100.f, 100.f, 100.f });
-	// wall1->setPosition({ 0.0f, 49.0f, 50.0f });
-	// GameObjectManager::get()->addObject(wall1);
-	//
-	// const std::shared_ptr<Plane> wall2 = std::make_shared<Plane>("wall2", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	// wall2->setRotation({ 0.f, 0.f });
-	// wall2->setScale({ 100.f, 100.f, 100.f });
-	// wall2->setPosition({ 0.0f, 49.0f, -50.0f });
-	// GameObjectManager::get()->addObject(wall2);
-	//
-	// const std::shared_ptr<Plane> wall3 = std::make_shared<Plane>("wall3", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	// wall3->setRotation({ 0.f, 1.57f });
-	// wall3->setScale({ 100.f, 100.f, 100.f });
-	// wall3->setPosition({ 50.0f, 49.0f, 0.0f });
-	// GameObjectManager::get()->addObject(wall3);
-	//
-	// const std::shared_ptr<Plane> wall4 = std::make_shared<Plane>("wall4", shaderByteCode, byteCodeSize, Vector3D(0.15f, 0.2f, 0.60f));
-	// wall4->setRotation({ 0.f, 1.57f });
-	// wall4->setScale({ 100.f, 100.f, 100.f });
-	// wall4->setPosition({ -50.0f, 49.0f, 0.0f });
-	// GameObjectManager::get()->addObject(wall4);
-	//
-	// const std::shared_ptr<Plane> plane = std::make_shared<Plane>("plane", shaderByteCode, byteCodeSize);
-	// plane->setRotation({ 1.57f, 0.f });
-	// plane->setScale(2.f);
-	// plane->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	// plane->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	//GameObjectManager::get()->addObject(plane);
-
-	// 1. Rainbow cube
-	// Cube* cube = new Cube("cube", shaderByteCode, byteCodeSize);
-	// cube->setPosition({ 0.f, 0.f, 0.f });
-	// gameObjectsVector.push_back(cube);
-
-	// 2. Rotating white cube
-	// const std::shared_ptr<Cube> cube = std::make_shared<Cube>("cube", shaderByteCode, byteCodeSize, 1.f);
-	// cube->setPosition({ -1.f, 0.f, 0.f });
-	// cube->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	// cube->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	//GameObjectManager::get()->addObject(cube);
-
-	// const std::shared_ptr<Cylinder> cylinder = std::make_shared<Cylinder>("cylinder", shaderByteCode, byteCodeSize, 1.f);
-	// cylinder->setPosition({ 1.f, 0.f, 0.f });
-	// cylinder->rotationDirection = randomRangeVector3D(-1.f, 1.f);
-	// cylinder->rotationSpeed = randomRangeFloat(1.f, 2.f);
-	// GameObjectManager::get()->addObject(cylinder);
-}
-
-void AppWindow::onUpdate()
-{
-	//LogUtils::log(this, "Updating window");
-	Window::onUpdate();
-	//LogUtils::log(this, "Updating input system");
-	InputSystem::get()->update();
-
-	ticks += EngineTime::getDeltaTime() * 1.0f;
-
-	//LogUtils::log(this, "Setting shaders");
-	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(vertexShader);
-	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setGeometryShader(geometryShader);
-	// GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(pixelShader);
-
-	//LogUtils::log(this, "Clear render target");
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(
-		this->swapChain,
-		0.3f,
-		0.3f,
-		0.3f,
-		1.f);
-
-	const auto& [left, top, right, bottom] = this->getClientWindowRect();
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(right - left, bottom - top);
-
-	// physics
-	BaseComponentSystem::get()->getPhysicsSystem()->updateAllComponents();
-
-	GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
-
-	// renderers
-	GameObjectManager::get()->drawAll();
-
-	UIManager::get()->draw();
-
-	swapChain->present(true);
-}
-
-void AppWindow::onFocus()
-{
-	Window::onFocus();
-	InputSystem::get()->setEnabled(true);
-}
-
-void AppWindow::onKillFocus()
-{
-	Window::onKillFocus();
-	InputSystem::get()->setEnabled(false);
-}
-
-void AppWindow::onDestroy()
-{
-	Window::onDestroy();
-
-	//vertexBuffer->release();
-	// swapChain->release();
-	// vertexShader->release();
-	// pixelShader->release();
-
-
-	//GraphicsEngine::get()->getRenderSystem()->release();
+	SwapChain* AppWindow::getSwapChain() const
+	{
+		return swapChain.get();
+	}
 }
