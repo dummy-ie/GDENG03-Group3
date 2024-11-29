@@ -2,6 +2,9 @@
 
 #include "LogUtils.h"
 #include "imgui.h"
+#include "UIManager.h"
+
+using namespace mrlol;
 
 // ReSharper disable once CppInconsistentNaming
 // for ImGui input forwarding
@@ -13,6 +16,11 @@ LRESULT CALLBACK windowProc(const HWND windowHandle, const UINT message, const W
 
 	switch (message)
 	{
+	case WM_SIZE:
+		if (wParam == SIZE_MINIMIZED)
+			return 0;
+		UIManager::resizeWidth = static_cast<UINT>(LOWORD(lParam)); // Queue resize
+		UIManager::resizeHeight = static_cast<UINT>(HIWORD(lParam));
 	case WM_CREATE:
 	{
 		break;
@@ -58,18 +66,18 @@ Window::Window()
 	wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	wc.hInstance = nullptr;
-	wc.lpszClassName = "MyWindowClass";
-	wc.lpszMenuName = "";
+	wc.lpszClassName = L"MyWindowClass";
+	wc.lpszMenuName = L"";
 	wc.style = NULL;
 	wc.lpfnWndProc = &windowProc;
-	
+
 	LogUtils::logBool(this, static_cast<bool>(::RegisterClassEx(&wc)));
 
 	windowHandle = ::CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
-		"MyWindowClass",
-		"MRLOL.engine",
-		WS_OVERLAPPEDWINDOW,
+		L"MyWindowClass",
+		L"MRLOL.engine",
+		WS_THICKFRAME | WS_MAXIMIZE,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		GetSystemMetrics(SM_CXFULLSCREEN),
@@ -138,6 +146,16 @@ RECT Window::getClientWindowRect() const
 	RECT rc;
 	::GetClientRect(this->windowHandle, &rc);
 	return rc;
+}
+
+int Window::getWindowWidth() const
+{
+	return getClientWindowRect().right - getClientWindowRect().left;
+}
+
+int Window::getWindowHeight() const
+{
+	return getClientWindowRect().bottom - getClientWindowRect().top;
 }
 
 void Window::onCreate()

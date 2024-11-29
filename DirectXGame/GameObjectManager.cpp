@@ -1,145 +1,165 @@
 #include "GameObjectManager.h"
 
-#include "Cube.h"
-#include "Plane.h"
-
-GameObjectManager* GameObjectManager::sharedInstance = nullptr;
-
-GameObjectManager::GameObjectPtr GameObjectManager::findObjectByName(const std::string& name)
+namespace mrlol
 {
-	return gameObjectMap[name];
-}
+	GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 
-GameObjectManager::GameObjectList GameObjectManager::getAllObjects()
-{
-	return gameObjectList;
-}
-
-int GameObjectManager::activeObjects() const
-{
-	return static_cast<int>(gameObjectList.size());
-}
-
-void GameObjectManager::updateAll(const float deltaTime) const
-{
-	for (const auto& gameObject : gameObjectList)
+	GameObjectManager::GameObjectPtr GameObjectManager::findObjectByName(const std::string& name)
 	{
-		if (!gameObject->getEnabled())
-			continue;
-
-		gameObject->update(deltaTime);
-	}
-}
-
-void GameObjectManager::drawAll(const VertexShaderPtr& vertexShader, const GeometryShaderPtr& geometryShader,
-                                const Material& material, const RECT clientWindow) const
-{
-	for (const auto& gameObject : gameObjectList)
-	{
-		if (!gameObject->getEnabled())
-			continue;
-
-		gameObject->draw(vertexShader, geometryShader, material, clientWindow);
-	}
-}
-
-void GameObjectManager::addObject(const GameObjectPtr& gameObject)
-{
-	int duplicateCount = 0;
-	std::string name = gameObject->getName();
-	while (!gameObjectMap.insert(std::make_pair(name, gameObject)).second) // While insertion into the map fails, add number to the gameObject's name
-	{
-		name = gameObject->getName() + " (" + std::to_string(duplicateCount) + ")";
-		duplicateCount++;
+		return gameObjectMap[name];
 	}
 
-	gameObjectList.push_back(gameObject);
-}
-
-void GameObjectManager::createObject(const PrimitiveType type, void* shaderByteCode, size_t sizeShader)
-{
-	switch (type)
+	GameObjectManager::GameObjectList GameObjectManager::getAllObjects()
 	{
-	case CUBE:
+		return gameObjectList;
+	}
+
+	int GameObjectManager::activeObjects() const
 	{
-		const std::shared_ptr<Cube> cube = std::make_shared<Cube>("Cube", shaderByteCode, sizeShader);
-		addObject(cube);
-		break;
+		return static_cast<int>(gameObjectList.size());
 	}
-	case PLANE:
+
+	void GameObjectManager::updateAll(const float deltaTime) const
 	{
-		const std::shared_ptr<Plane> plane = std::make_shared<Plane>("Plane", shaderByteCode, sizeShader);
-		addObject(plane);
-		break;
+		for (const auto& gameObject : gameObjectList)
+		{
+			if (!gameObject->getEnabled())
+				continue;
+
+			gameObject->update(deltaTime);
+			//LogUtils::log(this, gameObject->getUniqueName() + " position: " + gameObject->getLocalPosition().toString());
+		}
 	}
-	case SPHERE:
+
+	void GameObjectManager::drawAll(int width, int height) const
 	{
+		for (const auto& gameObject : gameObjectList)
+		{
+			if (!gameObject->getEnabled())
+				continue;
 
-		break;
+			for (const auto renderer : gameObject->getComponentsOfType(ComponentType::RENDERER))
+			{
+				renderer->update();
+				//LogUtils::log(this, "rendering: " + renderer->getUniqueName());
+			}
+
+		}
 	}
-	case CAPSULE:
+
+	void GameObjectManager::addObject(const GameObjectPtr& gameObject)
 	{
+		int duplicateCount = 0;
+		std::string name = gameObject->getUniqueName();
+		while (!gameObjectMap.insert(std::make_pair(name, gameObject)).second) // While insertion into the map fails, add number to the gameObject's name
+		{
+			name = gameObject->getUniqueName() + " (" + std::to_string(duplicateCount) + ")";
+			gameObject->setUniqueName(name);
+			duplicateCount++;
+		}
 
-		break;
+		gameObjectList.push_back(gameObject);
 	}
-	}
-}
 
-void GameObjectManager::deleteObject(const GameObjectPtr& gameObject)
-{
-	gameObjectMap.erase(gameObject->getName());
-	const GameObjectList::iterator it = std::find(gameObjectList.begin(), gameObjectList.end(), gameObject);
-
-	if (it != gameObjectList.end())
+	void GameObjectManager::createObject(const PrimitiveType type, void* shaderByteCode, size_t sizeShader)
 	{
-		gameObjectList.erase(it);
+		switch (type)
+		{
+		case PrimitiveType::CUBE:
+		{
+			//const std::shared_ptr<Cube> cube = std::make_shared<Cube>("Cube", shaderByteCode, sizeShader);
+			//addObject(cube);
+			break;
+		}
+		case PrimitiveType::PLANE:
+		{
+			//const std::shared_ptr<Plane> plane = std::make_shared<Plane>("Plane", shaderByteCode, sizeShader);
+			//addObject(plane);
+			break;
+		}
+		case PrimitiveType::SPHERE:
+		{
+
+			break;
+		}
+		case PrimitiveType::CAPSULE:
+		{
+
+			break;
+		}
+		}
 	}
-}
 
-void GameObjectManager::deleteObjectByName(const std::string& name)
-{
-	// const GameObjectList::iterator it = std::find_if(
-	// 	gameObjectList.begin(),
-	// 	gameObjectList.end(),
-	// 	[name](const GameObjectPtr& go) {return go->getName() == name; });
-	// nvm
+	void GameObjectManager::deleteObject(const GameObjectPtr& gameObject)
+	{
+		gameObjectMap.erase(gameObject->getUniqueName());
+		const GameObjectList::iterator it = std::find(gameObjectList.begin(), gameObjectList.end(), gameObject);
 
-	deleteObject(findObjectByName(name));
-}
+		if (it != gameObjectList.end())
+		{
+			gameObjectList.erase(it);
+		}
+	}
 
-void GameObjectManager::setSelectedObject(const std::string& name)
-{
-	if (!gameObjectMap[name])
-		return;
+	void GameObjectManager::deleteObjectByName(const std::string& name)
+	{
+		// const GameObjectList::iterator it = std::find_if(
+		// 	gameObjectList.begin(),
+		// 	gameObjectList.end(),
+		// 	[name](const GameObjectPtr& go) {return go->getUniqueName() == name; });
+		// nvm
 
-	setSelectedObject(gameObjectMap[name]);
-}
+		deleteObject(findObjectByName(name));
+	}
 
-void GameObjectManager::setSelectedObject(const GameObjectPtr& gameObject)
-{
-	selectedObject = gameObject;
-}
+	void GameObjectManager::setSelectedObject(const std::string& name)
+	{
+		if (!gameObjectMap[name])
+			return;
 
-GameObjectManager::GameObjectPtr GameObjectManager::getSelectedObject()
-{
-	return selectedObject;
-}
+		setSelectedObject(gameObjectMap[name].get());
+	}
 
-GameObjectManager* GameObjectManager::get()
-{
-	if (!sharedInstance)
-		sharedInstance = new GameObjectManager();
+	void GameObjectManager::setSelectedObject(GameObject* gameObject)
+	{
+		selectedObject = gameObject;
+	}
 
-	return sharedInstance;
-}
+	GameObject* GameObjectManager::getSelectedObject() const
+	{
+		return selectedObject;
+	}
 
-GameObjectManager::GameObjectManager()
-= default;
+	void GameObjectManager::saveEditStates()
+	{
+		for (const GameObjectPtr gameObject : gameObjectList) {
+			gameObject->saveEditState();
+		}
+	}
 
-GameObjectManager::~GameObjectManager()
-{
-	gameObjectMap.clear();
-	gameObjectList.clear();
+	void GameObjectManager::restoreEditStates()
+	{
+		for (GameObjectPtr gameObject : gameObjectList) {
+			gameObject->restoreEditState();
+		}
+	}
 
-	delete sharedInstance;
+	GameObjectManager* GameObjectManager::get()
+	{
+		if (!sharedInstance)
+			sharedInstance = new GameObjectManager();
+
+		return sharedInstance;
+	}
+
+	GameObjectManager::GameObjectManager()
+		= default;
+
+	GameObjectManager::~GameObjectManager()
+	{
+		gameObjectMap.clear();
+		gameObjectList.clear();
+
+		delete sharedInstance;
+	}
 }

@@ -1,37 +1,64 @@
 #include "GraphicsEngine.h"
 
+#include "MeshManager.h"
 
-GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
-
-GraphicsEngine::GraphicsEngine()
+namespace mrlol
 {
-	try { renderSystem = new RenderSystem(); }
-	catch (...) { renderSystem = nullptr; }
-}
+	GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
 
-GraphicsEngine::~GraphicsEngine()
-{
-	delete renderSystem;
-	delete sharedInstance;
-}
+	GraphicsEngine::GraphicsEngine()
+	{
+		try { renderSystem = new RenderSystem(); }
+		catch (...) { renderSystem = nullptr; }
 
-GraphicsEngine* GraphicsEngine::get()
-{
-	if (!sharedInstance)
-		sharedInstance = new GraphicsEngine();
+		try { textureManager = new TextureManager(); }
+		catch (...) { textureManager = nullptr; }
 
-	return sharedInstance;
-}
+		try { meshManager = new MeshManager(); }
+		catch (...) { meshManager = nullptr; }
 
-void GraphicsEngine::create()
-{
-}
+		void* shaderByteCode = nullptr;
+		size_t sizeShader = 0;
+		renderSystem->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "main", &shaderByteCode, &sizeShader);
+		::memcpy(meshLayoutByteCode, shaderByteCode, sizeShader);
+		meshLayoutSize = sizeShader;
+		renderSystem->releaseCompiledShader();
+	}
 
-void GraphicsEngine::release()
-{
-}
+	GraphicsEngine::~GraphicsEngine()
+	{
+		delete renderSystem;
+		delete textureManager;
+		delete meshManager;
+		delete sharedInstance;
+	}
 
-RenderSystem* GraphicsEngine::getRenderSystem() const
-{
-	return renderSystem;
+	GraphicsEngine* GraphicsEngine::get()
+	{
+		if (!sharedInstance)
+			sharedInstance = new GraphicsEngine();
+
+		return sharedInstance;
+	}
+
+	RenderSystem* GraphicsEngine::getRenderSystem() const
+	{
+		return renderSystem;
+	}
+
+	TextureManager* GraphicsEngine::getTextureManager() const
+	{
+		return textureManager;
+	}
+
+	MeshManager* GraphicsEngine::getMeshManager() const
+	{
+		return meshManager;
+	}
+
+	void GraphicsEngine::getVertexMeshLayoutShaderByteCodeAndSize(void** shaderByteCode, size_t* sizeShader)
+	{
+		*shaderByteCode = meshLayoutByteCode;
+		*sizeShader = meshLayoutSize;
+	}
 }

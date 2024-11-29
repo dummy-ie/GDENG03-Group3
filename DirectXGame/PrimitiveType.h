@@ -2,10 +2,13 @@
 
 #include <cstdint>
 
-enum PrimitiveType : std::uint8_t
+namespace mrlol
 {
-	CUBE,
-	PLANE,
-	SPHERE,
-	CAPSULE
-};
+	enum class PrimitiveType : std::uint8_t
+	{
+		CUBE,
+		PLANE,
+		SPHERE,
+		CAPSULE
+	};
+}

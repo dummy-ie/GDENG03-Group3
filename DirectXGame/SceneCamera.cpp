@@ -3,97 +3,109 @@
 #include "EngineTime.h"
 #include "InputSystem.h"
 
-SceneCamera::SceneCamera(const std::string& name, bool orthographic, const RECT& windowRect) : Camera(name, orthographic, windowRect)
+namespace mrlol
 {
-	InputSystem::get()->addListener(this);
-}
-
-void SceneCamera::update(const float deltaTime)
-{
-	Camera::update(deltaTime);
-
-	InputSystem::showCursor(!isRightMouseDown);
-}
-
-void SceneCamera::onKeyDown(const int key)
-{
-	if (!isRightMouseDown)
-		return;
-
-	Matrix4x4 temp = view;
-	temp.inverse();
-
-	switch (key)
+	SceneCamera::SceneCamera(const std::string& name, bool orthographic, const RECT& windowRect) : Camera(name, orthographic, windowRect)
 	{
-	case 'W':
+		InputSystem::get()->addListener(this);
+	}
+
+	void SceneCamera::setPossessed(bool possessed)
 	{
-		localPosition += temp.getZDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
+		isPossessed = possessed;
 	}
-	case 'S':
+
+	void SceneCamera::update(const float deltaTime)
 	{
-		localPosition -= temp.getZDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
+		Camera::update(deltaTime);
+
+		//InputSystem::showCursor(!isPossessed);
 	}
-	case 'A':
+
+	void SceneCamera::onKeyDown(const int key)
 	{
-		localPosition -= temp.getXDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
+		if (!isPossessed)
+			return;
+
+		Matrix4x4 temp = view;
+		temp.inverse();
+
+		switch (key)
+		{
+		case 'W':
+		{
+			localPosition += temp.getZDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		case 'S':
+		{
+			localPosition -= temp.getZDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		case 'A':
+		{
+			localPosition -= temp.getXDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		case 'D':
+		{
+			localPosition += temp.getXDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		case 'Q':
+		{
+			localPosition -= temp.getYDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		case 'E':
+		{
+			localPosition += temp.getYDirection() * (movementSpeed * EngineTime::getDeltaTime());
+			break;
+		}
+		default:
+			break;
+		}
 	}
-	case 'D':
+
+	void SceneCamera::onKeyUp(int key)
 	{
-		localPosition += temp.getXDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
 	}
-	case 'Q':
+
+	void SceneCamera::onMouseMove(const Vector2D& deltaMousePosition)
 	{
-		localPosition -= temp.getYDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
+		if (!isPossessed)
+			return;
+
+		const float width = static_cast<float>(windowRect.right - windowRect.left);
+		const float height = static_cast<float>(windowRect.bottom - windowRect.top);
+
+		// localRotation.x += (deltaMousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
+		// localRotation.y += (deltaMousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
+
+		localRotation.x += ((deltaMousePosition.y) - (InputSystem::get()->getOldMousePosition().y)) * 0.2f * EngineTime::getDeltaTime();
+		localRotation.y += ((deltaMousePosition.x) - (InputSystem::get()->getOldMousePosition().x)) * 0.2f * EngineTime::getDeltaTime();
+
+		//InputSystem::setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
 	}
-	case 'E':
+
+	void SceneCamera::onLeftMouseDown(const Vector2D& mousePosition)
 	{
-		localPosition += temp.getYDirection() * (movementSpeed * EngineTime::getDeltaTime());
-		break;
 	}
-	default:
-		break;
+
+	void SceneCamera::onLeftMouseUp(const Vector2D& mousePosition)
+	{
 	}
-}
 
-void SceneCamera::onKeyUp(int key)
-{
-}
+	void SceneCamera::onRightMouseDown(const Vector2D& mousePosition)
+	{
+		isPossessed = true;
+		InputSystem::showCursor(false);
+	}
 
-void SceneCamera::onMouseMove(const Vector2D& mousePosition)
-{
-	if (!isRightMouseDown)
-		return;
-
-	const float width = static_cast<float>(windowRect.right - windowRect.left);
-	const float height = static_cast<float>(windowRect.bottom - windowRect.top);
-
-	localRotation.x += (mousePosition.y - (height / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
-	localRotation.y += (mousePosition.x - (width / 2.0f)) * EngineTime::getDeltaTime() * 0.1f;
-
-	InputSystem::setCursorPosition(Vector2D(width / 2.0f, height / 2.0f));
-}
-
-void SceneCamera::onLeftMouseDown(const Vector2D& mousePosition)
-{
-}
-
-void SceneCamera::onLeftMouseUp(const Vector2D& mousePosition)
-{
-}
-
-void SceneCamera::onRightMouseDown(const Vector2D& mousePosition)
-{
-	isRightMouseDown = true;
-}
-
-void SceneCamera::onRightMouseUp(const Vector2D& mousePosition)
-{
-	isRightMouseDown = false;
-	InputSystem::showCursor(true);
-	//InputSystem::get()->showCursor(true);
+	void SceneCamera::onRightMouseUp(const Vector2D& mousePosition)
+	{
+		isPossessed = false;
+		InputSystem::showCursor(true);
+		//InputSystem::get()->showCursor(true);
+	}
 }

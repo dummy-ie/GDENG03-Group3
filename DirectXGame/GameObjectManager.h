@@ -5,48 +5,50 @@
 #include "PrimitiveType.h"
 #include "GameObject.h"
 
-class GameObjectManager
+namespace mrlol
 {
-public:
-	typedef std::shared_ptr<GameObject> GameObjectPtr;
-	typedef std::vector<GameObjectPtr> GameObjectList;
-	typedef std::unordered_map<std::string, GameObjectPtr> GameObjectHashMap;
+	class GameObjectManager
+	{
+	public:
+		typedef std::shared_ptr<GameObject> GameObjectPtr;
+		typedef std::vector<GameObjectPtr> GameObjectList;
+		typedef std::unordered_map<std::string, GameObjectPtr> GameObjectHashMap;
 
-	GameObjectPtr findObjectByName(const std::string& name);
-	GameObjectList getAllObjects();
-	int activeObjects() const;
+		GameObjectPtr findObjectByName(const std::string& name);
+		GameObjectList getAllObjects();
+		int activeObjects() const;
 
-	void updateAll(float deltaTime) const;
-	void drawAll(
-		const VertexShaderPtr& vertexShader,
-		const GeometryShaderPtr& geometryShader,
-		const Material& material,
-		RECT clientWindow) const;
+		void updateAll(float deltaTime) const;
+		void drawAll(int width, int height) const;
 
-	void addObject(const GameObjectPtr& gameObject);
-	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
-	void deleteObject(const GameObjectPtr& gameObject);
-	void deleteObjectByName(const std::string& name);
-	void setSelectedObject(const std::string& name);
-	void setSelectedObject(const GameObjectPtr& gameObject);
-	GameObjectPtr getSelectedObject();
+		void addObject(const GameObjectPtr& gameObject);
+		void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
+		void deleteObject(const GameObjectPtr& gameObject);
+		void deleteObjectByName(const std::string& name);
+		void setSelectedObject(const std::string& name);
+		void setSelectedObject(GameObject* gameObject);
+		GameObject* getSelectedObject() const;
 
-	static GameObjectManager* get();
+		void saveEditStates();
+		void restoreEditStates();
 
-	GameObjectManager(GameObjectManager const&) = delete;
-	GameObjectManager& operator=(GameObjectManager const&) = delete;
-	GameObjectManager(GameObjectManager&& other) noexcept = delete;
-	GameObjectManager& operator=(GameObjectManager&& other) noexcept = delete;
+		static GameObjectManager* get();
 
-private:
-	GameObjectManager();
-	~GameObjectManager();
-	static GameObjectManager* sharedInstance;
+		GameObjectManager(GameObjectManager const&) = delete;
+		GameObjectManager& operator=(GameObjectManager const&) = delete;
+		GameObjectManager(GameObjectManager&& other) noexcept = delete;
+		GameObjectManager& operator=(GameObjectManager&& other) noexcept = delete;
 
-	GameObjectHashMap gameObjectMap;
-	GameObjectList gameObjectList;
+	private:
+		GameObjectManager();
+		~GameObjectManager();
+		static GameObjectManager* sharedInstance;
 
-	GameObjectPtr selectedObject = nullptr;
+		GameObjectHashMap gameObjectMap;
+		GameObjectList gameObjectList;
 
-};
+		GameObject* selectedObject = nullptr;
+
+	};
+}
 

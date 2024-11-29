@@ -3,17 +3,20 @@
 #include <Windows.h>
 #include "Prerequisites.h"
 
-class SamplerState
+namespace mrlol
 {
-public:
-    SamplerState(RenderSystem* system);
-    ~SamplerState();
-private:
-    UINT m_size_vertex;
-    UINT m_size_list;
-private:
-    ID3D11SamplerState* m_sampler_state;
-    RenderSystem* m_system = nullptr;
-private:
-    friend class DeviceContext;
-};
+	class SamplerState
+	{
+	public:
+		SamplerState(RenderSystem* system);
+		~SamplerState();
+	private:
+		UINT m_size_vertex;
+		UINT m_size_list;
+	private:
+		ID3D11SamplerState* samplerState;
+		RenderSystem* m_system = nullptr;
+	private:
+		friend class DeviceContext;
+	};
+}

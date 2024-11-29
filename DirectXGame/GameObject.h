@@ -2,6 +2,10 @@
 
 #include <vector>
 #include <corecrt_math_defines.h>
+#include <reactphysics3d/reactphysics3d.h>
+
+#include "Quaternion.h"
+
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "GraphicsEngine.h"
@@ -12,67 +16,87 @@
 #include "ConstantBuffer.h"
 #include "LogUtils.h"
 #include "Material.h"
+#include "Component.h"
 
-class GameObject
+namespace mrlol
 {
-public:
-	explicit GameObject(std::string name) : name(std::move(name))
+	class EditorAction;
+
+	class GameObject
 	{
-	}
+	public:
+		typedef std::vector<Component*> ComponentList;
 
-	// virtual ~GameObject() 
-	// {
-	// 	delete vertexBuffer;
-	// 	delete indexBuffer;
-	// 	delete constantBuffer;
-	// }
+		explicit GameObject(const std::string& name);
 
-	virtual void update(float deltaTime) = 0;
-	virtual void draw(
-		const VertexShaderPtr& vertexShader,
-		const GeometryShaderPtr& geometryShader,
-		const Material& material,
-		RECT clientWindow);
+		virtual ~GameObject() = default;
+		GameObject(GameObject const&) = default;
+		GameObject& operator=(GameObject const&) = default;
+		GameObject(GameObject&& other) noexcept = default;
+		GameObject& operator=(GameObject&& other) noexcept = default;
 
-	void setPosition(const Vector3D& position) { localPosition = position; }
-	void translate(const Vector3D& translation) { localPosition += translation; }
+		virtual void awake() {}
+		virtual void update(float deltaTime) {}
 
-	void setScale(const Vector3D& scale) { localScale = scale; }
-	void scale(const Vector3D& scale) { localScale += scale; }
+		void setLocalPosition(const Vector3D& position);
+		void translate(const Vector3D& translation);
+		Vector3D getLocalPosition();
 
-	void setRotation(const Vector3D& rotation) { localRotation = rotation; }
-	void rotate(const Vector3D& rotation) { localRotation += rotation; }
+		void setLocalScale(const Vector3D& scale);
+		void scale(const Vector3D& scale);
+		Vector3D getLocalScale();
 
-	void setEnabled(const bool enabled) { isEnabled = enabled; }
+		void setLocalRotation(const Vector3D& rotation);
+		void rotate(const Vector3D& rotation);
+		Vector3D getLocalRotation();
 
-	void setColor(const Vector3D& newColor)
-	{
-		LogUtils::log("Setting color " + color.toString() + " to: " + newColor.toString());
-		color = newColor;
-		LogUtils::log("color: " + color.toString());
-	}
+		void setOrientation(const Vector4D& orientation);
+		Vector4D getOrientation();
 
-	std::string getName() { return name; }
-	bool getEnabled() const { return isEnabled; }
-	Vector3D getPosition() { return localPosition; }
-	Vector3D getScale() { return localScale; }
-	Vector3D getRotation() { return localRotation; }
-	Vector3D getColor() { return color; }
+		void setEnabled(const bool enabled);
+		bool getEnabled() const;
 
-protected:
-	float elapsedTime = 0.f;
+		void setDisplayName(const std::string& displayName);
+		std::string getUniqueName();
+		std::string getDisplayName();
 
-	std::string name;
-	bool isEnabled = true;
+		void updateLocalMatrix();
+		Matrix4x4 getLocalMatrix() const;
+		void setLocalMatrix(float matrix[16]);
+		float* getPhysicsLocalMatrix();
 
-	Vector3D localScale = 1.f;
-	Vector3D localPosition = 0.f;
-	Vector3D localRotation = 0.f;
-	//Matrix4x4 localMatrix;
+		void attachComponent(Component* component);
+		void detachComponent(const Component* component);
 
-	Vector3D color;
+		Component* findComponentByName(const std::string& name);
+		Component* findComponentOfType(ComponentType type, const std::string& name);
+		ComponentList getComponentsOfType(ComponentType type) const;
+		ComponentList getComponentsOfTypeRecursive(ComponentType type) const;
 
-	VertexBufferPtr vertexBuffer = nullptr;
-	IndexBufferPtr indexBuffer = nullptr;
-	ConstantBufferPtr constantBuffer = nullptr;
-};
+		void saveEditState();
+		void restoreEditState();
+
+		//reactphysics3d::Transform transform;
+
+	protected:
+		void setUniqueName(const std::string& uniqueName);
+
+		float elapsedTime = 0.f;
+
+		std::string displayName;
+		std::string name;
+		bool isEnabled = true;
+
+		Vector3D localScale = 1.f;
+		Vector3D localPosition = 0.f;
+		Vector3D localRotation = 0.f;
+		Matrix4x4 localMatrix;
+		Vector4D orientation;
+
+		EditorAction* lastEditState;
+
+		ComponentList componentList;
+
+		friend class GameObjectManager;
+	};
+}

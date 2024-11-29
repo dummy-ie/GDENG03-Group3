@@ -71,7 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\DirectXGame\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\DirectXGame\libraries\imgui;$(SolutionDir)\DirectXGame\libraries\tinyobjloader;$(SolutionDir)\DirectXGame\libraries\reactphysics3d;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)libraries\imgui;$(ProjectDir)libraries\tinyobjloader;$(ProjectDir)libraries\reactphysics3d;$(ProjectDir)libraries;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -105,16 +109,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>Default</LanguageStandard>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\DirectXGame\libraries\reactphysics3d\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;"$(SolutionDir)\DirectXGame\libraries\reactphysics3d\lib\reactphysics3d.lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,80 +126,136 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\DirectXGame\libraries\reactphysics3d\include;$(SolutionDir)\DirectXGame\libraries</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;"$(SolutionDir)\DirectXGame\libraries\reactphysics3d\lib\reactphysics3d.lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionHistory.cpp" />
     <ClCompile Include="AppWindow.cpp" />
+    <ClCompile Include="BaseComponentSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Circle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Cube.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DeviceContext.cpp" />
+    <ClCompile Include="EditorAction.cpp" />
+    <ClCompile Include="EngineBackend.cpp" />
     <ClCompile Include="EngineTime.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryShader.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
-    <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_tables.cpp" />
-    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="HierarchyScreen.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="InspectorScreen.cpp" />
+    <ClCompile Include="libraries\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="libraries\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="libraries\imgui\imgui.cpp" />
+    <ClCompile Include="libraries\imgui\imgui_demo.cpp" />
+    <ClCompile Include="libraries\imgui\imgui_draw.cpp" />
+    <ClCompile Include="libraries\imgui\imgui_tables.cpp" />
+    <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="libraries\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialEditor.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Plane.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PlaybackScreen.cpp" />
+    <ClCompile Include="ProfilerScreen.cpp" />
     <ClCompile Include="Quad.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="RasterizerState.cpp" />
+    <ClCompile Include="Renderer3D.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RenderTexture.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="SceneCamera.cpp" />
+    <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="ToolsScreen.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="Viewport.cpp" />
+    <ClCompile Include="ViewportManager.cpp" />
+    <ClCompile Include="ViewportScreen.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionHistory.h" />
     <ClInclude Include="AppWindow.h" />
+    <ClInclude Include="BaseComponentSystem.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Circle.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentType.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Cube.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="EditorAction.h" />
+    <ClInclude Include="EngineBackend.h" />
     <ClInclude Include="GameObjectManager.h" />
-    <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
-    <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="imgui\imconfig.h" />
-    <ClInclude Include="imgui\imgui.h" />
-    <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="imgui\imstb_rectpack.h" />
-    <ClInclude Include="imgui\imstb_textedit.h" />
-    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="HierarchyScreen.h" />
+    <ClInclude Include="InspectorScreen.h" />
+    <ClInclude Include="libraries\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="libraries\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="libraries\imgui\imconfig.h" />
+    <ClInclude Include="libraries\imgui\imgui.h" />
+    <ClInclude Include="libraries\imgui\imgui_internal.h" />
+    <ClInclude Include="libraries\imgui\imstb_rectpack.h" />
+    <ClInclude Include="libraries\imgui\imstb_textedit.h" />
+    <ClInclude Include="libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
@@ -210,22 +269,45 @@
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MenuScreen.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Plane.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PlaybackScreen.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="PrimitiveType.h" />
+    <ClInclude Include="ProfilerScreen.h" />
     <ClInclude Include="Quad.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="RasterizerState.h" />
+    <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="RenderTexture.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="SceneCamera.h" />
     <ClInclude Include="GraphicsResource.h" />
+    <ClInclude Include="ShaderLibrary.h" />
+    <ClInclude Include="ShaderToCompile.h" />
+    <ClInclude Include="ShaderType.h" />
     <ClInclude Include="Singleton.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="ToolsScreen.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="Vector2D.h" />
@@ -234,11 +316,16 @@
     <ClInclude Include="Vectors.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="ViewportManager.h" />
+    <ClInclude Include="ViewportScreen.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="..\todo.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -246,13 +333,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="GeometryShader1.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -260,21 +351,18 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="images\pompom logo.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </Image>
-    <Image Include="images\waffle.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </Image>
+    <Library Include="libraries\reactphysics3d\lib\reactphysics3d.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\directxtk_desktop_win10.2024.10.29.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('..\packages\directxtk_desktop_win10.2024.10.29.1\build\native\directxtk_desktop_win10.targets')" />
+    <Import Project="..\packages\directxtex_desktop_2019.2024.10.29.1\build\native\directxtex_desktop_2019.targets" Condition="Exists('..\packages\directxtex_desktop_2019.2024.10.29.1\build\native\directxtex_desktop_2019.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\directxtk_desktop_win10.2024.10.29.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_win10.2024.10.29.1\build\native\directxtk_desktop_win10.targets'))" />
+    <Error Condition="!Exists('..\packages\directxtex_desktop_2019.2024.10.29.1\build\native\directxtex_desktop_2019.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtex_desktop_2019.2024.10.29.1\build\native\directxtex_desktop_2019.targets'))" />
   </Target>
 </Project>

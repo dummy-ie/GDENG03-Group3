@@ -1,6 +1,17 @@
 #include "MenuScreen.h"
 
+#include "AppWindow.h"
+#include "BaseComponentSystem.h"
+#include "GameObjectManager.h"
 #include "GraphicsEngine.h"
+#include "Mesh.h"
+#include "PhysicsComponent.h"
+#include "PhysicsSystem.h"
+#include "Renderer3D.h"
+#include "UIManager.h"
+#include "ViewportManager.h"
+
+using namespace mrlol;
 
 MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 {
@@ -8,7 +19,7 @@ MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 		this,
 		DirectX::CreateWICTextureFromFile(
 			GraphicsEngine::get()->getRenderSystem()->getDevice(),
-			L"images/pompom logo.png",
+			L"assets/images/pompom logo.png",
 			nullptr,
 			creditsTexture.ReleaseAndGetAddressOf()));
 }
@@ -39,6 +50,7 @@ void MenuScreen::draw()
 
 		if (ImGui::MenuItem("Quit", "Ctrl+W"))
 		{
+			AppWindow::get()->onDestroy();
 		}
 		ImGui::EndMenu();
 	}
@@ -56,6 +68,10 @@ void MenuScreen::draw()
 		if (ImGui::MenuItem("Create Plane"))
 		{
 			onCreatePlaneClicked();
+		}
+		if (ImGui::MenuItem("Create Physics Demo"))
+		{
+			onCreatePhysicsDemoClicked();
 		}
 
 		ImGui::Separator();
@@ -83,28 +99,56 @@ void MenuScreen::draw()
 	// Test header
 	if (ImGui::BeginMenu("Windows"))
 	{
-		if(isMaterialEditorOpen != nullptr)
-		if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
-		{
-			*isMaterialEditorOpen = !(*isMaterialEditorOpen);
+		if (ImGui::MenuItem("Inspector")) {
+			UIManager::get()->setActive("Inspector Screen");
 		}
+		if (ImGui::MenuItem("Hierarchy")) {
+			UIManager::get()->setActive("Hierarchy Screen");
+		}
+		if (ImGui::MenuItem("Profiler")) {
+			UIManager::get()->setActive("Profiler Screen");
+		}
+		if (ImGui::BeginMenu("Viewport"))
+		{
+			if (ImGui::MenuItem("Create Viewport"))
+			{
+				ViewportManager::get()->createViewport();
+			}
+			if (ImGui::MenuItem("Single Viewport"))
+			{
+				ViewportManager::get()->setNumViewports(1);
+			}
+			if (ImGui::MenuItem("2 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(2);
+			}
+			if (ImGui::MenuItem("3 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(3);
+			}
+			if (ImGui::MenuItem("4 Viewports"))
+			{
+				ViewportManager::get()->setNumViewports(4);
+			}
+			if (ImGui::MenuItem("Delete All Viewports"))
+			{
+				ViewportManager::get()->deleteAllViewports();
+			}
+			ImGui::EndMenu();
+		}
+		if (isMaterialEditorOpen != nullptr)
+			if (ImGui::MenuItem("Material Editor", nullptr, *isMaterialEditorOpen))
+			{
+				*isMaterialEditorOpen = !(*isMaterialEditorOpen);
+			}
 
 		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
 		{
 			isColorPickerOpen = !isColorPickerOpen;
 		}
+
 		ImGui::EndMenu();
 	}
-
-	// Test header
-	/*if (ImGui::BeginMenu("Test"))
-	{
-		if (ImGui::MenuItem("Color Picker", nullptr, isColorPickerOpen))
-		{
-			isColorPickerOpen = !isColorPickerOpen;
-		}
-		ImGui::EndMenu();
-	}*/
 
 	ImGui::EndMainMenuBar();
 
@@ -125,6 +169,32 @@ void MenuScreen::onCreateSphereClicked()
 
 void MenuScreen::onCreatePlaneClicked()
 {
+	GameObjectPtr plane = std::make_shared<GameObject>("Plane");
+	MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "planeMesh");
+	plane->setLocalPosition({ 0, -5, 20 });
+	plane->setLocalScale({ 10, 0.1, 10 });
+
+	plane->attachComponent(new Renderer3D("planeRenderer", plane.get(), planeMesh, UIManager::get()->mainMaterial));
+	PhysicsComponent* staticPhysics = new PhysicsComponent("planePhysics", plane.get());
+	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
+	plane->attachComponent(staticPhysics);
+	GameObjectManager::get()->addObject(plane);
+}
+
+void MenuScreen::onCreatePhysicsDemoClicked()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
+		MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "cubeMesh" + std::to_string(i));
+		cube->setLocalScale(1.f);
+		cube->setLocalPosition({ 0, 10, 20 });
+
+		cube->attachComponent(new Renderer3D("cubeRenderer" + std::to_string(i), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+		PhysicsComponent* cubePhysics = new PhysicsComponent("cubePhysics" + std::to_string(i), cube.get());
+		cube->attachComponent(cubePhysics);
+		GameObjectManager::get()->addObject(cube);
+	}
 }
 
 void MenuScreen::showCreditsWindow()
@@ -147,6 +217,9 @@ void MenuScreen::showCreditsWindow()
 			"Acknowledgements: \n"
 			"Dr. Neil Del Gallego's GDENG03 Course \n"
 			"PardCode Game Engine Tutorial \n"
+			"Joachim Arguelles \n"
+			"James Ursua \n"
+			"Uriel Pascual \n"
 			"Rimuru Tempest \n"
 		);
 		ImGui::NewLine();

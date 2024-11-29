@@ -17,36 +17,46 @@
 #include "MenuScreen.h"
 #include "MaterialEditor.h"
 
-class UIManager
+namespace mrlol
 {
-	typedef std::shared_ptr<UIScreen> UIScreenPtr;
-	typedef std::vector<UIScreenPtr> UIList;
-	typedef std::unordered_map<std::string, UIScreenPtr> UIMap;
+	class UIManager
+	{
+		typedef std::shared_ptr<UIScreen> UIScreenPtr;
+		typedef std::vector<UIScreenPtr> UIList;
+		typedef std::unordered_map<std::string, UIScreenPtr> UIMap;
 
-public:
-	static UIManager* get();
+	public:
+		static UIManager* get();
 
-	static void initialize(HWND windowHandle);
-	void draw() const;
+		static void initialize(HWND windowHandle);
+		void setActive(std::string name);
+		void draw() const;
 
-	UIManager(UIManager const&) = delete;
-	UIManager& operator=(UIManager const&) = delete;
-	UIManager(UIManager&& other) noexcept = delete;
-	UIManager& operator=(UIManager&& other) noexcept = delete;
+		UIManager(UIManager const&) = delete;
+		UIManager& operator=(UIManager const&) = delete;
+		UIManager(UIManager&& other) noexcept = delete;
+		UIManager& operator=(UIManager&& other) noexcept = delete;
 
-	static constexpr int WindowWidth = 1440;
-	static constexpr int WindowHeight = 900;
 
-	std::shared_ptr<Material> mainMaterial = nullptr;
+		static constexpr int WindowWidth = 1440;
+		static constexpr int WindowHeight = 900;
 
-private:
-	explicit UIManager(HWND windowHandle);
-	~UIManager();
-	static UIManager* sharedInstance;
+		static int resizeWidth;
+		static int resizeHeight;
 
-	static void setupImGuiStyle();
+		std::shared_ptr<Material> mainMaterial = nullptr;
 
-	UIList uiList;
-	UIMap uiMap;
-};
+	private:
+		explicit UIManager(HWND windowHandle);
+		~UIManager();
+		static UIManager* sharedInstance;
+
+		void addViewport(UIScreenPtr viewport);
+		static void setupImGuiStyle();
+
+		mutable bool firstTime = true;
+		UIList uiList;
+		UIMap uiMap;
+	};
+}
 

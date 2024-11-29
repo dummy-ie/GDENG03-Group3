@@ -1,3 +1,12 @@
 [submodule "DirectXGame/imgui"]
-	path = DirectXGame/imgui
+	path = DirectXGame/libraries/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "DirectXGame/tinyobjloader"]
+	path = DirectXGame/libraries/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "DirectXGame/libraries/imgui"]
+	path = DirectXGame/libraries/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "DirectXGame/libraries/tinyobjloader"]
+	path = DirectXGame/libraries/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader.git

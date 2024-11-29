@@ -7,44 +7,49 @@
 #include <shobjidl.h> 
 #include <vector>
 
+#include "Prerequisites.h"
 #include "UIScreen.h"
 #include "Vector2D.h"
 
-class MenuScreen;
-
-class MaterialEditor :
-    public UIScreen
+namespace mrlol
 {
-public:
-    MaterialEditor();
-    bool* getMaterialEditorOpen();
+	class MenuScreen;
 
-private:
-    void draw() override;
-    void showColorPickerWindow();
-    void updateSelectedMaterial() const;
-    void showMaterialEditorWindow();
+	class MaterialEditor :
+		public UIScreen
+	{
+	public:
+		MaterialEditor();
+		bool* getMaterialEditorOpen();
 
-    std::vector<unsigned char> getPixelData(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
-    bool isNormalImage(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& texture);
+	private:
+		void draw() override;
+		void showColorPickerWindow();
+		void updateSelectedMaterial() const;
+		void showMaterialEditorWindow();
 
-    void loadTextureFile(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &texture);
+		static std::vector<unsigned char> getPixelData(const TexturePtr& texture);
+		static bool isNormalImage(const TexturePtr& texture);
 
-    bool isColorPickerOpen = false;
-    bool isMaterialEditorOpen = false;
+		void loadTextureFile(TexturePtr& texture);
+		static void loadBlankTexture(TexturePtr& texture);
 
-    ImVec4 color = ImVec4(1,1,1,1);
-    float metallic = 0;
-    float smoothness = 0;
-    float flatness = 0;
-    Vector2D tiling = { 1,1 };
-    Vector2D offset = { 0,0 };
+		bool isColorPickerOpen = false;
+		bool isMaterialEditorOpen = false;
 
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> albedoTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> metallicTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> smoothnessTexture;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> normalTexture;
+		ImVec4 color = ImVec4(1, 1, 1, 1);
+		float metallic = 0;
+		float smoothness = 0;
+		float flatness = 0;
+		Vector2D tiling = { 1,1 };
+		Vector2D offset = { 0,0 };
 
-    friend class MenuScreen;
-};
+		TexturePtr albedoTexture;
+		TexturePtr metallicTexture;
+		TexturePtr smoothnessTexture;
+		TexturePtr normalTexture;
+
+		friend class MenuScreen;
+	};
+}
 

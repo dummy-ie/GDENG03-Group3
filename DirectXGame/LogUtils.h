@@ -7,73 +7,86 @@
 #define ERROR_LOGS true
 #define SUCCESS_LOGS false
 
-class LogUtils
+namespace mrlol
 {
-public:
-	template <class T>
-	static void log(T* sender, const std::string& message)
+	class LogUtils
 	{
-		if (!DEBUG_LOGS)
-			return;
+	public:
+		template <class T>
+		static void log(T* sender, const std::string& message)
+		{
+			if constexpr (!DEBUG_LOGS)
+				return;
 
-		std::cout << "[" << getType(sender) << " DEBUG]: " << message << '\n';
-	}
-
-	static void log(const std::string& message)
-	{
-		if (!DEBUG_LOGS)
-			return;
-
-		std::cout << "[DEBUG]: " << message << '\n';
-	}
-
-	template <class T>
-	static bool logHResult(T* sender, const long hResult)
-	{
-		if (FAILED(hResult)) {
-			const std::string message = std::system_category().message(hResult);
-			log(sender, message);
-			throw std::exception(message.data());
-			return false;
+			std::cout << "[" << getType(sender) << " DEBUG]: " << message << '\n';
 		}
 
-		if (SUCCESS_LOGS)
-			log(sender, "Operation was successful.");
+		static void log(const std::string& message)
+		{
+			if constexpr (!DEBUG_LOGS)
+				return;
 
-		return true;
-	}
-
-	template <class T>
-	static bool logBool(T* sender, const bool bResult)
-	{
-		if (!bResult) {
-			std::string message = "[" + std::to_string(bResult) + "] Operation failed!";
-			log(sender, message);
-			throw std::exception(message.data());
-			return false;
+			std::cout << "[DEBUG]: " << message << '\n';
 		}
 
-		if (SUCCESS_LOGS)
-			log(sender, "Operation was successful.");
+		template <class T>
+		static bool logHResult(T* sender, const long hResult)
+		{
+			if (FAILED(hResult)) {
+				const std::string message = std::system_category().message(hResult);
+				log(sender, message);
+				throw std::exception(message.data());
+				return false;
+			}
 
-		return true;
-	}
+			if constexpr (SUCCESS_LOGS)
+				log(sender, "Operation was successful.");
 
-	template <class T>
-	static void error(T* sender, const std::string& msg)
-	{
-		if (!ERROR_LOGS)
-			return;
+			return true;
+		}
 
-		std::string message = "[" + getType(sender) + " ERROR]: " + msg + '\n';
-		std::cout << message;
-		throw std::exception(message.data());
-	}
+		template <class T>
+		static bool logBool(T* sender, const bool bResult)
+		{
+			if (!bResult) {
+				std::string message = "[" + std::to_string(bResult) + "] Operation failed!";
+				log(sender, message);
+				throw std::exception(message.data());
+				return false;
+			}
 
-private:
-	template <class T>
-	static std::string getType(T* type)
-	{
-		return typeid(*type).name();
-	}
-};
+			if constexpr (SUCCESS_LOGS)
+				log(sender, "Operation was successful.");
+
+			return true;
+		}
+
+		template <class T>
+		static void error(T* sender, const std::string& msg)
+		{
+			if constexpr (!ERROR_LOGS)
+				return;
+
+			std::string message = "[" + getType(sender) + " ERROR]: " + msg + '\n';
+			std::cout << message;
+			throw std::exception(message.data());
+		}
+
+		static void error(const std::string& msg)
+		{
+			if constexpr (!ERROR_LOGS)
+				return;
+
+			std::string message = "[ERROR]: " + msg + '\n';
+			std::cout << message;
+			throw std::exception(message.data());
+		}
+
+	private:
+		template <class T>
+		static std::string getType(T* type)
+		{
+			return typeid(*type).name();
+		}
+	};
+}

@@ -2,134 +2,158 @@
 
 #include "imgui.h"
 
-InputSystem* InputSystem::sharedInstance = nullptr;
-
-InputSystem::InputSystem()
-= default;
-
-
-InputSystem::~InputSystem()
+namespace mrlol
 {
-	delete sharedInstance;
-}
+	InputSystem* InputSystem::sharedInstance = nullptr;
 
-void InputSystem::update()
-{
-	if (!isEnabled)
-		return;
+	InputSystem::InputSystem()
+		= default;
 
-	POINT currentMousePoint;
-	::GetCursorPos(&currentMousePoint);
-	//LogUtils::log(this, "Getting cursor pos");
-	const Vector2D currentMousePosition = currentMousePoint;
-	const ImGuiIO& io = ImGui::GetIO();
 
-	if (firstMouseMove)
+	InputSystem::~InputSystem()
 	{
-		oldMousePosition = currentMousePosition;
-		firstMouseMove = false;
+		delete sharedInstance;
 	}
 
-	if (currentMousePosition != oldMousePosition)
+	void InputSystem::update()
 	{
-		std::unordered_set<InputListener*>::iterator it = setListeners.begin();
+		if (!isEnabled)
+			return;
 
-		while (it != setListeners.end())
+		POINT currentMousePoint;
+		::GetCursorPos(&currentMousePoint);
+		//LogUtils::log(this, "Getting cursor pos");
+		const Vector2D currentMousePosition = currentMousePoint;
+		const ImGuiIO& io = ImGui::GetIO();
+
+		if (firstMouseMove)
 		{
-			(*it)->onMouseMove(currentMousePosition);
-			++it;
+			oldMousePosition = currentMousePosition;
+			firstMouseMove = false;
+			deltaMousePosition = 0;
 		}
-	}
-	oldMousePosition = currentMousePosition;
 
-	if (::GetKeyboardState(keysState))
-	{
-		//LogUtils::log(this, "Getting keyboard state");
-		for (unsigned int i = 0; i < 256; i++)
+		if (currentMousePosition != oldMousePosition)
 		{
-			// KEY IS DOWN
-			if (keysState[i] & 0x80)
+			std::unordered_set<InputListener*>::iterator it = setListeners.begin();
+			deltaMousePosition = currentMousePosition - oldMousePosition;
+			while (it != setListeners.end())
 			{
-				//LogUtils::log(this, "key is down");
-				std::unordered_set<InputListener*>::iterator it = setListeners.begin();
-
-				while (it != setListeners.end())
-				{
-					if (i == VK_LBUTTON && !io.WantCaptureMouse)
-					{
-						if (keysState[i] != oldKeysState[i])
-							(*it)->onLeftMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
-					}
-					else if (i == VK_RBUTTON && !io.WantCaptureMouse)
-					{
-						if (keysState[i] != oldKeysState[i])
-							(*it)->onRightMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
-					}
-					else if (!io.WantCaptureKeyboard)
-						(*it)->onKeyDown(i);
-
-					++it;
-				}
+				(*it)->onMouseMove(currentMousePosition);
+				++it;
 			}
-			else // KEY IS UP
+		}
+		else
+			deltaMousePosition = 0;	
+
+		oldMousePosition = currentMousePosition;
+
+		if (::GetKeyboardState(keysState))
+		{
+			//LogUtils::log(this, "Getting keyboard state");
+			for (unsigned int i = 0; i < 256; i++)
 			{
-				if (keysState[i] != oldKeysState[i])
+				// KEY IS DOWN
+				if (keysState[i] & 0x80)
 				{
-					//LogUtils::log(this, "key is up");
+					//LogUtils::log(this, "key is down");
 					std::unordered_set<InputListener*>::iterator it = setListeners.begin();
 
 					while (it != setListeners.end())
 					{
 						if (i == VK_LBUTTON && !io.WantCaptureMouse)
-							(*it)->onLeftMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						{
+							if (keysState[i] != oldKeysState[i])
+								(*it)->onLeftMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						}
 						else if (i == VK_RBUTTON && !io.WantCaptureMouse)
-							(*it)->onRightMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						{
+							if (keysState[i] != oldKeysState[i])
+								(*it)->onRightMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
+						}
 						else if (!io.WantCaptureKeyboard)
-							(*it)->onKeyUp(i);
+							(*it)->onKeyDown(i);
 
 						++it;
 					}
 				}
+				else // KEY IS UP
+				{
+					if (keysState[i] != oldKeysState[i])
+					{
+						//LogUtils::log(this, "key is up");
+						std::unordered_set<InputListener*>::iterator it = setListeners.begin();
+
+						while (it != setListeners.end())
+						{
+							if (i == VK_LBUTTON && !io.WantCaptureMouse)
+								(*it)->onLeftMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+							else if (i == VK_RBUTTON && !io.WantCaptureMouse)
+								(*it)->onRightMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
+							else if (!io.WantCaptureKeyboard)
+								(*it)->onKeyUp(i);
+
+							++it;
+						}
+					}
+
+				}
 
 			}
 
+			//LogUtils::log(this, "Copying key state");
+			// store current keys state to old keys state buffer
+			::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 		}
-
-		//LogUtils::log(this, "Copying key state");
-		// store current keys state to old keys state buffer
-		::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 	}
-}
 
-void InputSystem::addListener(InputListener* listener)
-{
-	setListeners.insert(listener);
-}
+	void InputSystem::addListener(InputListener* listener)
+	{
+		setListeners.insert(listener);
+	}
 
-void InputSystem::removeListener(InputListener* listener)
-{
-	setListeners.erase(listener);
-}
+	void InputSystem::removeListener(InputListener* listener)
+	{
+		setListeners.erase(listener);
+	}
 
-void InputSystem::setCursorPosition(const Vector2D& pos)
-{
-	::SetCursorPos(static_cast<int>(pos.x), static_cast<int>(pos.y));
-}
+	void InputSystem::setCursorPosition(const Vector2D& pos)
+	{
+		::SetCursorPos(static_cast<int>(pos.x), static_cast<int>(pos.y));
+	}
 
-void InputSystem::showCursor(const bool& show)
-{
-	::ShowCursor(show);
-}
+	void InputSystem::showCursor(const bool& show)
+	{
+		::ShowCursor(show);
+	}
 
-void InputSystem::setEnabled(const bool& enabled)
-{
-	isEnabled = enabled;
-}
+	void InputSystem::setEnabled(const bool& enabled)
+	{
+		isEnabled = enabled;
+	}
 
-InputSystem* InputSystem::get()
-{
-	if (!sharedInstance)
-		sharedInstance = new InputSystem();
+	Vector2D InputSystem::getMousePosition()
+	{
+		POINT currentMousePosition = {};
+		::GetCursorPos(&currentMousePosition);
+		return Vector2D(currentMousePosition.x, currentMousePosition.y);
+	}
 
-	return sharedInstance;
+	Vector2D InputSystem::getOldMousePosition()
+	{
+		return oldMousePosition;
+	}
+
+	Vector2D InputSystem::getDeltaMousePosition()
+	{
+		return deltaMousePosition;
+	}
+
+	InputSystem* InputSystem::get()
+	{
+		if (!sharedInstance)
+			sharedInstance = new InputSystem();
+
+		return sharedInstance;
+	}
 }
