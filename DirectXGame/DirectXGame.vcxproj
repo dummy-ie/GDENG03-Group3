@@ -159,6 +159,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DebugScreen.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EngineBackend.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="libraries\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialEditor.cpp" />
@@ -242,6 +244,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DebugScreen.h" />
     <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EngineBackend.h" />
     <ClInclude Include="GameObjectManager.h" />

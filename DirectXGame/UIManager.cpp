@@ -1,5 +1,6 @@
 #include "UIManager.h"
 
+#include "DebugScreen.h"
 #include "HierarchyScreen.h"
 #include "imgui_internal.h"
 #include "InspectorScreen.h"
@@ -146,6 +147,10 @@ namespace mrlol
 		this->uiMap[playbackScreen->getName()] = playbackScreen;
 		this->uiList.push_back(playbackScreen);
 
+		const std::shared_ptr<DebugScreen> debugScreen = std::make_shared<DebugScreen>();
+		this->uiMap[debugScreen->getName()] = debugScreen;
+		this->uiList.push_back(debugScreen);
+
 		const std::shared_ptr<ProfilerScreen> profilerScreen = std::make_shared<ProfilerScreen>();
 		this->uiMap[profilerScreen->getName()] = profilerScreen;
 		this->uiList.push_back(profilerScreen);
@@ -264,5 +269,10 @@ namespace mrlol
 		style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.0f, 1.0f, 1.0f, 0.699999988079071f);
 		style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.2000000029802322f);
 		style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.3499999940395355f);
+	}
+
+	UIManager::UIScreenPtr UIManager::getScreen(std::string name)
+	{
+		return this->uiMap[name];
 	}
 }

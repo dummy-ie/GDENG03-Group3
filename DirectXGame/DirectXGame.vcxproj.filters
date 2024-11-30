@@ -321,6 +321,10 @@
     <ClCompile Include="libraries\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Libraries\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="DebugScreen.cpp" />
+    <ClCompile Include="LogUtils.cpp">
+      <Filter>GameEngine\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -572,6 +576,7 @@
     <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Libraries\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="DebugScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

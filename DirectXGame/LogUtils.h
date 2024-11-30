@@ -18,7 +18,9 @@ namespace mrlol
 			if constexpr (!DEBUG_LOGS)
 				return;
 
-			std::cout << "[" << getType(sender) << " DEBUG]: " << message << '\n';
+			std::string finalMessage = "[" + getType(sender) + " DEBUG]: " + message + '\n';
+			logToConsole(finalMessage);
+			std::cout << finalMessage;
 		}
 
 		static void log(const std::string& message)
@@ -26,7 +28,9 @@ namespace mrlol
 			if constexpr (!DEBUG_LOGS)
 				return;
 
-			std::cout << "[DEBUG]: " << message << '\n';
+			std::string finalMessage = "[DEBUG]: " + message + '\n';
+			logToConsole(finalMessage);
+			std::cout << finalMessage;
 		}
 
 		template <class T>
@@ -88,5 +92,7 @@ namespace mrlol
 		{
 			return typeid(*type).name();
 		}
+
+		static void logToConsole(const std::string& message);
 	};
 }

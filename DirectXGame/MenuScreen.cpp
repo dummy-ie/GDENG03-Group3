@@ -108,6 +108,9 @@ void MenuScreen::draw()
 		if (ImGui::MenuItem("Profiler")) {
 			UIManager::get()->setActive("Profiler Screen");
 		}
+		if (ImGui::MenuItem("Debug Console")) {
+			UIManager::get()->setActive("Debug Screen");
+		}
 		if (ImGui::BeginMenu("Viewport"))
 		{
 			if (ImGui::MenuItem("Create Viewport"))

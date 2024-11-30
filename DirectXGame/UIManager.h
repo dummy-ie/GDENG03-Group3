@@ -32,6 +32,8 @@ namespace mrlol
 		void setActive(std::string name);
 		void draw() const;
 
+		UIScreenPtr getScreen(std::string name);
+
 		UIManager(UIManager const&) = delete;
 		UIManager& operator=(UIManager const&) = delete;
 		UIManager(UIManager&& other) noexcept = delete;
