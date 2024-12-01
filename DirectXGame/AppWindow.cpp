@@ -113,23 +113,22 @@ namespace gdeng03
 		cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh, UIManager::get()->mainMaterial));
 		GameObjectManager::get()->addObject(cube);
 
-
-
 		GameObjectPtr cube2 = std::make_shared<GameObject>("Cube2");
 
 		cube2->attachComponent(new Renderer3D("cubeRenderer2", cube2.get(), cubeMesh, UIManager::get()->mainMaterial));
-		
+		cube2->setLocalPosition({ 0, 2, 0 });
+
 		GameObjectManager::get()->addObject(cube2);
 
 		GameObjectPtr cube3 = std::make_shared<GameObject>("Cube3");
 
 		cube3->attachComponent(new Renderer3D("cubeRenderer3", cube3.get(), cubeMesh, UIManager::get()->mainMaterial));
+		cube3->setLocalPosition({ 0, 4, 0 });
 
 		GameObjectManager::get()->addObject(cube3);
 
-
 		cube->attachChild(cube2);
-		cube->attachChild(cube3);
+		cube2->attachChild(cube3);
 	}
 
 	void AppWindow::draw(int width, int height, EFillMode fillMode)
