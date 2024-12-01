@@ -1,6 +1,6 @@
 #include "GameObjectManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 

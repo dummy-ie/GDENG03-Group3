@@ -5,7 +5,7 @@
 #include "Matrix4x4.h"
 #include "GameObject.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class EditorAction
 	{

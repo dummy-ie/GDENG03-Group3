@@ -4,7 +4,7 @@
 #include "EngineTime.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	PhysicsSystem::PhysicsSystem()
 	{

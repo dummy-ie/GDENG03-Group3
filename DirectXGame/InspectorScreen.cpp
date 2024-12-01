@@ -9,9 +9,9 @@
 #include "GameObjectManager.h"
 #include "PhysicsComponent.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
-namespace mrlol
+namespace gdeng03
 {
 	InspectorScreen::InspectorScreen() : UIScreen("InspectorScreen")
 	{

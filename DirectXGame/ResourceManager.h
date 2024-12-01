@@ -4,7 +4,7 @@
 #include "Prerequisites.h"
 #include "Resource.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class ResourceManager
 	{

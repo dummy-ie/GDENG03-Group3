@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class SamplerState
 	{

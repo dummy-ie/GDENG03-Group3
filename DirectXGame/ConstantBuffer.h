@@ -4,7 +4,7 @@
 #include "Prerequisites.h"
 #include "GraphicsResource.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class ConstantBuffer final : public GraphicsResource
 	{

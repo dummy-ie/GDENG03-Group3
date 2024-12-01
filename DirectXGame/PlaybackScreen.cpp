@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	PlaybackScreen::PlaybackScreen() : UIScreen("PlaybackScreen")
 	{

@@ -5,7 +5,7 @@
 #include "LogUtils.h"
 #include "Vector2D.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class InputSystem
 	{

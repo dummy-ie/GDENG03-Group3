@@ -3,7 +3,7 @@
 #include "UIManager.h"
 #include "DebugScreen.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 void LogUtils::logToConsole(const std::string& message)
 {

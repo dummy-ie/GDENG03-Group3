@@ -3,7 +3,7 @@
 #include "AppWindow.h"
 #include "GameObjectManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	HierarchyScreen::HierarchyScreen() : UIScreen("HierarchyScreen")
 	{

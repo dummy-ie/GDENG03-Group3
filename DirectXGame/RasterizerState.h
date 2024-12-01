@@ -3,7 +3,7 @@
 #include <d3d11.h>
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class RasterizerState
 	{

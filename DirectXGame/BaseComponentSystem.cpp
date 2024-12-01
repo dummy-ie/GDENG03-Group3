@@ -1,7 +1,7 @@
 #include "BaseComponentSystem.h"
 
 #include "PhysicsSystem.h"
-namespace mrlol
+namespace gdeng03
 {
 	BaseComponentSystem* BaseComponentSystem::sharedInstance = nullptr;
 

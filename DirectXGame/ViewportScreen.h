@@ -7,7 +7,7 @@
 #include "SceneCamera.h"
 #include "Viewport.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	enum EFillMode
 	{

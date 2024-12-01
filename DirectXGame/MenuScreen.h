@@ -6,7 +6,7 @@
 
 #include "UIScreen.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class MenuScreen final :
 		public UIScreen

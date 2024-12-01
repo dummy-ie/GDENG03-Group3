@@ -1,7 +1,7 @@
 #pragma once
 #include "UIScreen.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class HierarchyScreen final : public UIScreen
 	{

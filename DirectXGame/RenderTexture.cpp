@@ -3,7 +3,7 @@
 #include "GraphicsEngine.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	RenderTexture::RenderTexture() : width(0), height(0)
 	{

@@ -2,7 +2,7 @@
 #include "GraphicsEngine.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	GeometryShader::GeometryShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 	{

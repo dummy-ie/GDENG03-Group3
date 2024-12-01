@@ -4,7 +4,7 @@
 #include <string>
 #include <reactphysics3d/mathematics/Vector3.h>
 
-namespace mrlol
+namespace gdeng03
 {
 	class Vector3D
 	{

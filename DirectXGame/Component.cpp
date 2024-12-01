@@ -1,6 +1,6 @@
 #include "Component.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Component::Component(
 		std::string name,

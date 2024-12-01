@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Mesh final : public Resource
 	{

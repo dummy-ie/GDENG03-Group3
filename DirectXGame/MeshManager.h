@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "Mesh.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class MeshManager final : public ResourceManager
 	{

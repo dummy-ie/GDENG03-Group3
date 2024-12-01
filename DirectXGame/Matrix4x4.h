@@ -9,7 +9,7 @@
 #include "Vector3D.h"
 #include "Vector4D.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Matrix4x4
 	{

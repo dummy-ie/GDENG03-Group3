@@ -2,7 +2,7 @@
 
 #include <d3d11.h>
 
-namespace mrlol
+namespace gdeng03
 {
     class RenderTexture
     {

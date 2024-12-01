@@ -7,7 +7,7 @@
 #include "Mesh.h"
 #include "ShaderLibrary.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Renderer3D::Renderer3D(
 		std::string name,

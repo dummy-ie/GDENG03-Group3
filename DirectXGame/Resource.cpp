@@ -1,6 +1,6 @@
 #include "Resource.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Resource::Resource(const wchar_t* fullPath) : fullPath(fullPath)
 	{

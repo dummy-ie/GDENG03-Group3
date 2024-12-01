@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace mrlol {
+namespace gdeng03 {
 	enum class ShaderType : std::uint8_t
 	{
 		VERTEX,

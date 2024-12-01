@@ -17,7 +17,7 @@
 #include "MenuScreen.h"
 #include "MaterialEditor.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class UIManager
 	{

@@ -5,7 +5,7 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 
-namespace mrlol
+namespace gdeng03
 {
 	class Texture final : public Resource
 	{

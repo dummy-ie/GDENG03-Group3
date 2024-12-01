@@ -4,7 +4,7 @@
 #include "SceneCamera.h"
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class CameraManager
 	{

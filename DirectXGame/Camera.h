@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Camera : public GameObject
 	{

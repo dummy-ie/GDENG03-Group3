@@ -7,7 +7,7 @@
 #include "CameraManager.h"
 #include "ViewportManager.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 ToolsScreen::ToolsScreen() : UIScreen("ToolsScreen")
 {

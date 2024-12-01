@@ -3,7 +3,7 @@
 #include "GameObjectManager.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	EngineBackend* EngineBackend::sharedInstance = nullptr;
 	EngineBackend* EngineBackend::get()

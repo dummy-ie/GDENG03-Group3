@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Matrix4x4.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	__declspec(align(16))
 		struct Constant

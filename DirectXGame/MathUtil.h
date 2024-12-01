@@ -2,7 +2,7 @@
 #include <random>
 
 
-namespace mrlol
+namespace gdeng03
 {
 	static int randomRangeInt(const int start, const int end) {
 		std::random_device dev;

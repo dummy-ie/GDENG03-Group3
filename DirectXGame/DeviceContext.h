@@ -5,7 +5,7 @@
 #include "Material.h"
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class DeviceContext : public GraphicsResource
 	{

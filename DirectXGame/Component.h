@@ -5,7 +5,7 @@
 #include "Prerequisites.h"
 #include "EngineTime.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Component
 	{

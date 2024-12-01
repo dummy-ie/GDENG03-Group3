@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "UIManager.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 // ReSharper disable once CppInconsistentNaming
 // for ImGui input forwarding
@@ -76,7 +76,7 @@ Window::Window()
 	windowHandle = ::CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
 		L"MyWindowClass",
-		L"MRLOL.engine",
+		L"GDENG03 Group 3 Engine",
 		WS_THICKFRAME | WS_MAXIMIZE,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,

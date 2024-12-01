@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	// class VertexShader;
 	// class GeometryShader;

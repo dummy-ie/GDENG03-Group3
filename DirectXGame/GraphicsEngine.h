@@ -7,7 +7,7 @@
 #include "TextureManager.h"
 //#include "MeshManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class GraphicsEngine
 	{

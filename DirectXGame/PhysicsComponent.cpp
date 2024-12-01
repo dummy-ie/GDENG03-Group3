@@ -6,7 +6,7 @@
 #include "Vector3D.h"
 
 
-namespace mrlol
+namespace gdeng03
 {
 	using namespace reactphysics3d;
 	using reactphysics3d::Quaternion;

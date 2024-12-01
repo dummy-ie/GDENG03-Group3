@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace mrlol
+namespace gdeng03
 {
 	class PhysicsSystem;
 

@@ -11,7 +11,7 @@
 #include "VertexMesh.h"
 
 
-namespace mrlol
+namespace gdeng03
 {
 	Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath)
 	{

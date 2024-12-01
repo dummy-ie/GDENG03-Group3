@@ -2,7 +2,7 @@
 #include <string>
 
 #include "ShaderType.h"
-namespace mrlol
+namespace gdeng03
 {
 	struct ShaderToCompile
 	{

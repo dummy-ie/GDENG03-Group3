@@ -7,7 +7,7 @@
 #include <Windows.h>
 #include "EngineTime.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Window
 	{

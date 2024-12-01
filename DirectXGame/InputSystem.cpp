@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	InputSystem* InputSystem::sharedInstance = nullptr;
 

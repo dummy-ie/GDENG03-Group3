@@ -4,7 +4,7 @@
 #include "GraphicsEngine.h"
 #include "RenderSystem.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	IndexBuffer::IndexBuffer(const void* listIndices, const UINT sizeList, RenderSystem* system) : GraphicsResource(system), indexBuffer(nullptr)
 	{

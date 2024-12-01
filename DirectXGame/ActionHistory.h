@@ -2,7 +2,7 @@
 
 #include <stack>
 
-namespace mrlol
+namespace gdeng03
 {
 	class EditorAction;
 	class GameObject;

@@ -1,6 +1,6 @@
 #include "PixelShader.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	PixelShader::PixelShader(const void* shaderByteCode, const size_t byteCodeSize, RenderSystem* system) : GraphicsResource(system)
 	{

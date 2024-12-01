@@ -8,7 +8,7 @@
 #include "TextureManager.h"
 #include "UIManager.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 {

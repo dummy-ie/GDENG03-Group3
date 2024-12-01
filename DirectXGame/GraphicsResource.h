@@ -4,7 +4,7 @@
 #include "Prerequisites.h"
 #include "RenderSystem.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class GraphicsResource
 	{

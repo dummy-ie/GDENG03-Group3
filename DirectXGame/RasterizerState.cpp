@@ -5,7 +5,7 @@
 #include "RenderSystem.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	RasterizerState::RasterizerState(RenderSystem* system, D3D11_FILL_MODE fillMode, D3D11_CULL_MODE cullMode) : system(system)
 	{

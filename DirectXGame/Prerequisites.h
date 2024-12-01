@@ -3,7 +3,7 @@
 #include <memory>
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class SamplerState;
 	class GraphicsResource;

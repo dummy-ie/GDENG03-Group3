@@ -2,7 +2,7 @@
 #include "EngineTime.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	CameraManager* CameraManager::sharedInstance = nullptr;
 

@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "LogUtils.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 ProfilerScreen::ProfilerScreen() : UIScreen("ProfilerScreen")
 {

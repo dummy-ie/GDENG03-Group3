@@ -1,6 +1,6 @@
 #include "AppWindow.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 int main()
 {

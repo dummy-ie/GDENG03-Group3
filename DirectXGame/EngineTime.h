@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-namespace mrlol
+namespace gdeng03
 {
 	class Window;
 

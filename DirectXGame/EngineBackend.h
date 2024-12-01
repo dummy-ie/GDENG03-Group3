@@ -1,6 +1,6 @@
 #pragma once
 
-namespace mrlol
+namespace gdeng03
 {
 	class EngineBackend
 	{

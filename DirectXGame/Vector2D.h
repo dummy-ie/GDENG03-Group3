@@ -3,7 +3,7 @@
 #include <ostream>
 #include <windef.h>
 
-namespace mrlol
+namespace gdeng03
 {
 	class Vector2D
 	{

@@ -12,7 +12,7 @@
 #include "RasterizerState.h"
 #include "SamplerState.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	RenderSystem::RenderSystem()
 	{

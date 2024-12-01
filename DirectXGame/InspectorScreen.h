@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "UIScreen.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class InspectorScreen : public UIScreen
 	{

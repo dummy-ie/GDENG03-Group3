@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace mrlol
+namespace gdeng03
 {
 	using std::string;
 	using std::vector;

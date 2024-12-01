@@ -3,7 +3,7 @@
 #include "Prerequisites.h"
 #include "Viewport.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class RenderSystem
 	{

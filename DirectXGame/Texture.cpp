@@ -2,7 +2,7 @@
 #include <DirectXTex.h>
 #include "GraphicsEngine.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Texture::Texture(const wchar_t* fullPath) : Resource(fullPath)
 	{

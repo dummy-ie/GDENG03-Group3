@@ -6,7 +6,7 @@
 #include "RenderSystem.h"
 #include <exception>
 
-namespace mrlol
+namespace gdeng03
 {
 	SamplerState::SamplerState(RenderSystem* system) : m_system(system)
 	{

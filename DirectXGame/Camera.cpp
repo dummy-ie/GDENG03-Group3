@@ -1,5 +1,5 @@
 #include "Camera.h"
-namespace mrlol
+namespace gdeng03
 {
 	void Camera::update(const float deltaTime)
 	{

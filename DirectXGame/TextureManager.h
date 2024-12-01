@@ -4,7 +4,7 @@
 #include "Resource.h"
 #include "ResourceManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class TextureManager final : public ResourceManager
 	{

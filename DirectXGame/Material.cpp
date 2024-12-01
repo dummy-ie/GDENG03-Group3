@@ -5,7 +5,7 @@
 #include "GraphicsEngine.h"
 #include "ShaderLibrary.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Material::Material(PixelShaderPtr pixelShader) : pixelShader(std::move(pixelShader))
 	{

@@ -2,7 +2,7 @@
 
 #include "Texture.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	TexturePtr TextureManager::createTextureFromFile(const wchar_t* filePath)
 	{

@@ -11,7 +11,7 @@
 #include "UIManager.h"
 #include "ViewportManager.h"
 
-using namespace mrlol;
+using namespace gdeng03;
 
 MenuScreen::MenuScreen() : UIScreen("MenuScreen")
 {

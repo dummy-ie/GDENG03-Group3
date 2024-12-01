@@ -4,7 +4,7 @@
 #include "GraphicsResource.h"
 #include "Prerequisites.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class VertexBuffer : public GraphicsResource
 	{

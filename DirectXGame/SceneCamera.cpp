@@ -3,7 +3,7 @@
 #include "EngineTime.h"
 #include "InputSystem.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	SceneCamera::SceneCamera(const std::string& name, bool orthographic, const RECT& windowRect) : Camera(name, orthographic, windowRect)
 	{

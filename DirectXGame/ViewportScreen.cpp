@@ -12,7 +12,7 @@
 #include "InputSystem.h"
 #include "ViewportManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	ViewportScreen::ViewportScreen(int index) : UIScreen("Viewport " + std::to_string(index + 1)), index(index)
 	{

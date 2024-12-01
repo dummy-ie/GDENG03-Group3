@@ -7,7 +7,7 @@
 #include "EditorAction.h"
 #include "PhysicsComponent.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	GameObject::GameObject(const std::string& name) : displayName(name), name(name)
 	{

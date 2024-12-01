@@ -2,16 +2,16 @@
 
 #include "AppWindow.h"
 
-mrlol::DebugScreen::DebugScreen() : UIScreen("Debug Screen")
+gdeng03::DebugScreen::DebugScreen() : UIScreen("Debug Screen")
 {
 }
 
-void mrlol::DebugScreen::logToConsole(const string& message)
+void gdeng03::DebugScreen::logToConsole(const string& message)
 {
 	logList.push_back(message);
 }
 
-void mrlol::DebugScreen::draw()
+void gdeng03::DebugScreen::draw()
 {
 	//ImGui::SetNextWindowSize(ImVec2(UIManager::WindowWidth / 6, UIManager::WindowHeight), ImGuiCond_Once);
 	ImGui::Begin("Debug Console");

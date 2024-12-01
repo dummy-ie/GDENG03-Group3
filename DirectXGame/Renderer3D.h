@@ -4,7 +4,7 @@
 
 #include "Material.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class Renderer3D final : public Component
 	{

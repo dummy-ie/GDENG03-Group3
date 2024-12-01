@@ -1,6 +1,6 @@
 #include "EngineTime.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	EngineTime* EngineTime::sharedInstance = nullptr;
 

@@ -9,7 +9,7 @@
 #include "ToolsScreen.h"
 #include "ViewportManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	UIManager* UIManager::sharedInstance = nullptr;
 

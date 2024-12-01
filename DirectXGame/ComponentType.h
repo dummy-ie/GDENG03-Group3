@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace mrlol
+namespace gdeng03
 {
 	enum class ComponentType : std::int8_t
 	{

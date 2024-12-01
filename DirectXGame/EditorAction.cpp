@@ -1,6 +1,6 @@
 #include "EditorAction.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	EditorAction::EditorAction(GameObject* gameObject)
 	{

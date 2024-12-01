@@ -10,7 +10,7 @@
 #include <filesystem>
 #endif
 
-namespace mrlol
+namespace gdeng03
 {
 	ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* filePath)
 	{

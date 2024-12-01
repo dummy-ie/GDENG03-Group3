@@ -18,7 +18,7 @@
 #include "Material.h"
 #include "Component.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class EditorAction;
 

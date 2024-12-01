@@ -5,7 +5,7 @@
 #include <vector>
 #include <reactphysics3d/reactphysics3d.h>
 
-namespace mrlol
+namespace gdeng03
 {
 	class PhysicsComponent;
 

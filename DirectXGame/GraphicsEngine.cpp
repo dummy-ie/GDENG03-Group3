@@ -2,7 +2,7 @@
 
 #include "MeshManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
 

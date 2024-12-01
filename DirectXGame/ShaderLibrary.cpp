@@ -3,7 +3,7 @@
 #include "GraphicsEngine.h"
 #include "ShaderToCompile.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	ShaderLibrary* ShaderLibrary::sharedInstance = nullptr;
 

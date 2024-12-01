@@ -2,7 +2,7 @@
 #include "Vector2D.h"
 #include "Vector3D.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	struct Vertex
 	{

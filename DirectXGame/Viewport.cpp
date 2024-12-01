@@ -7,7 +7,7 @@
 #include "LogUtils.h"
 #include "RasterizerState.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	Viewport::Viewport(RenderSystem* system, FLOAT topLeftX, FLOAT topLeftY, FLOAT width, FLOAT height, FLOAT minDepth, FLOAT maxDepth) : m_system(system)
 	{

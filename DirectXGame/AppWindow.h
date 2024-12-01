@@ -39,7 +39,7 @@
 #include "MathUtil.h"
 #include "UIManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	enum EFillMode : int;
 

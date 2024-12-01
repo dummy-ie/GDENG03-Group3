@@ -4,7 +4,7 @@
 #include "GraphicsEngine.h"
 #include "LogUtils.h"
 #include "RenderSystem.h"
-namespace mrlol
+namespace gdeng03
 {
 	ConstantBuffer::ConstantBuffer(const void* buffer, const UINT sizeBuffer, RenderSystem* system) : GraphicsResource(system)
 	{

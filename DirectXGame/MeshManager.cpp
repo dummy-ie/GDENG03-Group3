@@ -1,6 +1,6 @@
 #include "MeshManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	MeshPtr MeshManager::createMeshFromFile(const wchar_t* filePath)
 	{

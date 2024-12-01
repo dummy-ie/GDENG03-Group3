@@ -4,7 +4,7 @@
 #include "RenderSystem.h"
 #include "RenderTexture.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	SwapChain::SwapChain(
 		const HWND windowHandle,

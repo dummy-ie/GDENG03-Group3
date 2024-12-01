@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace mrlol
+namespace gdeng03
 {
 	enum class PrimitiveType : std::uint8_t
 	{

@@ -5,7 +5,7 @@
 #include "PrimitiveType.h"
 #include "GameObject.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class GameObjectManager
 	{

@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "InputListener.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class SceneCamera final :
 		public Camera, public InputListener

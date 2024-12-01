@@ -1,6 +1,6 @@
 #include "ViewportManager.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	ViewportManager* ViewportManager::sharedInstance = nullptr;
 

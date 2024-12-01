@@ -2,7 +2,7 @@
 
 #include "UIScreen.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class ToolsScreen : public UIScreen
 	{

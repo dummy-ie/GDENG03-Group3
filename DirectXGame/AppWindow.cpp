@@ -12,7 +12,7 @@
 #include "ShaderLibrary.h"
 #include "ViewportScreen.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	AppWindow* AppWindow::sharedInstance = nullptr;
 

@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "LogUtils.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class UIManager;
 

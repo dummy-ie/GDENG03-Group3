@@ -3,7 +3,7 @@
 
 #include "GraphicsResource.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	class GeometryShader : public GraphicsResource
 	{

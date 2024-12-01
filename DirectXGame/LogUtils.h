@@ -7,7 +7,7 @@
 #define ERROR_LOGS true
 #define SUCCESS_LOGS false
 
-namespace mrlol
+namespace gdeng03
 {
 	class LogUtils
 	{

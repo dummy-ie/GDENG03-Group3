@@ -5,7 +5,7 @@
 
 #include "GameObject.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	using namespace reactphysics3d;
 	class PhysicsComponent : public Component

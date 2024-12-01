@@ -3,7 +3,7 @@
 #include "UIManager.h"
 #include <vector>
 
-namespace mrlol
+namespace gdeng03
 {
 	class ViewportManager
 	{

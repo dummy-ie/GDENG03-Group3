@@ -13,7 +13,7 @@
 #include "SamplerState.h"
 #include "Texture.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext, RenderSystem* system) : GraphicsResource(system), deviceContext(deviceContext)
 	{

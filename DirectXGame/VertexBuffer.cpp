@@ -3,7 +3,7 @@
 #include "LogUtils.h"
 #include "RenderSystem.h"
 
-namespace mrlol
+namespace gdeng03
 {
 	VertexBuffer::VertexBuffer(
 		const void* listVertices,
