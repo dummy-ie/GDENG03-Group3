@@ -6,7 +6,7 @@
 
 namespace gdeng03
 {
-	PlaybackScreen::PlaybackScreen() : UIScreen("PlaybackScreen")
+	PlaybackScreen::PlaybackScreen() : UIScreen("Playback Screen")
 	{
 		LogUtils::log(this, "Initialized");
 	}
@@ -18,15 +18,21 @@ namespace gdeng03
 	void PlaybackScreen::draw()
 	{
 		EngineBackend* backend = EngineBackend::get();
-		std::string playMode;
+		std::string playButton;
 		if (backend->getMode() == EngineBackend::EDITOR)
-			playMode = "Play";
-		else if (backend->getMode() == EngineBackend::PLAY)
-			playMode = "Stop";
+			playButton = "Play";
+		else 
+			playButton = "Stop";
+
+		std::string pauseButton;
+		if (backend->getMode() == EngineBackend::PAUSED)
+			pauseButton = "Unpause";
+		else 
+			pauseButton = "Pause";
 
 		ImGui::Begin("Playback", &isActive);
 
-		if (ImGui::Button(playMode.c_str()))
+		if (ImGui::Button(playButton.c_str()))
 		{
 			if (backend->getMode() == EngineBackend::EDITOR)
 			{
@@ -38,7 +44,7 @@ namespace gdeng03
 			}
 
 		}
-		if (ImGui::Button("Pause"))
+		if (ImGui::Button(pauseButton.c_str()))
 		{
 			if (backend->getMode() == EngineBackend::PLAY)
 			{

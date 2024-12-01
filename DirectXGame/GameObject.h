@@ -69,7 +69,8 @@ namespace gdeng03
 
 		void updateLocalMatrix();
 		Matrix4x4 getLocalMatrix() const;
-		void setLocalMatrix(float matrix[16]);
+		void setLocalMatrix(const Matrix4x4& matrix);
+		void recomputeMatrix(float matrix[16]);
 		float* getPhysicsLocalMatrix();
 
 		void recalculateChildTransformWithParent(GameObjectPtr parent);

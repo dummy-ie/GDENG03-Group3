@@ -19,20 +19,20 @@ MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 
 }
 
-bool* MaterialEditor::getMaterialEditorOpen()
-{
-	return &isMaterialEditorOpen;
-}
+// bool* MaterialEditor::getMaterialEditorOpen()
+// {
+// 	return &isMaterialEditorOpen;
+// }
 
 void MaterialEditor::draw()
 {
-	if (isColorPickerOpen && !isMaterialEditorOpen)
+	if (isColorPickerOpen && !isActive)
 		isColorPickerOpen = false;
 
 	if (isColorPickerOpen)
 		showColorPickerWindow();
 
-	if (isMaterialEditorOpen)
+	if (isActive)
 		showMaterialEditorWindow();
 
 	updateSelectedMaterial();
@@ -70,7 +70,7 @@ void MaterialEditor::updateSelectedMaterial() const
 
 void MaterialEditor::showMaterialEditorWindow()
 {
-	if (ImGui::Begin("Material Editor", &isMaterialEditorOpen))
+	if (ImGui::Begin("Material Editor"))
 	{
 		ImGui::Text("Main Maps");
 		constexpr ImVec2 imageSize = { 100, 100 };

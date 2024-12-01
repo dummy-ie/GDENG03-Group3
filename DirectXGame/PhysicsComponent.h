@@ -4,6 +4,7 @@
 #include <reactphysics3d/reactphysics3d.h>
 
 #include "GameObject.h"
+#include "PrimitiveType.h"
 
 namespace gdeng03
 {
@@ -31,7 +32,7 @@ namespace gdeng03
 		uint8_t constraints = 0;
 
 	public:
-		PhysicsComponent(std::string name, GameObject* owner);
+		PhysicsComponent(const std::string& name, GameObject* owner, PrimitiveType colliderType = PrimitiveType::NOT_PRIMITIVE);
 		~PhysicsComponent() override;
 
 	public:

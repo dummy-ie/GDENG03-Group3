@@ -20,7 +20,7 @@ namespace gdeng03
 	{
 	public:
 		MaterialEditor();
-		bool* getMaterialEditorOpen();
+		//bool* getMaterialEditorOpen();
 
 	private:
 		void draw() override;
@@ -35,7 +35,7 @@ namespace gdeng03
 		static void loadBlankTexture(TexturePtr& texture);
 
 		bool isColorPickerOpen = false;
-		bool isMaterialEditorOpen = false;
+		//bool isMaterialEditorOpen = false;
 
 		ImVec4 color = ImVec4(1, 1, 1, 1);
 		float metallic = 0;

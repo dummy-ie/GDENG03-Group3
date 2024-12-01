@@ -10,7 +10,7 @@ void LogUtils::logToConsole(const std::string& message)
 	UIManager* UIManager = UIManager::get();
 	if (UIManager == nullptr) return;
 
-	DebugScreen* debugScreen = dynamic_cast<DebugScreen*>(UIManager->getScreen("Debug Screen").get());
+	DebugScreen* debugScreen = dynamic_cast<DebugScreen*>(UIManager->getScreen("DebugScreen").get());
 	if (debugScreen == nullptr) return;
 
 	debugScreen->logToConsole(message);

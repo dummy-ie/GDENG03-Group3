@@ -17,7 +17,7 @@ namespace gdeng03
 	ViewportScreen::ViewportScreen(int index) : UIScreen("Viewport " + std::to_string(index + 1)), index(index)
 	{
 		this->currentCamera = std::make_shared<SceneCamera>("Scene Camera " + std::to_string(index + 1), false, AppWindow::get()->getClientWindowRect());
-		this->currentCamera->setLocalPosition({0, 1, -3});
+		this->currentCamera->setLocalPosition({0, 0, -20});
 		this->currentCamera->setProjectionType(this->selectedProj);
 
 		this->ownCamera = this->currentCamera;

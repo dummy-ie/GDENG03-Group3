@@ -4,7 +4,7 @@ namespace gdeng03
 {
 	EditorAction::EditorAction(GameObject* gameObject)
 	{
-		name = gameObject->getUniqueName();
+		name = gameObject->getDisplayName();
 		localPosition = gameObject->getLocalPosition();
 		localScale = gameObject->getLocalScale();
 		orientation = gameObject->getOrientation();
