@@ -115,16 +115,16 @@ void MenuScreen::draw()
 	// Test header
 	if (ImGui::BeginMenu("Windows"))
 	{
-		if (ImGui::MenuItem("Inspector"), nullptr, UIManager::get()->isActive("InspectorScreen")) {
+		if (ImGui::MenuItem("Inspector", nullptr, UIManager::get()->isActive("InspectorScreen"))) {
 			UIManager::get()->setActive("InspectorScreen");
 		}
-		if (ImGui::MenuItem("Hierarchy"), nullptr, UIManager::get()->isActive("HierarchyScreen")) {
+		if (ImGui::MenuItem("Hierarchy", nullptr, UIManager::get()->isActive("HierarchyScreen"))) {
 			UIManager::get()->setActive("HierarchyScreen");
 		}
-		if (ImGui::MenuItem("Profiler"), nullptr, UIManager::get()->isActive("ProfilerScreen")) {
+		if (ImGui::MenuItem("Profiler", nullptr, UIManager::get()->isActive("ProfilerScreen"))) {
 			UIManager::get()->setActive("ProfilerScreen");
 		}
-		if (ImGui::MenuItem("Debug Console"), nullptr, UIManager::get()->isActive("DebugScreen")) {
+		if (ImGui::MenuItem("Debug Console", nullptr, UIManager::get()->isActive("DebugScreen"))) {
 			UIManager::get()->setActive("DebugScreen");
 		}
 		if (ImGui::MenuItem("Playback Options", nullptr, UIManager::get()->isActive("PlaybackScreen"))) {

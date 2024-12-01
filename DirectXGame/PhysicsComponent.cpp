@@ -1,8 +1,10 @@
 #include "PhysicsComponent.h"
 
 #include "BaseComponentSystem.h"
+#include "CameraManager.h"
 #include "PhysicsSystem.h"
 #include "GameObject.h"
+#include "ShaderLibrary.h"
 #include "Vector3D.h"
 
 
@@ -63,12 +65,23 @@ namespace gdeng03
 		this->rigidBody->updateMassPropertiesFromColliders();
 		this->rigidBody->setMass(this->mass);
 		this->rigidBody->setType(BodyType::DYNAMIC);
+		//this->rigidBody->setIsDebugEnabled(true);
 
 		transform = this->rigidBody->getTransform();
 		float matrix[16];
 		transform.getOpenGLMatrix(matrix);
 
 		this->getOwner()->recomputeMatrix(matrix);
+
+		// temp
+
+		// vertexShader = ShaderLibrary::get()->getVertexShader(L"DebugRendererVertexShader.hlsl");
+		//
+		//
+		//
+		// Constant constants;
+		//
+		// constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 	}
 
 	PhysicsComponent::~PhysicsComponent()
@@ -87,6 +100,70 @@ namespace gdeng03
 		transform.getOpenGLMatrix(matrix);
 
 		this->getOwner()->recomputeMatrix(matrix);
+
+		// temp
+		// const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+		// Constant constants;
+		// GameObject* owner = getOwner();
+		// PhysicsWorld* physicsWorld = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsWorld();
+		// DebugRenderer& debugRenderer = physicsWorld->getDebugRenderer();
+		//
+		// std::vector<Vertex> listVertices;
+		//
+		// // for (int i = 0; i < debugRenderer.getNbTriangles(); ++i)
+		// // {
+		// // 	DebugRenderer::DebugTriangle dt = debugRenderer.getTriangles()[i];
+		// // 	listVertices.push_back(Vertex(dt.point1, dt.color1));
+		// // 	listVertices.push_back(Vertex(dt.point2, dt.color2));
+		// // 	listVertices.push_back(Vertex(dt.point3, dt.color3));
+		// // }
+		//
+		// for (int i = 0; i < debugRenderer.getNbLines(); ++i)
+		// {
+		// 	DebugRenderer::DebugLine dl = debugRenderer.getLines()[i];
+		// 	listVertices.push_back(Vertex(dl.point1, dl.color1));
+		// 	listVertices.push_back(Vertex(dl.point2, dl.color2));
+		// }
+		//
+		// if (listVertices.empty())
+		// 	return;
+		//
+		//
+		// constants.world = owner->getLocalMatrix();
+		// //constants.world = scaleMatrix * transMatrix * newMatrix;
+		//
+		// constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
+		// constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
+		//
+		// constants.time = 0;
+		//
+		// constants.color = Vector3D(1);
+		//
+		// constantBuffer->update(deviceContext, &constants);
+		//
+		// deviceContext->setConstantBuffer(constantBuffer);
+		//
+		// //this->vertexBuffer = mesh->getVertexBuffer();
+		// //this->indexBuffer = mesh->getIndexBuffer();
+		//
+		// void* shaderByteCode = nullptr;
+		// size_t sizeShader = 0;
+		// GraphicsEngine::get()->getVertexMeshLayoutShaderByteCodeAndSize(&shaderByteCode, &sizeShader);
+		// vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(listVertices.data(), sizeof(Vertex),
+		// 	static_cast<UINT>(listVertices.size()), shaderByteCode, static_cast<UINT>(sizeShader));
+		// //indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(listIndices.data(), static_cast<UINT>(listIndices.size()));
+		//
+		// deviceContext->setVertexBuffer(vertexBuffer);
+		// //deviceContext->setIndexBuffer(indexBuffer);
+		//
+		// deviceContext->setVertexShader(vertexShader);
+		// //deviceContext->setGeometryShader(geometryShader);
+		// deviceContext->setPixelShader(ShaderLibrary::get()->getPixelShader(L"DebugRendererPixelShader.hlsl"));
+		//
+		// //deviceContext->drawTriangleList(vertexBuffer->getSizeVertexList(), 0);
+		// deviceContext->drawLineStrip(vertexBuffer->getSizeVertexList(), 0);
+		//
+		// //deviceContext->setTexture(*material);
 	}
 
 	RigidBody* PhysicsComponent::getRigidBody()

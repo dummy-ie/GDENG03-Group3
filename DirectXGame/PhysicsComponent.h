@@ -53,5 +53,14 @@ namespace gdeng03
 		void setLinearDrag(float linearDrag);
 		void setAngularDrag(float angularDrag);
 		void setConstraints(EConstraints constraints);
+
+	//private: // temp
+		// VertexShaderPtr vertexShader = nullptr;
+		// GeometryShaderPtr geometryShader = nullptr;
+		// //MaterialPtr material = nullptr;
+		//
+		// VertexBufferPtr vertexBuffer = nullptr;
+		// IndexBufferPtr indexBuffer = nullptr;
+		// ConstantBufferPtr constantBuffer = nullptr;
 	};
 }
