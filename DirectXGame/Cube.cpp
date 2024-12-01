@@ -2,6 +2,7 @@
 
 #include "Vector2D.h"
 
+using namespace gdeng03;
 
 Cube::Cube(const std::string& name, void* shaderByteCode, size_t sizeShader, const Vector3D& color) : GameObject(name)
 {

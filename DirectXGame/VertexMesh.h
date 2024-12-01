@@ -9,7 +9,7 @@ namespace gdeng03
 	public:
 		VertexMesh() = default;
 
-		VertexMesh(const Vector3D& position, const Vector2D& texcoord, const Vector3D& color) : position(position), texcoord(texcoord), color(color)
+		VertexMesh(const Vector3D& position, const Vector2D& texcoord, const Vector3D& color = {1, 1, 1}) : position(position), texcoord(texcoord), color(color)
 		{
 		}
 

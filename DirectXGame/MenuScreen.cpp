@@ -5,6 +5,7 @@
 #include "GameObjectManager.h"
 #include "GraphicsEngine.h"
 #include "Mesh.h"
+#include "MeshManager.h"
 #include "PhysicsComponent.h"
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
@@ -176,7 +177,9 @@ void MenuScreen::onCreateSphereClicked()
 void MenuScreen::onCreatePlaneClicked()
 {
 	GameObjectPtr plane = std::make_shared<GameObject>("Plane");
-	MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "planeMesh");
+	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+	MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+
 	plane->setLocalPosition({ 0, -5, 20 });
 	plane->setLocalScale({ 10, 0.1, 10 });
 
@@ -194,7 +197,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 	for (int i = 0; i < 10; ++i)
 	{
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
-		MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj", "cubeMesh" + std::to_string(i));
+		//MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
 		cube->setLocalScale(1.f);
 		cube->setLocalPosition({ 0, 10, 20 });
 

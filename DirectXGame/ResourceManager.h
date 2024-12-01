@@ -23,7 +23,7 @@ namespace gdeng03
 	protected:
 		virtual Resource* createResourceFromFileConcrete(const wchar_t* filePath) = 0;
 
-	private:
+	//private:
 		ResourceMap resourceMap;
 
 	};
