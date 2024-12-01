@@ -95,31 +95,24 @@ namespace gdeng03
 
 	Mesh::Mesh(const PrimitiveType type) : Resource(toString(type))
 	{
-		switch (type)
-		{
-		case PrimitiveType::CUBE:
-			createCubeMesh();
-			break;
-		case PrimitiveType::PLANE:
-			createPlaneMesh();
-			break;
-		case PrimitiveType::SPHERE:
-			createSphereMesh();
-			break;
-		case PrimitiveType::CAPSULE:
-			createCapsuleMesh();
-			break;
-		}
-	}
-
-	void Mesh::createCubeMesh()
-	{
 		std::vector<VertexMesh> listVertices;
 		std::vector<unsigned int> listIndices;
 
-		// Insert into listVertices, see VertexMesh
-
-		// Insert into listIndices
+		switch (type)
+		{
+		case PrimitiveType::CUBE:
+			createCubeMesh(listVertices, listIndices);
+			break;
+		case PrimitiveType::PLANE:
+			createPlaneMesh(listVertices, listIndices);
+			break;
+		case PrimitiveType::SPHERE:
+			createSphereMesh(listVertices, listIndices);
+			break;
+		case PrimitiveType::CAPSULE:
+			createCapsuleMesh(listVertices, listIndices);
+			break;
+		}
 
 		void* shaderByteCode = nullptr;
 		size_t sizeShader = 0;
@@ -133,15 +126,24 @@ namespace gdeng03
 		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 	}
 
-	void Mesh::createPlaneMesh()
+	void Mesh::createCubeMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
+	{
+		// Insert into listVertices, see VertexMesh
+
+		// Insert into listIndices
+
+		
+	}
+
+	void Mesh::createPlaneMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
 	}
 
-	void Mesh::createSphereMesh()
+	void Mesh::createSphereMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
 	}
 
-	void Mesh::createCapsuleMesh()
+	void Mesh::createCapsuleMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
 	}
 
