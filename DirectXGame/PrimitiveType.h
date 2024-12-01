@@ -7,6 +7,7 @@ namespace gdeng03
 {
 	enum class PrimitiveType : std::uint8_t
 	{
+		NOT_PRIMITIVE = 0, // NOT a primitive, it is from an .obj file
 		CUBE,
 		PLANE,
 		SPHERE,
@@ -17,6 +18,8 @@ namespace gdeng03
 	{
 		switch (pt)
 		{
+		case PrimitiveType::NOT_PRIMITIVE:
+			return L"Not_Primitive";
 		case PrimitiveType::CUBE:
 			return L"Cube";
 		case PrimitiveType::PLANE:

@@ -13,7 +13,7 @@
 
 namespace gdeng03
 {
-	Mesh::Mesh(const wchar_t* fullPath) : Resource(fullPath)
+	Mesh::Mesh(const wchar_t* fullPath) : Resource(fullPath), primitiveType(PrimitiveType::NOT_PRIMITIVE)
 	{
 		tinyobj::attrib_t attributes;
 		std::vector<tinyobj::shape_t> shapes;
@@ -93,7 +93,7 @@ namespace gdeng03
 		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 	}
 
-	Mesh::Mesh(const PrimitiveType type) : Resource(toString(type))
+	Mesh::Mesh(const PrimitiveType type) : Resource(toString(type)), primitiveType(type)
 	{
 		std::vector<VertexMesh> listVertices;
 		std::vector<unsigned int> listIndices;
@@ -112,6 +112,9 @@ namespace gdeng03
 		case PrimitiveType::CAPSULE:
 			createCapsuleMesh(listVertices, listIndices);
 			break;
+		case PrimitiveType::NOT_PRIMITIVE:
+			LogUtils::error(this, "Do not load a NOT_PRIMITIVE mesh!");
+			return;
 		}
 
 		void* shaderByteCode = nullptr;
@@ -124,6 +127,11 @@ namespace gdeng03
 		Constant constants;
 
 		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
+	}
+
+	PrimitiveType Mesh::getType() const
+	{
+		return primitiveType;
 	}
 
 	void Mesh::createCubeMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
@@ -210,25 +218,25 @@ namespace gdeng03
 
 	void Mesh::createSphereMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
-		int segments = 50;
-		float radius = 1.f;
+		constexpr int segments = 50;
 		for (int i = 0; i <= segments; i++) {
-			float phi = M_PI * i * 2.f / segments;
-			float y = radius * cosf(phi);
-			float r = radius * sinf(phi);
+			constexpr float radius = 1.f;
+			const float phi = M_PI * i * 2.f / segments;
+			const float y = radius * cosf(phi);
+			const float r = radius * sinf(phi);
 
 			for (int j = 0; j <= segments; j++) {
-				float theta = M_PI * j * 2.f / segments;
-				float x = r * cosf(theta);
-				float z = r * sinf(theta);
+				const float theta = M_PI * j * 2.f / segments;
+				const float x = r * cosf(theta);
+				const float z = r * sinf(theta);
 
 				//Vector3D normal = Vector3D(x / radius, y / radius, z / radius);
 
 				listVertices.push_back({ Vector3D(x, y, z), Vector2D(theta, phi) });
 
 
-				int current = i * (segments + 1) + j;
-				int next = current + segments + 1;
+				const int current = i * (segments + 1) + j;
+				const int next = current + segments + 1;
 
 				listIndices.push_back(current);
 				listIndices.push_back(next);
@@ -243,20 +251,20 @@ namespace gdeng03
 
 	void Mesh::createCapsuleMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
-		int segments = 50;
-		float radius = .5f;
+		constexpr int segments = 50;
+		constexpr float radius = .5f;
 		for (int i = 0; i <= segments / 2; i++) {
-			float phi = M_PI * 2.f * i / segments / 2;
-			float y = radius * cosf(phi) + .5f;
-			float r = radius * sinf(phi);
+			const float phi = M_PI * 2.f * i / segments / 2;
+			const float y = radius * cosf(phi) + .5f;
+			const float r = radius * sinf(phi);
 
 			for (int j = 0; j <= segments; j++) {
-				float theta = M_PI * 2.f * j / segments;
+				const float theta = M_PI * 2.f * j / segments;
 				listVertices.push_back({ Vector3D(r * sinf(theta), y, r * cosf(theta)), Vector2D(theta, phi) });
 				if (i == segments) listVertices.push_back({ Vector3D(r * sinf(theta), y,r * cosf(theta)),  Vector2D(theta, .5f) });
 
-				int current = i * (segments + 1) + j;
-				int next = current + segments + 1;
+				const int current = i * (segments + 1) + j;
+				const int next = current + segments + 1;
 
 				listIndices.push_back(current);
 				listIndices.push_back(next);
@@ -269,15 +277,15 @@ namespace gdeng03
 		}
 
 		for (int i = 0; i <= 1; i++) {
-			float y = (i == 0) ? .5f : -.5f;
+			const float y = (i == 0) ? .5f : -.5f;
 
 			for (int j = 0; j <= segments; j++) {
-				float theta = M_PI * 2.f * j / segments;
+				const float theta = M_PI * 2.f * j / segments;
 
 				listVertices.push_back({ Vector3D(radius * sinf(theta), y, radius * cosf(theta)),  Vector2D(theta,0.5f + y) });
 
-				int current = i * (segments + 1) + j;
-				int next = current + segments + 1;
+				const int current = i * (segments + 1) + j;
+				const int next = current + segments + 1;
 
 				listIndices.push_back(current + 1);
 				listIndices.push_back(next);
@@ -291,17 +299,17 @@ namespace gdeng03
 		}
 
 		for (int i = 0; i <= segments + 2; i++) {
-			float phi = M_PI * 2.f * i / segments / 2;
-			float y = radius * cosf(phi) - .5f;
-			float r = radius * sinf(phi);
+			const float phi = M_PI * 2.f * i / segments / 2;
+			const float y = radius * cosf(phi) - .5f;
+			const float r = radius * sinf(phi);
 
 			if (i > (segments / 2) - 1) {
 				for (int j = 0; j <= segments; j++) {
-					float theta = M_PI * 2.f * j / segments;
+					const float theta = M_PI * 2.f * j / segments;
 					listVertices.push_back({ Vector3D(r * sinf(theta), y,r * cosf(theta)), Vector2D(theta, phi) });
 
-					int current = i * (segments + 1) + j;
-					int next = current + segments + 1;
+					const int current = i * (segments + 1) + j;
+					const int next = current + segments + 1;
 
 					listIndices.push_back(current + 1);
 					listIndices.push_back(next);
