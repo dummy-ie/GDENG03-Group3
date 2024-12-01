@@ -10,6 +10,8 @@ namespace gdeng03
 	{
 	public:
 		TexturePtr createTextureFromFile(const wchar_t* filePath);
+		void loadBlankTexture(TexturePtr& texture);
+		TexturePtr getBlankTexture();
 
 	protected:
 		Resource* createResourceFromFileConcrete(const wchar_t* filePath) override;

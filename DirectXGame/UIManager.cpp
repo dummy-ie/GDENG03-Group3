@@ -182,6 +182,14 @@ namespace gdeng03
 		return this->uiMap[name]->isActive;
 	}
 
+	bool* UIManager::getActive(const std::string& name)
+	{
+		if (!this->uiMap[name])
+			return nullptr;
+
+		return &this->uiMap[name]->isActive;
+	}
+
 	void UIManager::addViewport(const UIScreenPtr& viewport)
 	{
 		this->uiMap["Viewport Screen"] = viewport;

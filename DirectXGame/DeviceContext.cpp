@@ -161,6 +161,12 @@ namespace gdeng03
 		}
 	}
 
+	void DeviceContext::setDefaultTexture() const
+	{
+		deviceContext->VSSetShaderResources(0, 1, &GraphicsEngine::get()->getTextureManager()->getBlankTexture()->shaderResourceView);
+		deviceContext->PSSetShaderResources(0, 1, &GraphicsEngine::get()->getTextureManager()->getBlankTexture()->shaderResourceView);
+	}
+
 	void DeviceContext::setConstantBuffer(const ConstantBufferPtr& constantBuffer) const
 	{
 		deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);

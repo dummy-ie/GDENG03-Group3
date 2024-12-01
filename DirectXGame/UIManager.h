@@ -31,6 +31,7 @@ namespace gdeng03
 		static void initialize(HWND windowHandle);
 		void setActive(const std::string& name);
 		bool isActive(const std::string& name);
+		bool* getActive(const std::string& name);
 		void draw() const;
 
 		UIScreenPtr getScreen(const std::string& name);
@@ -47,7 +48,7 @@ namespace gdeng03
 		static int resizeWidth;
 		static int resizeHeight;
 
-		std::shared_ptr<Material> mainMaterial = nullptr;
+		//std::shared_ptr<Material> mainMaterial = nullptr;
 
 	private:
 		explicit UIManager(HWND windowHandle);

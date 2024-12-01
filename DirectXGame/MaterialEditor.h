@@ -22,6 +22,9 @@ namespace gdeng03
 		MaterialEditor();
 		//bool* getMaterialEditorOpen();
 
+		void setSelectedMaterial(Material* mat);
+		void unselectMaterial();
+
 	private:
 		void draw() override;
 		void showColorPickerWindow();
@@ -32,7 +35,9 @@ namespace gdeng03
 		static bool isNormalImage(const TexturePtr& texture);
 
 		void loadTextureFile(TexturePtr& texture);
-		static void loadBlankTexture(TexturePtr& texture);
+		void loadDefaultTextures();
+
+		Material* selectedMaterial = nullptr;
 
 		bool isColorPickerOpen = false;
 		//bool isMaterialEditorOpen = false;
@@ -50,6 +55,7 @@ namespace gdeng03
 		TexturePtr normalTexture;
 
 		friend class MenuScreen;
+		//friend class InspectorScreen;
 	};
 }
 

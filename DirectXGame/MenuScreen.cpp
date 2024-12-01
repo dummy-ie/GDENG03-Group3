@@ -115,19 +115,19 @@ void MenuScreen::draw()
 	// Test header
 	if (ImGui::BeginMenu("Windows"))
 	{
-		if (ImGui::MenuItem("Inspector", nullptr, UIManager::get()->isActive("InspectorScreen"))) {
+		if (ImGui::MenuItem("Inspector", nullptr, UIManager::get()->getActive("InspectorScreen"))) {
 			UIManager::get()->setActive("InspectorScreen");
 		}
-		if (ImGui::MenuItem("Hierarchy", nullptr, UIManager::get()->isActive("HierarchyScreen"))) {
+		if (ImGui::MenuItem("Hierarchy", nullptr, UIManager::get()->getActive("HierarchyScreen"))) {
 			UIManager::get()->setActive("HierarchyScreen");
 		}
-		if (ImGui::MenuItem("Profiler", nullptr, UIManager::get()->isActive("ProfilerScreen"))) {
+		if (ImGui::MenuItem("Profiler", nullptr, UIManager::get()->getActive("ProfilerScreen"))) {
 			UIManager::get()->setActive("ProfilerScreen");
 		}
-		if (ImGui::MenuItem("Debug Console", nullptr, UIManager::get()->isActive("DebugScreen"))) {
+		if (ImGui::MenuItem("Debug Console", nullptr, UIManager::get()->getActive("DebugScreen"))) {
 			UIManager::get()->setActive("DebugScreen");
 		}
-		if (ImGui::MenuItem("Playback Options", nullptr, UIManager::get()->isActive("PlaybackScreen"))) {
+		if (ImGui::MenuItem("Playback Options", nullptr, UIManager::get()->getActive("PlaybackScreen"))) {
 			UIManager::get()->setActive("PlaybackScreen");
 		}
 		if (ImGui::BeginMenu("Viewport"))
@@ -158,7 +158,7 @@ void MenuScreen::draw()
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::MenuItem("Material Editor", nullptr, UIManager::get()->isActive("MaterialEditor")))
+		if (ImGui::MenuItem("Material Editor", nullptr, UIManager::get()->getActive("MaterialEditor")))
 		{
 			UIManager::get()->setActive("MaterialEditor");
 		}
@@ -189,7 +189,7 @@ void MenuScreen::onCreateCubeClicked()
 	//cube->setLocalPosition({ 0, -5, 20 });
 	//cube->setLocalScale({ 10, 0.1, 10 });
 
-	cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName(), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+	cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName(), cube.get(), cubeMesh));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + cube->getUniqueName(), cube.get(), PrimitiveType::CUBE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	cube->attachComponent(staticPhysics);
@@ -206,7 +206,7 @@ void MenuScreen::onCreateSphereClicked()
 	//sphere->setLocalPosition({ 0, -5, 20 });
 	//sphere->setLocalScale({ 10, 0.1, 10 });
 
-	sphere->attachComponent(new Renderer3D("RendererComponent " + sphere->getUniqueName(), sphere.get(), sphereMesh, UIManager::get()->mainMaterial));
+	sphere->attachComponent(new Renderer3D("RendererComponent " + sphere->getUniqueName(), sphere.get(), sphereMesh));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + sphere->getUniqueName(), sphere.get(), PrimitiveType::SPHERE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	sphere->attachComponent(staticPhysics);
@@ -223,7 +223,7 @@ void MenuScreen::onCreateCapsuleClicked()
 	// capsule->setLocalPosition({ 0, -5, 20 });
 	// capsule->setLocalScale({ 10, 0.1, 10 });
 
-	capsule->attachComponent(new Renderer3D("RendererComponent " + capsule->getUniqueName(), capsule.get(), capsuleMesh, UIManager::get()->mainMaterial));
+	capsule->attachComponent(new Renderer3D("RendererComponent " + capsule->getUniqueName(), capsule.get(), capsuleMesh));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + capsule->getUniqueName(), capsule.get(), PrimitiveType::CAPSULE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	capsule->attachComponent(staticPhysics);
@@ -241,7 +241,7 @@ void MenuScreen::onCreatePlaneClicked()
 	//plane->setLocalPosition({ 0, -5, 0 });
 	plane->setLocalScale({ 20.f, 1.0f, 20.f });
 
-	plane->attachComponent(new Renderer3D("RendererComponent " + plane->getUniqueName(), plane.get(), planeMesh, UIManager::get()->mainMaterial));
+	plane->attachComponent(new Renderer3D("RendererComponent " + plane->getUniqueName(), plane.get(), planeMesh));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + plane->getUniqueName(), plane.get(), PrimitiveType::PLANE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
 	plane->attachComponent(staticPhysics);
@@ -256,11 +256,13 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 	{
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
 		//MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
-		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+		//MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
+
 		//cube->setLocalScale(0.1f);
 		cube->setLocalPosition({ 0, 10, 0 });
 
-		cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName() + std::to_string(i), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+		cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName() + std::to_string(i), cube.get(), cubeMesh));
 		PhysicsComponent* cubePhysics = new PhysicsComponent("PhysicsComponent " + cube->getUniqueName() + std::to_string(i), cube.get(), PrimitiveType::CUBE);
 		cube->attachComponent(cubePhysics);
 		GameObjectManager::get()->addObject(cube);

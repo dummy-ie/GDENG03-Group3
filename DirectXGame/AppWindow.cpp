@@ -102,27 +102,27 @@ namespace gdeng03
 
 		this->solidState = renderSystem->createRasterizerState(D3D11_FILL_SOLID, D3D11_CULL_BACK);
 
-		mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
-		//mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-		UIManager::get()->mainMaterial = mainMaterial;
+		// mainMaterial = std::make_shared<Material>(L"PixelShader.hlsl");
+		// //mainMaterial->samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
+		// UIManager::get()->mainMaterial = mainMaterial;
 
 
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube");
 
 		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
-		cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+		cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh));
 		GameObjectManager::get()->addObject(cube);
 
 		GameObjectPtr cube2 = std::make_shared<GameObject>("Cube2");
 
-		cube2->attachComponent(new Renderer3D("cubeRenderer2", cube2.get(), cubeMesh, UIManager::get()->mainMaterial));
+		cube2->attachComponent(new Renderer3D("cubeRenderer2", cube2.get(), cubeMesh));
 		cube2->setLocalPosition({ 0, 2, 0 });
 
 		GameObjectManager::get()->addObject(cube2);
 
 		GameObjectPtr cube3 = std::make_shared<GameObject>("Cube3");
 
-		cube3->attachComponent(new Renderer3D("cubeRenderer3", cube3.get(), cubeMesh, UIManager::get()->mainMaterial));
+		cube3->attachComponent(new Renderer3D("cubeRenderer3", cube3.get(), cubeMesh));
 		cube3->setLocalPosition({ 0, 4, 0 });
 
 		GameObjectManager::get()->addObject(cube3);

@@ -15,10 +15,16 @@ namespace gdeng03
 		ImGui::Begin("Scene Hierarchy");
 
 		ImGui::BeginChild("Hierarchy");
+		int id = 0;
 		for (const auto& gameObject : GameObjectManager::get()->getAllObjects())
 		{
-			if (ImGui::Button(gameObject->getUniqueName().c_str(), ImVec2(250, 0)))
+			ImGui::PushID(id);
+			if (ImGui::Button(gameObject->getDisplayName().c_str(), ImVec2(250, 0)))
+			{
 				GameObjectManager::get()->setSelectedObject(gameObject.get());
+			}
+			id++;
+			ImGui::PopID();
 		}
 		ImGui::EndChild();
 

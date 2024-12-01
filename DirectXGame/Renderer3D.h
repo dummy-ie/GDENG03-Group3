@@ -13,12 +13,15 @@ namespace gdeng03
 			std::string name,
 			GameObject* owner,
 			const MeshPtr& mesh,
-			const MaterialPtr& mat,
+			const MaterialPtr& mat = nullptr,
 			const std::wstring& vs = L"VertexShader.hlsl",
 			const std::wstring& gs = L"GeometryShader.hlsl"
 		);
 
 		void update() override;
+		Material* getMaterial() const;
+		void createMaterial();
+		void resetMaterial();
 
 	private:
 		VertexShaderPtr vertexShader = nullptr;
