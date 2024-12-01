@@ -238,7 +238,7 @@ void MenuScreen::onCreatePlaneClicked()
 	//MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
 	MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::PLANE);
 
-	plane->setLocalPosition({ 0, -5, 0 });
+	//plane->setLocalPosition({ 0, -5, 0 });
 	plane->setLocalScale({ 20.f, 1.0f, 20.f });
 
 	plane->attachComponent(new Renderer3D("RendererComponent " + plane->getUniqueName(), plane.get(), planeMesh, UIManager::get()->mainMaterial));

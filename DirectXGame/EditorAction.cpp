@@ -9,6 +9,7 @@ namespace gdeng03
 		localScale = gameObject->getLocalScale();
 		orientation = gameObject->getOrientation();
 		localMatrix.setMatrix(gameObject->getLocalMatrix());
+		//LogUtils::log(gameObject->getUniqueName() + "saved scale: " + getStoredScale().toString());
 	}
 
 	EditorAction::~EditorAction()

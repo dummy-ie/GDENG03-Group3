@@ -65,7 +65,9 @@ namespace gdeng03
 	void GameObject::setLocalScale(const Vector3D& scale)
 	{
 		localScale = scale;
+		//LogUtils::log(this->name + " setting local scale to: " + localScale.toString());
 		updateGlobalScaleWithChildren();
+		//LogUtils::log(this->name + " global scale: " + globalScale.toString());
 	}
 
 	void GameObject::scale(const Vector3D& scale)
@@ -234,6 +236,7 @@ namespace gdeng03
 
 		//Scale --> Rotate --> Transform as recommended order.
 		Matrix4x4 rotMatrix; rotMatrix.setIdentity();
+		//reactphysics3d::Quaternion q = reactphysics3d::Quaternion(orientation.x, orientation.y, orientation.z, orientation.w).getMatrix();
 		rotMatrix = rotMatrix.multiplyTo(xMatrix.multiplyTo(yMatrix.multiplyTo(zMatrix)));
 
 		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
@@ -561,6 +564,8 @@ namespace gdeng03
 				physicsComponent->getRigidBody()->setAngularVelocity(Vector3(0, 0, 0));
 				physicsComponent->getRigidBody()->setLinearVelocity(Vector3(0, 0, 0));
 			}
+
+			//LogUtils::log(this->getUniqueName() + "restored scale: " + lastEditState->getStoredScale().toString());
 
 			lastEditState = nullptr;
 		}
