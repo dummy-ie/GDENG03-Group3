@@ -278,6 +278,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 void MenuScreen::onLoadObjClicked()
 {
 	// TODO: LOAD OBJ FROM FILE AND CREATE OBJECT IN SCENE
+	// CALL MESH MANAGER EXAMPLE
+	//MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
 }
 
 void MenuScreen::showCreditsWindow()
