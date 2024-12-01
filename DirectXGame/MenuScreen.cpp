@@ -165,13 +165,53 @@ void MenuScreen::draw()
 
 void MenuScreen::onCreateCubeClicked()
 {
+	GameObjectPtr cube = std::make_shared<GameObject>("Cube");
+	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+	MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
 
+	cube->setLocalPosition({ 0, -5, 20 });
+	cube->setLocalScale({ 10, 0.1, 10 });
+
+	cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh, UIManager::get()->mainMaterial));
+	PhysicsComponent* staticPhysics = new PhysicsComponent("cubePhysics", cube.get());
+	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
+	cube->attachComponent(staticPhysics);
+	GameObjectManager::get()->addObject(cube);
 	LogUtils::log("Created Cube");
 }
 
 void MenuScreen::onCreateSphereClicked()
 {
+	GameObjectPtr sphere = std::make_shared<GameObject>("Sphere");
+	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+	MeshPtr sphereMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::SPHERE);
+
+	sphere->setLocalPosition({ 0, -5, 20 });
+	sphere->setLocalScale({ 10, 0.1, 10 });
+
+	sphere->attachComponent(new Renderer3D("sphereRenderer", sphere.get(), sphereMesh, UIManager::get()->mainMaterial));
+	PhysicsComponent* staticPhysics = new PhysicsComponent("spherePhysics", sphere.get());
+	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
+	sphere->attachComponent(staticPhysics);
+	GameObjectManager::get()->addObject(sphere);
 	LogUtils::log("Created Sphere");
+}
+
+void MenuScreen::onCreateCapsuleClicked()
+{
+	GameObjectPtr capsule = std::make_shared<GameObject>("Capsule");
+	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+	MeshPtr capsuleMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CAPSULE);
+
+	capsule->setLocalPosition({ 0, -5, 20 });
+	capsule->setLocalScale({ 10, 0.1, 10 });
+
+	capsule->attachComponent(new Renderer3D("capsuleRenderer", capsule.get(), capsuleMesh, UIManager::get()->mainMaterial));
+	PhysicsComponent* staticPhysics = new PhysicsComponent("capsulePhysics", capsule.get());
+	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
+	capsule->attachComponent(staticPhysics);
+	GameObjectManager::get()->addObject(capsule);
+	LogUtils::log("Created Capsule");
 }
 
 void MenuScreen::onCreatePlaneClicked()

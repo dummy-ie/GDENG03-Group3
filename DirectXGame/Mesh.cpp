@@ -128,23 +128,193 @@ namespace gdeng03
 
 	void Mesh::createCubeMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
-		// Insert into listVertices, see VertexMesh
+			//FRONT FACE
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, -0.5f, -0.5f), Vector2D(0, 1)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, 0.5f, -0.5f), Vector2D(0, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, 0.5f, -0.5f), Vector2D(1, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, -0.5f, -0.5f), Vector2D(1, 1)));
 
-		// Insert into listIndices
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, 0.5f, -0.5f), Vector2D(1, 1)));
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, 0.5f, 0.5f), Vector2D(1, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, 0.5f, 0.5f), Vector2D(0, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, 0.5f, -0.5f), Vector2D(0, 1)));
 
-		
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, -0.5f, 0.5f), Vector2D(0, 1)));
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, 0.5f, 0.5f), Vector2D(0, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, 0.5f, 0.5f), Vector2D(1, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, -0.5f, 0.5f), Vector2D(1, 1)));
+
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, -0.5f, -0.5f), Vector2D(0, 1)));
+		listVertices.push_back(VertexMesh(Vector3D(0.5f, -0.5f, 0.5f), Vector2D(0, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, -0.5f, 0.5f), Vector2D(1, 0)));
+		listVertices.push_back(VertexMesh(Vector3D(-0.5f, -0.5f, -0.5f), Vector2D(1, 1)));
+
+
+		unsigned int indexList[] = {
+
+			//FRONT SIDE
+			0,1,2,  //FIRST TRIANGLE
+			2,3,0,  //SECOND TRIANGLE
+			//TOP SIDE
+			4,7,6,
+			6,5,4,
+			//BACK SIDE
+			8,9,10,
+			10,11,8,
+			//BOTTOM SIDE
+			12,13,14,
+			14,15,12,
+			//RIGHT SIDE
+			2,9,8,
+			8,3,2,
+			//LEFT SIDE
+			1,0,11,
+			11,10,1
+
+		};
+
+		for  (unsigned int index : indexList)
+		{
+			listIndices.push_back(index);
+		}
 	}
 
 	void Mesh::createPlaneMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
-	{
+	{ 
+		
+		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, -.5f),  Vector2D(0, 1)));
+		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, .5f), Vector2D(0, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, .5f), Vector2D(1, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, -.5f), Vector2D(1, 1) ));
+
+		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, -.5f), Vector2D(0, 1) ));
+		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, .5f), Vector2D(0, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, .5f), Vector2D(1, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, -.5f), Vector2D(1, 1)));
+
+		unsigned int indexList[] = {
+
+		//FRONT SIDE
+		0,1,2,  //FIRST TRIANGLE
+		2,3,0,  //SECOND TRIANGLE
+		////BACK SIDE
+		4,5,6,
+		6,7,4,
+		};
+
+		for (unsigned int index : indexList)
+		{
+			listIndices.push_back(index);
+		}
 	}
 
 	void Mesh::createSphereMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
+		int segments = 50;
+		float radius = 1.f;
+		for (int i = 0; i <= segments; i++) {
+			float phi = M_PI * i * 2.f / segments;
+			float y = radius * cosf(phi);
+			float r = radius * sinf(phi);
+
+			for (int j = 0; j <= segments; j++) {
+				float theta = M_PI * j * 2.f / segments;
+				float x = r * cosf(theta);
+				float z = r * sinf(theta);
+
+				//Vector3D normal = Vector3D(x / radius, y / radius, z / radius);
+
+				listVertices.push_back({ Vector3D(x, y, z), Vector2D(theta, phi) });
+
+
+				int current = i * (segments + 1) + j;
+				int next = current + segments + 1;
+
+				listIndices.push_back(current);
+				listIndices.push_back(next);
+				listIndices.push_back(current + 1);
+
+				listIndices.push_back(current + 1);
+				listIndices.push_back(next);
+				listIndices.push_back(next + 1);
+			}
+		}
 	}
 
 	void Mesh::createCapsuleMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{
+		int segments = 50;
+		float radius = .5f;
+		for (int i = 0; i <= segments / 2; i++) {
+			float phi = M_PI * 2.f * i / segments / 2;
+			float y = radius * cosf(phi) + .5f;
+			float r = radius * sinf(phi);
+
+			for (int j = 0; j <= segments; j++) {
+				float theta = M_PI * 2.f * j / segments;
+				listVertices.push_back({ Vector3D(r * sinf(theta), y, r * cosf(theta)), Vector2D(theta, phi) });
+				if (i == segments) listVertices.push_back({ Vector3D(r * sinf(theta), y,r * cosf(theta)),  Vector2D(theta, .5f) });
+
+				int current = i * (segments + 1) + j;
+				int next = current + segments + 1;
+
+				listIndices.push_back(current);
+				listIndices.push_back(next);
+				listIndices.push_back(current + 1);
+
+				listIndices.push_back(current + 1);
+				listIndices.push_back(next);
+				listIndices.push_back(next + 1);
+			}
+		}
+
+		for (int i = 0; i <= 1; i++) {
+			float y = (i == 0) ? .5f : -.5f;
+
+			for (int j = 0; j <= segments; j++) {
+				float theta = M_PI * 2.f * j / segments;
+
+				listVertices.push_back({ Vector3D(radius * sinf(theta), y, radius * cosf(theta)),  Vector2D(theta,0.5f + y) });
+
+				int current = i * (segments + 1) + j;
+				int next = current + segments + 1;
+
+				listIndices.push_back(current + 1);
+				listIndices.push_back(next);
+				listIndices.push_back(next + 1);
+
+				listIndices.push_back(current);
+				listIndices.push_back(next);
+				listIndices.push_back(current + 1);
+
+			}
+		}
+
+		for (int i = 0; i <= segments + 2; i++) {
+			float phi = M_PI * 2.f * i / segments / 2;
+			float y = radius * cosf(phi) - .5f;
+			float r = radius * sinf(phi);
+
+			if (i > (segments / 2) - 1) {
+				for (int j = 0; j <= segments; j++) {
+					float theta = M_PI * 2.f * j / segments;
+					listVertices.push_back({ Vector3D(r * sinf(theta), y,r * cosf(theta)), Vector2D(theta, phi) });
+
+					int current = i * (segments + 1) + j;
+					int next = current + segments + 1;
+
+					listIndices.push_back(current + 1);
+					listIndices.push_back(next);
+					listIndices.push_back(next + 1);
+
+					listIndices.push_back(current);
+					listIndices.push_back(next);
+					listIndices.push_back(current + 1);
+
+
+				}
+			}
+		}
 	}
 
 	const VertexBufferPtr& Mesh::getVertexBuffer()

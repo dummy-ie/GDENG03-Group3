@@ -20,6 +20,7 @@ namespace gdeng03
 		void draw() override;
 		void onCreateCubeClicked();
 		void onCreateSphereClicked();
+		void onCreateCapsuleClicked();
 		void onCreatePlaneClicked();
 		void onCreatePhysicsDemoClicked();
 		void showCreditsWindow();
