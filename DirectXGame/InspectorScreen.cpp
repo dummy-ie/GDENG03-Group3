@@ -107,7 +107,7 @@ namespace gdeng03
 				{
 					if (!hasChanged)
 					{
-						ActionHistory::getInstance()->recordAction(gameObject);
+						ActionHistory::get()->recordAction(gameObject);
 					}
 
 					hasChanged = true;

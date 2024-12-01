@@ -35,7 +35,7 @@ namespace gdeng03
 
 	void AppWindow::onKeyDown(const int key)
 	{
-		// if (!CameraManager::getInstance()->activeCamera)
+		// if (!CameraManager::get()->activeCamera)
 		// 	return;
 
 		switch (key)
@@ -90,7 +90,6 @@ namespace gdeng03
 		RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 		UIManager::initialize(this->windowHandle);
-		ActionHistory::initialize();
 
 		const RECT rc = this->getClientWindowRect();
 		swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);
@@ -98,8 +97,8 @@ namespace gdeng03
 		InputSystem::get()->addListener(this);
 
 		// camera moved to viewportscreen
-		//CameraManager::getInstance()->addSceneCamera(std::make_shared<SceneCamera>("Camera", false, rc));
-		//CameraManager::getInstance()->getActiveSceneCamera()->setLocalPosition({ 0.0f, 5.0f, -20.0f });
+		//CameraManager::get()->addSceneCamera(std::make_shared<SceneCamera>("Camera", false, rc));
+		//CameraManager::get()->getActiveSceneCamera()->setLocalPosition({ 0.0f, 5.0f, -20.0f });
 
 		this->solidState = renderSystem->createRasterizerState(D3D11_FILL_SOLID, D3D11_CULL_BACK);
 

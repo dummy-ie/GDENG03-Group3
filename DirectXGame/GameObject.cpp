@@ -147,19 +147,7 @@ namespace gdeng03
 	void GameObject::rotate(const Vector3D& rotation)
 	{
 		localRotation += rotation;
-
-		globalRotation = (parent) ?
-			localRotation + parent->getGlobalRotation() :
-			localRotation;
-
-		for (GameObjectPtr child : children)
-		{
-			child->setRotation(globalRotation + child->getLocalRotation());
-		}
-
-		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
-		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
-		updateLocalMatrix();
+		setLocalRotation(localRotation);
 	}
 
 	Vector3D GameObject::getGlobalRotation()

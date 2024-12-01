@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+#include <utility>
+
 #include "GameObjectManager.h"
 #include "PrimitiveType.h"
 namespace gdeng03
@@ -7,8 +9,6 @@ namespace gdeng03
 	using namespace std;
 
 	SceneManager* SceneManager::sharedInstance = nullptr;
-
-
 
 	void SceneManager::readFile()
 	{	
@@ -88,14 +88,22 @@ namespace gdeng03
 
 	}
 
+	void SceneManager::setSaveDirectory(String filePath)
+	{
+		this->directory = std::move(filePath);
+	}
+
 	SceneManager* SceneManager::getInstance()
 	{
+		if (!sharedInstance)
+			sharedInstance = new SceneManager();
+
 		return sharedInstance;
 	}
 
-	SceneManager::SceneManager(String directory) 
+	SceneManager::SceneManager() 
 	{
-		this->directory = directory;
+		LogUtils::log(this, " created");
 	}
 
 	SceneManager::~SceneManager()

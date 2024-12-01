@@ -19,6 +19,7 @@ namespace gdeng03
 
 		void readFile();
 		void writeFile();
+		void setSaveDirectory(String filePath);
 
 		static SceneManager* getInstance();
 
@@ -28,9 +29,9 @@ namespace gdeng03
 		SceneManager& operator=(SceneManager&& other) noexcept = delete;
 
 	private:
-		SceneManager(String directory);
+		SceneManager();
 		~SceneManager();
-		String directory;
+		String directory = "assets/scenes/test";
 		static SceneManager* sharedInstance;
 
 	};

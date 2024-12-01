@@ -1,14 +1,15 @@
 #include "MenuScreen.h"
 
+#include "ActionHistory.h"
 #include "AppWindow.h"
 #include "BaseComponentSystem.h"
 #include "GameObjectManager.h"
 #include "GraphicsEngine.h"
-#include "Mesh.h"
 #include "MeshManager.h"
 #include "PhysicsComponent.h"
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
+#include "SceneManager.h"
 #include "UIManager.h"
 #include "ViewportManager.h"
 
@@ -37,11 +38,21 @@ void MenuScreen::draw()
 
 	// File header
 	if (ImGui::BeginMenu("File")) {
+		if (ImGui::MenuItem("Undo", "Ctrl+Z"))
+		{
+			GameObjectManager::get()->applyAction(ActionHistory::get()->undoAction());
+		}
+		if (ImGui::MenuItem("Redo", "Ctrl+Y"))
+		{
+			GameObjectManager::get()->applyAction(ActionHistory::get()->redoAction());
+		}
 		if (ImGui::MenuItem("Open..", "Ctrl+O"))
 		{
+			SceneManager::getInstance()->readFile();
 		}
 		if (ImGui::MenuItem("Save", "Ctrl+S"))
 		{
+			SceneManager::getInstance()->writeFile();
 		}
 		if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 		{

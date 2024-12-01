@@ -11,13 +11,11 @@ namespace gdeng03
 	public:
 		typedef std::stack<EditorAction*> ActionStack;
 
-		static ActionHistory* getInstance();
-		static void initialize();
-		static void destroy();
+		static ActionHistory* get();
 
 		void recordAction(GameObject* gameObject);
-		bool hasRemainingUndoActions();
-		bool hasRemainingRedoActions();
+		bool hasRemainingUndoActions() const;
+		bool hasRemainingRedoActions() const;
 		EditorAction* undoAction();
 		EditorAction* redoAction();
 		void clear();
