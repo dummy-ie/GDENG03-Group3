@@ -76,8 +76,8 @@ namespace gdeng03
 		constants.world = owner->getLocalMatrix();
 		//constants.world = scaleMatrix * transMatrix * newMatrix;
 
-		constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
-		constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
+		// constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
+		// constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
 
 		constants.time = 0;
 

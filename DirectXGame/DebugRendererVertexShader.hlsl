@@ -16,8 +16,8 @@ struct VS_OUTPUT
 cbuffer constant : register(b0)
 {
     row_major float4x4 world;
-    row_major float4x4 view;
-    row_major float4x4 proj;
+    // row_major float4x4 view;
+    // row_major float4x4 proj;
     float3 cameraPos;
     float time;
 
@@ -32,6 +32,12 @@ cbuffer constant : register(b0)
     float hasNormalMap;
     float hasMetallicMap;
     float hasSmoothnessMap;
+};
+
+cbuffer camera : register(b1)
+{
+    row_major float4x4 view;
+    row_major float4x4 proj;
 };
 
 VS_OUTPUT main(VS_INPUT input)

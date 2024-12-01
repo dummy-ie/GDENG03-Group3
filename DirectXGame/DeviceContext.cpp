@@ -172,7 +172,12 @@ namespace gdeng03
 		deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
 		deviceContext->GSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
 		deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer->constantBuffer);
+	}
 
+	void DeviceContext::setConstantBuffer(const ConstantBufferPtr& buffer, const int index) const
+	{
+		deviceContext->VSSetConstantBuffers(index, 1, &buffer->constantBuffer);
+		deviceContext->PSSetConstantBuffers(index, 1, &buffer->constantBuffer);
 	}
 
 	bool DeviceContext::copyResource(ID3D11Resource* destResource, ID3D11Resource* srcResource) const

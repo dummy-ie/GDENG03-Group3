@@ -14,6 +14,9 @@ namespace gdeng03
 			height = windowHeight;
 			width = windowWidth;
 			aspect = windowWidth / windowHeight;
+
+			const CameraBuffer cbData;
+			constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cbData, sizeof(CameraBuffer));
 		}
 
 		void update(const float deltaTime) override;
@@ -24,6 +27,9 @@ namespace gdeng03
 
 		void setWidth(float width);
 		void setHeight(float height);
+
+	private:
+		ConstantBufferPtr constantBuffer;
 
 	protected:
 		bool orthographic = false;
