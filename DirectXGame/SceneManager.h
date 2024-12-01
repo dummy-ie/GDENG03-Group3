@@ -7,6 +7,8 @@
 #include <fstream>
 #include "PrimitiveType.h"
 #include "GameObject.h"
+#include <string>
+#include "StringUtils.h"
 
 namespace gdeng03
 {
@@ -26,9 +28,9 @@ namespace gdeng03
 		SceneManager& operator=(SceneManager&& other) noexcept = delete;
 
 	private:
-		SceneManager();
+		SceneManager(String directory);
 		~SceneManager();
-		String directory = "E:\GDENG03\DirectXGame\GDENG03-Group3\DirectXGame";
+		String directory;
 		static SceneManager* sharedInstance;
 
 	};
