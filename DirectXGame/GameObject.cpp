@@ -21,10 +21,10 @@ namespace gdeng03
 			globalPosition - parent->getGlobalPosition() :
 			globalPosition;
 
-		for(GameObjectPtr child : children)
+		/*for(GameObjectPtr child : children)
 		{
-			child->setPosition(position + child->getLocalPosition());
-		}
+			child->setPosition(globalPosition + child->getLocalPosition());
+		}*/
 
 		updateGlobalMatrix();
 	}
@@ -37,28 +37,19 @@ namespace gdeng03
 			localPosition + parent->getGlobalPosition() :
 			localPosition;
 
-		for (GameObjectPtr child : children)
+		/*for (GameObjectPtr child : children)
 		{
 			child->setPosition(globalPosition + child->getLocalPosition());
-		}
+		}*/
 
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	void GameObject::translate(const Vector3D& translation)
 	{
 		localPosition += translation;
-
-		globalPosition = (parent) ?
-			localPosition + parent->getGlobalPosition() :
-			localPosition;
-
-		for (GameObjectPtr child : children)
-		{
-			child->setPosition(globalPosition + child->getLocalPosition());
-		}
-
-		updateLocalMatrix();
+		setLocalPosition(localPosition);
+		updateGlobalMatrix();
 	}
 
 	Vector3D GameObject::getGlobalPosition()
@@ -96,13 +87,13 @@ namespace gdeng03
 	void GameObject::updateGlobalScaleWithChildren()
 	{
 		globalScale = (parent) ?
-			localScale * parent->getGlobalScale() :
+			localScale.multiply(parent->getGlobalScale()) :
 			localScale;
 
-		for (GameObjectPtr child : children)
+		/*for (GameObjectPtr child : children)
 		{
 			child->updateGlobalScaleWithChildren();
-		}
+		}*/
 
 		updateGlobalMatrix();
 	}
@@ -115,10 +106,10 @@ namespace gdeng03
 			globalRotation - parent->getGlobalRotation() :
 			globalRotation;
 
-		for (GameObjectPtr child : children)
+		/*for (GameObjectPtr child : children)
 		{
 			child->setRotation(globalRotation + child->getLocalRotation());
-		}
+		}*/
 
 		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
 		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
@@ -134,14 +125,14 @@ namespace gdeng03
 			localRotation + parent->getGlobalRotation() :
 			localRotation;
 
-		for (GameObjectPtr child : children)
+		/*for (GameObjectPtr child : children)
 		{
 			child->setRotation(globalRotation + child->getLocalRotation());
-		}
+		}*/
 
 		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
 		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	void GameObject::rotate(const Vector3D& rotation)
@@ -163,7 +154,7 @@ namespace gdeng03
 	void GameObject::setOrientation(const Vector4D& orientation)
 	{
 		this->orientation = orientation;
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	Vector4D GameObject::getOrientation()
@@ -174,6 +165,11 @@ namespace gdeng03
 	void GameObject::setEnabled(const bool enabled)
 	{
 		isEnabled = enabled;
+
+		for(GameObjectPtr child : children)
+		{
+			child->setEnabled(enabled);
+		}
 	}
 
 	bool GameObject::getEnabled() const
@@ -243,6 +239,15 @@ namespace gdeng03
 		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
 		allMatrix = allMatrix.multiplyTo(translationMatrix);
 		this->localMatrix = allMatrix;
+
+		localMatrix = (parent) ?
+			localMatrix.multiplyTo(parent->localMatrix) :
+			localMatrix;
+
+		for (GameObjectPtr child : children)
+		{
+			child->updateGlobalMatrix();
+		}
 
 		ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
 		if (result.size() == 0) return;

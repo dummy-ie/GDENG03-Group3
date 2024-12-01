@@ -68,6 +68,12 @@ namespace gdeng03
 				(this->x * crossMultiplier.y) - (this->y * crossMultiplier.x) };
 		}
 
+		Vector3D multiply(const Vector3D& multiplier) const
+		{
+			return{(this->y * multiplier.x),
+					(this->z * multiplier.y),
+					(this->x * multiplier.z)};
+		}
 
 		Vector3D operator*(const float scalar) const
 			// scalar multiplication
