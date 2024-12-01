@@ -26,6 +26,7 @@ namespace gdeng03
 	{
 	public:
 		typedef std::vector<Component*> ComponentList;
+		typedef std::vector<GameObjectPtr> GameObjectList;
 
 		explicit GameObject(const std::string& name);
 
@@ -68,6 +69,12 @@ namespace gdeng03
 		void attachComponent(Component* component);
 		void detachComponent(const Component* component);
 
+		void attachParent(GameObjectPtr parent);
+		void detachParent();
+
+		void attachChild(GameObjectPtr child);
+		void detachChild(GameObjectPtr child);
+
 		Component* findComponentByName(const std::string& name);
 		Component* findComponentOfType(ComponentType type, const std::string& name);
 		ComponentList getComponentsOfType(ComponentType type) const;
@@ -96,6 +103,9 @@ namespace gdeng03
 		EditorAction* lastEditState;
 
 		ComponentList componentList;
+
+		GameObjectPtr parent;
+		GameObjectList children;
 
 		friend class GameObjectManager;
 	};

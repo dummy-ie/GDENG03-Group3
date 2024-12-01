@@ -125,7 +125,10 @@ namespace gdeng03
 	{
 		Transform transform;
 		transform.setFromOpenGL(matrix);
+		this->rigidBody->setIsActive(false);
 		this->rigidBody->setTransform(transform);
+		this->rigidBody->setIsActive(true);
+		this->rigidBody->setIsSleeping(false);
 	}
 
 	void PhysicsComponent::setMass(float mass)
