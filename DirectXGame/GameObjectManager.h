@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "ActionHistory.h"
 #include "PrimitiveType.h"
 #include "GameObject.h"
 
@@ -29,8 +30,9 @@ namespace gdeng03
 		void setSelectedObject(GameObject* gameObject);
 		GameObject* getSelectedObject() const;
 
-		void saveEditStates();
-		void restoreEditStates();
+		void saveEditStates() const;
+		void restoreEditStates() const;
+		void applyAction(EditorAction* action);
 
 		static GameObjectManager* get();
 

@@ -7,21 +7,15 @@
 namespace gdeng03
 {
 	ActionHistory* ActionHistory::sharedInstance = nullptr;
-	ActionHistory* ActionHistory::getInstance()
+
+	ActionHistory* ActionHistory::get()
 	{
-		return sharedInstance;
-	}
-	void ActionHistory::initialize()
-	{
-		if (sharedInstance)
+		if (!sharedInstance)
 		{
-			LogUtils::error("Input System already created");
+			sharedInstance = new ActionHistory();
 		}
-		sharedInstance = new ActionHistory();
-	}
-	void ActionHistory::destroy()
-	{
-		delete sharedInstance;
+
+		return sharedInstance;
 	}
 
 	void ActionHistory::recordAction(GameObject* gameObject)
@@ -35,12 +29,12 @@ namespace gdeng03
 		}
 	}
 
-	bool ActionHistory::hasRemainingUndoActions()
+	bool ActionHistory::hasRemainingUndoActions() const
 	{
 		return !actionsPerformed.empty();
 	}
 
-	bool ActionHistory::hasRemainingRedoActions()
+	bool ActionHistory::hasRemainingRedoActions() const
 	{
 		return !actionsCancelled.empty();
 	}
@@ -101,5 +95,6 @@ namespace gdeng03
 	ActionHistory::~ActionHistory()
 	{
 		LogUtils::log(this, "Destroyed");
+		delete sharedInstance;
 	}
 }

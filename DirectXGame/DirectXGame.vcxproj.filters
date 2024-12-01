@@ -82,9 +82,6 @@
     <Filter Include="GameEngine\EntityComponentSystem\GameObjects\GameObjectManager">
       <UniqueIdentifier>{4f56c64f-f93d-43df-aa88-a5a7b3a9aa75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\EntityComponentSystem\GameObjects\Materials">
-      <UniqueIdentifier>{e69319be-c5e4-4702-98fe-6f10f95a9179}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\EntityComponentSystem\Components">
       <UniqueIdentifier>{22ee25ed-4a33-46a8-87ea-b2c42f6d8f71}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,12 @@
     </Filter>
     <Filter Include="GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry">
       <UniqueIdentifier>{f99d1caf-45d3-453a-8aa6-fbc9e837210a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources\Materials">
+      <UniqueIdentifier>{e69319be-c5e4-4702-98fe-6f10f95a9179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Scenes">
+      <UniqueIdentifier>{afeddee8-fc28-444f-b5d6-dad7f1e1e009}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +214,7 @@
       <Filter>GameEngine\EntityComponentSystem\GameObjects\GameObjectManager</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\Materials</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Materials</Filter>
     </ClCompile>
     <ClCompile Include="MaterialEditor.cpp">
       <Filter>GameEngine\UISystem\Screens</Filter>
@@ -321,8 +324,16 @@
     <ClCompile Include="libraries\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Libraries\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="DebugScreen.cpp" />
     <ClCompile Include="LogUtils.cpp">
+      <Filter>GameEngine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugScreen.cpp">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameEngine\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cpp">
       <Filter>GameEngine\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -448,7 +459,7 @@
       <Filter>GameEngine\EntityComponentSystem\GameObjects\GameObjectManager</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\Materials</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Materials</Filter>
     </ClInclude>
     <ClInclude Include="MaterialEditor.h">
       <Filter>GameEngine\UISystem\Screens</Filter>
@@ -576,7 +587,15 @@
     <ClInclude Include="libraries\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="DebugScreen.h" />
+    <ClInclude Include="DebugScreen.h">
+      <Filter>GameEngine\UISystem\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>GameEngine\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>GameEngine\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

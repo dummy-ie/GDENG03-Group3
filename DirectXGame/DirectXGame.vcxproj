@@ -208,7 +208,9 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="SceneCamera.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLibrary.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -299,6 +301,7 @@
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="SceneCamera.h" />
     <ClInclude Include="GraphicsResource.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderLibrary.h" />
     <ClInclude Include="ShaderToCompile.h" />
     <ClInclude Include="ShaderType.h" />
@@ -306,6 +309,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />

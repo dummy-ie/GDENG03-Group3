@@ -58,7 +58,7 @@ namespace gdeng03
 	void GameObject::rotate(const Vector3D& rotation)
 	{
 		localRotation += rotation;
-		updateLocalMatrix();
+		setLocalRotation(localRotation);
 	}
 
 	Vector3D GameObject::getLocalRotation()

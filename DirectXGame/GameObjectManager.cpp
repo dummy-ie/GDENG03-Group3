@@ -1,5 +1,7 @@
 #include "GameObjectManager.h"
 
+#include "EditorAction.h"
+
 namespace gdeng03
 {
 	GameObjectManager* GameObjectManager::sharedInstance = nullptr;
@@ -93,9 +95,8 @@ namespace gdeng03
 	void GameObjectManager::deleteObject(const GameObjectPtr& gameObject)
 	{
 		gameObjectMap.erase(gameObject->getUniqueName());
-		const GameObjectList::iterator it = std::find(gameObjectList.begin(), gameObjectList.end(), gameObject);
 
-		if (it != gameObjectList.end())
+		if (const GameObjectList::iterator it = std::ranges::find(gameObjectList, gameObject); it != gameObjectList.end())
 		{
 			gameObjectList.erase(it);
 		}
@@ -130,17 +131,32 @@ namespace gdeng03
 		return selectedObject;
 	}
 
-	void GameObjectManager::saveEditStates()
+	void GameObjectManager::saveEditStates() const
 	{
 		for (const GameObjectPtr gameObject : gameObjectList) {
 			gameObject->saveEditState();
 		}
 	}
 
-	void GameObjectManager::restoreEditStates()
+	void GameObjectManager::restoreEditStates() const
 	{
-		for (GameObjectPtr gameObject : gameObjectList) {
+		for (const GameObjectPtr gameObject : gameObjectList) {
 			gameObject->restoreEditState();
+		}
+	}
+
+	void GameObjectManager::applyAction(EditorAction* action)
+	{
+		if (!action)
+			return;
+
+		LogUtils::log(this, action->getOwnerName() + " was changed by an EditorAction");
+		if (const GameObjectPtr gameObject = this->findObjectByName(action->getOwnerName()); gameObject != nullptr)
+		{
+			//gameObject->setLocalMatrix(action->getStoredMatrix().getMatrix());
+			gameObject->setLocalPosition(action->getStoredPosition());
+			gameObject->setLocalRotation({ action->getStoredOrientation().x, action->getStoredOrientation().y, action->getStoredOrientation().z });
+			gameObject->setLocalScale(action->getStoredScale());
 		}
 	}
 
