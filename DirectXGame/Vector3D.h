@@ -68,27 +68,6 @@ namespace gdeng03
 				(this->x * crossMultiplier.y) - (this->y * crossMultiplier.x) };
 		}
 
-		// Vector3D operator*(const Matrix& m) // cross product w/ matrix
-		// {
-		// 	float mult[4] = { this->x, this->y, this->z, 1 };
-		// 	float result[4] = { 0, 0, 0, 1 };
-		//
-		// 	if (m.getSize().at(1) != 4)
-		// 		return Vector3D();
-		//
-		// 	for (size_t i = 0; i < (size_t)m.getSize().at(0); i++)
-		// 	{
-		// 		for (size_t j = 0; j < 4; j++)
-		// 		{
-		// 			result[i] += (m.getData(i, j) * mult[j]);
-		// 			// std::cout << result[i] << " += " << m.getData(i, j) << " * " << mult[j];
-		// 			// std::cout << ", ";
-		// 		}
-		// 		// std::cout << "\n";
-		// 	}
-		//
-		// 	return Vector3D(result[0], result[1], result[2]);
-		// }
 
 		Vector3D operator*(const float scalar) const
 			// scalar multiplication
@@ -129,6 +108,15 @@ namespace gdeng03
 		bool operator!=(const Vector3D& vector) const
 		{
 			return !(*this == vector);
+		}
+
+		Vector3D operator/(const Vector3D& divisor) const
+		{
+			return {
+				divisor.x != 0 ? this->x / divisor.x : 0,
+				divisor.y != 0 ? this->y / divisor.y : 0,
+				divisor.z != 0 ? this->z / divisor.z : 0
+			};
 		}
 
 		//Vector3D& operator*=(const Vector3D& multiplier)

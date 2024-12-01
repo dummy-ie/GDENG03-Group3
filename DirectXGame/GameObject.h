@@ -39,16 +39,22 @@ namespace gdeng03
 		virtual void awake() {}
 		virtual void update(float deltaTime) {}
 
+		void setPosition(const Vector3D& position);
 		void setLocalPosition(const Vector3D& position);
 		void translate(const Vector3D& translation);
+		Vector3D getGlobalPosition();
 		Vector3D getLocalPosition();
 
 		void setLocalScale(const Vector3D& scale);
 		void scale(const Vector3D& scale);
+		Vector3D getGlobalScale();
 		Vector3D getLocalScale();
+		void updateGlobalScaleWithChildren();
 
+		void setRotation(const Vector3D& rotation);
 		void setLocalRotation(const Vector3D& rotation);
 		void rotate(const Vector3D& rotation);
+		Vector3D getGlobalRotation();
 		Vector3D getLocalRotation();
 
 		void setOrientation(const Vector4D& orientation);
@@ -66,10 +72,13 @@ namespace gdeng03
 		void setLocalMatrix(float matrix[16]);
 		float* getPhysicsLocalMatrix();
 
+		void recalculateChildTransformWithParent(GameObjectPtr parent);
+		void recalculateChildTransformWithoutParent();
+
 		void attachComponent(Component* component);
 		void detachComponent(const Component* component);
 
-		void attachParent(GameObjectPtr parent);
+		void setParent(GameObject* parent);
 		void detachParent();
 
 		void attachChild(GameObjectPtr child);
@@ -94,9 +103,15 @@ namespace gdeng03
 		std::string name;
 		bool isEnabled = true;
 
+		Vector3D globalScale = 1.f;
 		Vector3D localScale = 1.f;
+
+		Vector3D globalPosition = 0.f;
 		Vector3D localPosition = 0.f;
+
+		Vector3D globalRotation = 0.f;
 		Vector3D localRotation = 0.f;
+
 		Matrix4x4 localMatrix;
 		Vector4D orientation;
 
@@ -104,8 +119,10 @@ namespace gdeng03
 
 		ComponentList componentList;
 
-		GameObjectPtr parent;
+		GameObject* parent;
 		GameObjectList children;
+
+		int level = 0;
 
 		friend class GameObjectManager;
 	};

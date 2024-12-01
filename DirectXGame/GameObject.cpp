@@ -13,16 +13,57 @@ namespace gdeng03
 	{
 	}
 
+	void GameObject::setPosition(const Vector3D& position)
+	{
+		globalPosition = position;
+
+		localPosition = (parent) ?
+			globalPosition - parent->getGlobalPosition() :
+			globalPosition;
+
+		for(GameObjectPtr child : children)
+		{
+			child->setPosition(position + child->getLocalPosition());
+		}
+
+		updateLocalMatrix();
+	}
+
 	void GameObject::setLocalPosition(const Vector3D& position)
 	{
 		localPosition = position;
+
+		globalPosition = (parent) ?
+			localPosition + parent->getGlobalPosition() :
+			localPosition;
+
+		for (GameObjectPtr child : children)
+		{
+			child->setPosition(globalPosition + child->getLocalPosition());
+		}
+
 		updateLocalMatrix();
 	}
 
 	void GameObject::translate(const Vector3D& translation)
 	{
 		localPosition += translation;
+
+		globalPosition = (parent) ?
+			localPosition + parent->getGlobalPosition() :
+			localPosition;
+
+		for (GameObjectPtr child : children)
+		{
+			child->setPosition(globalPosition + child->getLocalPosition());
+		}
+
 		updateLocalMatrix();
+	}
+
+	Vector3D GameObject::getGlobalPosition()
+	{
+		return globalPosition;
 	}
 
 	Vector3D GameObject::getLocalPosition()
@@ -33,13 +74,18 @@ namespace gdeng03
 	void GameObject::setLocalScale(const Vector3D& scale)
 	{
 		localScale = scale;
-		updateLocalMatrix();
+		updateGlobalScaleWithChildren();
 	}
 
 	void GameObject::scale(const Vector3D& scale)
 	{
 		localScale += scale;
-		updateLocalMatrix();
+		updateGlobalScaleWithChildren();
+	}
+
+	Vector3D GameObject::getGlobalScale()
+	{
+		return globalScale;
 	}
 
 	Vector3D GameObject::getLocalScale()
@@ -47,9 +93,52 @@ namespace gdeng03
 		return localScale;
 	}
 
+	void GameObject::updateGlobalScaleWithChildren()
+	{
+		globalScale = (parent) ?
+			localScale * parent->getGlobalScale() :
+			localScale;
+
+		for (GameObjectPtr child : children)
+		{
+			child->updateGlobalScaleWithChildren();
+		}
+
+		updateLocalMatrix();
+	}
+
+	void GameObject::setRotation(const Vector3D& rotation)
+	{
+		globalRotation = rotation;
+
+		localRotation = (parent) ?
+			globalRotation - parent->getGlobalRotation() :
+			globalRotation;
+
+		for (GameObjectPtr child : children)
+		{
+			child->setRotation(globalRotation + child->getLocalRotation());
+		}
+
+		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
+		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
+
+		updateLocalMatrix();
+	}
+
 	void GameObject::setLocalRotation(const Vector3D& rotation)
 	{
 		localRotation = rotation;
+
+		globalRotation = (parent) ?
+			localRotation + parent->getGlobalRotation() :
+			localRotation;
+
+		for (GameObjectPtr child : children)
+		{
+			child->setRotation(globalRotation + child->getLocalRotation());
+		}
+
 		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
 		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
 		updateLocalMatrix();
@@ -58,7 +147,24 @@ namespace gdeng03
 	void GameObject::rotate(const Vector3D& rotation)
 	{
 		localRotation += rotation;
+
+		globalRotation = (parent) ?
+			localRotation + parent->getGlobalRotation() :
+			localRotation;
+
+		for (GameObjectPtr child : children)
+		{
+			child->setRotation(globalRotation + child->getLocalRotation());
+		}
+
+		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
+		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
 		updateLocalMatrix();
+	}
+
+	Vector3D GameObject::getGlobalRotation()
+	{
+		return globalRotation;
 	}
 
 	Vector3D GameObject::getLocalRotation()
@@ -232,6 +338,22 @@ namespace gdeng03
 		return (scaleMatrix * rotateMatrix * translateMatrix).getMatrix();
 	}
 
+	void GameObject::recalculateChildTransformWithParent(GameObjectPtr parent)
+	{
+		setLocalPosition(globalPosition - parent->globalPosition);
+		setLocalScale(globalPosition / parent->globalScale);
+		setLocalRotation(globalRotation - parent->globalRotation);
+	}
+
+	void GameObject::recalculateChildTransformWithoutParent()
+	{
+		localPosition = globalPosition;
+		localScale = globalScale;
+		localRotation = globalRotation;
+		
+		updateLocalMatrix();
+	}
+
 	void GameObject::attachComponent(Component* component)
 	{
 		componentList.push_back(component);
@@ -244,7 +366,7 @@ namespace gdeng03
 		componentList.erase(it);
 	}
 
-	void GameObject::attachParent(GameObjectPtr parent)
+	void GameObject::setParent(GameObject* parent)
 	{
 		this->parent = parent;
 	}
@@ -256,17 +378,35 @@ namespace gdeng03
 
 	void GameObject::attachChild(GameObjectPtr child)
 	{
+		if (child == nullptr || child.get() == this) return;
+
+		if(child->parent != nullptr)
+		{
+			child->parent->detachChild(child);
+		}
+
 		children.push_back(child);
+		child->setParent(this);
+		child->level = level + 1;
+		child->setEnabled(isEnabled);
+
+
 	}
 
 	void GameObject::detachChild(GameObjectPtr child)
 	{
+		if (child.get() == this || child == nullptr) return;
+
 		const GameObjectList::iterator it = std::find(children.begin(), children.end(), child);
 
 		if (it != children.end())
 		{
 			children.erase(it);
 		}
+
+		child->level = 0;
+		child->setParent(nullptr);
+		child->recalculateChildTransformWithoutParent();
 	}
 
 	Component* GameObject::findComponentByName(const std::string& name)
