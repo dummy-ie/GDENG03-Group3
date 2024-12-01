@@ -66,12 +66,12 @@ namespace mrlol
 							if (keysState[i] != oldKeysState[i])
 								(*it)->onLeftMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
 						}
-						if (i == VK_RBUTTON && !io.WantCaptureMouse)
+						else if (i == VK_RBUTTON && !io.WantCaptureMouse)
 						{
 							if (keysState[i] != oldKeysState[i])
 								(*it)->onRightMouseDown(Vector2D(currentMousePosition.x, currentMousePosition.y));
 						}
-						if (io.WantCaptureKeyboard)
+						else if (io.WantCaptureKeyboard)
 							(*it)->onKeyDown(i);
 
 						++it;
@@ -88,9 +88,9 @@ namespace mrlol
 						{
 							if (i == VK_LBUTTON && !io.WantCaptureMouse)
 								(*it)->onLeftMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
-							if (i == VK_RBUTTON && !io.WantCaptureMouse)
+							else if (i == VK_RBUTTON && !io.WantCaptureMouse)
 								(*it)->onRightMouseUp(Vector2D(currentMousePosition.x, currentMousePosition.y));
-							if (!io.WantCaptureKeyboard)
+							else if (!io.WantCaptureKeyboard)
 								(*it)->onKeyUp(i);
 
 							++it;
