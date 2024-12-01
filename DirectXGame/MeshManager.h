@@ -8,6 +8,7 @@ namespace gdeng03
 	{
 	public:
 		MeshPtr createMeshFromFile(const wchar_t* filePath);
+		MeshPtr createMeshFromPrimitiveType(PrimitiveType type);
 
 	protected:
 		Resource* createResourceFromFileConcrete(const wchar_t* filePath) override;

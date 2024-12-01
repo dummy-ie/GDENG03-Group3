@@ -50,12 +50,15 @@ namespace gdeng03
 		}
 
 		template <class T>
-		static bool logBool(T* sender, const bool bResult)
+		static bool logBool(T* sender, const bool bResult, const bool throwExcept = true)
 		{
 			if (!bResult) {
 				std::string message = "[" + std::to_string(bResult) + "] Operation failed!";
 				log(sender, message);
-				throw std::exception(message.data());
+
+				if (throwExcept)
+					throw std::exception(message.data());
+
 				return false;
 			}
 

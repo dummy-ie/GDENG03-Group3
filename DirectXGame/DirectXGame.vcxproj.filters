@@ -73,12 +73,6 @@
     <Filter Include="GameEngine\EntityComponentSystem\GameObjects">
       <UniqueIdentifier>{4a4cf811-cac6-4de5-9d5d-55e89a36f9be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\EntityComponentSystem\GameObjects\2D Geometry">
-      <UniqueIdentifier>{e684f9af-b493-48c5-a879-093961d1fedb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\EntityComponentSystem\GameObjects\3D Geometry">
-      <UniqueIdentifier>{f99d1caf-45d3-453a-8aa6-fbc9e837210a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\EntityComponentSystem\GameObjects\Camera">
       <UniqueIdentifier>{f3248771-6c25-4694-953a-f72af61275c9}</UniqueIdentifier>
     </Filter>
@@ -127,6 +121,12 @@
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\RasterizerState">
       <UniqueIdentifier>{79cdb99c-ee19-418a-a5df-0b3a49854a10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources\Mesh\2D Geometry">
+      <UniqueIdentifier>{e684f9af-b493-48c5-a879-093961d1fedb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry">
+      <UniqueIdentifier>{f99d1caf-45d3-453a-8aa6-fbc9e837210a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -172,16 +172,16 @@
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
     <ClCompile Include="Circle.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\2D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\2D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\2D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\2D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>GameEngine\EntityComponentSystem\GameObjects\Camera</Filter>
@@ -217,7 +217,7 @@
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Cylinder.cpp">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClCompile>
     <ClCompile Include="SamplerState.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>
@@ -388,19 +388,19 @@
       <Filter>GameEngine\Utilities\Math</Filter>
     </ClInclude>
     <ClInclude Include="Circle.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\2D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\2D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\2D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\2D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="LogUtils.h">
       <Filter>GameEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>GameEngine\Utilities\Math</Filter>
@@ -454,7 +454,7 @@
       <Filter>GameEngine\UISystem\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Cylinder.h">
-      <Filter>GameEngine\EntityComponentSystem\GameObjects\3D Geometry</Filter>
+      <Filter>GameEngine\GraphicsEngine\Resources\Mesh\3D Geometry</Filter>
     </ClInclude>
     <ClInclude Include="SamplerState.h">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\SamplerState</Filter>

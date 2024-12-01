@@ -13,7 +13,7 @@
 
 namespace gdeng03
 {
-	Mesh::Mesh(const wchar_t* fullPath, const std::string& name) : Resource(fullPath)
+	Mesh::Mesh(const wchar_t* fullPath) : Resource(fullPath)
 	{
 		tinyobj::attrib_t attributes;
 		std::vector<tinyobj::shape_t> shapes;
@@ -26,10 +26,11 @@ namespace gdeng03
 
 		LogUtils::logBool(
 			this,
-			tinyobj::LoadObj(&attributes, &shapes, &materials, &warn, &err, inputFile.c_str())
+			tinyobj::LoadObj(&attributes, &shapes, &materials, &warn, &err, inputFile.c_str()),
+			false
 		);
 
-		if (!err.empty()) throw std::exception("Mesh not created successfully");
+		if (!err.empty()) throw std::exception(std::string("Mesh not created successfully: " + err).c_str());
 
 		if (shapes.size() > 1) throw std::exception("Mesh not created successfully");
 
@@ -90,6 +91,58 @@ namespace gdeng03
 		Constant constants;
 
 		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
+	}
+
+	Mesh::Mesh(const PrimitiveType type) : Resource(toString(type))
+	{
+		switch (type)
+		{
+		case PrimitiveType::CUBE:
+			createCubeMesh();
+			break;
+		case PrimitiveType::PLANE:
+			createPlaneMesh();
+			break;
+		case PrimitiveType::SPHERE:
+			createSphereMesh();
+			break;
+		case PrimitiveType::CAPSULE:
+			createCapsuleMesh();
+			break;
+		}
+	}
+
+	void Mesh::createCubeMesh()
+	{
+		std::vector<VertexMesh> listVertices;
+		std::vector<unsigned int> listIndices;
+
+		// Insert into listVertices, see VertexMesh
+
+		// Insert into listIndices
+
+		void* shaderByteCode = nullptr;
+		size_t sizeShader = 0;
+		GraphicsEngine::get()->getVertexMeshLayoutShaderByteCodeAndSize(&shaderByteCode, &sizeShader);
+		vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(listVertices.data(), sizeof(VertexMesh),
+			static_cast<UINT>(listVertices.size()), shaderByteCode, static_cast<UINT>(sizeShader));
+		indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(listIndices.data(), static_cast<UINT>(listIndices.size()));
+
+		Constant constants;
+
+		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
+	}
+
+	void Mesh::createPlaneMesh()
+	{
+	}
+
+	void Mesh::createSphereMesh()
+	{
+	}
+
+	void Mesh::createCapsuleMesh()
+	{
 	}
 
 	const VertexBufferPtr& Mesh::getVertexBuffer()
