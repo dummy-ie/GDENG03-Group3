@@ -26,14 +26,14 @@ namespace gdeng03
 			child->setPosition(position + child->getLocalPosition());
 		}
 
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	void GameObject::setLocalPosition(const Vector3D& position)
 	{
 		localPosition = position;
 
-		globalPosition = (parent) ?
+		globalPosition = (parent != nullptr) ?
 			localPosition + parent->getGlobalPosition() :
 			localPosition;
 
@@ -104,7 +104,7 @@ namespace gdeng03
 			child->updateGlobalScaleWithChildren();
 		}
 
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	void GameObject::setRotation(const Vector3D& rotation)
@@ -123,7 +123,7 @@ namespace gdeng03
 		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
 		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
 
-		updateLocalMatrix();
+		updateGlobalMatrix();
 	}
 
 	void GameObject::setLocalRotation(const Vector3D& rotation)
@@ -220,6 +220,34 @@ namespace gdeng03
 		if (result.size() == 0) return;
 		PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
 		if(physicsComponent != nullptr)
+		{
+			physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
+		}
+	}
+
+	void GameObject::updateGlobalMatrix()
+	{
+		//setup transformation matrix for drawing.
+		Matrix4x4 allMatrix; allMatrix.setIdentity();
+		Matrix4x4 translationMatrix; translationMatrix.setIdentity();  translationMatrix.setTranslation(getGlobalPosition());
+		Matrix4x4 scaleMatrix; scaleMatrix.setScale(getGlobalScale());
+		Vector3D rotation = getGlobalRotation();
+		Matrix4x4 xMatrix; xMatrix.setRotationX(rotation.x);
+		Matrix4x4 yMatrix; yMatrix.setRotationY(rotation.y);
+		Matrix4x4 zMatrix; zMatrix.setRotationZ(rotation.z);
+
+		//Scale --> Rotate --> Transform as recommended order.
+		Matrix4x4 rotMatrix; rotMatrix.setIdentity();
+		rotMatrix = rotMatrix.multiplyTo(xMatrix.multiplyTo(yMatrix.multiplyTo(zMatrix)));
+
+		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
+		allMatrix = allMatrix.multiplyTo(translationMatrix);
+		this->localMatrix = allMatrix;
+
+		ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
+		if (result.size() == 0) return;
+		PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
+		if (physicsComponent != nullptr)
 		{
 			physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
 		}
@@ -366,6 +394,8 @@ namespace gdeng03
 
 	void GameObject::attachChild(GameObjectPtr child)
 	{
+
+		
 		if (child == nullptr || child.get() == this) return;
 
 		if(child->parent != nullptr)
@@ -377,7 +407,6 @@ namespace gdeng03
 		child->setParent(this);
 		child->level = level + 1;
 		child->setEnabled(isEnabled);
-
 
 	}
 

@@ -68,6 +68,7 @@ namespace gdeng03
 		std::string getDisplayName();
 
 		void updateLocalMatrix();
+		void updateGlobalMatrix();
 		Matrix4x4 getLocalMatrix() const;
 		void setLocalMatrix(float matrix[16]);
 		float* getPhysicsLocalMatrix();
@@ -119,7 +120,7 @@ namespace gdeng03
 
 		ComponentList componentList;
 
-		GameObject* parent;
+		GameObject* parent = nullptr;
 		GameObjectList children;
 
 		int level = 0;
