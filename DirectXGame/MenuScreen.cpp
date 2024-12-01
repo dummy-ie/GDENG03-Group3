@@ -233,10 +233,11 @@ void MenuScreen::onCreatePlaneClicked()
 {
 	GameObjectPtr plane = std::make_shared<GameObject>("Plane");
 	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
-	MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+	//MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+	MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::PLANE);
 
-	plane->setLocalPosition({ 0, -5, 20 });
-	plane->setLocalScale({ 10, 0.1, 10 });
+	 //plane->setLocalPosition({ 0, -5, 20 });
+	 //plane->setLocalScale({ 10, 1.0f, 10 });
 
 	plane->attachComponent(new Renderer3D("planeRenderer", plane.get(), planeMesh, UIManager::get()->mainMaterial));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("planePhysics", plane.get());
@@ -254,8 +255,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
 		//MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
 		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
-		cube->setLocalScale(1.f);
-		cube->setLocalPosition({ 0, 10, 20 });
+		cube->setLocalScale(0.1f);
+		cube->setLocalPosition({ 0, 10, 0 });
 
 		cube->attachComponent(new Renderer3D("cubeRenderer" + std::to_string(i), cube.get(), cubeMesh, UIManager::get()->mainMaterial));
 		PhysicsComponent* cubePhysics = new PhysicsComponent("cubePhysics" + std::to_string(i), cube.get());

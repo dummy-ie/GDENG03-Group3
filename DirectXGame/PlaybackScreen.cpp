@@ -17,10 +17,16 @@ namespace gdeng03
 
 	void PlaybackScreen::draw()
 	{
+		EngineBackend* backend = EngineBackend::get();
+		std::string playMode;
+		if (backend->getMode() == EngineBackend::EDITOR)
+			playMode = "Play";
+		else if (backend->getMode() == EngineBackend::PLAY)
+			playMode = "Stop";
+
 		ImGui::Begin("Playback", &isActive);
 
-		EngineBackend* backend = EngineBackend::get();
-		if (ImGui::Button("Play"))
+		if (ImGui::Button(playMode.c_str()))
 		{
 			if (backend->getMode() == EngineBackend::EDITOR)
 			{

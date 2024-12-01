@@ -14,15 +14,17 @@ namespace gdeng03
 		explicit Mesh(const wchar_t* fullPath);
 		explicit Mesh(PrimitiveType type);
 
+		PrimitiveType getType() const;
 		const VertexBufferPtr& getVertexBuffer();
 		const IndexBufferPtr& getIndexBuffer();
 
 	private:
-		void createCubeMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
-		void createPlaneMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
-		void createSphereMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
-		void createCapsuleMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
+		static void createCubeMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
+		static void createPlaneMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
+		static void createSphereMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
+		static void createCapsuleMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices);
 
+		PrimitiveType primitiveType;
 		VertexBufferPtr vertexBuffer;
 		IndexBufferPtr indexBuffer;
 		ConstantBufferPtr constantBuffer;

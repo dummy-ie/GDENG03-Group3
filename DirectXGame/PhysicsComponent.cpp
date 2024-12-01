@@ -27,7 +27,7 @@ namespace gdeng03
 		Transform transform;
 		transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
 
-		BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 1.0f, scale.y / 1.0f, scale.z / 1.0f));
+		BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 0.5f, scale.y / 0.5f, scale.z / 0.5f));
 
 		this->rigidBody = physicsWorld->createRigidBody(transform);
 		this->rigidBody->addCollider(boxShape, transform);
