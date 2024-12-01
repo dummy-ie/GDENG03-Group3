@@ -89,6 +89,10 @@ void MenuScreen::draw()
 		{
 			onCreatePhysicsDemoClicked();
 		}
+		if (ImGui::MenuItem("Load OBJ..."))
+		{
+			onLoadObjClicked();
+		}
 
 		ImGui::Separator();
 
@@ -269,6 +273,11 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 	}
 
 	LogUtils::log("Created 10 Physics Cubes");
+}
+
+void MenuScreen::onLoadObjClicked()
+{
+	// TODO: LOAD OBJ FROM FILE AND CREATE OBJECT IN SCENE
 }
 
 void MenuScreen::showCreditsWindow()

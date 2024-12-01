@@ -23,6 +23,7 @@ namespace gdeng03
 		void onCreateCapsuleClicked();
 		void onCreatePlaneClicked();
 		void onCreatePhysicsDemoClicked();
+		void onLoadObjClicked();
 		void showCreditsWindow();
 		void showColorPickerWindow();
 
