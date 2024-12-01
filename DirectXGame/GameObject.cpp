@@ -121,6 +121,14 @@ namespace gdeng03
 		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
 		allMatrix = allMatrix.multiplyTo(translationMatrix);
 		this->localMatrix = allMatrix;
+
+		ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
+		if (result.size() == 0) return;
+		PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
+		if(physicsComponent != nullptr)
+		{
+			physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
+		}
 	}
 
 	Matrix4x4 GameObject::getLocalMatrix() const
@@ -234,6 +242,31 @@ namespace gdeng03
 	{
 		const auto it = std::find(componentList.begin(), componentList.end(), component);
 		componentList.erase(it);
+	}
+
+	void GameObject::attachParent(GameObjectPtr parent)
+	{
+		this->parent = parent;
+	}
+
+	void GameObject::detachParent()
+	{
+		parent = nullptr;
+	}
+
+	void GameObject::attachChild(GameObjectPtr child)
+	{
+		children.push_back(child);
+	}
+
+	void GameObject::detachChild(GameObjectPtr child)
+	{
+		const GameObjectList::iterator it = std::find(children.begin(), children.end(), child);
+
+		if (it != children.end())
+		{
+			children.erase(it);
+		}
 	}
 
 	Component* GameObject::findComponentByName(const std::string& name)
