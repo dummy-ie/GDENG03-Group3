@@ -4,6 +4,7 @@
 #include "MeshManager.h"
 #include <reactphysics3d/reactphysics3d.h>
 
+#include "ActionHistory.h"
 #include "BaseComponentSystem.h"
 #include "EngineBackend.h"
 #include "PhysicsSystem.h"
@@ -89,6 +90,7 @@ namespace mrlol
 		RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 		UIManager::initialize(this->windowHandle);
+		ActionHistory::initialize();
 
 		const RECT rc = this->getClientWindowRect();
 		swapChain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->windowHandle, rc.right - rc.left, rc.bottom - rc.top);

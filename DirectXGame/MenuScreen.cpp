@@ -164,10 +164,13 @@ void MenuScreen::draw()
 
 void MenuScreen::onCreateCubeClicked()
 {
+
+	LogUtils::log("Created Cube");
 }
 
 void MenuScreen::onCreateSphereClicked()
 {
+	LogUtils::log("Created Sphere");
 }
 
 void MenuScreen::onCreatePlaneClicked()
@@ -182,6 +185,8 @@ void MenuScreen::onCreatePlaneClicked()
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	plane->attachComponent(staticPhysics);
 	GameObjectManager::get()->addObject(plane);
+
+	LogUtils::log("Created Plane");
 }
 
 void MenuScreen::onCreatePhysicsDemoClicked()
@@ -198,6 +203,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 		cube->attachComponent(cubePhysics);
 		GameObjectManager::get()->addObject(cube);
 	}
+
+	LogUtils::log("Created 10 Physics Cubes");
 }
 
 void MenuScreen::showCreditsWindow()

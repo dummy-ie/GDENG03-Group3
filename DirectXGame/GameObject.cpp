@@ -16,11 +16,13 @@ namespace mrlol
 	void GameObject::setLocalPosition(const Vector3D& position)
 	{
 		localPosition = position;
+		updateLocalMatrix();
 	}
 
 	void GameObject::translate(const Vector3D& translation)
 	{
 		localPosition += translation;
+		updateLocalMatrix();
 	}
 
 	Vector3D GameObject::getLocalPosition()
@@ -31,11 +33,13 @@ namespace mrlol
 	void GameObject::setLocalScale(const Vector3D& scale)
 	{
 		localScale = scale;
+		updateLocalMatrix();
 	}
 
 	void GameObject::scale(const Vector3D& scale)
 	{
 		localScale += scale;
+		updateLocalMatrix();
 	}
 
 	Vector3D GameObject::getLocalScale()
@@ -48,11 +52,13 @@ namespace mrlol
 		localRotation = rotation;
 		const reactphysics3d::Quaternion quat = reactphysics3d::Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
 		orientation = Vector4D(quat.x, quat.y, quat.z, quat.w);
+		updateLocalMatrix();
 	}
 
 	void GameObject::rotate(const Vector3D& rotation)
 	{
 		localRotation += rotation;
+		updateLocalMatrix();
 	}
 
 	Vector3D GameObject::getLocalRotation()
@@ -63,6 +69,7 @@ namespace mrlol
 	void GameObject::setOrientation(const Vector4D& orientation)
 	{
 		this->orientation = orientation;
+		updateLocalMatrix();
 	}
 
 	Vector4D GameObject::getOrientation()
