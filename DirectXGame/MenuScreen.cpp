@@ -66,6 +66,10 @@ void MenuScreen::draw()
 		{
 			onCreateSphereClicked();
 		}
+		if (ImGui::MenuItem("Create Capsule"))
+		{
+			onCreateCapsuleClicked();
+		}
 		if (ImGui::MenuItem("Create Plane"))
 		{
 			onCreatePlaneClicked();
@@ -169,8 +173,8 @@ void MenuScreen::onCreateCubeClicked()
 	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
 	MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
 
-	cube->setLocalPosition({ 0, -5, 20 });
-	cube->setLocalScale({ 10, 0.1, 10 });
+	//cube->setLocalPosition({ 0, -5, 20 });
+	//cube->setLocalScale({ 10, 0.1, 10 });
 
 	cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh, UIManager::get()->mainMaterial));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("cubePhysics", cube.get());
@@ -186,8 +190,8 @@ void MenuScreen::onCreateSphereClicked()
 	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
 	MeshPtr sphereMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::SPHERE);
 
-	sphere->setLocalPosition({ 0, -5, 20 });
-	sphere->setLocalScale({ 10, 0.1, 10 });
+	//sphere->setLocalPosition({ 0, -5, 20 });
+	//sphere->setLocalScale({ 10, 0.1, 10 });
 
 	sphere->attachComponent(new Renderer3D("sphereRenderer", sphere.get(), sphereMesh, UIManager::get()->mainMaterial));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("spherePhysics", sphere.get());
@@ -203,8 +207,8 @@ void MenuScreen::onCreateCapsuleClicked()
 	//MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
 	MeshPtr capsuleMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CAPSULE);
 
-	capsule->setLocalPosition({ 0, -5, 20 });
-	capsule->setLocalScale({ 10, 0.1, 10 });
+	// capsule->setLocalPosition({ 0, -5, 20 });
+	// capsule->setLocalScale({ 10, 0.1, 10 });
 
 	capsule->attachComponent(new Renderer3D("capsuleRenderer", capsule.get(), capsuleMesh, UIManager::get()->mainMaterial));
 	PhysicsComponent* staticPhysics = new PhysicsComponent("capsulePhysics", capsule.get());
