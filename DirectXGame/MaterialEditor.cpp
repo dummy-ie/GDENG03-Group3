@@ -191,10 +191,10 @@ void MaterialEditor::showMaterialEditorWindow()
 	if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture->getShaderResourceView())), imageSize))
 	{
 		loadTextureFile(normalTexture);
-		if (!isNormalImage(normalTexture))
-		{
-			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
-		}
+		// if (!isNormalImage(normalTexture))
+		// {
+		// 	GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
+		// }
 	}
 	ImGui::SameLine();
 	ImGui::SliderFloat("Flatness", &flatness, 0, 1);

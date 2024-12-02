@@ -30,5 +30,6 @@ namespace gdeng03
 	{
 		Matrix4x4 view;
 		Matrix4x4 proj;
+		Vector3D cameraPosition;
 	};
 }

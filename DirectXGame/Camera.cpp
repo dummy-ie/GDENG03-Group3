@@ -8,6 +8,8 @@ namespace gdeng03
 		this->updateLocalMatrix();
 
 		CameraBuffer cbCameraData = {};
+		cbCameraData.cameraPosition = getLocalPosition();
+		// cbCameraData.cameraPosition = 0;
 		cbCameraData.view = getView();
 		cbCameraData.proj = getProjection();
 

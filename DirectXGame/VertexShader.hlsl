@@ -11,7 +11,7 @@ struct VS_OUTPUT
     float4 pos : SV_POSITION;
     float2 texcoord : TEXCOORD;
     float3 color : COLOR;
-    // float3 directionToCamera : TEXCOORD1;
+    float3 directionToCamera : DIRECTION;
     // float fogFactor : FOG;
 };
 
@@ -40,6 +40,7 @@ cbuffer camera : register(b1)
 {
     row_major float4x4 view;
     row_major float4x4 proj;
+    float3 cameraPosition;
 };
 
 // Texture Resources
@@ -71,8 +72,8 @@ VS_OUTPUT main(VS_INPUT input)
     output.pos = mul(input.pos, world);
     // Calculate linear fog    
     // output.fogFactor = getFogFactor(distance(cameraPos, output.pos));
-    // output.directionToCamera = normalize(cameraPos - output.pos);
-
+    output.directionToCamera = normalize(cameraPosition - output.pos);
+    // output.directionToCamera = float3(0, 0, 0);
 	// View Space
     output.pos = mul(output.pos, view);
 
