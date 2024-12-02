@@ -87,6 +87,7 @@ namespace gdeng03
 
 		void attachChild(GameObjectPtr child);
 		void detachChild(GameObjectPtr child);
+		GameObjectList getChildren();
 
 		int getLevel();
 

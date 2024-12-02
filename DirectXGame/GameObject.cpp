@@ -498,7 +498,7 @@ namespace gdeng03
 
 	void GameObject::attachChild(GameObjectPtr child)
 	{
-		if (child == nullptr || child.get() == this) return;
+		if (child == nullptr || child.get() == this || child.get() == parent) return;
 
 		if(child->parent != nullptr)
 		{
@@ -526,6 +526,11 @@ namespace gdeng03
 		child->level = 0;
 		child->setParent(nullptr);
 		child->recalculateChildTransformWithoutParent();
+	}
+
+	GameObject::GameObjectList GameObject::getChildren()
+	{
+		return this->children;
 	}
 
 	int GameObject::getLevel()
