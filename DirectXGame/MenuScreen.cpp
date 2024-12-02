@@ -282,16 +282,21 @@ void MenuScreen::onLoadObjClicked()
 	// CALL MESH MANAGER EXAMPLE
 
 	string meshFilePath;
+	string fileName;
 
-	FileUtils::getFilePath(meshFilePath);
+	FileUtils::getFilePath(meshFilePath, fileName);
 	
-	LogUtils::log("Loading OBJ from path: " + meshFilePath);
+	if (!meshFilePath.empty()) {
+		LogUtils::log("Loading OBJ from path: " + meshFilePath);
 
-	GameObjectPtr mesh = std::make_shared<GameObject>("Mesh");
+		GameObjectPtr mesh = std::make_shared<GameObject>(fileName + " Mesh");
 
-	MeshPtr customMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(std::wstring(meshFilePath.begin(), meshFilePath.end()).c_str());
-	mesh->attachComponent(new Renderer3D("RendererComponent " + mesh->getUniqueName(), mesh.get(), customMesh));
-	GameObjectManager::get()->addObject(mesh);
+		MeshPtr customMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(std::wstring(meshFilePath.begin(), meshFilePath.end()).c_str());
+		mesh->attachComponent(new Renderer3D("RendererComponent " + mesh->getUniqueName(), mesh.get(), customMesh));
+		GameObjectManager::get()->addObject(mesh);
+	}
+
+	
 }
 
 void MenuScreen::showCreditsWindow()
