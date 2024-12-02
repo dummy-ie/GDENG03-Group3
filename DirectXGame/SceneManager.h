@@ -10,6 +10,7 @@
 #include <string>
 #include "StringUtils.h"
 #include "Renderer3D.h";
+#include "PhysicsComponent.h"
 #include "Mesh.h"
 namespace gdeng03
 {

@@ -31,6 +31,8 @@ namespace gdeng03
 		Vector3D position;
 		Vector3D rotation;
 		Vector3D scale;
+		bool hasPhysicsEnabled = false;
+
 		while (std::getline(sceneFile, readLine)) {
 			if (index == 0) {
 				objectName = readLine;
@@ -54,9 +56,17 @@ namespace gdeng03
 			else if (index == 4) {
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
 				scale = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
-				index = 0;
+				index++;
 
 				//GameObjectManager::get()->createObject(objectName, objectType, position, rotation, scale); //NOTE -> CREATE OBJECT FROM FILE FUNCTION MUST BE MADE
+			}
+
+			//check if physics is enabled
+			else if (index == 5) {
+				std::vector stringSplit = StringUtils::split(readLine, ' ');
+				hasPhysicsEnabled = (bool)std::stoi(stringSplit[1]);
+				index = 0;
+
 			}
 		}
 	}
@@ -80,8 +90,10 @@ namespace gdeng03
 			Vector3D rotation = allObjects[i]->getLocalRotation();
 			Vector3D scale = allObjects[i]->getLocalScale();
 			GameObject::ComponentList rendererList = allObjects[i]->getComponentsOfType(ComponentType::RENDERER);
-		
+			GameObject::ComponentList physicsList = allObjects[i]->getComponentsOfType(ComponentType::PHYSICS);
 			Renderer3D* renderer = nullptr;
+			PhysicsComponent* physics = nullptr;
+			bool hasPhysicsSystem = false;
 
 			// Retrieve the first renderer component
 			for (auto component : rendererList) {
@@ -94,10 +106,28 @@ namespace gdeng03
 			PrimitiveType type = renderer->getMesh()->getType();
 
 
+			if(!physicsList.empty()){
+				// Retrieve the first renderer component
+				for (auto component : physicsList) {
+					physics = dynamic_cast<PhysicsComponent*>(component);
+					if (physics != nullptr) {
+						break; // Exit loop once the first valid physics component is found
+					}
+				}
+
+				hasPhysicsSystem = true;
+			}
+
+			else {
+				hasPhysicsSystem = false;
+			}
+
+
 			sceneFile << "Type: " << (int)type << std::endl;
-			sceneFile << "Position: " << position.x << " " << position.y << position.z << std::endl;
-			sceneFile << "Rotation: " << rotation.x << " " << rotation.y << rotation.z << std::endl;
-			sceneFile << "Scale: " << scale.x << " " << scale.y << scale.z << std::endl;
+			sceneFile << "Position: " << position.x << " " << position.y << " " << position.z << std::endl;
+			sceneFile << "Rotation: " << rotation.x << " " << rotation.y << " " << rotation.z << std::endl;
+			sceneFile << "Scale: " << scale.x << " " << scale.y << " " << scale.z << std::endl;
+			sceneFile << "Physics Enabled: " << (int)hasPhysicsSystem << std::endl;
 
 		}
 
