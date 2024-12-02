@@ -195,7 +195,7 @@ void MenuScreen::onCreateCubeClicked()
 	//cube->setLocalPosition({ 0, -5, 20 });
 	//cube->setLocalScale({ 10, 0.1, 10 });
 
-	// cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
+	cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
 	// PhysicsComponent* staticPhysics = new PhysicsComponent(cube.get(), PrimitiveType::CUBE);
 	// staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	// cube->attachComponent(staticPhysics);
@@ -276,7 +276,7 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 		GameObjectManager::get()->addObject(cube);
 	}
 
-	LogUtils::log("Created " +  std::to_string(maxCubes) + " Physics Cubes");
+	LogUtils::log("Created " + std::to_string(maxCubes) + " Physics Cubes");
 }
 
 void MenuScreen::onLoadObjClicked()
