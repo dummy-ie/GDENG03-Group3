@@ -33,6 +33,7 @@ namespace gdeng03
 			return res;
 		}
 
+		current_path(defaultPath);
 		return nullptr;
 	}
 }
