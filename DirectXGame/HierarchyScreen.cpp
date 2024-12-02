@@ -38,15 +38,18 @@ namespace gdeng03
 		ImGui::BeginChild("Hierarchy");
 
 		// unselect object when clicking
-		if (ImGui::IsMouseClicked(0))
+		if (ImGui::IsWindowHovered())
 		{
-			GameObjectManager::get()->setSelectedObject(nullptr);
+			if (ImGui::IsMouseClicked(0))
+			{
+				GameObjectManager::get()->setSelectedObject(nullptr);
+			}
 		}
 
 		int id = 0;
 		for (const auto& gameObject : GameObjectManager::get()->getAllObjects())
 		{
-			if(gameObject->getLevel() == 0)
+			if (gameObject->getLevel() == 0)
 			{
 				drawHierarchy(gameObject, &id);
 			}
@@ -95,7 +98,7 @@ namespace gdeng03
 		for (const auto& child : gameObject->getChildren()) {
 			drawHierarchy(child, id);
 		}
-		
+
 		ImGui::PopID();
 	}
 }
