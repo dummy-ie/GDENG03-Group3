@@ -1,5 +1,7 @@
 #pragma once
+#include "Prerequisites.h"
 #include "UIScreen.h"
+#include "unordered_set"
 
 namespace gdeng03
 {
@@ -10,6 +12,11 @@ namespace gdeng03
 
 	protected:
 		void draw() override;
+		void drawHierarchy(const GameObjectPtr& gameObject, int* id);
+
+	private:
+		void createUnparentingDummy(ImVec2 size);
+		std::unordered_set<int> usedIDs;
 	};
 }
 

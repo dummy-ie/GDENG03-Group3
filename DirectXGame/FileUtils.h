@@ -10,7 +10,7 @@ class FileUtils
 {
 	public:
 
-	static void getFilePath(std::string& filePath);
-	void getFilePath(std::string* filePath);
+	static void getFilePath(std::string& meshFilePath, std::string& fileName);
+	//void getFilePath(std::string* filePath);
 };
 

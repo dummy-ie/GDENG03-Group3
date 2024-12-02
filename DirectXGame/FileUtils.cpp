@@ -2,9 +2,14 @@
 
 #include <algorithm>
 
+#if __cplusplus <= 201402L
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+#endif
+
 #include "LogUtils.h"
 
-void FileUtils::getFilePath(std::string& meshFilePath)
+void FileUtils::getFilePath(std::string& meshFilePath, std::string& fileName)
 {
     gdeng03::LogUtils::log("OpenFile");
     wchar_t path[MAX_PATH] = L"";
@@ -21,6 +26,7 @@ void FileUtils::getFilePath(std::string& meshFilePath)
         std::wstring ws(path);
         std::string str(ws.begin(), ws.end());
         std::replace(str.begin(), str.end(), '\\', '/');
+        fileName = std::experimental::filesystem::path(str).stem().generic_string();
         meshFilePath = str;
     }
 }

@@ -68,13 +68,14 @@ namespace gdeng03
 		std::string getDisplayName();
 
 		void updateLocalMatrix();
-		void updateGlobalMatrix();
+		//void updateGlobalMatrix();
 		Matrix4x4 getLocalMatrix() const;
 		void setLocalMatrix(const Matrix4x4& matrix);
 		void recomputeMatrix(float matrix[16]);
 		float* getPhysicsLocalMatrix();
 
 		void recalculateChildTransformWithParent(GameObjectPtr parent);
+		void recalculateChildTransformWithParent(GameObject* parent);
 		void recalculateChildTransformWithoutParent();
 
 		void attachComponent(Component* component);
@@ -82,9 +83,13 @@ namespace gdeng03
 
 		void setParent(GameObject* parent);
 		void detachParent();
+		GameObject* getParent();
 
 		void attachChild(GameObjectPtr child);
 		void detachChild(GameObjectPtr child);
+		GameObjectList getChildren();
+
+		int getLevel();
 
 		Component* findComponentByName(const std::string& name);
 		Component* findComponentOfType(ComponentType type, const std::string& name);
