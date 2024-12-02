@@ -9,7 +9,8 @@
 #include "GameObject.h"
 #include <string>
 #include "StringUtils.h"
-
+#include "Renderer3D.h";
+#include "Mesh.h"
 namespace gdeng03
 {
 	class SceneManager

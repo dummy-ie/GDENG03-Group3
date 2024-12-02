@@ -20,6 +20,7 @@ namespace gdeng03
 
 		void update() override;
 		Material* getMaterial() const;
+		Mesh* getMesh() const;
 		void createMaterial();
 		void resetMaterial();
 

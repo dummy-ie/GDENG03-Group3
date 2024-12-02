@@ -127,6 +127,11 @@ namespace gdeng03
 		return material.get();
 	}
 
+	Mesh* Renderer3D::getMesh() const
+	{
+		return mesh.get();
+	}
+
 	void Renderer3D::createMaterial()
 	{
 		LogUtils::log("creating new material for " + getOwner()->getUniqueName());

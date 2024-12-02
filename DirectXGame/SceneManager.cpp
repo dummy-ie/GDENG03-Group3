@@ -4,6 +4,9 @@
 
 #include "GameObjectManager.h"
 #include "PrimitiveType.h"
+#include "ComponentType.h"
+
+
 namespace gdeng03
 {
 	using namespace std;
@@ -76,8 +79,11 @@ namespace gdeng03
 			Vector3D position = allObjects[i]->getLocalPosition();
 			Vector3D rotation = allObjects[i]->getLocalRotation();
 			Vector3D scale = allObjects[i]->getLocalScale();
+			Renderer3D* renderer = (Renderer3D*)allObjects[i]->findComponentOfType(ComponentType::RENDERER, allObjects[i]->getUniqueName() + "Renderer");
+			PrimitiveType type = renderer->getMesh()->getType();
 
-			//sceneFile << "Type: " << allObjects[i]->getPrimitiveType() << std::endl;
+
+			sceneFile << "Type: " << (int)type << std::endl;
 			sceneFile << "Position: " << position.x << " " << position.y << position.z << std::endl;
 			sceneFile << "Rotation: " << rotation.x << " " << rotation.y << rotation.z << std::endl;
 			sceneFile << "Scale: " << scale.x << " " << scale.y << scale.z << std::endl;
