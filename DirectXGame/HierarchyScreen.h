@@ -15,6 +15,7 @@ namespace gdeng03
 		void drawHierarchy(const GameObjectPtr& gameObject, int* id);
 
 	private:
+		void createUnparentingDummy(ImVec2 size);
 		std::unordered_set<int> usedIDs;
 	};
 }

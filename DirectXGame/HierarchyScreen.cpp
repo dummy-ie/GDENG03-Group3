@@ -9,6 +9,25 @@ namespace gdeng03
 	{
 	}
 
+	void HierarchyScreen::createUnparentingDummy(ImVec2 size)
+	{
+		ImGui::Dummy(size);
+		if (ImGui::BeginDragDropTarget())
+		{
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAME_OBJECT");
+			if (payload)
+			{
+				GameObjectPtr draggedObject = *(GameObjectPtr*)payload->Data;
+				GameObject* parent = draggedObject->getParent();
+				if (parent != nullptr)
+				{
+					parent->detachChild(draggedObject);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+	}
+
 	void HierarchyScreen::draw()
 	{
 		usedIDs.clear();
@@ -25,21 +44,7 @@ namespace gdeng03
 				drawHierarchy(gameObject, &id);
 			}
 		}
-		ImGui::Dummy(ImVec2(250, 50));
-		if (ImGui::BeginDragDropTarget())
-		{
-			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAME_OBJECT");
-			if (payload)
-			{
-				GameObjectPtr draggedObject = *(GameObjectPtr*)payload->Data;
-				GameObject* parent = draggedObject->getParent();
-				if (parent != nullptr)
-				{
-					parent->detachChild(draggedObject);
-				}
-			}
-			ImGui::EndDragDropTarget();
-		}
+		createUnparentingDummy(ImVec2(250, 50));
 		ImGui::EndChild();
 
 		ImGui::End();
@@ -47,6 +52,8 @@ namespace gdeng03
 
 	void HierarchyScreen::drawHierarchy(const GameObjectPtr& gameObject, int* id)
 	{
+		createUnparentingDummy(ImVec2(250, 3));
+
 		if (usedIDs.find(*id) != usedIDs.end()) {
 			return;
 		}
