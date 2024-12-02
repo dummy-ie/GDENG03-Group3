@@ -15,6 +15,8 @@ namespace gdeng03
 
 	protected:
 		std::wstring fullPath;
+
+		friend class MaterialEditor;
 	};
 }
 

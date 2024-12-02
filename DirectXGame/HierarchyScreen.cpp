@@ -43,6 +43,10 @@ namespace gdeng03
 			if (ImGui::IsMouseClicked(0))
 			{
 				GameObjectManager::get()->setSelectedObject(nullptr);
+				if (MaterialEditor* matEditorScreen = dynamic_cast<MaterialEditor*>(UIManager::get()->getScreen("MaterialEditor").get()))
+				{
+					matEditorScreen->unselectMaterial();
+				}
 			}
 		}
 

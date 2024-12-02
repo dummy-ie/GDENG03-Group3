@@ -21,9 +21,11 @@ namespace gdeng03
 			owner),
 		mesh(std::move(mesh))
 	{
-		material = mat;
-		if (!material)
-			material = std::make_shared<Material>(L"PixelShader.hlsl");
+		if (mat)
+			material = mat;
+
+		// if (!material)
+		// 	material = std::make_shared<Material>(L"PixelShader.hlsl");
 
 		vertexShader = ShaderLibrary::get()->getVertexShader(vs);
 		//geometryShader = ShaderLibrary::get()->getGeometryShader(gs);

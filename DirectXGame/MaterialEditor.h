@@ -22,6 +22,7 @@ namespace gdeng03
 		MaterialEditor();
 		//bool* getMaterialEditorOpen();
 
+		bool canSelectMaterial() const;
 		void setSelectedMaterial(Material* mat);
 		void unselectMaterial();
 

@@ -288,7 +288,7 @@ namespace gdeng03
 				{
 					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 7.800000190734863f);
 
-					if (matEditorScreen)
+					if (matEditorScreen && matEditorScreen->canSelectMaterial())
 					{
 						matEditorScreen->setSelectedMaterial(rendererComponent->getMaterial());
 					}

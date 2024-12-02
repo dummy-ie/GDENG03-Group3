@@ -10,14 +10,22 @@ namespace gdeng03
 	Material::Material(PixelShaderPtr pixelShader) : pixelShader(std::move(pixelShader))
 	{
 		samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-		setToDefaultTextures();
+		//setToDefaultTextures();
+		albedoTexture = nullptr;
+		metallicTexture = nullptr;
+		smoothnessTexture = nullptr;
+		normalTexture = nullptr;
 	}
 
 	Material::Material(const std::wstring& pixelShaderName)
 	{
 		samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
 		pixelShader = ShaderLibrary::get()->getPixelShader(pixelShaderName);
-		setToDefaultTextures();
+		albedoTexture = nullptr;
+		metallicTexture = nullptr;
+		smoothnessTexture = nullptr;
+		normalTexture = nullptr;
+		//setToDefaultTextures();
 
 		// void* shaderByteCode = nullptr;
 		// size_t byteCodeSize = 0;

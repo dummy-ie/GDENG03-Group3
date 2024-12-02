@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "GameObjectManager.h"
 #include "GraphicsEngine.h"
 #include "Material.h"
 #include "Texture.h"
@@ -15,41 +16,47 @@ MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 	loadDefaultTextures();
 }
 
+bool MaterialEditor::canSelectMaterial() const
+{
+	return selectedMaterial == nullptr;
+}
+
 void MaterialEditor::setSelectedMaterial(Material* mat)
 {
 	//loadDefaultTextures();
+	color = { mat->color.x, mat->color.y, mat->color.z, mat->color.w };
+
+	if (!mat->albedoTexture)
+		albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	else
+	{
+		this->albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->albedoTexture->fullPath.c_str());
+		//LogUtils::log(this, "AlbedoTexture is not null");
+	}
+
+	if (!mat->metallicTexture)
+		metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	 else
+		this->metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->metallicTexture->fullPath.c_str());
+
+	if (!mat->smoothnessTexture)
+		smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	 else
+		this->smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->smoothnessTexture->fullPath.c_str());
+
+	if (!mat->normalTexture)
+		normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	else
+		this->normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->normalTexture->fullPath.c_str());
+
+	// this->metallic = mat->metallic;
+	// this->smoothness = mat->smoothness;
+	// this->flatness = mat->flatness;
+	//
+	// this->tiling = mat->tiling;
+	// this->offset = mat->offset;
+
 	selectedMaterial = mat;
-	// color = { selectedMaterial->color.x, selectedMaterial->color.y, selectedMaterial->color.z, selectedMaterial->color.w };
-	//
-	// if (selectedMaterial->albedoTexture)
-	// {
-	// 	this->albedoTexture = selectedMaterial->albedoTexture;
-	// 	LogUtils::log(this, "AlbedoTexture is not null");
-	// }
-	// else
-	// 	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	//
-	// if (selectedMaterial->metallicTexture)
-	// 	this->metallicTexture = selectedMaterial->metallicTexture;
-	// else
-	// 	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	//
-	// if (selectedMaterial->smoothnessTexture)
-	// 	this->smoothnessTexture = selectedMaterial->smoothnessTexture;
-	// else
-	// 	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	//
-	// if (selectedMaterial->normalTexture)
-	// 	this->normalTexture = selectedMaterial->normalTexture;
-	// else
-	// 	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	//
-	// this->metallic = selectedMaterial->metallic;
-	// this->smoothness = selectedMaterial->smoothness;
-	// this->flatness = selectedMaterial->flatness;
-	//
-	// this->tiling = selectedMaterial->tiling;
-	// this->offset = selectedMaterial->offset;
 }
 
 void MaterialEditor::unselectMaterial()
@@ -71,8 +78,12 @@ void MaterialEditor::draw()
 	if (isColorPickerOpen)
 		showColorPickerWindow();
 
-	if (isActive)
+	ImGui::Begin("Material Editor", &isActive);
+
+	if (selectedMaterial != nullptr)
 		showMaterialEditorWindow();
+
+	ImGui::End();
 
 	updateSelectedMaterial();
 }
@@ -112,118 +123,114 @@ void MaterialEditor::updateSelectedMaterial()
 
 void MaterialEditor::showMaterialEditorWindow()
 {
-	if (ImGui::Begin("Material Editor"))
+	ImGui::Text("Main Maps");
+	constexpr ImVec2 imageSize = { 100, 100 };
+	//albedo
+	ImGui::Text("Albedo Map");
+	if (ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture->getShaderResourceView())), imageSize))
 	{
-		ImGui::Text("Main Maps");
-		constexpr ImVec2 imageSize = { 100, 100 };
-		//albedo
-		ImGui::Text("Albedo Map");
-		if (ImGui::ImageButton("Albedo Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(albedoTexture->getShaderResourceView())), imageSize))
-		{
-			loadTextureFile(albedoTexture);
-		}
-		ImGui::SameLine();
-		if (ImGui::ColorButton("Color", color, 0, ImVec2(50, 30)))
-		{
-			isColorPickerOpen = !isColorPickerOpen;
-		}
-		if (ImGui::Button("Clear Albedo"))
-		{
-			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(albedoTexture);
-		}
+		loadTextureFile(albedoTexture);
+	}
+	ImGui::SameLine();
+	if (ImGui::ColorButton("Color", color, 0, ImVec2(50, 30)))
+	{
+		isColorPickerOpen = !isColorPickerOpen;
+	}
+	if (ImGui::Button("Clear Albedo"))
+	{
+		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(albedoTexture);
+	}
 
-		ImGui::NewLine();
+	ImGui::NewLine();
 
-		//slider size
-		ImGui::PushItemWidth(250);
+	//slider size
+	ImGui::PushItemWidth(250);
 
-		//metallic
-		ImGui::Text("Metallic Map");
-		if (ImGui::ImageButton("Metallic Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(metallicTexture->getShaderResourceView())), imageSize))
-		{
-			loadTextureFile(metallicTexture);
-		}
-		ImGui::SameLine();
-		ImGui::SliderFloat("Metallic", &metallic, 0, 1);
-		if (ImGui::Button("Clear Metallic"))
-		{
-			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(metallicTexture);
-		}
+	//metallic
+	ImGui::Text("Metallic Map");
+	if (ImGui::ImageButton("Metallic Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(metallicTexture->getShaderResourceView())), imageSize))
+	{
+		loadTextureFile(metallicTexture);
+	}
+	ImGui::SameLine();
+	ImGui::SliderFloat("Metallic", &metallic, 0, 1);
+	if (ImGui::Button("Clear Metallic"))
+	{
+		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(metallicTexture);
+	}
 
-		ImGui::NewLine();
+	ImGui::NewLine();
 
-		//smoothness
-		ImGui::Text("Smoothness Map");
-		if (ImGui::ImageButton("Smoothness Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(smoothnessTexture->getShaderResourceView())), imageSize))
-		{
-			loadTextureFile(smoothnessTexture);
-		}
-		ImGui::SameLine();
-		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
-		if (ImGui::Button("Clear Smoothness"))
-		{
-			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(smoothnessTexture);
-		}
+	//smoothness
+	ImGui::Text("Smoothness Map");
+	if (ImGui::ImageButton("Smoothness Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(smoothnessTexture->getShaderResourceView())), imageSize))
+	{
+		loadTextureFile(smoothnessTexture);
+	}
+	ImGui::SameLine();
+	ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
+	if (ImGui::Button("Clear Smoothness"))
+	{
+		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(smoothnessTexture);
+	}
 
-		ImGui::NewLine();
+	ImGui::NewLine();
 
-		//albedo
-		ImGui::Text("Normal Map");
-		if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture->getShaderResourceView())), imageSize))
-		{
-			loadTextureFile(normalTexture);
-			if (!isNormalImage(normalTexture))
-			{
-				GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
-			}
-		}
-		ImGui::SameLine();
-		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
-		if (ImGui::Button("Clear Normal"))
+	//albedo
+	ImGui::Text("Normal Map");
+	if (ImGui::ImageButton("Normal Map", static_cast<ImTextureID>(reinterpret_cast<intptr_t>(normalTexture->getShaderResourceView())), imageSize))
+	{
+		loadTextureFile(normalTexture);
+		if (!isNormalImage(normalTexture))
 		{
 			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
 		}
-
-		ImGui::NewLine();
-
-		//input field size
-		ImGui::PushItemWidth(125);
-
-		//tiling
-		ImGui::Text("Tiling");
-		//x
-		ImGui::Text("X"); ImGui::SameLine(40);
-		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingXSlider", &tiling.x, -20, 20); ImGui::SameLine();
-		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Tiling X", &tiling.x);
-		//y
-		ImGui::Text("Y"); ImGui::SameLine(40);
-		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##TilingYSlider", &tiling.y, -20, 20); ImGui::SameLine();
-		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Tiling Y", &tiling.y);
-
-		ImGui::NewLine();
-
-		//offset
-		ImGui::Text("Offset");
-		//x
-		ImGui::Text("X"); ImGui::SameLine(40);
-		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetXSlider", &offset.x, -20, 20); ImGui::SameLine();
-		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Offset X", &offset.x);
-		//y
-		ImGui::Text("Y"); ImGui::SameLine(40);
-		ImGui::PushItemWidth(225);
-		ImGui::SliderFloat("##OffsetYSlider", &offset.y, -20, 20); ImGui::SameLine();
-		ImGui::PushItemWidth(125);
-		ImGui::InputFloat("##Offset Y", &offset.y);
-
-		ImGui::PopItemWidth();
 	}
-	ImGui::End();
+	ImGui::SameLine();
+	ImGui::SliderFloat("Flatness", &flatness, 0, 1);
+	if (ImGui::Button("Clear Normal"))
+	{
+		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
+	}
+
+	ImGui::NewLine();
+
+	//input field size
+	ImGui::PushItemWidth(125);
+
+	//tiling
+	ImGui::Text("Tiling");
+	//x
+	ImGui::Text("X"); ImGui::SameLine(40);
+	ImGui::PushItemWidth(225);
+	ImGui::SliderFloat("##TilingXSlider", &tiling.x, -20, 20); ImGui::SameLine();
+	ImGui::PushItemWidth(125);
+	ImGui::InputFloat("##Tiling X", &tiling.x);
+	//y
+	ImGui::Text("Y"); ImGui::SameLine(40);
+	ImGui::PushItemWidth(225);
+	ImGui::SliderFloat("##TilingYSlider", &tiling.y, -20, 20); ImGui::SameLine();
+	ImGui::PushItemWidth(125);
+	ImGui::InputFloat("##Tiling Y", &tiling.y);
+
+	ImGui::NewLine();
+
+	//offset
+	ImGui::Text("Offset");
+	//x
+	ImGui::Text("X"); ImGui::SameLine(40);
+	ImGui::PushItemWidth(225);
+	ImGui::SliderFloat("##OffsetXSlider", &offset.x, -20, 20); ImGui::SameLine();
+	ImGui::PushItemWidth(125);
+	ImGui::InputFloat("##Offset X", &offset.x);
+	//y
+	ImGui::Text("Y"); ImGui::SameLine(40);
+	ImGui::PushItemWidth(225);
+	ImGui::SliderFloat("##OffsetYSlider", &offset.y, -20, 20); ImGui::SameLine();
+	ImGui::PushItemWidth(125);
+	ImGui::InputFloat("##Offset Y", &offset.y);
+
+	ImGui::PopItemWidth();
 }
 
 std::vector<unsigned char> MaterialEditor::getPixelData(const TexturePtr& texture)
