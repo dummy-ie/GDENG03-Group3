@@ -8,6 +8,6 @@ namespace gdeng03
 	{
 		Vector3D position;
 		Vector3D color;
-		//Vector2D texcoord;
+		Vector2D texcoord;
 	};
 }

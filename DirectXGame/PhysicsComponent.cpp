@@ -13,7 +13,7 @@ namespace gdeng03
 	using namespace reactphysics3d;
 	using reactphysics3d::Quaternion;
 
-	PhysicsComponent::PhysicsComponent(const std::string& name, GameObject* owner, PrimitiveType colliderType) : Component(name, ComponentType::PHYSICS, owner)
+	PhysicsComponent::PhysicsComponent(GameObject* owner, PrimitiveType colliderType) : Component("PhysicsComponent " + owner->getUniqueName(), ComponentType::PHYSICS, owner)
 	{
 		BaseComponentSystem::get()->getPhysicsSystem()->registerComponent(this);
 		PhysicsCommon* physicsCommon = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsCommon();

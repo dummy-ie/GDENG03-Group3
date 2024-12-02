@@ -66,7 +66,7 @@ namespace gdeng03
 			if (ImGui::Selectable("Rigidbody", false, 0, buttonSize))
 			{
 				// ADD RIGIDBODY TO OBJECT
-				selectedObject->attachComponent(new PhysicsComponent("PhysicsComponent " + selectedObject->getUniqueName(), selectedObject));
+				selectedObject->attachComponent(new PhysicsComponent(selectedObject));
 			}
 			if (ImGui::Selectable("Material", false, 0, buttonSize))
 			{

@@ -10,9 +10,8 @@ namespace gdeng03
 	{
 	public:
 		explicit Renderer3D(
-			std::string name,
 			GameObject* owner,
-			const MeshPtr& mesh,
+			MeshPtr mesh,
 			const MaterialPtr& mat = nullptr,
 			const std::wstring& vs = L"VertexShader.hlsl",
 			const std::wstring& gs = L"GeometryShader.hlsl"

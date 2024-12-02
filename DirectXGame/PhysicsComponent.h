@@ -32,7 +32,7 @@ namespace gdeng03
 		uint8_t constraints = 0;
 
 	public:
-		PhysicsComponent(const std::string& name, GameObject* owner, PrimitiveType colliderType = PrimitiveType::NOT_PRIMITIVE);
+		PhysicsComponent(GameObject* owner, PrimitiveType colliderType = PrimitiveType::NOT_PRIMITIVE);
 		~PhysicsComponent() override;
 
 	public:

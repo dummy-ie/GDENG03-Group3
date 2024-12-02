@@ -28,7 +28,7 @@ namespace gdeng03
 	private:
 		void draw() override;
 		void showColorPickerWindow();
-		void updateSelectedMaterial() const;
+		void updateSelectedMaterial();
 		void showMaterialEditorWindow();
 
 		static std::vector<unsigned char> getPixelData(const TexturePtr& texture);

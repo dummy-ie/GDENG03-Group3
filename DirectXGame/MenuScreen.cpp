@@ -194,8 +194,8 @@ void MenuScreen::onCreateCubeClicked()
 	//cube->setLocalPosition({ 0, -5, 20 });
 	//cube->setLocalScale({ 10, 0.1, 10 });
 
-	cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName(), cube.get(), cubeMesh));
-	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + cube->getUniqueName(), cube.get(), PrimitiveType::CUBE);
+	cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
+	PhysicsComponent* staticPhysics = new PhysicsComponent(cube.get(), PrimitiveType::CUBE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	cube->attachComponent(staticPhysics);
 	GameObjectManager::get()->addObject(cube);
@@ -211,8 +211,8 @@ void MenuScreen::onCreateSphereClicked()
 	//sphere->setLocalPosition({ 0, -5, 20 });
 	//sphere->setLocalScale({ 10, 0.1, 10 });
 
-	sphere->attachComponent(new Renderer3D("RendererComponent " + sphere->getUniqueName(), sphere.get(), sphereMesh));
-	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + sphere->getUniqueName(), sphere.get(), PrimitiveType::SPHERE);
+	sphere->attachComponent(new Renderer3D(sphere.get(), sphereMesh));
+	PhysicsComponent* staticPhysics = new PhysicsComponent(sphere.get(), PrimitiveType::SPHERE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	sphere->attachComponent(staticPhysics);
 	GameObjectManager::get()->addObject(sphere);
@@ -228,8 +228,8 @@ void MenuScreen::onCreateCapsuleClicked()
 	// capsule->setLocalPosition({ 0, -5, 20 });
 	// capsule->setLocalScale({ 10, 0.1, 10 });
 
-	capsule->attachComponent(new Renderer3D("RendererComponent " + capsule->getUniqueName(), capsule.get(), capsuleMesh));
-	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + capsule->getUniqueName(), capsule.get(), PrimitiveType::CAPSULE);
+	capsule->attachComponent(new Renderer3D(capsule.get(), capsuleMesh));
+	PhysicsComponent* staticPhysics = new PhysicsComponent(capsule.get(), PrimitiveType::CAPSULE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::STATIC);
 	capsule->attachComponent(staticPhysics);
 	GameObjectManager::get()->addObject(capsule);
@@ -246,8 +246,8 @@ void MenuScreen::onCreatePlaneClicked()
 	//plane->setLocalPosition({ 0, -5, 0 });
 	plane->setLocalScale({ 20.f, 1.0f, 20.f });
 
-	plane->attachComponent(new Renderer3D("RendererComponent " + plane->getUniqueName(), plane.get(), planeMesh));
-	PhysicsComponent* staticPhysics = new PhysicsComponent("PhysicsComponent " + plane->getUniqueName(), plane.get(), PrimitiveType::PLANE);
+	plane->attachComponent(new Renderer3D(plane.get(), planeMesh));
+	PhysicsComponent* staticPhysics = new PhysicsComponent(plane.get(), PrimitiveType::PLANE);
 	staticPhysics->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
 	plane->attachComponent(staticPhysics);
 	GameObjectManager::get()->addObject(plane);
@@ -267,8 +267,8 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 		//cube->setLocalScale(0.1f);
 		cube->setLocalPosition({ 0, 10, 0 });
 
-		cube->attachComponent(new Renderer3D("RendererComponent " + cube->getUniqueName() + std::to_string(i), cube.get(), cubeMesh));
-		PhysicsComponent* cubePhysics = new PhysicsComponent("PhysicsComponent " + cube->getUniqueName() + std::to_string(i), cube.get(), PrimitiveType::CUBE);
+		cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
+		PhysicsComponent* cubePhysics = new PhysicsComponent(cube.get(), PrimitiveType::CUBE);
 		cube->attachComponent(cubePhysics);
 		GameObjectManager::get()->addObject(cube);
 	}
@@ -284,13 +284,13 @@ void MenuScreen::onLoadObjClicked()
 	string meshFilePath;
 
 	FileUtils::getFilePath(meshFilePath);
-	
+
 	LogUtils::log("Loading OBJ from path: " + meshFilePath);
 
 	GameObjectPtr mesh = std::make_shared<GameObject>("Mesh");
 
 	MeshPtr customMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(std::wstring(meshFilePath.begin(), meshFilePath.end()).c_str());
-	mesh->attachComponent(new Renderer3D("RendererComponent " + mesh->getUniqueName(), mesh.get(), customMesh));
+	mesh->attachComponent(new Renderer3D(mesh.get(), customMesh));
 	GameObjectManager::get()->addObject(mesh);
 }
 

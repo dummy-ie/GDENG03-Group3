@@ -17,8 +17,39 @@ MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 
 void MaterialEditor::setSelectedMaterial(Material* mat)
 {
-	loadDefaultTextures();
+	//loadDefaultTextures();
 	selectedMaterial = mat;
+	// color = { selectedMaterial->color.x, selectedMaterial->color.y, selectedMaterial->color.z, selectedMaterial->color.w };
+	//
+	// if (selectedMaterial->albedoTexture)
+	// {
+	// 	this->albedoTexture = selectedMaterial->albedoTexture;
+	// 	LogUtils::log(this, "AlbedoTexture is not null");
+	// }
+	// else
+	// 	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	//
+	// if (selectedMaterial->metallicTexture)
+	// 	this->metallicTexture = selectedMaterial->metallicTexture;
+	// else
+	// 	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	//
+	// if (selectedMaterial->smoothnessTexture)
+	// 	this->smoothnessTexture = selectedMaterial->smoothnessTexture;
+	// else
+	// 	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	//
+	// if (selectedMaterial->normalTexture)
+	// 	this->normalTexture = selectedMaterial->normalTexture;
+	// else
+	// 	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	//
+	// this->metallic = selectedMaterial->metallic;
+	// this->smoothness = selectedMaterial->smoothness;
+	// this->flatness = selectedMaterial->flatness;
+	//
+	// this->tiling = selectedMaterial->tiling;
+	// this->offset = selectedMaterial->offset;
 }
 
 void MaterialEditor::unselectMaterial()
@@ -56,10 +87,13 @@ void MaterialEditor::showColorPickerWindow()
 	ImGui::End();
 }
 
-void MaterialEditor::updateSelectedMaterial() const
+void MaterialEditor::updateSelectedMaterial()
 {
 	if (!selectedMaterial)
+	{
+		//loadDefaultTextures();
 		return;
+	}
 
 	selectedMaterial->color = { this->color.x, this->color.y, this->color.z, this->color.w };
 
@@ -355,4 +389,6 @@ void MaterialEditor::loadDefaultTextures()
 	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
 	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
 	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+
+	color = ImVec4(1, 1, 1, 1);
 }

@@ -10,17 +10,16 @@
 namespace gdeng03
 {
 	Renderer3D::Renderer3D(
-		std::string name,
 		GameObject* owner,
-		const MeshPtr& mesh,
+		MeshPtr mesh,
 		const MaterialPtr& mat,
 		const std::wstring& vs,
 		const std::wstring& gs) :
 		Component(
-			std::move(name),
+			std::string("RendererComponent " + owner->getUniqueName()),
 			ComponentType::RENDERER,
 			owner),
-		mesh(mesh)
+		mesh(std::move(mesh))
 	{
 		material = mat;
 		// if (!material)
@@ -108,6 +107,7 @@ namespace gdeng03
 
 		deviceContext->setVertexShader(vertexShader);
 		//deviceContext->setGeometryShader(geometryShader);
+
 		if (material)
 		{
 			deviceContext->setPixelShader(material->getPixelShader());
