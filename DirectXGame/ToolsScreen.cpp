@@ -27,9 +27,9 @@ void ToolsScreen::draw()
 		if (ImGui::MenuItem("Perspective")) {
 			CameraManager::getInstance()->setSceneCameraProjection(1);
 		}
-		if (ImGui::MenuItem("Top Down")) {
-			CameraManager::getInstance()->setSceneCameraProjection(2);
-		}
+		// if (ImGui::MenuItem("Top Down")) {
+		// 	CameraManager::getInstance()->setSceneCameraProjection(2);
+		// }
 		ImGui::EndMenu();
 	}
 

@@ -285,11 +285,12 @@ void MenuScreen::onLoadObjClicked()
 	string fileName;
 
 	FileUtils::getFilePath(meshFilePath, fileName);
-	
+
 	if (!meshFilePath.empty()) {
 		LogUtils::log("Loading OBJ from path: " + meshFilePath);
+	}
 
-		GameObjectPtr mesh = std::make_shared<GameObject>(fileName + " Mesh");
+	GameObjectPtr mesh = std::make_shared<GameObject>(fileName + " Mesh");
 
 	MeshPtr customMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(std::wstring(meshFilePath.begin(), meshFilePath.end()).c_str());
 	mesh->attachComponent(new Renderer3D(mesh.get(), customMesh));

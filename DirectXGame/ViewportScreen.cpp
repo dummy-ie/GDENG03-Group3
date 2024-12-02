@@ -17,7 +17,7 @@ namespace gdeng03
 	ViewportScreen::ViewportScreen(int index) : UIScreen("Viewport " + std::to_string(index + 1)), index(index)
 	{
 		this->currentCamera = std::make_shared<SceneCamera>("Scene Camera " + std::to_string(index + 1), false, AppWindow::get()->getClientWindowRect());
-		this->currentCamera->setLocalPosition({0, 0, -20});
+		this->currentCamera->setLocalPosition({ 0, 0, -20 });
 		this->currentCamera->setProjectionType(this->selectedProj);
 
 		this->ownCamera = this->currentCamera;
@@ -130,7 +130,7 @@ namespace gdeng03
 
 		float buttonWidth = viewportPanelSize.x / 8.0f;
 
-		const char* perspectiveOptions[] = { "Perspective", "Orthographic", "Ortho Top" };
+		const char* perspectiveOptions[] = { "Perspective", "Orthographic" };
 
 		const char* currentPersLabel = perspectiveOptions[selectedProj];
 
@@ -149,13 +149,13 @@ namespace gdeng03
 				{
 					selectedProj = n;
 					this->currentCamera->setProjectionType(n);
-					this->currentCamera->setLocalPosition({0, 0, -3});
-					this->currentCamera->setLocalRotation({0, 0, 0});
+					this->currentCamera->setLocalPosition({ 0, 0, -3 });
+					this->currentCamera->setLocalRotation({ 0, 0, 0 });
 
 					if (n == 2)
 					{
-						this->currentCamera->setLocalPosition({0, 10, 0});
-						this->currentCamera->setLocalRotation({1.57f, 0, 0});
+						this->currentCamera->setLocalPosition({ 0, 10, 0 });
+						this->currentCamera->setLocalRotation({ 1.57f, 0, 0 });
 					}
 				}
 				if (isSelected)
@@ -166,29 +166,29 @@ namespace gdeng03
 			ImGui::EndCombo();
 		}
 
-		const char* stateOptions[] = { "Solid", "Wireframe", "Solid Wireframe" };
-
-		const char* currentStatesLabel = stateOptions[selectedState];
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(buttonWidth);
-		if (ImGui::BeginCombo("##State", currentStatesLabel))
-		{
-			for (int n = 0; n < IM_ARRAYSIZE(perspectiveOptions); n++)
-			{
-				bool isSelected = (selectedState == n);
-				if (ImGui::Selectable(stateOptions[n], isSelected))
-				{
-					selectedState = n;
-					this->currentFillMode = static_cast<EFillMode>(n);
-				}
-				if (isSelected)
-				{
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
+		// const char* stateOptions[] = { "Solid", "Wireframe", "Solid Wireframe" };
+		//
+		// const char* currentStatesLabel = stateOptions[selectedState];
+		//
+		// ImGui::SameLine();
+		// ImGui::SetNextItemWidth(buttonWidth);
+		// if (ImGui::BeginCombo("##State", currentStatesLabel))
+		// {
+		// 	for (int n = 0; n < IM_ARRAYSIZE(perspectiveOptions); n++)
+		// 	{
+		// 		bool isSelected = (selectedState == n);
+		// 		if (ImGui::Selectable(stateOptions[n], isSelected))
+		// 		{
+		// 			selectedState = n;
+		// 			this->currentFillMode = static_cast<EFillMode>(n);
+		// 		}
+		// 		if (isSelected)
+		// 		{
+		// 			ImGui::SetItemDefaultFocus();
+		// 		}
+		// 	}
+		// 	ImGui::EndCombo();
+		// }
 
 		ImGui::SameLine();
 		const auto& cameras = CameraManager::getInstance()->getSceneCameras();

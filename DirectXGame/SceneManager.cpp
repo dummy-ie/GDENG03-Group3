@@ -58,7 +58,7 @@ namespace gdeng03
 				scale = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
 				index++;
 
-				//GameObjectManager::get()->createObject(objectName, objectType, position, rotation, scale); //NOTE -> CREATE OBJECT FROM FILE FUNCTION MUST BE MADE
+				GameObjectManager::get()->createObject(objectName, objectType, position, rotation, scale); //NOTE -> CREATE OBJECT FROM FILE FUNCTION MUST BE MADE
 			}
 
 			//check if physics is enabled
