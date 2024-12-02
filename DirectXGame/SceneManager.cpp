@@ -42,7 +42,7 @@ namespace gdeng03
 			}
 			else if (index == 1) {
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				objectType = (PrimitiveType)std::stoi(stringSplit[1]);
+				objectType = static_cast<PrimitiveType>(std::stoi(stringSplit[1]));
 				index++;
 			}
 			else if (index == 2) {
@@ -66,20 +66,20 @@ namespace gdeng03
 
 				//check for physics component as the last check
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				hasPhysicsEnabled = (bool)std::stoi(stringSplit[1]);
+				hasPhysicsEnabled = static_cast<bool>(std::stoi(stringSplit[1]));
 
 				GameObjectPtr savedObject;
 				MeshPtr savedMesh;
 				savedObject = std::make_shared<GameObject>(objectName);
 				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
-				savedObject->attachComponent(new Renderer3D(objectName + "Renderer", savedObject.get(), savedMesh));
+				savedObject->attachComponent(new Renderer3D(savedObject.get(), savedMesh));
 				savedObject->setLocalPosition(position);
 				savedObject->setLocalRotation(rotation);
 				savedObject->setLocalScale(scale);
 				GameObjectManager::get()->addObject(savedObject);
 
 				if (hasPhysicsEnabled) {
-					PhysicsComponent* physics = new PhysicsComponent(savedObject->getUniqueName(), savedObject.get(), objectType);
+					PhysicsComponent* physics = new PhysicsComponent(savedObject.get(), objectType);
 					savedObject->attachComponent(physics);
 				}
 
@@ -91,7 +91,7 @@ namespace gdeng03
 
 	void SceneManager::writeFile()
 	{
-		String fileDir = this->directory + ".iet";
+		const String fileDir = this->directory + ".iet";
 
 		std::fstream sceneFile;
 
@@ -99,22 +99,21 @@ namespace gdeng03
 
 		std::cout << "Selected filename" << fileDir << "\n";
 
-		GameObjectManager::GameObjectList allObjects = GameObjectManager::get()->getAllObjects();
+		const GameObjectManager::GameObjectList allObjects = GameObjectManager::get()->getAllObjects();
 
 		for (int i = 0; i < allObjects.size(); i++) {
 			sceneFile << allObjects[i]->getDisplayName() << std::endl;
 			sceneFile << allObjects[i]->getUniqueName() << std::endl;
-			Vector3D position = allObjects[i]->getLocalPosition();
-			Vector3D rotation = allObjects[i]->getLocalRotation();
-			Vector3D scale = allObjects[i]->getLocalScale();
+			const Vector3D position = allObjects[i]->getLocalPosition();
+			const Vector3D rotation = allObjects[i]->getLocalRotation();
+			const Vector3D scale = allObjects[i]->getLocalScale();
 			GameObject::ComponentList rendererList = allObjects[i]->getComponentsOfType(ComponentType::RENDERER);
 			GameObject::ComponentList physicsList = allObjects[i]->getComponentsOfType(ComponentType::PHYSICS);
-			Renderer3D* renderer = nullptr;
-			PhysicsComponent* physics = nullptr;
+			const Renderer3D* renderer = nullptr;
 			bool hasPhysicsSystem = false;
 
 			// Retrieve the first renderer component
-			for (auto component : rendererList) {
+			for (const auto component : rendererList) {
 				renderer = dynamic_cast<Renderer3D*>(component);
 				if (renderer != nullptr) {
 					break; // Exit loop once the first valid renderer is found
@@ -125,8 +124,9 @@ namespace gdeng03
 
 
 			if(!physicsList.empty()){
+				const PhysicsComponent* physics = nullptr;
 				// Retrieve the first renderer component
-				for (auto component : physicsList) {
+				for (const auto component : physicsList) {
 					physics = dynamic_cast<PhysicsComponent*>(component);
 					if (physics != nullptr) {
 						break; // Exit loop once the first valid physics component is found
