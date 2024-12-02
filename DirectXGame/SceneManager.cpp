@@ -29,6 +29,7 @@ namespace gdeng03
 		String readLine;
 
 		String objectName;
+		String uniqueName;
 		PrimitiveType objectType;
 		Vector3D position;
 		Vector3D rotation;
@@ -40,29 +41,34 @@ namespace gdeng03
 				objectName = readLine;
 				index++;
 			}
+
 			else if (index == 1) {
-				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				objectType = static_cast<PrimitiveType>(std::stoi(stringSplit[1]));
+				uniqueName = readLine;
 				index++;
 			}
 			else if (index == 2) {
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				position = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
+				objectType = static_cast<PrimitiveType>(std::stoi(stringSplit[1]));
 				index++;
 			}
 			else if (index == 3) {
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				rotation = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
+				position = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
 				index++;
 			}
 			else if (index == 4) {
+				std::vector stringSplit = StringUtils::split(readLine, ' ');
+				rotation = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
+				index++;
+			}
+			else if (index == 5) {
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
 				scale = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
 				index++;
 			}
 
 			//check if physics is enabled
-			else if (index == 5) {
+			else if (index == 6) {
 
 				//check for physics component as the last check
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
@@ -70,7 +76,7 @@ namespace gdeng03
 
 				GameObjectPtr savedObject;
 				MeshPtr savedMesh;
-				savedObject = std::make_shared<GameObject>(objectName);
+				savedObject = std::make_shared<GameObject>(uniqueName);
 				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
 				savedObject->attachComponent(new Renderer3D(savedObject.get(), savedMesh));
 				savedObject->setLocalPosition(position);
