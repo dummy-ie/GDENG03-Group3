@@ -3,6 +3,8 @@
 #include <utility>
 
 #include "GameObjectManager.h"
+#include "GraphicsEngine.h"
+#include "MeshManager.h"
 #include "PrimitiveType.h"
 #include "ComponentType.h"
 
@@ -57,14 +59,30 @@ namespace gdeng03
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
 				scale = Vector3D(std::stof(stringSplit[1]), std::stof(stringSplit[2]), std::stof(stringSplit[3]));
 				index++;
-
-				//GameObjectManager::get()->createObject(objectName, objectType, position, rotation, scale); //NOTE -> CREATE OBJECT FROM FILE FUNCTION MUST BE MADE
 			}
 
 			//check if physics is enabled
 			else if (index == 5) {
+
+				//check for physics component as the last check
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
 				hasPhysicsEnabled = (bool)std::stoi(stringSplit[1]);
+
+				GameObjectPtr savedObject;
+				MeshPtr savedMesh;
+				savedObject = std::make_shared<GameObject>(objectName);
+				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
+				savedObject->attachComponent(new Renderer3D(objectName + "Renderer", savedObject.get(), savedMesh));
+				savedObject->setLocalPosition(position);
+				savedObject->setLocalRotation(rotation);
+				savedObject->setLocalScale(scale);
+				GameObjectManager::get()->addObject(savedObject);
+
+				if (hasPhysicsEnabled) {
+					PhysicsComponent* physics = new PhysicsComponent(savedObject->getUniqueName(), savedObject.get(), objectType);
+					savedObject->attachComponent(physics);
+				}
+
 				index = 0;
 
 			}
