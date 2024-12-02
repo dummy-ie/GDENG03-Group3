@@ -39,47 +39,47 @@ namespace gdeng03
 		ImGuiID id = ImGui::GetID("Main Window");
 		ImGui::DockSpaceOverViewport(id, ImGui::GetMainViewport());
 
-		if (firstTime)
-		{
-			ImVec2 workCenter = ImGui::GetMainViewport()->GetWorkCenter();
-
-			ImGui::DockBuilderRemoveNode(id);
-			ImGui::DockBuilderAddNode(id);
-
-			ImVec2 size{ WindowWidth, WindowHeight };
-			ImVec2 nodePos{ workCenter.x - size.x * 0.5f, workCenter.y - size.y * 0.5f };
-
-			// Set the size and position:
-			ImGui::DockBuilderSetNodeSize(id, size);
-			ImGui::DockBuilderSetNodePos(id, nodePos);
-
-			ImGuiID dock1 = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.3f, nullptr, &id);
-			ImGuiID dock2 = ImGui::DockBuilderSplitNode(dock1, ImGuiDir_Left, 0.5f, nullptr, &dock1);
-			ImGuiID dock3 = ImGui::DockBuilderSplitNode(id, ImGuiDir_Left, 0.5f, nullptr, &id);
-			ImGuiID dock4 = ImGui::DockBuilderSplitNode(dock3, ImGuiDir_Down, 0.25f, nullptr, &dock3);
-
-			ImGuiID dock3_top = ImGui::DockBuilderSplitNode(dock3, ImGuiDir_Up, 0.5f, nullptr, &dock3);
-			ImGuiID dock3_bottom = dock3;
-
-			ImGuiID dock3_top_left = ImGui::DockBuilderSplitNode(dock3_top, ImGuiDir_Left, 0.5f, nullptr, &dock3_top);
-			ImGuiID dock3_top_right = dock3_top;
-
-			ImGuiID dock3_bottom_left = ImGui::DockBuilderSplitNode(dock3_bottom, ImGuiDir_Left, 0.5f, nullptr, &dock3_bottom);
-			ImGuiID dock3_bottom_right = dock3_bottom;
-
-			ImGui::DockBuilderDockWindow("Inspector", dock1);
-			ImGui::DockBuilderDockWindow("Hierarchy", dock2);
-			ImGui::DockBuilderDockWindow("Viewport 1", dock3_top_left);
-			ImGui::DockBuilderDockWindow("Viewport 2", dock3_top_right);
-			ImGui::DockBuilderDockWindow("Viewport 3", dock3_bottom_left);
-			ImGui::DockBuilderDockWindow("Viewport 4", dock3_bottom_right);
-			ImGui::DockBuilderDockWindow("Profiler", dock4);
-
-			ImGui::DockBuilderFinish(id);
-
-			firstTime = false;
-			LogUtils::log(this, "Initialized Dock Space on First Run");
-		}
+		// if (firstTime)
+		// {
+		// 	ImVec2 workCenter = ImGui::GetMainViewport()->GetWorkCenter();
+		//
+		// 	ImGui::DockBuilderRemoveNode(id);
+		// 	ImGui::DockBuilderAddNode(id);
+		//
+		// 	ImVec2 size{ WindowWidth, WindowHeight };
+		// 	ImVec2 nodePos{ workCenter.x - size.x * 0.5f, workCenter.y - size.y * 0.5f };
+		//
+		// 	// Set the size and position:
+		// 	ImGui::DockBuilderSetNodeSize(id, size);
+		// 	ImGui::DockBuilderSetNodePos(id, nodePos);
+		//
+		// 	ImGuiID dock1 = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.3f, nullptr, &id);
+		// 	ImGuiID dock2 = ImGui::DockBuilderSplitNode(dock1, ImGuiDir_Left, 0.5f, nullptr, &dock1);
+		// 	ImGuiID dock3 = ImGui::DockBuilderSplitNode(id, ImGuiDir_Left, 0.5f, nullptr, &id);
+		// 	ImGuiID dock4 = ImGui::DockBuilderSplitNode(dock3, ImGuiDir_Down, 0.25f, nullptr, &dock3);
+		//
+		// 	ImGuiID dock3_top = ImGui::DockBuilderSplitNode(dock3, ImGuiDir_Up, 0.5f, nullptr, &dock3);
+		// 	ImGuiID dock3_bottom = dock3;
+		//
+		// 	ImGuiID dock3_top_left = ImGui::DockBuilderSplitNode(dock3_top, ImGuiDir_Left, 0.5f, nullptr, &dock3_top);
+		// 	ImGuiID dock3_top_right = dock3_top;
+		//
+		// 	ImGuiID dock3_bottom_left = ImGui::DockBuilderSplitNode(dock3_bottom, ImGuiDir_Left, 0.5f, nullptr, &dock3_bottom);
+		// 	ImGuiID dock3_bottom_right = dock3_bottom;
+		//
+		// 	ImGui::DockBuilderDockWindow("Inspector", dock1);
+		// 	ImGui::DockBuilderDockWindow("Hierarchy", dock2);
+		// 	ImGui::DockBuilderDockWindow("Viewport 1", dock3_top_left);
+		// 	ImGui::DockBuilderDockWindow("Viewport 2", dock3_top_right);
+		// 	ImGui::DockBuilderDockWindow("Viewport 3", dock3_bottom_left);
+		// 	ImGui::DockBuilderDockWindow("Viewport 4", dock3_bottom_right);
+		// 	ImGui::DockBuilderDockWindow("Profiler", dock4);
+		//
+		// 	ImGui::DockBuilderFinish(id);
+		//
+		// 	firstTime = false;
+		// 	LogUtils::log(this, "Initialized Dock Space on First Run");
+		// }
 
 		for (const auto& uiScreen : uiList)
 		{
