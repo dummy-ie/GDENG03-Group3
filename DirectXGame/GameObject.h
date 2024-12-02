@@ -88,6 +88,8 @@ namespace gdeng03
 		void attachChild(GameObjectPtr child);
 		void detachChild(GameObjectPtr child);
 
+		int getLevel();
+
 		Component* findComponentByName(const std::string& name);
 		Component* findComponentOfType(ComponentType type, const std::string& name);
 		ComponentList getComponentsOfType(ComponentType type) const;

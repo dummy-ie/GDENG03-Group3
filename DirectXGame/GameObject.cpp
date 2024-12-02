@@ -528,6 +528,11 @@ namespace gdeng03
 		child->recalculateChildTransformWithoutParent();
 	}
 
+	int GameObject::getLevel()
+	{
+		return level;
+	}
+
 	Component* GameObject::findComponentByName(const std::string& name)
 	{
 		const auto it = std::find_if(componentList.begin(), componentList.end(),
