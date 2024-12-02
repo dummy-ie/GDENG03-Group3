@@ -74,6 +74,7 @@ namespace gdeng03
 		float* getPhysicsLocalMatrix();
 
 		void recalculateChildTransformWithParent(GameObjectPtr parent);
+		void recalculateChildTransformWithParent(GameObject* parent);
 		void recalculateChildTransformWithoutParent();
 
 		void attachComponent(Component* component);

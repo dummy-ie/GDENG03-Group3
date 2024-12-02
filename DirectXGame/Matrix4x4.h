@@ -274,6 +274,37 @@ namespace gdeng03
 			return *mat;
 		}
 
+		static void decomposeMatrix(const Matrix4x4& matrix, Vector3D& position, Vector3D& rotation, Vector3D& scale) {
+			// Extract position
+			position.x = matrix.mat[3][0];
+			position.y = matrix.mat[3][1];
+			position.z = matrix.mat[3][2];
+
+			// Extract scale
+			scale.x = sqrt(matrix.mat[0][0] * matrix.mat[0][0] + matrix.mat[0][1] * matrix.mat[0][1] + matrix.mat[0][2] * matrix.mat[0][2]);
+			scale.y = sqrt(matrix.mat[1][0] * matrix.mat[1][0] + matrix.mat[1][1] * matrix.mat[1][1] + matrix.mat[1][2] * matrix.mat[1][2]);
+			scale.z = sqrt(matrix.mat[2][0] * matrix.mat[2][0] + matrix.mat[2][1] * matrix.mat[2][1] + matrix.mat[2][2] * matrix.mat[2][2]);
+
+			// Normalize
+			Matrix4x4 rotationMatrix = matrix;
+			for (int i = 0; i < 3; ++i) {
+				rotationMatrix.mat[i][0] /= scale.x;
+				rotationMatrix.mat[i][1] /= scale.y;
+				rotationMatrix.mat[i][2] /= scale.z;
+			}
+
+			// Extract rotation (Euler angles)
+			rotation.y = std::asin(-rotationMatrix.mat[0][2]); // Pitch
+			if (std::cos(rotation.y) > 0.0001f) {
+				rotation.x = std::atan2(rotationMatrix.mat[1][2], rotationMatrix.mat[2][2]); // Yaw
+				rotation.z = std::atan2(rotationMatrix.mat[0][1], rotationMatrix.mat[0][0]); // Roll
+			}
+			else {
+				rotation.x = std::atan2(-rotationMatrix.mat[2][0], rotationMatrix.mat[1][1]);
+				rotation.z = 0.0f;
+			}
+		}
+
 	public:
 		float mat[4][4] = {};
 	};
