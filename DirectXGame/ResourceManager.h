@@ -1,6 +1,13 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+
+#if __cplusplus <= 201402L 
+// ReSharper disable once CppInconsistentNaming (C++ standard version check)
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+#endif
+
 #include "Prerequisites.h"
 #include "Resource.h"
 
@@ -22,6 +29,8 @@ namespace gdeng03
 
 	protected:
 		virtual Resource* createResourceFromFileConcrete(const wchar_t* filePath) = 0;
+
+		std::experimental::filesystem::path defaultPath;
 
 	//private:
 		ResourceMap resourceMap;

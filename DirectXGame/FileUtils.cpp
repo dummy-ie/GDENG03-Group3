@@ -18,12 +18,9 @@ void FileUtils::getFilePath(std::string& meshFilePath)
     openFile.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (GetOpenFileName(&openFile)) {
-
-        
         std::wstring ws(path);
         std::string str(ws.begin(), ws.end());
         std::replace(str.begin(), str.end(), '\\', '/');
         meshFilePath = str;
-        gdeng03::LogUtils::log(meshFilePath);
     }
 }
