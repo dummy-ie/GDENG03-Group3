@@ -24,34 +24,21 @@ namespace gdeng03
 			{
 				drawHierarchy(gameObject, &id);
 			}
-
-
-			/*ImGui::PushID(id);
-			float offset = gameObject->getLevel() * 15;
-			ImGui::SetCursorPosX(offset);
-
-			if (ImGui::Button(gameObject->getDisplayName().c_str(), ImVec2(250, 0)))
+		}
+		ImGui::Dummy(ImVec2(250, 50));
+		if (ImGui::BeginDragDropTarget())
+		{
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAME_OBJECT");
+			if (payload)
 			{
-				GameObjectManager::get()->setSelectedObject(gameObject.get());
-			}
-			if (ImGui::BeginDragDropSource()) {
-				ImGui::SetDragDropPayload("GAME_OBJECT", &gameObject, sizeof(GameObjectPtr));
-				ImGui::Text("%s", gameObject->getDisplayName().c_str());
-				ImGui::EndDragDropSource();
-			}
-
-			if (ImGui::BeginDragDropTarget()) {
-				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAME_OBJECT");
-				if (payload) {
-					GameObjectPtr draggedObject = *(GameObjectPtr*)payload->Data;
-					if (draggedObject != gameObject && draggedObject->getParent() != gameObject.get()) {
-						gameObject->attachChild(draggedObject);
-					}
+				GameObjectPtr draggedObject = *(GameObjectPtr*)payload->Data;
+				GameObject* parent = draggedObject->getParent();
+				if (parent != nullptr)
+				{
+					parent->detachChild(draggedObject);
 				}
-				ImGui::EndDragDropTarget();
 			}
-			id++;
-			ImGui::PopID();*/
+			ImGui::EndDragDropTarget();
 		}
 		ImGui::EndChild();
 
@@ -92,7 +79,7 @@ namespace gdeng03
 		*id = *id + 1;
 
 		for (const auto& child : gameObject->getChildren()) {
-			drawHierarchy(child, id); // Increase level for children
+			drawHierarchy(child, id);
 		}
 		
 		ImGui::PopID();
