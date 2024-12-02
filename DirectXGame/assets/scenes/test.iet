@@ -1,10 +1,18 @@
 Cube
 Cube
+Type: 1
 Position: 0 00
 Rotation: 0 00
 Scale: 1 11
-Sphere
-Sphere
-Position: 2.36 00
+Cube2
+Cube2
+Type: 1
+Position: 0 20
+Rotation: 0 00
+Scale: 1 11
+Cube3
+Cube3
+Type: 1
+Position: 0 40
 Rotation: 0 00
 Scale: 1 11

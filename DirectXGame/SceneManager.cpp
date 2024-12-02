@@ -79,7 +79,18 @@ namespace gdeng03
 			Vector3D position = allObjects[i]->getLocalPosition();
 			Vector3D rotation = allObjects[i]->getLocalRotation();
 			Vector3D scale = allObjects[i]->getLocalScale();
-			Renderer3D* renderer = (Renderer3D*)allObjects[i]->findComponentOfType(ComponentType::RENDERER, allObjects[i]->getUniqueName() + "Renderer");
+			GameObject::ComponentList rendererList = allObjects[i]->getComponentsOfType(ComponentType::RENDERER);
+		
+			Renderer3D* renderer = nullptr;
+
+			// Retrieve the first renderer component
+			for (auto component : rendererList) {
+				renderer = dynamic_cast<Renderer3D*>(component);
+				if (renderer != nullptr) {
+					break; // Exit loop once the first valid renderer is found
+				}
+			}
+
 			PrimitiveType type = renderer->getMesh()->getType();
 
 
