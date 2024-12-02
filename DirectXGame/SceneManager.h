@@ -22,6 +22,7 @@ namespace gdeng03
 		void readFile();
 		void writeFile();
 		void setSaveDirectory(String filePath);
+		String getSaveDirectiory();
 
 		static SceneManager* getInstance();
 

@@ -3,6 +3,7 @@
 #include "ActionHistory.h"
 #include "AppWindow.h"
 #include "BaseComponentSystem.h"
+#include "FileUtils.h"
 #include "GameObjectManager.h"
 #include "GraphicsEngine.h"
 #include "MeshManager.h"
@@ -279,7 +280,18 @@ void MenuScreen::onLoadObjClicked()
 {
 	// TODO: LOAD OBJ FROM FILE AND CREATE OBJECT IN SCENE
 	// CALL MESH MANAGER EXAMPLE
-	//MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+
+	string meshFilePath;
+
+	FileUtils::getFilePath(meshFilePath);
+	
+	LogUtils::log("Loading OBJ from path: " + meshFilePath);
+
+	GameObjectPtr mesh = std::make_shared<GameObject>("Mesh");
+
+	MeshPtr customMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(std::wstring(meshFilePath.begin(), meshFilePath.end()).c_str());
+	mesh->attachComponent(new Renderer3D("RendererComponent " + mesh->getUniqueName(), mesh.get(), customMesh));
+	GameObjectManager::get()->addObject(mesh);
 }
 
 void MenuScreen::showCreditsWindow()

@@ -7,6 +7,7 @@
 #include "ActionHistory.h"
 #include "BaseComponentSystem.h"
 #include "EngineBackend.h"
+#include "FileUtils.h"
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
 #include "ShaderLibrary.h"
@@ -107,7 +108,7 @@ namespace gdeng03
 		// UIManager::get()->mainMaterial = mainMaterial;
 
 
-		GameObjectPtr cube = std::make_shared<GameObject>("Cube");
+		/*GameObjectPtr cube = std::make_shared<GameObject>("Cube");
 
 		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
 		cube->attachComponent(new Renderer3D("cubeRenderer", cube.get(), cubeMesh));
@@ -128,7 +129,7 @@ namespace gdeng03
 		GameObjectManager::get()->addObject(cube3);
 
 		cube->attachChild(cube2);
-		cube2->attachChild(cube3);
+		cube2->attachChild(cube3);*/
 	}
 
 	void AppWindow::draw(int width, int height, EFillMode fillMode)

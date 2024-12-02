@@ -140,6 +140,11 @@ namespace gdeng03
 		this->directory = std::move(filePath);
 	}
 
+	SceneManager::String SceneManager::getSaveDirectiory()
+	{
+		return this->directory;
+	}
+
 	SceneManager* SceneManager::getInstance()
 	{
 		if (!sharedInstance)
