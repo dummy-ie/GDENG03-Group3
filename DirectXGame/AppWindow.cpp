@@ -197,6 +197,7 @@ namespace gdeng03
 		{
 			//GameObjectManager::get()->setPhysics(false);
 			GameObjectManager::get()->updateAll(EngineTime::getDeltaTime());
+			BaseComponentSystem::get()->getPhysicsSystem()->updateAllComponentsWithoutWorld();
 		}
 		else if (backend->getMode() == EngineBackend::EditorMode::PAUSED)
 		{

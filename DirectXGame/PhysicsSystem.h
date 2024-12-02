@@ -31,7 +31,7 @@ namespace gdeng03
 		PhysicsComponent* findComponentByName(const std::string& name);
 		ComponentList getAllComponents();
 
-		void updateComponentsWithoutWorld() const;
+		void updateAllComponentsWithoutWorld() const;
 		void updateAllComponents() const;
 		PhysicsCommon* getPhysicsCommon() const;
 		PhysicsWorld* getPhysicsWorld() const;

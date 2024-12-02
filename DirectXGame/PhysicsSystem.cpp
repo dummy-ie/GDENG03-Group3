@@ -78,7 +78,7 @@ namespace gdeng03
 		return componentList;
 	}
 
-	void PhysicsSystem::updateComponentsWithoutWorld() const
+	void PhysicsSystem::updateAllComponentsWithoutWorld() const
 	{
 		if (EngineTime::getDeltaTime() > 0.0f) {
 			//physicsWorld->update(EngineTime::getDeltaTime());
