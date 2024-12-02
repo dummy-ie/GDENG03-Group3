@@ -78,6 +78,21 @@ namespace gdeng03
 		return componentList;
 	}
 
+	void PhysicsSystem::updateComponentsWithoutWorld() const
+	{
+		if (EngineTime::getDeltaTime() > 0.0f) {
+			//physicsWorld->update(EngineTime::getDeltaTime());
+			for (const auto pc : componentList)
+			{
+				if (!pc->getOwner()->getEnabled())
+					continue;
+
+				pc->update();
+				LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
+			}
+		}
+	}
+
 	void PhysicsSystem::updateAllComponents() const
 	{
 		if (EngineTime::getDeltaTime() > 0.0f) {

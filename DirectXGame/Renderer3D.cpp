@@ -6,6 +6,8 @@
 #include "Constant.h"
 #include "Mesh.h"
 #include "ShaderLibrary.h"
+#include "Texture.h"
+#include "UIManager.h"
 
 namespace gdeng03
 {
@@ -21,16 +23,24 @@ namespace gdeng03
 			owner),
 		mesh(std::move(mesh))
 	{
-		if (mat)
+		if (mat != nullptr)
 			material = mat;
-
+		else
+		{
+			material = std::make_shared<Material>(L"PixelShader.hlsl");
+			LogUtils::log("Creating new material, " + std::string(material->albedoTexture->fullPath.begin(), material->albedoTexture->fullPath.end()));
+		}
 		// if (!material)
-		// 	material = std::make_shared<Material>(L"PixelShader.hlsl");
 
 		vertexShader = ShaderLibrary::get()->getVertexShader(vs);
 		//geometryShader = ShaderLibrary::get()->getGeometryShader(gs);
 		Constant constants;
 		constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
+
+		if (MaterialEditor* matEditorScreen = dynamic_cast<MaterialEditor*>(UIManager::get()->getScreen("MaterialEditor").get()))
+		{
+			matEditorScreen->updateMaterial(material.get());
+		}
 	}
 
 	void Renderer3D::update()
@@ -82,7 +92,7 @@ namespace gdeng03
 
 		constants.time = 0;
 
-		if (material)
+		if (material != nullptr)
 		{
 			constants.color = Vector3D(material->color.x, material->color.y, material->color.z);
 			constants.metallic = material->metallic;
@@ -95,6 +105,11 @@ namespace gdeng03
 			constants.hasMetallicMap = material->metallicTexture != nullptr;
 			constants.hasSmoothnessMap = material->smoothnessTexture != nullptr;
 			constants.hasNormalMap = material->normalTexture != nullptr;
+		}
+		else
+		{
+			constants.color = 1;
+			constants.hasAlbedoMap = true;
 		}
 
 		constantBuffer->update(deviceContext, &constants);
@@ -110,7 +125,7 @@ namespace gdeng03
 		deviceContext->setVertexShader(vertexShader);
 		//deviceContext->setGeometryShader(geometryShader);
 
-		if (material)
+		if (material != nullptr)
 		{
 			deviceContext->setPixelShader(material->getPixelShader());
 			deviceContext->setTexture(*material);
@@ -118,8 +133,11 @@ namespace gdeng03
 		else
 		{
 			deviceContext->setPixelShader(ShaderLibrary::get()->getPixelShader(L"PixelShader.hlsl"));
-			deviceContext->setDefaultTexture();
+			deviceContext->setAlbedo(GraphicsEngine::get()->getTextureManager()->getBlankTexture());
 		}
+		// {
+		// 	deviceContext->setDefaultTexture();
+		// }
 
 		deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
 	}

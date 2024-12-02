@@ -10,22 +10,22 @@ namespace gdeng03
 	Material::Material(PixelShaderPtr pixelShader) : pixelShader(std::move(pixelShader))
 	{
 		samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
-		//setToDefaultTextures();
-		albedoTexture = nullptr;
-		metallicTexture = nullptr;
-		smoothnessTexture = nullptr;
-		normalTexture = nullptr;
+		setToDefaultTextures();
+		// albedoTexture = nullptr;
+		// metallicTexture = nullptr;
+		// smoothnessTexture = nullptr;
+		// normalTexture = nullptr;
 	}
 
 	Material::Material(const std::wstring& pixelShaderName)
 	{
 		samplerState = GraphicsEngine::get()->getRenderSystem()->createSamplerState();
 		pixelShader = ShaderLibrary::get()->getPixelShader(pixelShaderName);
-		albedoTexture = nullptr;
-		metallicTexture = nullptr;
-		smoothnessTexture = nullptr;
-		normalTexture = nullptr;
-		//setToDefaultTextures();
+		// albedoTexture = nullptr;
+		// metallicTexture = nullptr;
+		// smoothnessTexture = nullptr;
+		// normalTexture = nullptr;
+		setToDefaultTextures();
 
 		// void* shaderByteCode = nullptr;
 		// size_t byteCodeSize = 0;
@@ -44,11 +44,18 @@ namespace gdeng03
 		return pixelShader;
 	}
 
+	void Material::setAlbedo(const TexturePtr& albedo)
+	{
+		albedoTexture = albedo;
+	}
+
 	void Material::setToDefaultTextures()
 	{
-		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(albedoTexture);
-		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(metallicTexture);
-		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
-		GraphicsEngine::get()->getTextureManager()->loadBlankTexture(smoothnessTexture);
+		color = { 1, 1, 1, 1 };
+		albedoTexture = GraphicsEngine::get()->getTextureManager()->getBlankTexture();
+		metallicTexture = GraphicsEngine::get()->getTextureManager()->getBlankTexture();
+		smoothnessTexture = GraphicsEngine::get()->getTextureManager()->getBlankTexture();
+		normalTexture = GraphicsEngine::get()->getTextureManager()->getBlankTexture();
+
 	}
 }

@@ -128,6 +128,12 @@ namespace gdeng03
 		deviceContext->PSSetShader(pixelShader->ps, nullptr, 0);
 	}
 
+	void DeviceContext::setAlbedo(const TexturePtr& albedoTexture)
+	{
+		deviceContext->VSSetShaderResources(0, 1, &albedoTexture->shaderResourceView);
+		deviceContext->PSSetShaderResources(0, 1, &albedoTexture->shaderResourceView);
+	}
+
 	void DeviceContext::setTexture(const Material& material) const
 	{
 		if (material.albedoTexture)

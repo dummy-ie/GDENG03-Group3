@@ -11,6 +11,7 @@
 #include "PhysicsSystem.h"
 #include "Renderer3D.h"
 #include "SceneManager.h"
+#include "ShaderLibrary.h"
 #include "UIManager.h"
 #include "ViewportManager.h"
 
@@ -257,23 +258,25 @@ void MenuScreen::onCreatePlaneClicked()
 
 void MenuScreen::onCreatePhysicsDemoClicked()
 {
-	for (int i = 0; i < 10; ++i)
+	int maxCubes = 100;
+	for (int i = 0; i < maxCubes; ++i)
 	{
 		GameObjectPtr cube = std::make_shared<GameObject>("Cube" + std::to_string(i));
 		//MeshPtr cubeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
 		//MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
 		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
-
+		MaterialPtr mat = std::make_shared<Material>(ShaderLibrary::get()->getPixelShader(L"PixelShader.hlsl"));
+		mat->setAlbedo(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/waffle.jpg"));
 		//cube->setLocalScale(0.1f);
 		cube->setLocalPosition({ 0, 10, 0 });
 
-		cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
+		cube->attachComponent(new Renderer3D(cube.get(), cubeMesh, mat));
 		PhysicsComponent* cubePhysics = new PhysicsComponent(cube.get(), PrimitiveType::CUBE);
 		cube->attachComponent(cubePhysics);
 		GameObjectManager::get()->addObject(cube);
 	}
 
-	LogUtils::log("Created 10 Physics Cubes");
+	LogUtils::log("Created " +  std::to_string(maxCubes) + " Physics Cubes");
 }
 
 void MenuScreen::onLoadObjClicked()

@@ -17,6 +17,7 @@ namespace gdeng03
 		std::wstring fullPath;
 
 		friend class MaterialEditor;
+		friend class Renderer3D;
 	};
 }
 

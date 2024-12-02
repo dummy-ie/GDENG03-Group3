@@ -38,7 +38,7 @@ namespace gdeng03
 		case PrimitiveType::NOT_PRIMITIVE:
 		case PrimitiveType::CUBE:
 		{
-			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x, scale.y, scale.z));
+			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 2.f, scale.y / 2.f, scale.z / 2.f));
 			this->rigidBody->addCollider(boxShape, transform);
 			break;
 		}

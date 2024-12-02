@@ -24,6 +24,7 @@ namespace gdeng03
 		explicit Material(const std::wstring& pixelShaderName);
 
 		PixelShaderPtr getPixelShader() const;
+		void setAlbedo(const TexturePtr& albedo);
 
 	private:
 		void setToDefaultTextures();
@@ -39,9 +40,9 @@ namespace gdeng03
 
 		SamplerStatePtr samplerState = nullptr;
 
-		float metallic = 0;
-		float smoothness = 0;
-		float flatness = 0;
+		float metallic = 1;
+		float smoothness = 1;
+		float flatness = 1;
 
 		Vector2D tiling = 0;
 		Vector2D offset = 0;

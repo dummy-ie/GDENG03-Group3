@@ -36,12 +36,12 @@ void MaterialEditor::setSelectedMaterial(Material* mat)
 
 	if (!mat->metallicTexture)
 		metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	 else
+	else
 		this->metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->metallicTexture->fullPath.c_str());
 
 	if (!mat->smoothnessTexture)
 		smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
-	 else
+	else
 		this->smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(mat->smoothnessTexture->fullPath.c_str());
 
 	if (!mat->normalTexture)
@@ -81,11 +81,13 @@ void MaterialEditor::draw()
 	ImGui::Begin("Material Editor", &isActive);
 
 	if (selectedMaterial != nullptr)
+	{
 		showMaterialEditorWindow();
+		updateSelectedMaterial();
+	}
 
 	ImGui::End();
 
-	updateSelectedMaterial();
 }
 
 void MaterialEditor::showColorPickerWindow()
@@ -96,6 +98,14 @@ void MaterialEditor::showColorPickerWindow()
 		ImGui::ColorPicker4("Albedo Color##4", reinterpret_cast<float*>(&color), 0);
 	}
 	ImGui::End();
+}
+
+// idk what the fuck goin on anymore tbh
+void MaterialEditor::updateMaterial(Material* mat)
+{
+	setSelectedMaterial(mat);
+	updateSelectedMaterial();
+	unselectMaterial();
 }
 
 void MaterialEditor::updateSelectedMaterial()

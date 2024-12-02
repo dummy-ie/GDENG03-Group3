@@ -36,6 +36,7 @@ namespace gdeng03
 		void setVertexShader(const VertexShaderPtr& vertexShader) const;
 		void setGeometryShader(const GeometryShaderPtr& geometryShader) const;
 		void setPixelShader(const PixelShaderPtr& pixelShader) const;
+		void setAlbedo(const TexturePtr& albedoTexture);
 		void setTexture(const Material& material) const;
 		void setDefaultTexture() const;
 
