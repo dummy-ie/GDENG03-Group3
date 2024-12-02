@@ -68,7 +68,7 @@ namespace gdeng03
 		std::string getDisplayName();
 
 		void updateLocalMatrix();
-		void updateGlobalMatrix();
+		//void updateGlobalMatrix();
 		Matrix4x4 getLocalMatrix() const;
 		void setLocalMatrix(const Matrix4x4& matrix);
 		void recomputeMatrix(float matrix[16]);

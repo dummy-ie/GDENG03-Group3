@@ -237,45 +237,45 @@ namespace gdeng03
 		}
 	}
 
-	void GameObject::updateGlobalMatrix()
-	{
-		//setup transformation matrix for drawing.
-		Matrix4x4 allMatrix; allMatrix.setIdentity();
-		Matrix4x4 translationMatrix; translationMatrix.setIdentity();  translationMatrix.setTranslation(getGlobalPosition());
-		Matrix4x4 scaleMatrix; scaleMatrix.setScale(getGlobalScale());
-		Vector3D rotation = getGlobalRotation();
-		Matrix4x4 xMatrix; xMatrix.setRotationX(rotation.x);
-		Matrix4x4 yMatrix; yMatrix.setRotationY(rotation.y);
-		Matrix4x4 zMatrix; zMatrix.setRotationZ(rotation.z);
+	//void GameObject::updateGlobalMatrix()
+	//{
+	//	//setup transformation matrix for drawing.
+	//	Matrix4x4 allMatrix; allMatrix.setIdentity();
+	//	Matrix4x4 translationMatrix; translationMatrix.setIdentity();  translationMatrix.setTranslation(getGlobalPosition());
+	//	Matrix4x4 scaleMatrix; scaleMatrix.setScale(getGlobalScale());
+	//	Vector3D rotation = getGlobalRotation();
+	//	Matrix4x4 xMatrix; xMatrix.setRotationX(rotation.x);
+	//	Matrix4x4 yMatrix; yMatrix.setRotationY(rotation.y);
+	//	Matrix4x4 zMatrix; zMatrix.setRotationZ(rotation.z);
 
-		//Scale --> Rotate --> Transform as recommended order.
-		Matrix4x4 rotMatrix; rotMatrix.setIdentity();
-		//reactphysics3d::Quaternion q = reactphysics3d::Quaternion(orientation.x, orientation.y, orientation.z, orientation.w).getMatrix();
-		rotMatrix = rotMatrix.multiplyTo(xMatrix.multiplyTo(yMatrix.multiplyTo(zMatrix)));
+	//	//Scale --> Rotate --> Transform as recommended order.
+	//	Matrix4x4 rotMatrix; rotMatrix.setIdentity();
+	//	//reactphysics3d::Quaternion q = reactphysics3d::Quaternion(orientation.x, orientation.y, orientation.z, orientation.w).getMatrix();
+	//	rotMatrix = rotMatrix.multiplyTo(xMatrix.multiplyTo(yMatrix.multiplyTo(zMatrix)));
 
-		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
-		allMatrix = allMatrix.multiplyTo(translationMatrix);
-		this->localMatrix = allMatrix;
+	//	allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
+	//	allMatrix = allMatrix.multiplyTo(translationMatrix);
+	//	this->localMatrix = allMatrix;
 
-		localMatrix = (parent) ?
-			localMatrix.multiplyTo(parent->localMatrix) :
-			localMatrix;
+	//	localMatrix = (parent) ?
+	//		localMatrix.multiplyTo(parent->localMatrix) :
+	//		localMatrix;
 
-		//Matrix4x4::decomposeMatrix(localMatrix, globalPosition, globalRotation, globalScale);
+	//	//Matrix4x4::decomposeMatrix(localMatrix, globalPosition, globalRotation, globalScale);
 
-		for (GameObjectPtr child : children)
-		{
-			child->updateGlobalMatrix();
-		}
+	//	for (GameObjectPtr child : children)
+	//	{
+	//		child->updateGlobalMatrix();
+	//	}
 
-		ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
-		if (result.size() == 0) return;
-		PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
-		if (physicsComponent != nullptr)
-		{
-			physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
-		}
-	}
+	//	ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
+	//	if (result.size() == 0) return;
+	//	PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
+	//	if (physicsComponent != nullptr)
+	//	{
+	//		physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
+	//	}
+	//}
 
 	Matrix4x4 GameObject::getLocalMatrix() const
 	{
