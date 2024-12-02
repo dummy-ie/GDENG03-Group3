@@ -20,9 +20,12 @@ namespace gdeng03
 			std::move(name),
 			ComponentType::RENDERER,
 			owner),
-		material(mat),
 		mesh(mesh)
 	{
+		material = mat;
+		// if (!material)
+		// 	material = std::make_shared<Material>(L"PixelShader.hlsl");
+
 		vertexShader = ShaderLibrary::get()->getVertexShader(vs);
 		//geometryShader = ShaderLibrary::get()->getGeometryShader(gs);
 		Constant constants;
@@ -73,22 +76,25 @@ namespace gdeng03
 		constants.world = owner->getLocalMatrix();
 		//constants.world = scaleMatrix * transMatrix * newMatrix;
 
-		constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
-		constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
+		// constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
+		// constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
 
 		constants.time = 0;
 
-		constants.color = Vector3D(material->color.x, material->color.y, material->color.z);
-		constants.metallic = material->metallic;
-		constants.smoothness = material->smoothness;
-		constants.flatness = material->flatness;
-		constants.tiling = material->tiling;
-		constants.offset = material->offset;
+		if (material)
+		{
+			constants.color = Vector3D(material->color.x, material->color.y, material->color.z);
+			constants.metallic = material->metallic;
+			constants.smoothness = material->smoothness;
+			constants.flatness = material->flatness;
+			constants.tiling = material->tiling;
+			constants.offset = material->offset;
 
-		constants.hasAlbedoMap = material->albedoTexture != nullptr;
-		constants.hasMetallicMap = material->metallicTexture != nullptr;
-		constants.hasSmoothnessMap = material->smoothnessTexture != nullptr;
-		constants.hasNormalMap = material->normalTexture != nullptr;
+			constants.hasAlbedoMap = material->albedoTexture != nullptr;
+			constants.hasMetallicMap = material->metallicTexture != nullptr;
+			constants.hasSmoothnessMap = material->smoothnessTexture != nullptr;
+			constants.hasNormalMap = material->normalTexture != nullptr;
+		}
 
 		constantBuffer->update(deviceContext, &constants);
 
@@ -102,9 +108,39 @@ namespace gdeng03
 
 		deviceContext->setVertexShader(vertexShader);
 		//deviceContext->setGeometryShader(geometryShader);
-		deviceContext->setPixelShader(material->getPixelShader());
+		if (material)
+		{
+			deviceContext->setPixelShader(material->getPixelShader());
+			deviceContext->setTexture(*material);
+		}
+		else
+		{
+			deviceContext->setPixelShader(ShaderLibrary::get()->getPixelShader(L"PixelShader.hlsl"));
+			deviceContext->setDefaultTexture();
+		}
 
-		deviceContext->setTexture(*material);
 		deviceContext->drawIndexedTriangleList(indexBuffer->getSizeIndexList(), 0, 0);
+	}
+
+	Material* Renderer3D::getMaterial() const
+	{
+		return material.get();
+	}
+
+	Mesh* Renderer3D::getMesh() const
+	{
+		return mesh.get();
+	}
+
+	void Renderer3D::createMaterial()
+	{
+		LogUtils::log("creating new material for " + getOwner()->getUniqueName());
+		material = std::make_shared<Material>(L"PixelShader.hlsl");
+	}
+
+	void Renderer3D::resetMaterial()
+	{
+		//material.reset(); does the same thing
+		material = nullptr;
 	}
 }

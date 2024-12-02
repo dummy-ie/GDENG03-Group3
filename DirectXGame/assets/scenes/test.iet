@@ -1,10 +1,21 @@
 Cube
 Cube
-Position: 0 00
-Rotation: 0 00
-Scale: 1 11
-Sphere
-Sphere
-Position: 2.36 00
-Rotation: 0 00
-Scale: 1 11
+Type: 1
+Position: 0 0 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 0
+Cube2
+Cube2
+Type: 1
+Position: 0 2 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 0
+Cube3
+Cube3
+Type: 1
+Position: 0 4 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 0

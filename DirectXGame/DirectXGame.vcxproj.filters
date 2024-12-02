@@ -615,6 +615,12 @@
     <FxCompile Include="VertexMeshLayoutShader.hlsl">
       <Filter>App\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="DebugRendererVertexShader.hlsl">
+      <Filter>App\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="DebugRendererPixelShader.hlsl">
+      <Filter>App\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\reactphysics3d\lib\reactphysics3d.lib">

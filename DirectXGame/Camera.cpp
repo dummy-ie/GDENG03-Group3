@@ -3,6 +3,16 @@ namespace gdeng03
 {
 	void Camera::update(const float deltaTime)
 	{
+		RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
+		this->updateLocalMatrix();
+
+		CameraBuffer cbCameraData = {};
+		cbCameraData.view = getView();
+		cbCameraData.proj = getProjection();
+
+		renderSystem->getImmediateDeviceContext()->setConstantBuffer(constantBuffer, 1);
+		constantBuffer->update(renderSystem->getImmediateDeviceContext(), &cbCameraData);
 	}
 
 	Matrix4x4 Camera::getView()

@@ -26,6 +26,8 @@ namespace gdeng03
 		PixelShaderPtr getPixelShader() const;
 
 	private:
+		void setToDefaultTextures();
+
 		PixelShaderPtr pixelShader = nullptr;
 
 		Vector4D color = { 1, 1, 1, 1 };
@@ -45,6 +47,7 @@ namespace gdeng03
 		Vector2D offset = 0;
 
 		friend class MaterialEditor;
+		friend class InspectorScreen;
 		friend class DeviceContext;
 		friend class AppWindow;
 		friend class Renderer3D;

@@ -20,7 +20,10 @@ namespace gdeng03
 	{
 	public:
 		MaterialEditor();
-		bool* getMaterialEditorOpen();
+		//bool* getMaterialEditorOpen();
+
+		void setSelectedMaterial(Material* mat);
+		void unselectMaterial();
 
 	private:
 		void draw() override;
@@ -32,10 +35,12 @@ namespace gdeng03
 		static bool isNormalImage(const TexturePtr& texture);
 
 		void loadTextureFile(TexturePtr& texture);
-		static void loadBlankTexture(TexturePtr& texture);
+		void loadDefaultTextures();
+
+		Material* selectedMaterial = nullptr;
 
 		bool isColorPickerOpen = false;
-		bool isMaterialEditorOpen = false;
+		//bool isMaterialEditorOpen = false;
 
 		ImVec4 color = ImVec4(1, 1, 1, 1);
 		float metallic = 0;
@@ -50,6 +55,7 @@ namespace gdeng03
 		TexturePtr normalTexture;
 
 		friend class MenuScreen;
+		//friend class InspectorScreen;
 	};
 }
 

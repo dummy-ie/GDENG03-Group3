@@ -4,6 +4,7 @@
 #include <reactphysics3d/reactphysics3d.h>
 
 #include "GameObject.h"
+#include "PrimitiveType.h"
 
 namespace gdeng03
 {
@@ -31,7 +32,7 @@ namespace gdeng03
 		uint8_t constraints = 0;
 
 	public:
-		PhysicsComponent(std::string name, GameObject* owner);
+		PhysicsComponent(const std::string& name, GameObject* owner, PrimitiveType colliderType = PrimitiveType::NOT_PRIMITIVE);
 		~PhysicsComponent() override;
 
 	public:
@@ -52,5 +53,14 @@ namespace gdeng03
 		void setLinearDrag(float linearDrag);
 		void setAngularDrag(float angularDrag);
 		void setConstraints(EConstraints constraints);
+
+	//private: // temp
+		// VertexShaderPtr vertexShader = nullptr;
+		// GeometryShaderPtr geometryShader = nullptr;
+		// //MaterialPtr material = nullptr;
+		//
+		// VertexBufferPtr vertexBuffer = nullptr;
+		// IndexBufferPtr indexBuffer = nullptr;
+		// ConstantBufferPtr constantBuffer = nullptr;
 	};
 }

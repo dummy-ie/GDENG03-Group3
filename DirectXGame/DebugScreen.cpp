@@ -2,7 +2,7 @@
 
 #include "AppWindow.h"
 
-gdeng03::DebugScreen::DebugScreen() : UIScreen("Debug Screen")
+gdeng03::DebugScreen::DebugScreen() : UIScreen("DebugScreen")
 {
 }
 

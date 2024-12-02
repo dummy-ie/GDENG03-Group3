@@ -132,7 +132,7 @@ namespace gdeng03
 
 		const std::shared_ptr<MaterialEditor> materialEditor = std::make_shared<MaterialEditor>();
 		this->uiMap[materialEditor->getName()] = materialEditor;
-		menuScreen->setMaterialEditor(materialEditor->getMaterialEditorOpen());
+		//menuScreen->setMaterialEditor(materialEditor->getMaterialEditorOpen());
 		this->uiList.push_back(materialEditor);
 
 		const std::shared_ptr<HierarchyScreen> hierarchyScreen = std::make_shared<HierarchyScreen>();
@@ -169,12 +169,28 @@ namespace gdeng03
 	}
 
 
-	void UIManager::setActive(std::string name)
+	void UIManager::setActive(const std::string& name)
 	{
 		this->uiMap[name]->setActive(true);
 	}
 
-	void UIManager::addViewport(UIScreenPtr viewport)
+	bool UIManager::isActive(const std::string& name)
+	{
+		if (!this->uiMap[name])
+			return false;
+
+		return this->uiMap[name]->isActive;
+	}
+
+	bool* UIManager::getActive(const std::string& name)
+	{
+		if (!this->uiMap[name])
+			return nullptr;
+
+		return &this->uiMap[name]->isActive;
+	}
+
+	void UIManager::addViewport(const UIScreenPtr& viewport)
 	{
 		this->uiMap["Viewport Screen"] = viewport;
 		this->uiList.push_back(viewport);
@@ -271,7 +287,7 @@ namespace gdeng03
 		style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.3499999940395355f);
 	}
 
-	UIManager::UIScreenPtr UIManager::getScreen(std::string name)
+	UIManager::UIScreenPtr UIManager::getScreen(const std::string& name)
 	{
 		return this->uiMap[name];
 	}

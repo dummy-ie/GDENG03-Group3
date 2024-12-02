@@ -29,31 +29,33 @@ namespace gdeng03
 		static UIManager* get();
 
 		static void initialize(HWND windowHandle);
-		void setActive(std::string name);
+		void setActive(const std::string& name);
+		bool isActive(const std::string& name);
+		bool* getActive(const std::string& name);
 		void draw() const;
 
-		UIScreenPtr getScreen(std::string name);
+		UIScreenPtr getScreen(const std::string& name);
 
 		UIManager(UIManager const&) = delete;
 		UIManager& operator=(UIManager const&) = delete;
 		UIManager(UIManager&& other) noexcept = delete;
 		UIManager& operator=(UIManager&& other) noexcept = delete;
 
-
+		
 		static constexpr int WindowWidth = 1440;
 		static constexpr int WindowHeight = 900;
 
 		static int resizeWidth;
 		static int resizeHeight;
 
-		std::shared_ptr<Material> mainMaterial = nullptr;
+		//std::shared_ptr<Material> mainMaterial = nullptr;
 
 	private:
 		explicit UIManager(HWND windowHandle);
 		~UIManager();
 		static UIManager* sharedInstance;
 
-		void addViewport(UIScreenPtr viewport);
+		void addViewport(const UIScreenPtr& viewport);
 		static void setupImGuiStyle();
 
 		mutable bool firstTime = true;

@@ -9,7 +9,9 @@
 #include "GameObject.h"
 #include <string>
 #include "StringUtils.h"
-
+#include "Renderer3D.h";
+#include "PhysicsComponent.h"
+#include "Mesh.h"
 namespace gdeng03
 {
 	class SceneManager
@@ -20,6 +22,7 @@ namespace gdeng03
 		void readFile();
 		void writeFile();
 		void setSaveDirectory(String filePath);
+		String getSaveDirectiory();
 
 		static SceneManager* getInstance();
 

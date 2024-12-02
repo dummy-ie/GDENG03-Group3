@@ -37,8 +37,10 @@ namespace gdeng03
 		void setGeometryShader(const GeometryShaderPtr& geometryShader) const;
 		void setPixelShader(const PixelShaderPtr& pixelShader) const;
 		void setTexture(const Material& material) const;
+		void setDefaultTexture() const;
 
 		void setConstantBuffer(const ConstantBufferPtr& constantBuffer) const;
+		void setConstantBuffer(const ConstantBufferPtr& buffer, int index) const;
 		void setRasterizerState(const RasterizerStatePtr& rasterizerState) const;
 
 		bool copyResource(ID3D11Resource* destResource, ID3D11Resource* srcResource) const;

@@ -14,7 +14,7 @@ namespace gdeng03
 	public:
 		MenuScreen();
 
-		void setMaterialEditor(bool* isMaterialEditorOpen);
+		//void setMaterialEditor(bool* isMaterialEditorOpen);
 
 	private:
 		void draw() override;
@@ -23,12 +23,13 @@ namespace gdeng03
 		void onCreateCapsuleClicked();
 		void onCreatePlaneClicked();
 		void onCreatePhysicsDemoClicked();
+		void onLoadObjClicked();
 		void showCreditsWindow();
 		void showColorPickerWindow();
 
 		bool isColorPickerOpen = false;
 		bool isCreditsOpen = false;
-		bool* isMaterialEditorOpen = nullptr;
+		//bool* isMaterialEditorOpen = nullptr;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> creditsTexture;
 	};
 }

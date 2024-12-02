@@ -7,7 +7,7 @@ namespace gdeng03
 {
 	SceneCamera::SceneCamera(const std::string& name, bool orthographic, const RECT& windowRect) : Camera(name, orthographic, windowRect)
 	{
-		InputSystem::get()->addListener(this);
+		//InputSystem::get()->addListener(this);
 	}
 
 	void SceneCamera::setPossessed(bool possessed)

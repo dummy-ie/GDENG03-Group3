@@ -164,6 +164,7 @@
     <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EngineBackend.cpp" />
     <ClCompile Include="EngineTime.cpp" />
+    <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryShader.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="DebugScreen.h" />
     <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EngineBackend.h" />
+    <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="HierarchyScreen.h" />
     <ClInclude Include="InspectorScreen.h" />
@@ -336,6 +338,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="DebugRendererPixelShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="DebugRendererVertexShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="GeometryShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

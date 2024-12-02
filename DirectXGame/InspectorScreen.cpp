@@ -8,6 +8,7 @@
 #include "UIManager.h"
 #include "GameObjectManager.h"
 #include "PhysicsComponent.h"
+#include "Renderer3D.h"
 
 using namespace gdeng03;
 
@@ -34,7 +35,7 @@ namespace gdeng03
 
 	void InspectorScreen::drawInspector()
 	{
-		std::string name = selectedObject->getUniqueName();
+		std::string name = selectedObject->getDisplayName();
 		bool isEnabled = selectedObject->getEnabled();
 
 		if (ImGui::Checkbox("##Active", &isEnabled))
@@ -52,7 +53,7 @@ namespace gdeng03
 		this->drawTransformTable(selectedObject);
 		this->drawComponentList(selectedObject);
 
-		if (ImGui::Button("Add Component", ImVec2(ImGui::GetWindowSize().x - 15, 20)))
+		if (ImGui::Button("Add Component", ImVec2(ImGui::GetWindowSize().x - 15, 40)))
 		{
 			ImGui::SetNextWindowPos(ImGui::GetCursorScreenPos());
 			ImGui::OpenPopup("SelectComponent");
@@ -67,10 +68,23 @@ namespace gdeng03
 				// ADD RIGIDBODY TO OBJECT
 				selectedObject->attachComponent(new PhysicsComponent("PhysicsComponent " + selectedObject->getUniqueName(), selectedObject));
 			}
+			if (ImGui::Selectable("Material", false, 0, buttonSize))
+			{
+				// add material to renderer
+				GameObject::ComponentList rendererComponentList = selectedObject->getComponentsOfType(ComponentType::RENDERER);
+				for (Component* component : rendererComponentList)
+				{
+					if (component->getName().find("RendererComponent") != std::string::npos)
+					{
+						Renderer3D* rendererComponent = dynamic_cast<Renderer3D*>(component);
+						rendererComponent->createMaterial();
+					}
+				}
+			}
 			ImGui::EndPopup();
 		}
 
-		if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowSize().x - 15, 20)))
+		if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowSize().x - 15, 40)))
 		{
 			GameObjectManager::get()->setSelectedObject(nullptr);
 			GameObjectManager::get()->deleteObjectByName(selectedObject->getUniqueName());
@@ -147,8 +161,8 @@ namespace gdeng03
 
 	void InspectorScreen::drawComponentList(GameObject* gameObject)
 	{
-		GameObject::ComponentList componentList = gameObject->getComponentsOfType(ComponentType::PHYSICS);
-		for (Component* component : componentList)
+		GameObject::ComponentList physicsComponentList = gameObject->getComponentsOfType(ComponentType::PHYSICS);
+		for (Component* component : physicsComponentList)
 		{
 			if (component->getName().find("PhysicsComponent") != std::string::npos)
 			{
@@ -246,9 +260,46 @@ namespace gdeng03
 					physicsComponent->setType(static_cast<BodyType>(iteselected_idx));
 
 					std::string buttonName = "Delete##" + component->getName();
-					if (ImGui::Button(buttonName.c_str(), ImVec2(ImGui::GetWindowSize().x - 15, 20)))
+					if (ImGui::Button(buttonName.c_str(), ImVec2(ImGui::GetWindowSize().x - 15, 40)))
 					{
 						gameObject->detachComponent(component);
+						//gameObject->setPhysics(false);
+					}
+					ImGui::PopStyleVar();
+				}
+				ImGui::PopStyleVar();
+				ImGui::Separator();
+			}
+		}
+
+		GameObject::ComponentList rendererComponentList = gameObject->getComponentsOfType(ComponentType::RENDERER);
+		for (Component* component : rendererComponentList)
+		{
+			if (component->getName().find("RendererComponent") != std::string::npos)
+			{
+				MaterialEditor* matEditorScreen = dynamic_cast<MaterialEditor*>(UIManager::get()->getScreen("MaterialEditor").get());
+				Renderer3D* rendererComponent = dynamic_cast<Renderer3D*>(component);
+
+				if (!rendererComponent->getMaterial())
+					continue;
+
+				ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0);
+				if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 7.800000190734863f);
+
+					if (matEditorScreen)
+					{
+						matEditorScreen->setSelectedMaterial(rendererComponent->getMaterial());
+					}
+
+					std::string buttonName = "Delete##" + component->getName();
+					if (ImGui::Button(buttonName.c_str(), ImVec2(ImGui::GetWindowSize().x - 15, 40)))
+					{
+						if (matEditorScreen)
+							matEditorScreen->unselectMaterial();
+
+						rendererComponent->resetMaterial();
 						//gameObject->setPhysics(false);
 					}
 					ImGui::PopStyleVar();

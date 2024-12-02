@@ -44,8 +44,10 @@ namespace gdeng03
 		ShaderToCompile shaderInitializationList[] = {
 			{ShaderType::VERTEX, L"VertexShader.hlsl"},
 			{ShaderType::VERTEX, L"VertexMeshLayoutShader.hlsl"},
+			{ShaderType::VERTEX, L"DebugRendererVertexShader.hlsl"},
 			//{ShaderType::GEOMETRY, L"GeometryShader.hlsl"},
 			{ShaderType::PIXEL, L"PixelShader.hlsl"},
+			{ShaderType::PIXEL, L"DebugRendererPixelShader.hlsl"},
 			// !! ADD MORE SHADERS HERE !! 
 		};
 

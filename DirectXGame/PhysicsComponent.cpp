@@ -1,8 +1,10 @@
 #include "PhysicsComponent.h"
 
 #include "BaseComponentSystem.h"
+#include "CameraManager.h"
 #include "PhysicsSystem.h"
 #include "GameObject.h"
+#include "ShaderLibrary.h"
 #include "Vector3D.h"
 
 
@@ -11,41 +13,75 @@ namespace gdeng03
 	using namespace reactphysics3d;
 	using reactphysics3d::Quaternion;
 
-	PhysicsComponent::PhysicsComponent(std::string name, GameObject* owner) : Component(name, ComponentType::PHYSICS, owner)
+	PhysicsComponent::PhysicsComponent(const std::string& name, GameObject* owner, PrimitiveType colliderType) : Component(name, ComponentType::PHYSICS, owner)
 	{
 		BaseComponentSystem::get()->getPhysicsSystem()->registerComponent(this);
 		PhysicsCommon* physicsCommon = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsCommon();
 		PhysicsWorld* physicsWorld = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsWorld();
-
+		// Create a rigid body in the world
 		const Vector3D scale = this->getOwner()->getLocalScale();
-		const Vector3D position = this->getOwner()->getLocalPosition();
-		const Vector3D rotation = this->getOwner()->getLocalRotation();
+		// Vector3 position;
+		// position.x = this->getOwner()->getLocalPosition().x;
+		// position.y = this->getOwner()->getLocalPosition().y;
+		// position.z = this->getOwner()->getLocalPosition().z;
 
-		Quaternion quaternion = Quaternion::fromEulerAngles(rotation.x, rotation.y, rotation.z);
-		//Transform transform = Transform(Vector3(position.x, position.y, position.z), quaternion);
-
+		//Quaternion q = Quaternion(this->getOwner()->getLocalRotation().m_x, this->getOwner()->getLocalRotation().m_y, this->getOwner()->getLocalRotation().m_z, 1);
 		Transform transform;
+		//transform.setPosition(position);
+		//transform.setOrientation(q);
 		transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
 
-		BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 0.5f, scale.y / 0.5f, scale.z / 0.5f));
-
 		this->rigidBody = physicsWorld->createRigidBody(transform);
-		this->rigidBody->addCollider(boxShape, transform);
+
+		switch (colliderType)
+		{
+		case PrimitiveType::NOT_PRIMITIVE:
+		case PrimitiveType::CUBE:
+		{
+			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x, scale.y, scale.z));
+			this->rigidBody->addCollider(boxShape, transform);
+			break;
+		}
+		case PrimitiveType::PLANE:
+		{
+			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x * 0.5f, scale.y * 0.1f, scale.z * 0.5f));
+			this->rigidBody->addCollider(boxShape, transform);
+			break;
+		}
+		case PrimitiveType::SPHERE:
+		{
+			SphereShape* sphereShape = physicsCommon->createSphereShape(scale.x);
+			this->rigidBody->addCollider(sphereShape, transform);
+			break;
+		}
+		case PrimitiveType::CAPSULE:
+		{
+			CapsuleShape* capsuleShape = physicsCommon->createCapsuleShape(scale.x, scale.y);
+			this->rigidBody->addCollider(capsuleShape, transform);
+			break;
+		}
+		}
+
 		this->rigidBody->updateMassPropertiesFromColliders();
 		this->rigidBody->setMass(this->mass);
 		this->rigidBody->setType(BodyType::DYNAMIC);
+		//this->rigidBody->setIsDebugEnabled(true);
 
 		transform = this->rigidBody->getTransform();
 		float matrix[16];
 		transform.getOpenGLMatrix(matrix);
 
-		this->getOwner()->setLocalMatrix(matrix);
-		//const Vector3 position1 = transform.getPosition();
-		//const Quaternion orientation = transform.getOrientation();
-		//const Vector3 rotation1 = orientation.getVectorV();
+		this->getOwner()->recomputeMatrix(matrix);
 
-		//this->getOwner()->setPosition(Vector3D(position1.x, position1.y, position1.z));
-		//this->getOwner()->setRotation(Vector3D(rotation1.x, rotation1.y, rotation1.z));
+		// temp
+
+		// vertexShader = ShaderLibrary::get()->getVertexShader(L"DebugRendererVertexShader.hlsl");
+		//
+		//
+		//
+		// Constant constants;
+		//
+		// constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&constants, sizeof(Constant));
 	}
 
 	PhysicsComponent::~PhysicsComponent()
@@ -59,31 +95,75 @@ namespace gdeng03
 
 	void PhysicsComponent::update()
 	{
-		/*const Transform transform = this->rigidBody->getTransform();
-		const Vector3 position = transform.getPosition();
-		const Quaternion orientation = transform.getOrientation();
-		const Vector3 rotation = orientation.getVectorV();
-
-		this->getOwner()->setPosition(Vector3D(position.x, position.y, position.z));
-		//this->getOwner()->setRotation(Vector3D(rotation.x, rotation.y, rotation.z));*/
-		Transform transform = this->rigidBody->getTransform();
-		const Vector3 position = transform.getPosition();
-		const reactphysics3d::Quaternion orientation = transform.getOrientation();
-
-		//this->getOwner()->setPosition(Vector3D(position.x, position.y, position.z));
-		//this->getOwner()->setOrientation(Vector4D(orientation.x, orientation.y, orientation.z, orientation.w));
-
-		//this->rigidBody->setTransform(Transform(position, orientation));
-		//transform = Transform(position, quaternion);
-		//this->rigidBody->setTransform(transform);
+		const Transform transform = this->rigidBody->getTransform();
 		float matrix[16];
 		transform.getOpenGLMatrix(matrix);
-		//this->getOwner()->setLocalMatrix(Vector4D(orientation.x, orientation.y, orientation.z, orientation.w), matrix);
-		this->getOwner()->setLocalMatrix(matrix);
-		const Vector3D position2 = this->getOwner()->getLocalPosition();
 
-		//this->getOwner()->setLocalMatrix(Vector3D(position.x, position.y, position.z), Vector4D(orientation.x, orientation.y, orientation.z, orientation.w), matrix);
-		//Logger::log("Updating Component : " + this->name);
+		this->getOwner()->recomputeMatrix(matrix);
+
+		// temp
+		// const DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+		// Constant constants;
+		// GameObject* owner = getOwner();
+		// PhysicsWorld* physicsWorld = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsWorld();
+		// DebugRenderer& debugRenderer = physicsWorld->getDebugRenderer();
+		//
+		// std::vector<Vertex> listVertices;
+		//
+		// // for (int i = 0; i < debugRenderer.getNbTriangles(); ++i)
+		// // {
+		// // 	DebugRenderer::DebugTriangle dt = debugRenderer.getTriangles()[i];
+		// // 	listVertices.push_back(Vertex(dt.point1, dt.color1));
+		// // 	listVertices.push_back(Vertex(dt.point2, dt.color2));
+		// // 	listVertices.push_back(Vertex(dt.point3, dt.color3));
+		// // }
+		//
+		// for (int i = 0; i < debugRenderer.getNbLines(); ++i)
+		// {
+		// 	DebugRenderer::DebugLine dl = debugRenderer.getLines()[i];
+		// 	listVertices.push_back(Vertex(dl.point1, dl.color1));
+		// 	listVertices.push_back(Vertex(dl.point2, dl.color2));
+		// }
+		//
+		// if (listVertices.empty())
+		// 	return;
+		//
+		//
+		// constants.world = owner->getLocalMatrix();
+		// //constants.world = scaleMatrix * transMatrix * newMatrix;
+		//
+		// constants.view = CameraManager::getInstance()->getActiveSceneCameraView();
+		// constants.proj = CameraManager::getInstance()->getActiveSceneCameraProjection();
+		//
+		// constants.time = 0;
+		//
+		// constants.color = Vector3D(1);
+		//
+		// constantBuffer->update(deviceContext, &constants);
+		//
+		// deviceContext->setConstantBuffer(constantBuffer);
+		//
+		// //this->vertexBuffer = mesh->getVertexBuffer();
+		// //this->indexBuffer = mesh->getIndexBuffer();
+		//
+		// void* shaderByteCode = nullptr;
+		// size_t sizeShader = 0;
+		// GraphicsEngine::get()->getVertexMeshLayoutShaderByteCodeAndSize(&shaderByteCode, &sizeShader);
+		// vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(listVertices.data(), sizeof(Vertex),
+		// 	static_cast<UINT>(listVertices.size()), shaderByteCode, static_cast<UINT>(sizeShader));
+		// //indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(listIndices.data(), static_cast<UINT>(listIndices.size()));
+		//
+		// deviceContext->setVertexBuffer(vertexBuffer);
+		// //deviceContext->setIndexBuffer(indexBuffer);
+		//
+		// deviceContext->setVertexShader(vertexShader);
+		// //deviceContext->setGeometryShader(geometryShader);
+		// deviceContext->setPixelShader(ShaderLibrary::get()->getPixelShader(L"DebugRendererPixelShader.hlsl"));
+		//
+		// //deviceContext->drawTriangleList(vertexBuffer->getSizeVertexList(), 0);
+		// deviceContext->drawLineStrip(vertexBuffer->getSizeVertexList(), 0);
+		//
+		// //deviceContext->setTexture(*material);
 	}
 
 	RigidBody* PhysicsComponent::getRigidBody()

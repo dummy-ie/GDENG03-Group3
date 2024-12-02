@@ -65,7 +65,9 @@ namespace gdeng03
 	void GameObject::setLocalScale(const Vector3D& scale)
 	{
 		localScale = scale;
+		//LogUtils::log(this->name + " setting local scale to: " + localScale.toString());
 		updateGlobalScaleWithChildren();
+		//LogUtils::log(this->name + " global scale: " + globalScale.toString());
 	}
 
 	void GameObject::scale(const Vector3D& scale)
@@ -245,6 +247,7 @@ namespace gdeng03
 
 		//Scale --> Rotate --> Transform as recommended order.
 		Matrix4x4 rotMatrix; rotMatrix.setIdentity();
+		//reactphysics3d::Quaternion q = reactphysics3d::Quaternion(orientation.x, orientation.y, orientation.z, orientation.w).getMatrix();
 		rotMatrix = rotMatrix.multiplyTo(xMatrix.multiplyTo(yMatrix.multiplyTo(zMatrix)));
 
 		allMatrix = allMatrix.multiplyTo(scaleMatrix.multiplyTo(rotMatrix));
@@ -276,62 +279,87 @@ namespace gdeng03
 		return localMatrix;
 	}
 
-	void GameObject::setLocalMatrix(float matrix[16])
+	void GameObject::setLocalMatrix(const Matrix4x4& matrix)
 	{
-		// Matrix4x4 physMat;
-		// physMat.setIdentity();
+		Matrix4x4 allMatrix; allMatrix.setIdentity();
+		Matrix4x4 translationMatrix; translationMatrix.setIdentity(); translationMatrix.setTranslation(this->getLocalPosition());
+		Matrix4x4 scaleMatrix; scaleMatrix.setIdentity(); scaleMatrix.setScale(this->getLocalScale());
+		Vector3D rotation = this->getLocalRotation();
+		Matrix4x4 zMatrix; zMatrix.setIdentity(); zMatrix.setRotationZ(rotation.z);
+		Matrix4x4 xMatrix; xMatrix.setIdentity(); xMatrix.setRotationX(rotation.x);
+		Matrix4x4 yMatrix; yMatrix.setIdentity(); yMatrix.setRotationY(rotation.y);
+
+		allMatrix *= scaleMatrix;
+		allMatrix *= zMatrix;
+		allMatrix *= yMatrix;
+		allMatrix *= xMatrix;
+		allMatrix *= translationMatrix;
+
+		this->localMatrix = matrix;
+		this->localMatrix *= allMatrix;
+
+		// float matrix4x4[4][4];
+		// matrix4x4[0][0] = matrix[0];
+		// matrix4x4[0][1] = matrix[1];
+		// matrix4x4[0][2] = matrix[2];
+		// matrix4x4[0][3] = matrix[3];
 		//
-		// int index = 0;
-		// for (int i = 0; i < 4; i++) {
-		// 	for (int j = 0; j < 4; j++) {
-		// 		physMat.mat[i][j] = matrix[index];
-		// 		index++;
-		// 	}
-		// }
-		// 	this->localMatrix = physMat;
+		// matrix4x4[1][0] = matrix[4];
+		// matrix4x4[1][1] = matrix[5];
+		// matrix4x4[1][2] = matrix[6];
+		// matrix4x4[1][3] = matrix[7];
+		//
+		// matrix4x4[2][0] = matrix[8];
+		// matrix4x4[2][1] = matrix[9];
+		// matrix4x4[2][2] = matrix[10];
+		// matrix4x4[2][3] = matrix[11];
+		//
+		// matrix4x4[3][0] = matrix[12];
+		// matrix4x4[3][1] = matrix[13];
+		// matrix4x4[3][2] = matrix[14];
+		// matrix4x4[3][3] = matrix[15];
+		//
+		// Matrix4x4 newMatrix; newMatrix.setMatrix(matrix4x4);
+		//
+		// Matrix4x4
+		// 	translateMatrix,
+		// 	scaleMatrix;
+		//
+		// translateMatrix.setTranslation(getLocalPosition());
+		// scaleMatrix.setScale(getLocalScale());
+		//
+		// localMatrix = scaleMatrix * translateMatrix * newMatrix;
+	}
 
-		float matrix4x4[4][4];
-		matrix4x4[0][0] = matrix[0];
-		matrix4x4[0][1] = matrix[1];
-		matrix4x4[0][2] = matrix[2];
-		matrix4x4[0][3] = matrix[3];
+	void GameObject::recomputeMatrix(float matrix[16])
+	{
 
-		matrix4x4[1][0] = matrix[4];
-		matrix4x4[1][1] = matrix[5];
-		matrix4x4[1][2] = matrix[6];
-		matrix4x4[1][3] = matrix[7];
+		Matrix4x4 physMat;
+		physMat.setIdentity();
 
-		matrix4x4[2][0] = matrix[8];
-		matrix4x4[2][1] = matrix[9];
-		matrix4x4[2][2] = matrix[10];
-		matrix4x4[2][3] = matrix[11];
+		int index = 0;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				physMat.mat[i][j] = matrix[index];
+				index++;
+			}
+		}
 
-		matrix4x4[3][0] = matrix[12];
-		matrix4x4[3][1] = matrix[13];
-		matrix4x4[3][2] = matrix[14];
-		matrix4x4[3][3] = matrix[15];
 
-		Matrix4x4 newMatrix; newMatrix.setMatrix(matrix4x4);
+		Matrix4x4 newMatrix;
+		newMatrix.setMatrix(physMat);
 
-		Matrix4x4
-			translateMatrix,
-			scaleMatrix;
+		Matrix4x4 scaleMatrix;
+		scaleMatrix.setIdentity();
+		scaleMatrix.setScale(this->localScale);
 
-		translateMatrix.setTranslation(getLocalPosition());
-		scaleMatrix.setScale(getLocalScale());
+		Matrix4x4 transMatrix;
+		transMatrix.setIdentity();
+		transMatrix.setTranslation(this->localPosition);
 
-		localMatrix = scaleMatrix * translateMatrix * newMatrix;
-
-		// Matrix4x4 scaleMatrix; scaleMatrix.setLocalScale(this->localScale);
-		// Matrix4x4 transMatrix; transMatrix.setTranslation(this->localPosition);
-		// this->localMatrix = scaleMatrix.multiplyTo(transMatrix.multiplyTo(newMatrix));
-
-		//localMatrix = newMatrix;
-
-		// temp.setLocalMatrix(matrix4X4);
-		// scale.setLocalScale(this->localScale);
-		// translation.setTranslation(this->localPosition);
-		// this->localMatrix = scale * translation * temp;
+		transMatrix *= newMatrix;
+		scaleMatrix *= transMatrix;
+		this->localMatrix = scaleMatrix;
 	}
 
 	float* GameObject::getPhysicsLocalMatrix()
@@ -354,22 +382,47 @@ namespace gdeng03
 		//
 		// return allMatrix.getLocalMatrix();
 
-		Matrix4x4
-			translateMatrix,
-			scaleMatrix,
-			xMatrix,
-			yMatrix,
-			zMatrix;
+		Matrix4x4 allMatrix;
+		Matrix4x4 temp;
 
-		translateMatrix.setTranslation(getLocalPosition());
-		scaleMatrix.setScale(getLocalScale());
+		allMatrix.setIdentity();
+		allMatrix.setScale(Vector3D(1, 1, 1));
 
-		zMatrix.setRotationZ(getLocalRotation().z);
-		yMatrix.setRotationY(getLocalRotation().y);
-		xMatrix.setRotationX(getLocalRotation().x);
+		temp.setIdentity();
+		temp.setRotationZ(this->localRotation.z);
+		allMatrix *= temp;
 
-		const Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
-		return (scaleMatrix * rotateMatrix * translateMatrix).getMatrix();
+		temp.setIdentity();
+		temp.setRotationY(this->localRotation.y);
+		allMatrix *= temp;
+
+		temp.setIdentity();
+		temp.setRotationX(this->localRotation.x);
+		allMatrix *= temp;
+
+		temp.setIdentity();
+		temp.setTranslation(this->localPosition);
+		allMatrix *= temp;
+
+		this->localMatrix = allMatrix;
+		return this->localMatrix.getMatrix();
+
+		// Matrix4x4
+		// 	translateMatrix,
+		// 	scaleMatrix,
+		// 	xMatrix,
+		// 	yMatrix,
+		// 	zMatrix;
+		//
+		// translateMatrix.setTranslation(getLocalPosition());
+		// scaleMatrix.setScale(getLocalScale());
+		//
+		// zMatrix.setRotationZ(getLocalRotation().z);
+		// yMatrix.setRotationY(getLocalRotation().y);
+		// xMatrix.setRotationX(getLocalRotation().x);
+		//
+		// const Matrix4x4 rotateMatrix = xMatrix * yMatrix * zMatrix;
+		// return (scaleMatrix * rotateMatrix * translateMatrix).getMatrix();
 	}
 
 	void GameObject::recalculateChildTransformWithParent(GameObjectPtr parent)
@@ -549,6 +602,7 @@ namespace gdeng03
 	{
 		if (lastEditState)
 		{
+			displayName = lastEditState->getOwnerName();
 			localPosition = lastEditState->getStoredPosition();
 			localScale = lastEditState->getStoredScale();
 			orientation = lastEditState->getStoredOrientation();
@@ -562,6 +616,8 @@ namespace gdeng03
 				physicsComponent->getRigidBody()->setAngularVelocity(Vector3(0, 0, 0));
 				physicsComponent->getRigidBody()->setLinearVelocity(Vector3(0, 0, 0));
 			}
+
+			//LogUtils::log(this->getUniqueName() + "restored scale: " + lastEditState->getStoredScale().toString());
 
 			lastEditState = nullptr;
 		}

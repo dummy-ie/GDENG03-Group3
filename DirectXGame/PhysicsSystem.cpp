@@ -13,7 +13,15 @@ namespace gdeng03
 		settings.defaultVelocitySolverNbIterations = 50;
 		settings.gravity = reactphysics3d::Vector3(0, -9.81, 0);
 		physicsWorld = physicsCommon->createPhysicsWorld(settings);
-		LogUtils::log(this, "Physics world initialized successfully.");
+		physicsWorld->setIsDebugRenderingEnabled(true);
+		// Get a reference to the debug renderer
+		// DebugRenderer& debugRenderer = physicsWorld->getDebugRenderer();
+		//
+		// // Select the contact points and contact normals to be displayed
+		// debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_POINT, true);
+		// debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_NORMAL, true);
+		// debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLISION_SHAPE, true);
+		 LogUtils::log(this, "Physics world initialized successfully.");
 	}
 
 	PhysicsSystem::~PhysicsSystem()
@@ -76,6 +84,9 @@ namespace gdeng03
 			physicsWorld->update(EngineTime::getDeltaTime());
 			for (const auto pc : componentList)
 			{
+				if (!pc->getOwner()->getEnabled())
+					continue;
+
 				pc->update();
 				LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
 			}

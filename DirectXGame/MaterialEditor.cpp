@@ -12,27 +12,35 @@ using namespace gdeng03;
 
 MaterialEditor::MaterialEditor() : UIScreen("MaterialEditor")
 {
-	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1.png");
-	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_m.png");
-	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_s.png");
-	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/texScratchyMetal_1_n.png");
-
+	loadDefaultTextures();
 }
 
-bool* MaterialEditor::getMaterialEditorOpen()
+void MaterialEditor::setSelectedMaterial(Material* mat)
 {
-	return &isMaterialEditorOpen;
+	loadDefaultTextures();
+	selectedMaterial = mat;
 }
+
+void MaterialEditor::unselectMaterial()
+{
+	selectedMaterial = nullptr;
+	loadDefaultTextures();
+}
+
+// bool* MaterialEditor::getMaterialEditorOpen()
+// {
+// 	return &isMaterialEditorOpen;
+// }
 
 void MaterialEditor::draw()
 {
-	if (isColorPickerOpen && !isMaterialEditorOpen)
+	if (isColorPickerOpen && !isActive)
 		isColorPickerOpen = false;
 
 	if (isColorPickerOpen)
 		showColorPickerWindow();
 
-	if (isMaterialEditorOpen)
+	if (isActive)
 		showMaterialEditorWindow();
 
 	updateSelectedMaterial();
@@ -50,27 +58,27 @@ void MaterialEditor::showColorPickerWindow()
 
 void MaterialEditor::updateSelectedMaterial() const
 {
-	// Ideally, the material being edited is picked by the selected gameobject, but we don't have object picking yet
-	const std::shared_ptr<Material> currentMaterial = UIManager::get()->mainMaterial;
+	if (!selectedMaterial)
+		return;
 
-	currentMaterial->color = { this->color.x, this->color.y, this->color.z, this->color.w };
+	selectedMaterial->color = { this->color.x, this->color.y, this->color.z, this->color.w };
 
-	currentMaterial->albedoTexture = this->albedoTexture;
-	currentMaterial->metallicTexture = this->metallicTexture;
-	currentMaterial->smoothnessTexture = this->smoothnessTexture;
-	currentMaterial->normalTexture = this->normalTexture;
+	selectedMaterial->albedoTexture = this->albedoTexture;
+	selectedMaterial->metallicTexture = this->metallicTexture;
+	selectedMaterial->smoothnessTexture = this->smoothnessTexture;
+	selectedMaterial->normalTexture = this->normalTexture;
 
-	currentMaterial->metallic = this->metallic;
-	currentMaterial->smoothness = this->smoothness;
-	currentMaterial->flatness = this->flatness;
+	selectedMaterial->metallic = this->metallic;
+	selectedMaterial->smoothness = this->smoothness;
+	selectedMaterial->flatness = this->flatness;
 
-	currentMaterial->tiling = this->tiling;
-	currentMaterial->offset = this->offset;
+	selectedMaterial->tiling = this->tiling;
+	selectedMaterial->offset = this->offset;
 }
 
 void MaterialEditor::showMaterialEditorWindow()
 {
-	if (ImGui::Begin("Material Editor", &isMaterialEditorOpen))
+	if (ImGui::Begin("Material Editor"))
 	{
 		ImGui::Text("Main Maps");
 		constexpr ImVec2 imageSize = { 100, 100 };
@@ -87,7 +95,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		}
 		if (ImGui::Button("Clear Albedo"))
 		{
-			loadBlankTexture(albedoTexture);
+			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(albedoTexture);
 		}
 
 		ImGui::NewLine();
@@ -105,7 +113,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::SliderFloat("Metallic", &metallic, 0, 1);
 		if (ImGui::Button("Clear Metallic"))
 		{
-			loadBlankTexture(metallicTexture);
+			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(metallicTexture);
 		}
 
 		ImGui::NewLine();
@@ -120,7 +128,7 @@ void MaterialEditor::showMaterialEditorWindow()
 		ImGui::SliderFloat("Smoothness", &smoothness, 0, 1);
 		if (ImGui::Button("Clear Smoothness"))
 		{
-			loadBlankTexture(smoothnessTexture);
+			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(smoothnessTexture);
 		}
 
 		ImGui::NewLine();
@@ -132,14 +140,14 @@ void MaterialEditor::showMaterialEditorWindow()
 			loadTextureFile(normalTexture);
 			if (!isNormalImage(normalTexture))
 			{
-				loadBlankTexture(normalTexture);
+				GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
 			}
 		}
 		ImGui::SameLine();
 		ImGui::SliderFloat("Flatness", &flatness, 0, 1);
 		if (ImGui::Button("Clear Normal"))
 		{
-			loadBlankTexture(normalTexture);
+			GraphicsEngine::get()->getTextureManager()->loadBlankTexture(normalTexture);
 		}
 
 		ImGui::NewLine();
@@ -341,8 +349,10 @@ void MaterialEditor::loadTextureFile(TexturePtr& texture)
 	CoUninitialize();
 }
 
-void MaterialEditor::loadBlankTexture(TexturePtr& texture)
+void MaterialEditor::loadDefaultTextures()
 {
-	texture.reset();
-	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	albedoTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	metallicTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	smoothnessTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
+	normalTexture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/default_square.png");
 }
