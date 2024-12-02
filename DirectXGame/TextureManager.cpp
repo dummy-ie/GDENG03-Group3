@@ -11,7 +11,7 @@ namespace gdeng03
 
 	void TextureManager::loadBlankTexture(TexturePtr& texture)
 	{
-		texture.reset();
+		//texture.reset();
 		texture = createTextureFromFile(L"assets/images/default_square.png");
 	}
 

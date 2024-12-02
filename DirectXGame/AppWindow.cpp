@@ -108,28 +108,28 @@ namespace gdeng03
 		// UIManager::get()->mainMaterial = mainMaterial;
 
 
-		GameObjectPtr cube = std::make_shared<GameObject>("Cube");
-
-		MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
-		cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
-		GameObjectManager::get()->addObject(cube);
-
-		GameObjectPtr cube2 = std::make_shared<GameObject>("Cube2");
-
-		cube2->attachComponent(new Renderer3D(cube2.get(), cubeMesh));
-		cube2->setLocalPosition({ 0, 2, 0 });
-
-		GameObjectManager::get()->addObject(cube2);
-
-		GameObjectPtr cube3 = std::make_shared<GameObject>("Cube3");
-
-		cube3->attachComponent(new Renderer3D(cube3.get(), cubeMesh));
-		cube3->setLocalPosition({ 0, 4, 0 });
-
-		GameObjectManager::get()->addObject(cube3);
-
-		cube->attachChild(cube2);
-		cube2->attachChild(cube3);
+		// GameObjectPtr cube = std::make_shared<GameObject>("Cube");
+		//
+		// MeshPtr cubeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::CUBE);
+		// cube->attachComponent(new Renderer3D(cube.get(), cubeMesh));
+		// GameObjectManager::get()->addObject(cube);
+		//
+		// GameObjectPtr cube2 = std::make_shared<GameObject>("Cube2");
+		//
+		// cube2->attachComponent(new Renderer3D(cube2.get(), cubeMesh));
+		// cube2->setLocalPosition({ 0, 2, 0 });
+		//
+		// GameObjectManager::get()->addObject(cube2);
+		//
+		// GameObjectPtr cube3 = std::make_shared<GameObject>("Cube3");
+		//
+		// cube3->attachComponent(new Renderer3D(cube3.get(), cubeMesh));
+		// cube3->setLocalPosition({ 0, 4, 0 });
+		//
+		// GameObjectManager::get()->addObject(cube3);
+		//
+		// cube->attachChild(cube2);
+		// cube2->attachChild(cube3);
 	}
 
 	void AppWindow::draw(int width, int height, EFillMode fillMode)
