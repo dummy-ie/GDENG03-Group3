@@ -54,6 +54,7 @@ namespace gdeng03
 
 	Vector3D GameObject::getGlobalPosition()
 	{
+		Matrix4x4::decomposeMatrix(localMatrix, globalPosition, globalRotation, globalScale);
 		return globalPosition;
 	}
 
@@ -78,6 +79,7 @@ namespace gdeng03
 
 	Vector3D GameObject::getGlobalScale()
 	{
+		Matrix4x4::decomposeMatrix(localMatrix, globalPosition, globalRotation, globalScale);
 		return globalScale;
 	}
 
@@ -145,6 +147,7 @@ namespace gdeng03
 
 	Vector3D GameObject::getGlobalRotation()
 	{
+		Matrix4x4::decomposeMatrix(localMatrix, globalPosition, globalRotation, globalScale);
 		return globalRotation;
 	}
 
@@ -434,11 +437,7 @@ namespace gdeng03
 
 		Matrix4x4 newLocalMatrix = parentGlobalMatrix.multiplyTo(this->getLocalMatrix());
 
-		LogUtils::log(this->name + "local position was " + localPosition.toString());
-
 		Matrix4x4::decomposeMatrix(newLocalMatrix, localPosition, localRotation, localScale);
-
-		LogUtils::log(this->name + "local position is now " + localPosition.toString());
 
 		setLocalPosition(localPosition);
 		setLocalRotation(localRotation);
@@ -454,15 +453,9 @@ namespace gdeng03
 
 		Matrix4x4 newLocalMatrix = parentGlobalMatrix.multiplyTo(this->getLocalMatrix());
 
-		LogUtils::log(this->name + " local position was " + localPosition.toString());
-
 		Matrix4x4::decomposeMatrix(newLocalMatrix, localPosition, localRotation, localScale);
 
-		LogUtils::log(this->name + " local position is now " + localPosition.toString());
-
-		LogUtils::log(this->name + " global position was " + globalPosition.toString());
 		setLocalPosition(localPosition);
-		LogUtils::log(this->name + " global position is now " + globalPosition.toString() + "\n");
 		setLocalRotation(localRotation);
 		setLocalScale(localScale);
 	}
@@ -474,12 +467,6 @@ namespace gdeng03
 		setPosition(globalPosition);
 		setRotation(globalRotation);
 		setLocalScale(globalScale);
-
-		/*localPosition = globalPosition;
-		localScale = globalScale;
-		localRotation = globalRotation;*/
-		
-		//updateLocalMatrix();
 	}
 
 	void GameObject::attachComponent(Component* component)
@@ -502,6 +489,11 @@ namespace gdeng03
 	void GameObject::detachParent()
 	{
 		parent = nullptr;
+	}
+
+	GameObject* GameObject::getParent()
+	{
+		return parent;
 	}
 
 	void GameObject::attachChild(GameObjectPtr child)

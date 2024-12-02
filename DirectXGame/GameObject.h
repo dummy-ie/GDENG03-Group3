@@ -83,6 +83,7 @@ namespace gdeng03
 
 		void setParent(GameObject* parent);
 		void detachParent();
+		GameObject* getParent();
 
 		void attachChild(GameObjectPtr child);
 		void detachChild(GameObjectPtr child);
