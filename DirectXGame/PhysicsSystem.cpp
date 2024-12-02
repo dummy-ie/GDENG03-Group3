@@ -88,7 +88,7 @@ namespace gdeng03
 					continue;
 
 				pc->update();
-				LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
+				// LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
 			}
 		}
 	}
@@ -103,7 +103,7 @@ namespace gdeng03
 					continue;
 
 				pc->update();
-				LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
+				// LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
 			}
 		}
 	}
