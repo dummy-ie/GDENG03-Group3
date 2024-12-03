@@ -132,5 +132,6 @@ namespace gdeng03
 		int level = 0;
 
 		friend class GameObjectManager;
+		friend class SceneManager;
 	};
 }

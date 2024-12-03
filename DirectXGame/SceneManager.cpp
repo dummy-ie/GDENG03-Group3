@@ -76,7 +76,8 @@ namespace gdeng03
 
 				GameObjectPtr savedObject;
 				MeshPtr savedMesh;
-				savedObject = std::make_shared<GameObject>(uniqueName);
+				savedObject = std::make_shared<GameObject>(objectName);
+				savedObject->setUniqueName(uniqueName);
 				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
 				savedObject->attachComponent(new Renderer3D(savedObject.get(), savedMesh));
 				savedObject->setLocalPosition(position);

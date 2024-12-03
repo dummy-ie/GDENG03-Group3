@@ -190,15 +190,15 @@ namespace gdeng03
 	void Mesh::createPlaneMesh(std::vector<VertexMesh>& listVertices, std::vector<unsigned int>& listIndices)
 	{ 
 		
-		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, -.5f),  Vector2D(0, 1)));
-		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, .5f), Vector2D(0, 0) ));
-		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, .5f), Vector2D(1, 0) ));
-		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, -.5f), Vector2D(1, 1) ));
+		listVertices.push_back(VertexMesh( Vector3D(-5.f, 0, -5.f),  Vector2D(0, 1)));
+		listVertices.push_back(VertexMesh( Vector3D(-5.f, 0, 5.f), Vector2D(0, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(5.f, 0, 5.f), Vector2D(1, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(5.f, 0, -5.f), Vector2D(1, 1) ));
 
-		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, -.5f), Vector2D(0, 1) ));
-		listVertices.push_back(VertexMesh( Vector3D(.5f, 0, .5f), Vector2D(0, 0) ));
-		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, .5f), Vector2D(1, 0) ));
-		listVertices.push_back(VertexMesh( Vector3D(-.5f, 0, -.5f), Vector2D(1, 1)));
+		listVertices.push_back(VertexMesh( Vector3D(5.f, 0, -5.f), Vector2D(0, 1) ));
+		listVertices.push_back(VertexMesh( Vector3D(5.f, 0, 5.f), Vector2D(0, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(-5.f, 0,5.f), Vector2D(1, 0) ));
+		listVertices.push_back(VertexMesh( Vector3D(-5.f, 0, -5.f), Vector2D(1, 1)));
 
 		unsigned int indexList[] = {
 
@@ -220,7 +220,7 @@ namespace gdeng03
 	{
 		constexpr int segments = 50;
 		for (int i = 0; i <= segments; i++) {
-			constexpr float radius = 1.f;
+			constexpr float radius = 0.5f;
 			const float phi = M_PI * i * 2.f / segments;
 			const float y = radius * cosf(phi);
 			const float r = radius * sinf(phi);

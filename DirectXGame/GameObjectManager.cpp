@@ -52,14 +52,16 @@ namespace gdeng03
 	void GameObjectManager::addObject(const GameObjectPtr& gameObject)
 	{
 		int duplicateCount = 0;
-		std::string name = gameObject->getUniqueName();
+		std::string name = gameObject->getDisplayName();
 		while (!gameObjectMap.insert(std::make_pair(name, gameObject)).second) // While insertion into the map fails, add number to the gameObject's name
 		{
-			name = gameObject->getUniqueName() + " (" + std::to_string(duplicateCount) + ")";
+			name = gameObject->getDisplayName() + " (" + std::to_string(duplicateCount) + ")";
 			gameObject->setUniqueName(name);
+			gameObject->setDisplayName(gameObject->getUniqueName());
 			duplicateCount++;
 		}
 
+		
 		gameObjectList.push_back(gameObject);
 	}
 
