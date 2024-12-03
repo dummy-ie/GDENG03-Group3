@@ -17,8 +17,8 @@ namespace gdeng03
 
 	void SceneManager::readFile()
 	{	
-		String fileDir = this->directory + ".iet";
-		if (this->directory.find(".iet") != String::npos) {
+		String fileDir = this->directory + ".level";
+		if (this->directory.find(".level") != String::npos) {
 			fileDir = this->directory; 
 		}
 
@@ -72,7 +72,7 @@ namespace gdeng03
 
 				//check for physics component as the last check
 				std::vector stringSplit = StringUtils::split(readLine, ' ');
-				hasPhysicsEnabled = static_cast<bool>(std::stoi(stringSplit[1]));
+				hasPhysicsEnabled = static_cast<bool>(std::stoi(stringSplit[2]));
 
 				GameObjectPtr savedObject;
 				MeshPtr savedMesh;
@@ -80,6 +80,7 @@ namespace gdeng03
 				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
 				savedObject->attachComponent(new Renderer3D(savedObject.get(), savedMesh));
 				savedObject->setLocalPosition(position);
+				rotation = rotation * (M_PI / 180);
 				savedObject->setLocalRotation(rotation);
 				savedObject->setLocalScale(scale);
 				GameObjectManager::get()->addObject(savedObject);
@@ -97,7 +98,7 @@ namespace gdeng03
 
 	void SceneManager::writeFile()
 	{
-		const String fileDir = this->directory + ".iet";
+		const String fileDir = this->directory + ".level";
 
 		std::fstream sceneFile;
 
@@ -110,9 +111,17 @@ namespace gdeng03
 		for (int i = 0; i < allObjects.size(); i++) {
 			sceneFile << allObjects[i]->getDisplayName() << std::endl;
 			sceneFile << allObjects[i]->getUniqueName() << std::endl;
-			const Vector3D position = allObjects[i]->getLocalPosition();
-			const Vector3D rotation = allObjects[i]->getLocalRotation();
-			const Vector3D scale = allObjects[i]->getLocalScale();
+
+			Vector3D position = allObjects[i]->getLocalPosition();
+			Vector3D rotation = allObjects[i]->getLocalRotation();
+			Vector3D scale = allObjects[i]->getLocalScale();
+			if (allObjects[i]->getParent() != nullptr) {
+				position = allObjects[i]->getGlobalPosition();
+				rotation = allObjects[i]->getGlobalRotation();
+				scale = allObjects[i]->getGlobalScale();
+			}
+			rotation = rotation * (180 / M_PI);
+
 			GameObject::ComponentList rendererList = allObjects[i]->getComponentsOfType(ComponentType::RENDERER);
 			GameObject::ComponentList physicsList = allObjects[i]->getComponentsOfType(ComponentType::PHYSICS);
 			const Renderer3D* renderer = nullptr;
