@@ -13,6 +13,16 @@ namespace gdeng03
 	{
 	}
 
+	GameObject::~GameObject()
+	{
+		for (Component* component : componentList)
+		{
+			component->detachOwner();
+		}
+
+		componentList.clear();
+	}
+
 	void GameObject::setPosition(const Vector3D& position)
 	{
 		globalPosition = position;
@@ -153,7 +163,7 @@ namespace gdeng03
 
 	Vector3D GameObject::getLocalRotation()
 	{
-		return localRotation;
+		return localRotation * (180 / M_PI);
 	}
 
 	void GameObject::setOrientation(const Vector4D& orientation)

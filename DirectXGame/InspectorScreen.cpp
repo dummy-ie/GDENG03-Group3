@@ -132,7 +132,7 @@ namespace gdeng03
 						gameObject->setLocalPosition(Vector3D(values[0], values[1], values[2]));
 						break;
 					case 1:
-						gameObject->setLocalRotation({ values[0], values[1], values[2] });
+						gameObject->setLocalRotation({ values[0] * static_cast<float>((M_PI / 180.f)), values[1] * static_cast<float>((M_PI / 180.f)), values[2] * static_cast<float>((M_PI / 180.f)) });
 						break;
 					case 2:
 						gameObject->setLocalScale(Vector3D(values[0], values[1], values[2]));

@@ -30,7 +30,7 @@ namespace gdeng03
 
 		explicit GameObject(const std::string& name);
 
-		virtual ~GameObject() = default;
+		virtual ~GameObject();
 		GameObject(GameObject const&) = default;
 		GameObject& operator=(GameObject const&) = default;
 		GameObject(GameObject&& other) noexcept = default;

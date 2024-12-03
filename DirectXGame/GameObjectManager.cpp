@@ -94,6 +94,17 @@ namespace gdeng03
 		}
 	}
 
+	void GameObjectManager::deleteScene()
+	{
+		for (int i = 0; i < gameObjectList.size(); ++i)
+		{
+			deleteObject(gameObjectList[i]);
+		}
+
+		gameObjectMap.clear();
+		gameObjectList.clear();
+	}
+
 	void GameObjectManager::deleteObject(const GameObjectPtr& gameObject)
 	{
 		gameObjectMap.erase(gameObject->getUniqueName());

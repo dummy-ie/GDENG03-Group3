@@ -24,6 +24,7 @@ namespace gdeng03
 
 		void addObject(const GameObjectPtr& gameObject);
 		void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
+		void deleteScene();
 		void deleteObject(const GameObjectPtr& gameObject);
 		void deleteObjectByName(const std::string& name);
 		void setSelectedObject(const std::string& name);

@@ -25,6 +25,8 @@ namespace gdeng03
 		std::fstream sceneFile;
 		sceneFile.open(fileDir, std::ios::in);
 
+		GameObjectManager::get()->deleteScene();
+
 		int index = 0;
 		String readLine;
 
