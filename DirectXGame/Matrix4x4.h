@@ -37,6 +37,14 @@ namespace gdeng03
 			mat[3][2] = translation.z;
 		}
 
+		void setTranslationWithoutReset(const Vector3D& translation)
+		{
+			//setIdentity();
+			mat[3][0] = translation.x;
+			mat[3][1] = translation.y;
+			mat[3][2] = translation.z;
+		}
+
 		void setScale(const Vector3D& scale)
 		{
 			setIdentity();

@@ -34,7 +34,7 @@ namespace gdeng03
 	private:
 		SceneManager();
 		~SceneManager();
-		String directory = "assets/scenes/test";
+		String directory = "assets/scenes/TestCase6";
 		static SceneManager* sharedInstance;
 
 	};

@@ -55,7 +55,8 @@ namespace gdeng03
 		void setLocalRotation(const Vector3D& rotation);
 		void rotate(const Vector3D& rotation);
 		Vector3D getGlobalRotation();
-		Vector3D getLocalRotation();
+		Vector3D getLocalRotation() const;
+		Vector3D getLocalRotationInRadians() const;
 
 		void setOrientation(const Vector4D& orientation);
 		Vector4D getOrientation();

@@ -37,21 +37,22 @@ namespace gdeng03
 
 	public:
 		void update() override;
-		RigidBody* getRigidBody();
+		RigidBody* getRigidBody() const;
 
-		float getMass();
-		bool getUseGravity();
-		BodyType getType();
-		float getLinearDrag();
-		float getAngularDrag();
-		bool getConstraint(EConstraints constraint);
+		float getMass() const;
+		bool getUseGravity() const;
+		BodyType getBodyType() const;
+		float getLinearDrag() const;
+		float getAngularDrag() const;
+		bool getConstraint(EConstraints constraint) const;
 
-		void setTransformFromOpenGL(float* matrix);
+		void updateRigidbodyTransform() const;
+		void setTransformFromOpenGL(float* matrix) const;
 		void setMass(float mass);
-		void setUseGravity(bool isUsingGravity);
+		void setUseGravity(bool isUsingGravity) const;
 		void setType(BodyType type) const;
-		void setLinearDrag(float linearDrag);
-		void setAngularDrag(float angularDrag);
+		void setLinearDrag(float linearDrag) const;
+		void setAngularDrag(float angularDrag) const;
 		void setConstraints(EConstraints constraints);
 
 	//private: // temp

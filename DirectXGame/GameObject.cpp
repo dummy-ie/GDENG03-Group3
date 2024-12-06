@@ -161,9 +161,15 @@ namespace gdeng03
 		return globalRotation;
 	}
 
-	Vector3D GameObject::getLocalRotation()
+	// Gets local rotation IN DEGREES!
+	Vector3D GameObject::getLocalRotation() const
 	{
 		return localRotation * (180 / M_PI);
+	}
+
+	Vector3D GameObject::getLocalRotationInRadians() const
+	{
+		return localRotation;
 	}
 
 	void GameObject::setOrientation(const Vector4D& orientation)
@@ -181,7 +187,7 @@ namespace gdeng03
 	{
 		isEnabled = enabled;
 
-		for(GameObjectPtr child : children)
+		for (GameObjectPtr child : children)
 		{
 			child->setEnabled(enabled);
 		}
@@ -214,7 +220,7 @@ namespace gdeng03
 		Matrix4x4 allMatrix; allMatrix.setIdentity();
 		Matrix4x4 translationMatrix; translationMatrix.setIdentity();  translationMatrix.setTranslation(getLocalPosition());
 		Matrix4x4 scaleMatrix; scaleMatrix.setScale(getLocalScale());
-		Vector3D rotation = getLocalRotation();
+		Vector3D rotation = localRotation;
 		Matrix4x4 xMatrix; xMatrix.setRotationX(rotation.x);
 		Matrix4x4 yMatrix; yMatrix.setRotationY(rotation.y);
 		Matrix4x4 zMatrix; zMatrix.setRotationZ(rotation.z);
@@ -241,9 +247,10 @@ namespace gdeng03
 		ComponentList result = getComponentsOfType(ComponentType::PHYSICS);
 		if (result.size() == 0) return;
 		PhysicsComponent* physicsComponent = reinterpret_cast<PhysicsComponent*>(result.front());
-		if(physicsComponent != nullptr)
+		if (physicsComponent != nullptr)
 		{
-			physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
+			physicsComponent->updateRigidbodyTransform();
+			//physicsComponent->setTransformFromOpenGL(getPhysicsLocalMatrix());
 		}
 	}
 
@@ -357,8 +364,9 @@ namespace gdeng03
 				index++;
 			}
 		}
-
-
+		//physMat.setTranslation(physMat.getTranslation() * 2.f);
+		//physMat.setTranslationWithoutReset(physMat.getTranslation() + physMat.getTranslation() / 2.f);
+		physMat.setTranslationWithoutReset(physMat.getTranslation() * 2.f);
 		Matrix4x4 newMatrix;
 		newMatrix.setMatrix(physMat);
 
@@ -368,9 +376,12 @@ namespace gdeng03
 
 		Matrix4x4 transMatrix;
 		transMatrix.setIdentity();
-		transMatrix.setTranslation(this->localPosition);
+		//transMatrix.setTranslation(localPosition / 2.f);
+		transMatrix.setTranslation(localPosition);
 
 		transMatrix *= newMatrix;
+		//transMatrix.setTranslationWithoutReset(transMatrix.getTranslation() + transMatrix.getTranslation() / 2.f);
+		//LogUtils::log(this->getUniqueName() + " recomputing translation: " + transMatrix.getTranslation().toString());
 		scaleMatrix *= transMatrix;
 		this->localMatrix = scaleMatrix;
 	}
@@ -395,11 +406,14 @@ namespace gdeng03
 		//
 		// return allMatrix.getLocalMatrix();
 
-		Matrix4x4 allMatrix;
+		Matrix4x4 allMatrix, originalScale;
 		Matrix4x4 temp;
 
 		allMatrix.setIdentity();
 		allMatrix.setScale(Vector3D(1, 1, 1));
+
+		// originalScale.setIdentity();
+		// originalScale.setScale(this->localScale);
 
 		temp.setIdentity();
 		temp.setRotationZ(this->localRotation.z);
@@ -417,8 +431,9 @@ namespace gdeng03
 		temp.setTranslation(this->localPosition);
 		allMatrix *= temp;
 
-		this->localMatrix = allMatrix;
-		return this->localMatrix.getMatrix();
+
+		//this->localMatrix = allMatrix;
+		return allMatrix.getMatrix();
 
 		// Matrix4x4
 		// 	translateMatrix,
@@ -510,7 +525,7 @@ namespace gdeng03
 	{
 		if (child == nullptr || child.get() == this || child.get() == parent) return;
 
-		if(child->parent != nullptr)
+		if (child->parent != nullptr)
 		{
 			child->parent->detachChild(child);
 		}
@@ -624,7 +639,8 @@ namespace gdeng03
 				Component * component : physicsList)
 			{
 				PhysicsComponent* physicsComponent = dynamic_cast<PhysicsComponent*>(component);
-				physicsComponent->setTransformFromOpenGL(localMatrix.getMatrix());
+				//physicsComponent->setTransformFromOpenGL(localMatrix.getMatrix());
+				physicsComponent->updateRigidbodyTransform();
 				physicsComponent->getRigidBody()->setAngularVelocity(Vector3(0, 0, 0));
 				physicsComponent->getRigidBody()->setLinearVelocity(Vector3(0, 0, 0));
 			}

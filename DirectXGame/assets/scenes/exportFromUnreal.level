@@ -1,0 +1,21 @@
+Cube
+StaticMeshActor_3
+Type: 1
+Position: 1.679338 0.467513 -4.335627
+Rotation: 0.0 0.0 0.0
+Scale: 1.0 1.0 1.0
+Physics Enabled: 0
+Sphere
+StaticMeshActor_2
+Type: 3
+Position: -4.792256 -0.488747 -0.538053
+Rotation: 0.0 0.0 0.0
+Scale: 1.0 1.0 1.0
+Physics Enabled: 0
+Plane
+StaticMeshActor_1
+Type: 2
+Position: 0.1 -1.0 0.3
+Rotation: 0.0 0.0 0.0
+Scale: 1.0 1.0 1.0
+Physics Enabled: 0

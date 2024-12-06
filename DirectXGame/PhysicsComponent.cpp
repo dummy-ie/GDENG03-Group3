@@ -20,25 +20,29 @@ namespace gdeng03
 		PhysicsWorld* physicsWorld = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsWorld();
 		// Create a rigid body in the world
 		const Vector3D scale = this->getOwner()->getLocalScale();
-		// Vector3 position;
-		// position.x = this->getOwner()->getLocalPosition().x;
-		// position.y = this->getOwner()->getLocalPosition().y;
-		// position.z = this->getOwner()->getLocalPosition().z;
-
-		//Quaternion q = Quaternion(this->getOwner()->getLocalRotation().m_x, this->getOwner()->getLocalRotation().m_y, this->getOwner()->getLocalRotation().m_z, 1);
 		Transform transform;
+		Vector3 position;
+		position.x = this->getOwner()->getLocalPosition().x;
+		position.y = this->getOwner()->getLocalPosition().y;
+		position.z = this->getOwner()->getLocalPosition().z;
+
+		//transform.setPosition((2.f * position) / 3.f);
+		//transform.setPosition({ 0, 0, 0 });
 		//transform.setPosition(position);
-		//transform.setOrientation(q);
-		transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
+		transform.setPosition(position / 2.f);
+
+		transform.setOrientation(Quaternion::fromEulerAngles(this->getOwner()->getLocalRotationInRadians().x, this->getOwner()->getLocalRotationInRadians().y, this->getOwner()->getLocalRotationInRadians().z));
+		//transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
 
 		this->rigidBody = physicsWorld->createRigidBody(transform);
+
 
 		switch (colliderType)
 		{
 		case PrimitiveType::NOT_PRIMITIVE:
 		case PrimitiveType::CUBE:
 		{
-			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 2.f, scale.y / 2.f, scale.z / 2.f));
+			BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.x / 2.9f, scale.y / 2.9f, scale.z / 2.9f));
 			this->rigidBody->addCollider(boxShape, transform);
 			break;
 		}
@@ -67,12 +71,18 @@ namespace gdeng03
 		this->rigidBody->setType(BodyType::DYNAMIC);
 		//this->rigidBody->setIsDebugEnabled(true);
 
+		Transform origin;
+		origin.setPosition({ 0,0,0 });
+		origin.setOrientation(Quaternion::fromEulerAngles(0, 0, 0));
+		this->rigidBody->setTransform(origin);
+
 		transform = this->rigidBody->getTransform();
 		float matrix[16];
 		transform.getOpenGLMatrix(matrix);
-
+		
 		this->getOwner()->recomputeMatrix(matrix);
 
+		 //updateRigidbodyTransform();
 		// temp
 
 		// vertexShader = ShaderLibrary::get()->getVertexShader(L"DebugRendererVertexShader.hlsl");
@@ -89,6 +99,12 @@ namespace gdeng03
 		BaseComponentSystem::get()->getPhysicsSystem()->unregisterComponent(this);
 		Component::~Component();
 
+		// for (int i = 0; i < rigidBody->getNbColliders(); ++i)
+		// {
+		// 	this->rigidBody->removeCollider(rigidBody->getCollider(i));
+		// }
+
+
 		PhysicsWorld* physicsWorld = BaseComponentSystem::get()->getPhysicsSystem()->getPhysicsWorld();
 		physicsWorld->destroyRigidBody(this->rigidBody);
 	}
@@ -98,6 +114,9 @@ namespace gdeng03
 		const Transform transform = this->rigidBody->getTransform();
 		float matrix[16];
 		transform.getOpenGLMatrix(matrix);
+
+		// this->getOwner()->setLocalPosition(transform.getPosition());
+		// this->getOwner()->setLocalRotation(transform.getOrientation().getVectorV());
 
 		this->getOwner()->recomputeMatrix(matrix);
 
@@ -166,42 +185,59 @@ namespace gdeng03
 		// //deviceContext->setTexture(*material);
 	}
 
-	RigidBody* PhysicsComponent::getRigidBody()
+	RigidBody* PhysicsComponent::getRigidBody() const
 	{
 		return this->rigidBody;
 	}
 
-	float PhysicsComponent::getMass()
+	float PhysicsComponent::getMass() const
 	{
 		return mass;
 	}
 
-	bool PhysicsComponent::getUseGravity()
+	bool PhysicsComponent::getUseGravity() const
 	{
 		return this->rigidBody->isGravityEnabled();
 	}
 
-	BodyType PhysicsComponent::getType()
+	BodyType PhysicsComponent::getBodyType() const
 	{
 		return this->rigidBody->getType();
 	}
 
-	float PhysicsComponent::getLinearDrag()
+	float PhysicsComponent::getLinearDrag() const
 	{
 		return this->rigidBody->getLinearDamping();
 	}
 
-	float PhysicsComponent::getAngularDrag()
+	float PhysicsComponent::getAngularDrag() const
 	{
 		return this->rigidBody->getAngularDamping();
 	}
 
-	bool PhysicsComponent::getConstraint(EConstraints constraint)
+	bool PhysicsComponent::getConstraint(EConstraints constraint) const
 	{
 		return (constraints & static_cast<uint8_t>(constraint)) == static_cast<uint8_t>(constraint);
 	}
 
-	void PhysicsComponent::setTransformFromOpenGL(float* matrix)
+	void PhysicsComponent::updateRigidbodyTransform() const
+	{
+		Vector3 position;
+		position.x = this->getOwner()->getLocalPosition().x;
+		position.y = this->getOwner()->getLocalPosition().y;
+		position.z = this->getOwner()->getLocalPosition().z;
+
+		Transform transform = this->rigidBody->getTransform();
+		//transform.setPosition((2.f * position) / 3.f);
+		//transform.setPosition(position);
+		transform.setPosition(position / 2.f);
+		//transform.setPosition({ 0, 0, 0 });
+		transform.setOrientation(Quaternion::fromEulerAngles(this->getOwner()->getLocalRotationInRadians().x, this->getOwner()->getLocalRotationInRadians().y, this->getOwner()->getLocalRotationInRadians().z));
+		this->rigidBody->setTransform(transform);
+		//this->rigidBody->getCollider(0)->setLocalToBodyTransform(transform);
+	}
+
+	void PhysicsComponent::setTransformFromOpenGL(float* matrix) const
 	{
 		Transform transform;
 		transform.setFromOpenGL(matrix);
@@ -217,7 +253,7 @@ namespace gdeng03
 		this->rigidBody->setMass(mass);
 	}
 
-	void PhysicsComponent::setUseGravity(const bool isUsingGravity)
+	void PhysicsComponent::setUseGravity(const bool isUsingGravity) const
 	{
 		this->rigidBody->enableGravity(isUsingGravity);
 	}
@@ -227,7 +263,7 @@ namespace gdeng03
 		this->rigidBody->setType(type);
 	}
 
-	void PhysicsComponent::setLinearDrag(float linearDrag)
+	void PhysicsComponent::setLinearDrag(float linearDrag) const
 	{
 		if (linearDrag < 0)
 			linearDrag = 0;
@@ -235,7 +271,7 @@ namespace gdeng03
 		this->rigidBody->setLinearDamping(linearDrag);
 	}
 
-	void PhysicsComponent::setAngularDrag(float angularDrag)
+	void PhysicsComponent::setAngularDrag(float angularDrag) const
 	{
 		if (angularDrag < 0)
 			angularDrag = 0;

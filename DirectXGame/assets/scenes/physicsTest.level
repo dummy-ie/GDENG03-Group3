@@ -1,0 +1,749 @@
+Sphere
+Sphere
+Type: 3
+Position: 0 5 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 0
+Sphere (0)
+Sphere (0)
+Type: 3
+Position: 1.19 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 0
+Cube0
+Cube0
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube1
+Cube1
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube2
+Cube2
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube3
+Cube3
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube4
+Cube4
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube5
+Cube5
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube6
+Cube6
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube7
+Cube7
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube8
+Cube8
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube9
+Cube9
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube10
+Cube10
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube11
+Cube11
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube12
+Cube12
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube13
+Cube13
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube14
+Cube14
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube15
+Cube15
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube16
+Cube16
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube17
+Cube17
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube18
+Cube18
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube19
+Cube19
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube20
+Cube20
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube21
+Cube21
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube22
+Cube22
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube23
+Cube23
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube24
+Cube24
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube25
+Cube25
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube26
+Cube26
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube27
+Cube27
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube28
+Cube28
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube29
+Cube29
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube30
+Cube30
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube31
+Cube31
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube32
+Cube32
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube33
+Cube33
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube34
+Cube34
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube35
+Cube35
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube36
+Cube36
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube37
+Cube37
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube38
+Cube38
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube39
+Cube39
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube40
+Cube40
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube41
+Cube41
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube42
+Cube42
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube43
+Cube43
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube44
+Cube44
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube45
+Cube45
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube46
+Cube46
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube47
+Cube47
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube48
+Cube48
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube49
+Cube49
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube50
+Cube50
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube51
+Cube51
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube52
+Cube52
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube53
+Cube53
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube54
+Cube54
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube55
+Cube55
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube56
+Cube56
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube57
+Cube57
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube58
+Cube58
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube59
+Cube59
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube60
+Cube60
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube61
+Cube61
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube62
+Cube62
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube63
+Cube63
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube64
+Cube64
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube65
+Cube65
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube66
+Cube66
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube67
+Cube67
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube68
+Cube68
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube69
+Cube69
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube70
+Cube70
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube71
+Cube71
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube72
+Cube72
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube73
+Cube73
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube74
+Cube74
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube75
+Cube75
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube76
+Cube76
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube77
+Cube77
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube78
+Cube78
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube79
+Cube79
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube80
+Cube80
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube81
+Cube81
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube82
+Cube82
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube83
+Cube83
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube84
+Cube84
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube85
+Cube85
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube86
+Cube86
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube87
+Cube87
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube88
+Cube88
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube89
+Cube89
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube90
+Cube90
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube91
+Cube91
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube92
+Cube92
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube93
+Cube93
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube94
+Cube94
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube95
+Cube95
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube96
+Cube96
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube97
+Cube97
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube98
+Cube98
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Cube99
+Cube99
+Type: 1
+Position: 0 10 0
+Rotation: 0 0 0
+Scale: 1 1 1
+Physics Enabled: 1
+Plane
+Plane
+Type: 2
+Position: 0 0 0
+Rotation: 0 0 0
+Scale: 10 1 10
+Physics Enabled: 0
+Plane (0)
+Plane (0)
+Type: 2
+Position: 0 5 10
+Rotation: 90 0 0
+Scale: 2 1 1
+Physics Enabled: 0
+Plane (0) (1)
+Plane (0) (1)
+Type: 2
+Position: 0 5 -10
+Rotation: 90 0 0
+Scale: 2 1 1
+Physics Enabled: 0
+Plane (0) (1) (2)
+Plane (0) (1) (2)
+Type: 2
+Position: 10 5 0
+Rotation: 0 0 90
+Scale: 1 1 2
+Physics Enabled: 0
+Plane (4)
+Plane (4)
+Type: 2
+Position: -10 5 0
+Rotation: 0 0 90
+Scale: 1 1 2
+Physics Enabled: 0

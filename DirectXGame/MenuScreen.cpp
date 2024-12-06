@@ -245,7 +245,8 @@ void MenuScreen::onCreatePlaneClicked()
 	MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::PLANE);
 
 	//plane->setLocalPosition({ 0, -5, 0 });
-	plane->setLocalScale({ 20.f, 1.0f, 20.f });
+	//plane->setLocalRotation({90 * (M_PI / 180.f), 0, 0});
+	plane->setLocalScale({ 2.f, 1.0f, 2.f });
 
 	plane->attachComponent(new Renderer3D(plane.get(), planeMesh));
 	PhysicsComponent* staticPhysics = new PhysicsComponent(plane.get(), PrimitiveType::PLANE);
@@ -268,13 +269,65 @@ void MenuScreen::onCreatePhysicsDemoClicked()
 		MaterialPtr mat = std::make_shared<Material>(ShaderLibrary::get()->getPixelShader(L"PixelShader.hlsl"));
 		mat->setAlbedo(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"assets/images/waffle.jpg"));
 		//cube->setLocalScale(0.1f);
-		cube->setLocalPosition({ 0, 10, 0 });
+		cube->setLocalPosition({ randomRangeFloat(-8, 8), randomRangeFloat(1, 20), randomRangeFloat(-8, 8) });
+		cube->setLocalRotation(randomRangeVector3D(0, 360) * (M_PI / 180.f));
 
 		cube->attachComponent(new Renderer3D(cube.get(), cubeMesh, mat));
 		PhysicsComponent* cubePhysics = new PhysicsComponent(cube.get(), PrimitiveType::CUBE);
 		cube->attachComponent(cubePhysics);
 		GameObjectManager::get()->addObject(cube);
 	}
+
+	// GameObjectPtr plane1 = std::make_shared<GameObject>("Plane1");
+	// //MeshPtr planeMesh = std::make_shared<Mesh>(L"assets/models/cube.obj");
+	// //MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"assets/models/cube.obj");
+	// MeshPtr planeMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(PrimitiveType::PLANE);
+	//
+	// plane1->setLocalPosition({ 0, 5, 10 });
+	// plane1->setLocalRotation({ 90 * (M_PI / 180.f), 0, 0 });
+	// plane1->setLocalScale({ 2.f, 1.0f, 2.f });
+	//
+	// plane1->attachComponent(new Renderer3D(plane1.get(), planeMesh));
+	// PhysicsComponent* staticPhysics1 = new PhysicsComponent(plane1.get(), PrimitiveType::PLANE);
+	// staticPhysics1->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
+	// plane1->attachComponent(staticPhysics1);
+	// GameObjectManager::get()->addObject(plane1);
+	//
+	// GameObjectPtr plane2 = std::make_shared<GameObject>("Plane2");
+	//
+	// plane2->setLocalPosition({ 0, 5, -10 });
+	// plane2->setLocalRotation({ 90 * (M_PI / 180.f), 0, 0 });
+	// plane2->setLocalScale({ 2.f, 1.0f, 2.f });
+	//
+	// plane2->attachComponent(new Renderer3D(plane2.get(), planeMesh));
+	// PhysicsComponent* staticPhysics2 = new PhysicsComponent(plane2.get(), PrimitiveType::PLANE);
+	// staticPhysics2->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
+	// plane2->attachComponent(staticPhysics2);
+	// GameObjectManager::get()->addObject(plane2);
+	//
+	// GameObjectPtr plane3 = std::make_shared<GameObject>("Plane3");
+	//
+	// plane3->setLocalPosition({ 10, 5, 0 });
+	// plane3->setLocalRotation({ 0, 0, 90 * (M_PI / 180.f) });
+	// plane3->setLocalScale({ 2.f, 1.0f, 2.f });
+	//
+	// plane3->attachComponent(new Renderer3D(plane3.get(), planeMesh));
+	// PhysicsComponent* staticPhysics3 = new PhysicsComponent(plane3.get(), PrimitiveType::PLANE);
+	// staticPhysics3->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
+	// plane3->attachComponent(staticPhysics3);
+	// GameObjectManager::get()->addObject(plane3);
+	//
+	// GameObjectPtr plane4 = std::make_shared<GameObject>("Plane4");
+	//
+	// plane4->setLocalPosition({ -10, 5, 0 });
+	// plane4->setLocalRotation({ 0, 0, 90 * (M_PI / 180.f) });
+	// plane4->setLocalScale({ 2.f, 1.0f, 2.f });
+	//
+	// plane4->attachComponent(new Renderer3D(plane4.get(), planeMesh));
+	// PhysicsComponent* staticPhysics4 = new PhysicsComponent(plane4.get(), PrimitiveType::PLANE);
+	// staticPhysics4->getRigidBody()->setType(reactphysics3d::BodyType::KINEMATIC);
+	// plane4->attachComponent(staticPhysics4);
+	// GameObjectManager::get()->addObject(plane4);
 
 	LogUtils::log("Created " + std::to_string(maxCubes) + " Physics Cubes");
 }

@@ -1,0 +1,735 @@
+Plane
+Plane
+Type: 2
+Position: 0 0 0
+Rotation: 0 0 0
+Scale: 10 1 10
+Physics Enabled: 0
+Cube
+Cube
+Type: 1
+Position: 10 0 0
+Rotation: 0 0 0
+Scale: 0.5 10 20
+Physics Enabled: 0
+Cube (0)
+Cube (0)
+Type: 1
+Position: -10 0 0
+Rotation: 0 0 0
+Scale: 0.5 15 20
+Physics Enabled: 0
+Cube (0) (1)
+Cube (0) (1)
+Type: 1
+Position: 0 0 -10
+Rotation: 0 0 0
+Scale: 20 10 0.5
+Physics Enabled: 0
+Cube (0) (1) (2)
+Cube (0) (1) (2)
+Type: 1
+Position: 0 0 10
+Rotation: 0 0 0
+Scale: 20 15 0.5
+Physics Enabled: 0
+Cube0
+Cube0
+Type: 1
+Position: -0.408107 6.15128 1.38248
+Rotation: 96.9901 9331.88 11212
+Scale: 1 1 1
+Physics Enabled: 1
+Cube1
+Cube1
+Type: 1
+Position: -1.68503 6.55116 2.1584
+Rotation: 18341.5 19514.8 8020.21
+Scale: 1 1 1
+Physics Enabled: 1
+Cube2
+Cube2
+Type: 1
+Position: -2.21303 18.5006 -5.40557
+Rotation: 1233.84 3331.93 2236.98
+Scale: 1 1 1
+Physics Enabled: 1
+Cube3
+Cube3
+Type: 1
+Position: -0.6928 1.10449 5.67685
+Rotation: 14304.4 2174.05 14365.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube4
+Cube4
+Type: 1
+Position: 6.87544 17.4921 -6.57691
+Rotation: 13278.4 20250.4 16970.8
+Scale: 1 1 1
+Physics Enabled: 1
+Cube5
+Cube5
+Type: 1
+Position: 7.61714 2.25826 7.73187
+Rotation: 16433.9 3420.93 15065.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube6
+Cube6
+Type: 1
+Position: 6.62424 14.9494 2.35095
+Rotation: 19754.5 1896.12 5465.33
+Scale: 1 1 1
+Physics Enabled: 1
+Cube7
+Cube7
+Type: 1
+Position: -6.28247 9.26448 -4.75574
+Rotation: 3260.86 10416.8 4186.71
+Scale: 1 1 1
+Physics Enabled: 1
+Cube8
+Cube8
+Type: 1
+Position: 4.11143 1.49264 7.67633
+Rotation: 9103.87 20317.5 550.961
+Scale: 1 1 1
+Physics Enabled: 1
+Cube9
+Cube9
+Type: 1
+Position: 0.588164 7.0547 1.96146
+Rotation: 4178.07 11449.5 20501
+Scale: 1 1 1
+Physics Enabled: 1
+Cube10
+Cube10
+Type: 1
+Position: -4.28126 10.154 3.28683
+Rotation: 7210.29 6546.12 710.922
+Scale: 1 1 1
+Physics Enabled: 1
+Cube11
+Cube11
+Type: 1
+Position: 4.34941 9.93227 1.92117
+Rotation: 19656.6 9764.16 17731.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube12
+Cube12
+Type: 1
+Position: -6.81493 7.5272 7.21791
+Rotation: 17446.7 7555.7 263.983
+Scale: 1 1 1
+Physics Enabled: 1
+Cube13
+Cube13
+Type: 1
+Position: 4.96923 10.6148 0.72351
+Rotation: 8182.65 5156.28 2416.81
+Scale: 1 1 1
+Physics Enabled: 1
+Cube14
+Cube14
+Type: 1
+Position: 7.13517 9.22925 1.18916
+Rotation: 13282.7 1972.87 9656.36
+Scale: 1 1 1
+Physics Enabled: 1
+Cube15
+Cube15
+Type: 1
+Position: -6.67367 16.4802 -0.0446348
+Rotation: 5163.08 11605.7 2076.27
+Scale: 1 1 1
+Physics Enabled: 1
+Cube16
+Cube16
+Type: 1
+Position: 0.485902 10.5524 3.76693
+Rotation: 3915.88 4616.8 3837.59
+Scale: 1 1 1
+Physics Enabled: 1
+Cube17
+Cube17
+Type: 1
+Position: 1.53119 12.4669 6.51131
+Rotation: 5620.47 17885.3 9009.81
+Scale: 1 1 1
+Physics Enabled: 1
+Cube18
+Cube18
+Type: 1
+Position: 0.881891 11.6016 -2.44392
+Rotation: 5252.48 8157.53 7748.33
+Scale: 1 1 1
+Physics Enabled: 1
+Cube19
+Cube19
+Type: 1
+Position: 4.29823 7.69726 4.76438
+Rotation: 8896.12 18884.9 19364.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube20
+Cube20
+Type: 1
+Position: -0.60287 5.85096 3.31349
+Rotation: 9154.22 19092.6 3856.33
+Scale: 1 1 1
+Physics Enabled: 1
+Cube21
+Cube21
+Type: 1
+Position: -6.95159 18.1146 -2.53306
+Rotation: 8113.09 919.042 11109.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube22
+Cube22
+Type: 1
+Position: -4.99187 4.86131 5.50897
+Rotation: 12583.2 8511.04 2257.19
+Scale: 1 1 1
+Physics Enabled: 1
+Cube23
+Cube23
+Type: 1
+Position: -6.28712 3.11743 -6.68753
+Rotation: 6169.6 7816.88 11388.6
+Scale: 1 1 1
+Physics Enabled: 1
+Cube24
+Cube24
+Type: 1
+Position: -5.41936 8.12864 1.38383
+Rotation: 16817.5 17199.4 323.228
+Scale: 1 1 1
+Physics Enabled: 1
+Cube25
+Cube25
+Type: 1
+Position: -3.12373 2.43177 1.20934
+Rotation: 14629.2 4679.85 6674.68
+Scale: 1 1 1
+Physics Enabled: 1
+Cube26
+Cube26
+Type: 1
+Position: -7.05764 17.1102 7.11653
+Rotation: 9344.32 12493.8 14521.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube27
+Cube27
+Type: 1
+Position: 1.50888 12.7531 0.42249
+Rotation: 5984.29 16897.1 15938.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube28
+Cube28
+Type: 1
+Position: 7.44162 14.4881 4.55294
+Rotation: 7267.63 19543.8 14415.5
+Scale: 1 1 1
+Physics Enabled: 1
+Cube29
+Cube29
+Type: 1
+Position: -7.37581 14.3061 -7.12595
+Rotation: 7661.52 8045.99 17691.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube30
+Cube30
+Type: 1
+Position: -6.57052 2.80971 -3.99325
+Rotation: 14280.9 7625.69 12894.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube31
+Cube31
+Type: 1
+Position: 2.7159 6.73967 2.93748
+Rotation: 3628.57 206.239 11336.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube32
+Cube32
+Type: 1
+Position: -2.58858 13.9733 0.89045
+Rotation: 7579.74 15154.5 15098.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube33
+Cube33
+Type: 1
+Position: 6.85694 14.8313 -6.33588
+Rotation: 8172.57 7670.23 14345.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube34
+Cube34
+Type: 1
+Position: 4.68776 15.4013 -1.43972
+Rotation: 19832.5 20465 1691.91
+Scale: 1 1 1
+Physics Enabled: 1
+Cube35
+Cube35
+Type: 1
+Position: -3.22574 9.54719 -5.16978
+Rotation: 2576.37 9460.77 15699
+Scale: 1 1 1
+Physics Enabled: 1
+Cube36
+Cube36
+Type: 1
+Position: 7.17544 6.03782 3.58867
+Rotation: 3792.96 10413.6 8315.05
+Scale: 1 1 1
+Physics Enabled: 1
+Cube37
+Cube37
+Type: 1
+Position: 7.13832 2.76655 3.40224
+Rotation: 2690.49 14140.4 16783.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube38
+Cube38
+Type: 1
+Position: 0.77208 11.0423 3.31523
+Rotation: 13789.8 2289.54 16784.6
+Scale: 1 1 1
+Physics Enabled: 1
+Cube39
+Cube39
+Type: 1
+Position: 2.69744 1.13847 2.76181
+Rotation: 9181.34 19293.7 13454.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube40
+Cube40
+Type: 1
+Position: -0.591313 2.93017 6.70092
+Rotation: 18316.5 5338.7 7674.46
+Scale: 1 1 1
+Physics Enabled: 1
+Cube41
+Cube41
+Type: 1
+Position: -7.26538 13.2746 7.58255
+Rotation: 9917.2 14091.8 13341.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube42
+Cube42
+Type: 1
+Position: -7.31569 19.0975 6.60003
+Rotation: 3757.49 897.461 3101.58
+Scale: 1 1 1
+Physics Enabled: 1
+Cube43
+Cube43
+Type: 1
+Position: 2.79849 3.41274 0.749003
+Rotation: 14987.2 12239 17567.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube44
+Cube44
+Type: 1
+Position: 2.859 3.15156 0.240792
+Rotation: 1761.36 2171.31 10031.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube45
+Cube45
+Type: 1
+Position: -0.93222 12.7661 -3.38151
+Rotation: 4323.83 6579.2 5003.62
+Scale: 1 1 1
+Physics Enabled: 1
+Cube46
+Cube46
+Type: 1
+Position: 7.80423 19.789 -6.57079
+Rotation: 17588.4 15240.5 12756.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube47
+Cube47
+Type: 1
+Position: 4.73367 15.3168 -6.58762
+Rotation: 13263.8 3893.56 13546.5
+Scale: 1 1 1
+Physics Enabled: 1
+Cube48
+Cube48
+Type: 1
+Position: 6.31229 4.42414 2.98086
+Rotation: 9515.02 615.331 13837.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube49
+Cube49
+Type: 1
+Position: -5.53508 5.92284 -7.83424
+Rotation: 13429.8 1481.23 8211.61
+Scale: 1 1 1
+Physics Enabled: 1
+Cube50
+Cube50
+Type: 1
+Position: -7.13225 11.7272 0.047061
+Rotation: 16876.8 20224.5 1209.09
+Scale: 1 1 1
+Physics Enabled: 1
+Cube51
+Cube51
+Type: 1
+Position: 2.03942 18.438 0.927625
+Rotation: 10926.5 5497.53 5152.43
+Scale: 1 1 1
+Physics Enabled: 1
+Cube52
+Cube52
+Type: 1
+Position: 6.22127 19.0142 -6.50056
+Rotation: 13703.6 2108.4 18513.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube53
+Cube53
+Type: 1
+Position: -6.0471 14.2691 6.83183
+Rotation: 1638.98 19996.9 6433.8
+Scale: 1 1 1
+Physics Enabled: 1
+Cube54
+Cube54
+Type: 1
+Position: -3.55283 2.08241 -5.57928
+Rotation: 15557.6 17496.8 3366.47
+Scale: 1 1 1
+Physics Enabled: 1
+Cube55
+Cube55
+Type: 1
+Position: -7.13537 8.7408 -2.79382
+Rotation: 14466.6 2348.27 16337.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube56
+Cube56
+Type: 1
+Position: -4.38895 8.67396 -5.11175
+Rotation: 18973.8 19165.9 466.67
+Scale: 1 1 1
+Physics Enabled: 1
+Cube57
+Cube57
+Type: 1
+Position: 6.37593 13.0374 -0.301129
+Rotation: 19964.4 15087.4 180.375
+Scale: 1 1 1
+Physics Enabled: 1
+Cube58
+Cube58
+Type: 1
+Position: -0.332866 11.0932 -0.921459
+Rotation: 11484 13858.3 17990.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube59
+Cube59
+Type: 1
+Position: -5.38307 4.97502 -3.3057
+Rotation: 17105 19768.3 8266.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube60
+Cube60
+Type: 1
+Position: 4.96644 17.033 -3.96298
+Rotation: 802.153 11558 19523.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube61
+Cube61
+Type: 1
+Position: 4.86737 8.97475 4.01535
+Rotation: 16068.5 12563.9 11924.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube62
+Cube62
+Type: 1
+Position: 3.33159 5.23038 -6.48556
+Rotation: 3734.53 8261.69 6729.76
+Scale: 1 1 1
+Physics Enabled: 1
+Cube63
+Cube63
+Type: 1
+Position: 0.302044 4.13384 5.38173
+Rotation: 11919.1 16660.7 19273.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube64
+Cube64
+Type: 1
+Position: 1.78457 17.0797 4.9634
+Rotation: 11061.1 4223.21 19971.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube65
+Cube65
+Type: 1
+Position: -7.75466 1.12077 -4.94097
+Rotation: 2038.26 1877.9 7635.79
+Scale: 1 1 1
+Physics Enabled: 1
+Cube66
+Cube66
+Type: 1
+Position: 0.353561 3.71069 2.21999
+Rotation: 7684.83 7208.27 8939.29
+Scale: 1 1 1
+Physics Enabled: 1
+Cube67
+Cube67
+Type: 1
+Position: -4.72354 9.11204 -2.64024
+Rotation: 16832.2 13451.5 10395.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube68
+Cube68
+Type: 1
+Position: 7.99656 12.0264 7.31582
+Rotation: 757.007 14665.2 3528.63
+Scale: 1 1 1
+Physics Enabled: 1
+Cube69
+Cube69
+Type: 1
+Position: -5.06026 7.88188 -0.701768
+Rotation: 12921.1 2456.56 5634.97
+Scale: 1 1 1
+Physics Enabled: 1
+Cube70
+Cube70
+Type: 1
+Position: 4.44118 18.6568 -0.628954
+Rotation: 8473.1 953.613 14967.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube71
+Cube71
+Type: 1
+Position: 7.06441 5.80206 -7.29686
+Rotation: 11977.6 15325.1 11234.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube72
+Cube72
+Type: 1
+Position: 2.83131 1.30577 7.01122
+Rotation: 12058.4 6534.54 1895.19
+Scale: 1 1 1
+Physics Enabled: 1
+Cube73
+Cube73
+Type: 1
+Position: -6.17588 3.56614 -3.11454
+Rotation: 1551.61 12239.6 14774
+Scale: 1 1 1
+Physics Enabled: 1
+Cube74
+Cube74
+Type: 1
+Position: 6.44095 18.4724 -4.7605
+Rotation: 8697.94 18179 10197.8
+Scale: 1 1 1
+Physics Enabled: 1
+Cube75
+Cube75
+Type: 1
+Position: 7.34333 16.2145 2.25048
+Rotation: 8285.54 711.483 8203.52
+Scale: 1 1 1
+Physics Enabled: 1
+Cube76
+Cube76
+Type: 1
+Position: -3.55788 2.30044 3.11974
+Rotation: 6946.69 11089.7 19497.1
+Scale: 1 1 1
+Physics Enabled: 1
+Cube77
+Cube77
+Type: 1
+Position: -5.59166 3.91126 -5.03414
+Rotation: 6718.79 11146.5 12819.6
+Scale: 1 1 1
+Physics Enabled: 1
+Cube78
+Cube78
+Type: 1
+Position: -2.93098 6.277 -3.02201
+Rotation: 6406.01 683.831 7586.72
+Scale: 1 1 1
+Physics Enabled: 1
+Cube79
+Cube79
+Type: 1
+Position: 6.40905 17.8958 -2.89159
+Rotation: 18589.3 8692.26 7471.62
+Scale: 1 1 1
+Physics Enabled: 1
+Cube80
+Cube80
+Type: 1
+Position: 4.28779 12.8735 -7.29172
+Rotation: 18817.4 8492.69 9843.09
+Scale: 1 1 1
+Physics Enabled: 1
+Cube81
+Cube81
+Type: 1
+Position: 5.80555 13.2569 -7.44299
+Rotation: 9360.18 6279.69 6309.86
+Scale: 1 1 1
+Physics Enabled: 1
+Cube82
+Cube82
+Type: 1
+Position: 5.7966 15.6762 2.67733
+Rotation: 12223.4 17245 10896.4
+Scale: 1 1 1
+Physics Enabled: 1
+Cube83
+Cube83
+Type: 1
+Position: -4.23758 11.6563 1.00872
+Rotation: 19921.6 2509.13 12243.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube84
+Cube84
+Type: 1
+Position: 7.54315 2.1315 7.75792
+Rotation: 17856.5 2987.96 13979.7
+Scale: 1 1 1
+Physics Enabled: 1
+Cube85
+Cube85
+Type: 1
+Position: -0.0857382 5.0148 -1.56494
+Rotation: 17590.1 9127.61 15771.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube86
+Cube86
+Type: 1
+Position: -2.42824 10.8385 -5.17882
+Rotation: 8619.07 19505 18677.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube87
+Cube87
+Type: 1
+Position: 6.27926 4.17662 -0.921889
+Rotation: 19121.8 2544.86 17883.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube88
+Cube88
+Type: 1
+Position: 4.3436 19.2079 4.63504
+Rotation: 2722.34 6249.27 19533.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube89
+Cube89
+Type: 1
+Position: 7.23542 19.8203 -1.15956
+Rotation: 12121.4 17863.9 16533.6
+Scale: 1 1 1
+Physics Enabled: 1
+Cube90
+Cube90
+Type: 1
+Position: -6.29146 4.48174 1.37749
+Rotation: 4076.76 13309 5633.48
+Scale: 1 1 1
+Physics Enabled: 1
+Cube91
+Cube91
+Type: 1
+Position: 0.0218554 1.61913 -4.77836
+Rotation: 5556.09 1587.2 4768.47
+Scale: 1 1 1
+Physics Enabled: 1
+Cube92
+Cube92
+Type: 1
+Position: -2.03157 11.7433 -1.79916
+Rotation: 5327.01 15176.5 12921.2
+Scale: 1 1 1
+Physics Enabled: 1
+Cube93
+Cube93
+Type: 1
+Position: -0.190682 11.7121 7.25998
+Rotation: 19808.9 2426.79 3311.42
+Scale: 1 1 1
+Physics Enabled: 1
+Cube94
+Cube94
+Type: 1
+Position: -2.99599 7.17398 -7.17876
+Rotation: 9148.95 3588.82 4077.02
+Scale: 1 1 1
+Physics Enabled: 1
+Cube95
+Cube95
+Type: 1
+Position: -7.81758 15.436 -6.57387
+Rotation: 6524.11 18526.4 16584.6
+Scale: 1 1 1
+Physics Enabled: 1
+Cube96
+Cube96
+Type: 1
+Position: -3.04992 19.6878 -0.846173
+Rotation: 3682.22 18596.4 8354.91
+Scale: 1 1 1
+Physics Enabled: 1
+Cube97
+Cube97
+Type: 1
+Position: 4.45798 14.0272 2.80632
+Rotation: 17542.7 8659.79 5848.3
+Scale: 1 1 1
+Physics Enabled: 1
+Cube98
+Cube98
+Type: 1
+Position: 3.93868 6.24827 3.02976
+Rotation: 8920.2 14638.1 12469.9
+Scale: 1 1 1
+Physics Enabled: 1
+Cube99
+Cube99
+Type: 1
+Position: 1.26319 7.36909 -0.753428
+Rotation: 16252.3 4086.36 17089.9
+Scale: 1 1 1
+Physics Enabled: 1

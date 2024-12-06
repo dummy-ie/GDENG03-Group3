@@ -66,7 +66,16 @@ namespace gdeng03
 			if (ImGui::Selectable("Rigidbody", false, 0, buttonSize))
 			{
 				// ADD RIGIDBODY TO OBJECT
-				selectedObject->attachComponent(new PhysicsComponent(selectedObject));
+				GameObject::ComponentList rendererComponentList = selectedObject->getComponentsOfType(ComponentType::RENDERER);
+				for (Component* component : rendererComponentList)
+				{
+					if (component->getName().find("RendererComponent") != std::string::npos)
+					{
+						Renderer3D* rendererComponent = dynamic_cast<Renderer3D*>(component);
+						selectedObject->attachComponent(new PhysicsComponent(selectedObject, rendererComponent->getMesh()->getType()));
+					}
+				}
+				;
 			}
 			if (ImGui::Selectable("Material", false, 0, buttonSize))
 			{
@@ -183,7 +192,7 @@ namespace gdeng03
 					ImGui::DragFloat("Angular Drag", &angularDrag);
 					ImGui::Checkbox("Gravity", &gravity);
 
-					BodyType bodyType = physicsComponent->getType();
+					BodyType bodyType = physicsComponent->getBodyType();
 					const char* items[] = { "Static", "Kinematic", "Dynamic" };
 					int iteselected_idx = static_cast<int>(bodyType); // Here we store our selection data as an index.
 					// Pass in the preview value visible before opening the combo (it could technically be different contents or not pulled from items[])

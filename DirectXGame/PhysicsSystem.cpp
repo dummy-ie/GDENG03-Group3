@@ -87,7 +87,8 @@ namespace gdeng03
 				if (!pc->getOwner()->getEnabled())
 					continue;
 
-				pc->update();
+				pc->updateRigidbodyTransform();
+				//pc->update();
 				// LogUtils::log(this, pc->getName() + " position: " + pc->getRigidBody()->getTransform().getPosition().to_string());
 			}
 		}

@@ -16,10 +16,10 @@ namespace gdeng03
 	SceneManager* SceneManager::sharedInstance = nullptr;
 
 	void SceneManager::readFile()
-	{	
+	{
 		String fileDir = this->directory + ".level";
 		if (this->directory.find(".level") != String::npos) {
-			fileDir = this->directory; 
+			fileDir = this->directory;
 		}
 
 		std::fstream sceneFile;
@@ -83,15 +83,24 @@ namespace gdeng03
 				savedMesh = GraphicsEngine::get()->getMeshManager()->createMeshFromPrimitiveType(objectType);
 				savedObject->attachComponent(new Renderer3D(savedObject.get(), savedMesh));
 				savedObject->setLocalPosition(position);
-				rotation = rotation * (M_PI / 180);
+				rotation = rotation * (M_PI / 180.f);
 				savedObject->setLocalRotation(rotation);
 				savedObject->setLocalScale(scale);
-				GameObjectManager::get()->addObject(savedObject);
-
-				if (hasPhysicsEnabled) {
-					PhysicsComponent* physics = new PhysicsComponent(savedObject.get(), objectType);
-					savedObject->attachComponent(physics);
+				PhysicsComponent* physics = new PhysicsComponent(savedObject.get(), objectType);
+				
+				if (!hasPhysicsEnabled) {
+					physics->getRigidBody()->setType(BodyType::STATIC);
 				}
+				savedObject->attachComponent(physics);
+
+				// if (hasPhysicsEnabled)
+				// {
+				// 	PhysicsComponent* physics = new PhysicsComponent(savedObject.get(), objectType);
+				// 	savedObject->attachComponent(physics);
+				// }
+
+
+				GameObjectManager::get()->addObject(savedObject);
 
 				index = 0;
 
@@ -141,7 +150,7 @@ namespace gdeng03
 			PrimitiveType type = renderer->getMesh()->getType();
 
 
-			if(!physicsList.empty()){
+			if (!physicsList.empty()) {
 				const PhysicsComponent* physics = nullptr;
 				// Retrieve the first renderer component
 				for (const auto component : physicsList) {
@@ -151,7 +160,7 @@ namespace gdeng03
 					}
 				}
 
-				hasPhysicsSystem = true;
+				hasPhysicsSystem = physics->getBodyType() == BodyType::DYNAMIC;
 			}
 
 			else {
@@ -189,7 +198,7 @@ namespace gdeng03
 		return sharedInstance;
 	}
 
-	SceneManager::SceneManager() 
+	SceneManager::SceneManager()
 	{
 		LogUtils::log(this, " created");
 	}

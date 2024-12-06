@@ -1,0 +1,35 @@
+Plane
+Plane
+Type: 2
+Position: 0 0 0
+Rotation: 0 0 0
+Scale: 10 1 10
+Physics Enabled: 0
+Cube
+Cube
+Type: 1
+Position: 10 0 0
+Rotation: 0 0 0
+Scale: 0.5 10 20
+Physics Enabled: 0
+Cube (0)
+Cube (0)
+Type: 1
+Position: -10 0 0
+Rotation: 0 0 0
+Scale: 0.5 15 20
+Physics Enabled: 0
+Cube (0) (1)
+Cube (0) (1)
+Type: 1
+Position: 0 0 -10
+Rotation: 0 0 0
+Scale: 20 10 0.5
+Physics Enabled: 0
+Cube (0) (1) (2)
+Cube (0) (1) (2)
+Type: 1
+Position: 0 0 10
+Rotation: 0 0 0
+Scale: 20 15 0.5
+Physics Enabled: 0
